@@ -7,8 +7,12 @@ environment:
   sdk: '>=2.19.6 <3.0.0'
 
 dependencies:
+  equatable: ^2.0.5
   flutter:
     sdk: flutter
+  flutter_bloc: ^8.1.2
+  shared_preferences: ^2.1.0
+  supabase_flutter: ^1.8.1
 
 dev_dependencies:
   flutter_test:
@@ -17,3 +21,22 @@ dev_dependencies:
 
 flutter:
   uses-material-design: true
+
+  fonts:
+    - family: Poppins
+      fonts:
+        - asset: fonts/Poppins-Medium.ttf
+          weight: 400
+        - asset: fonts/Poppins-Regular.ttf
+          weight: 500
+        - asset: fonts/Poppins-SemiBold.ttf
+          weight: 600
+    - family: Source Sans Pro
+      fonts:
+        - asset: fonts/SourceSansPro-Regular.ttf
+          weight: 400
+        - asset: fonts/SourceSansPro-SemiBold.ttf
+          weight: 600
+
+  assets:
+    - assets/images/axolLogo.png
