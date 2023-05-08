@@ -1,16 +1,14 @@
 import 'package:flutter/material.dart';
 
-import '../models/elemnets_bar_model.dart';
+class Toolbar extends StatelessWidget {
+  final List listData;
 
-class ViewsBar extends StatelessWidget {
-  final List<ElementsBarModel> listData;
-
-  const ViewsBar({super.key, required this.listData});
+  const Toolbar({super.key, required this.listData});
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 180,
+      width: 50,
       height: double.infinity,
       color: Colors.black45,
       child: ListView.builder(
@@ -21,13 +19,9 @@ class ViewsBar extends StatelessWidget {
           return Padding(
             padding: const EdgeInsetsDirectional.fromSTEB(8, 0, 8, 8),
             child: OutlinedButton.icon(
-              onPressed: () {
-                if (elementList.action != null) {
-                  elementList.action;
-                }
-              },
-              icon: elementList.icon!,
-              label: Text(elementList.text!,
+              onPressed: () {},
+              icon: elementList.icon,
+              label: Text(elementList.text,
                   style: TextStyle(color: Colors.white54)),
               style: ButtonStyle(
                   iconColor: MaterialStatePropertyAll(Colors.white54)),

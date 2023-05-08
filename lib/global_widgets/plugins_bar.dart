@@ -1,8 +1,11 @@
-import 'package:axol_inventarios/settings/theme.dart';
 import 'package:flutter/material.dart';
 
+import '../models/elemnets_bar_model.dart';
+
 class PluginsBar extends StatelessWidget {
-  const PluginsBar({super.key});
+  final List<ElementsBarModel> listData;
+
+  const PluginsBar({super.key, required this.listData});
 
   @override
   Widget build(BuildContext context) {
@@ -10,18 +13,19 @@ class PluginsBar extends StatelessWidget {
       width: 50,
       height: double.infinity,
       color: Colors.black54,
-      child: Column(
-        children: [
-          IconButton(
-              onPressed: () {},
-              icon: const Icon(Icons.home, color: Colors.white70)),
-          IconButton(
-              onPressed: () {},
-              icon: const Icon(Icons.inventory, color: Colors.white70)),
-          IconButton(
-              onPressed: () {},
-              icon: const Icon(Icons.note, color: Colors.white70)),
-        ],
+      child: ListView.builder(
+        shrinkWrap: true,
+        itemCount: listData.length,
+        itemBuilder: ((context, index) {
+          final elementList = listData[index];
+          return Padding(
+            padding: const EdgeInsetsDirectional.fromSTEB(8, 0, 8, 8),
+            child: IconButton(
+              onPressed: elementList.action,
+              icon: elementList.icon!,
+            ),
+          );
+        }),
       ),
     );
   }

@@ -6,14 +6,15 @@ import '../../../../global_widgets/toolbar.dart';
 import '../../../../global_widgets/views_bar.dart';
 import '../../../../models/elemnets_bar_model.dart';
 import '../../../../settings/theme.dart';
-import '../../../inventory/view/views/warehouse_menu_view.dart';
+import '../../../user/view/views/home_view.dart';
+import '../widgets/listview_warehouse_menu.dart';
 
-class HomeView extends StatelessWidget {
-  const HomeView({super.key});
+class WarehouseMenuView extends StatelessWidget {
+  const WarehouseMenuView({super.key});
 
   @override
   Widget build(BuildContext context) {
-    const String title = 'Inicio';
+    const String title = 'Menú de almacenes';
 
     return Scaffold(
       backgroundColor: ColorPalette.primaryBackground,
@@ -31,31 +32,32 @@ class HomeView extends StatelessWidget {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.start,
           mainAxisSize: MainAxisSize.max,
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             PluginsBar(listData: [
               ElementsBarModel(
                   text: null,
                   icon: const Icon(Icons.home, color: Colors.white70),
-                  action: () {}),
-              ElementsBarModel(
-                  text: null,
-                  icon: const Icon(Icons.inventory, color: Colors.white70),
                   action: () {
                     Navigator.pop(context);
                     Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => const WarehouseMenuView()));
+                            builder: (context) => const HomeView()));
                   }),
+              ElementsBarModel(
+                  text: null,
+                  icon: const Icon(Icons.inventory, color: Colors.white70),
+                  action: () {}),
               ElementsBarModel(
                   text: null,
                   icon: const Icon(Icons.note, color: Colors.white70),
                   action: () {})
             ]),
-            /*ViewsBar(
+            ViewsBar(
               listData: [
                 ElementsBarModel(
-                    icon: const Icon(Icons.house_siding),
+                    icon: Icon(Icons.house_siding),
                     text: 'Multialmacen',
                     action: () {}),
                 ElementsBarModel(
@@ -68,13 +70,13 @@ class HomeView extends StatelessWidget {
                     action: () {})
               ],
             ),
-            Expanded(
-                child: Container(
-              color: Colors.black38,
-            )),
+            const Expanded(
+              child: ListviewWarehouseMenu(
+                  listData: ['Almacén 1', 'Almacén 2', 'Almacén 3']),
+            ),
             Toolbar(
               listData: [],
-            )*/
+            )
           ],
         ),
       ),
