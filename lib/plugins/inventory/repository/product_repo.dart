@@ -6,9 +6,10 @@ class ProductRepo {
   final String PRODUCT = 'attributes';
   final supabase = Supabase.instance.client;
 
-  Future<List<Map>> readProductList(List<String> codeList) async {
+  Future<List<Map<String, dynamic>>> getProductList(
+      List<String> codeList) async {
     Map<String, dynamic> element;
-    List<Map> newList = [];
+    List<Map<String, dynamic>> newList = [];
     List productList = [];
 
     productList = await supabase.from(TABLE).select().in_(CODE, codeList);
@@ -16,6 +17,7 @@ class ProductRepo {
     if (productList.isNotEmpty) {
       for (element in productList) {
         newList.add(element[PRODUCT]);
+        //element[PRODUCTO] --> {code: Map<String, dynamic>}
       }
     }
 

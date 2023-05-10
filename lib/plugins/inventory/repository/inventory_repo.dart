@@ -2,6 +2,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 import '../../../models/inventory_row_model.dart';
+import 'product_repo.dart';
 
 class InventoryRepo {
   //Tabla
@@ -25,22 +26,41 @@ class InventoryRepo {
 
   Future<List<InventoryRowModel>> getInventoryList() async {
     List<InventoryRowModel> inventoryList = [];
-    //Map<String, String> productsMap = {};
-    //Map<String, dynamic> element;
-    final List inventoryDB = await readInventory();
-
-    if (inventoryDB.isNotEmpty) {
-      for (var element in inventoryList) {
-        //productsMap[element[CODE].toString()] = element[STOCK].toString();
+    InventoryRowModel inventoryRow;
+    List<String> codes = [];
+    //Lee en la base de datos el inventario del usuario registrado.
+    //y obtiene una lista de claves de las existencias en inventario.
+    final List<Map<String, dynamic>> inventoryDB = await readInventory();
+    print(inventoryDB);
+    for (Map<String, dynamic> element in inventoryDB) {
+      if (double.parse(element[STOCK].toString()) > 0) {
+        codes.add(element[CODE]);
       }
-    } else {}
+    }
+    //Obtiene la lista de productos: {code: Map<String,dynamic>}
+    final List<Map<String, dynamic>> productsDB =
+        await ProductRepo().getProductList(codes);
+    print(productsDB);
+    //Llena inventoryList con iteraciones de codes y utilizando los elementos
+    // de productDB e inventoryDB.
+    for (String element in codes) {
+      inventoryRow = InventoryRowModel(
+          code: element,
+          properties: productsDB.where((value) => value[CODE] == element).first,
+          stock: double.parse(inventoryDB
+              .where((value) => value[CODE] == element)
+              .first[STOCK]
+              .toString()));
+      inventoryList.add(inventoryRow);
+    }
+
     return inventoryList;
   }
 
-  Future<List> readInventory() async {
+  Future<List<Map<String, dynamic>>> readInventory() async {
     List<Map<String, dynamic>> productsList = [];
     final String userName;
-    List inventoryList = [];
+    List<Map<String, dynamic>> inventoryList = [];
 
     final pref = await SharedPreferences.getInstance();
     userName = pref.getString(USER)!;

@@ -1,97 +1,87 @@
 import 'package:flutter/material.dart';
 
+import '../../../../models/inventory_row_model.dart';
 import '../../../../settings/theme.dart';
 
 class TableWarehouse extends StatelessWidget {
-  final List<String> listData;
+  final List<InventoryRowModel> listData;
 
   const TableWarehouse({super.key, required this.listData});
 
   @override
   Widget build(BuildContext context) {
-    const String clave = 'Clave';
-    const String descripcion = 'Descripción';
-    const String empaque = 'Empaque';
-    const String capacidad = 'Capacidad';
-    const String medida = 'Medida';
-    const String calibre = 'Calibre';
-    const String pieza = 'Pieza';
-    const String peso = 'Peso';
-    const String stock = 'Stock';
-    final ScrollController _horizontalScrollController = ScrollController();
+    final ScrollController horizontalScrollController = ScrollController();
+
+    const List<String> propertyList = [
+      'code#code',
+      'description',
+      'packing',
+      'capacity',
+      'measure',
+      'gauge',
+      'pices',
+      'weight',
+      'stock#stock',
+    ];
+    List<DataColumn> columns = [];
+    List<DataRow> rows = [];
+    DataRow dataRow;
+    List<DataCell> cells = [];
+    DataCell dataCell;
+
+    //Crea lista de columnas
+    for (var element in propertyList) {
+      if (element.contains('#')) {
+        columns.add(DataColumn(
+            label: Text(element.split('#').first, style: Typo.bodyText5)));
+      } else {
+        columns.add(DataColumn(label: Text(element, style: Typo.bodyText5)));
+      }
+    }
+
+    //Crea lista de filas
+    for (var element0 in listData) {
+      //Crea una fila de celdas.
+      for (var element1 in propertyList) {
+        final String elementDecoded;
+        if (element1.contains('#')) {
+          elementDecoded = '#${element1.split('#').last}';
+        } else {
+          elementDecoded = element1;
+        }
+        if (elementDecoded == '#code') {
+          dataCell = DataCell(Text(element0.code, style: Typo.bodyText6));
+          cells.add(dataCell);
+        } else if (elementDecoded == '#stock') {
+          dataCell = DataCell(Text(element0.code, style: Typo.bodyText6));
+          cells.add(dataCell);
+        } else {
+          if (element0.properties.containsKey(elementDecoded)) {
+            dataCell = DataCell(Text(element0.properties[elementDecoded],
+                style: Typo.bodyText6));
+            cells.add(dataCell);
+          }
+        }
+        //print(cells);
+      }
+      //Agrega 'dataRow' con 'cells' en 'rows'.
+      dataRow = DataRow(cells: cells);
+      rows.add(dataRow);
+      //print(cells.length);
+      //print(columns.length);
+      cells.clear();
+    }
+    print(rows.elementAt(0).cells.length);
+    print(rows.elementAt(1).cells.length);
     return Scrollbar(
         thumbVisibility: true,
-        controller: _horizontalScrollController,
+        controller: horizontalScrollController,
         child: SingleChildScrollView(
-            controller: _horizontalScrollController,
+            controller: horizontalScrollController,
             scrollDirection: Axis.horizontal,
-            child: DataTable(columns: [
-              DataColumn(label: Text(clave, style: Typo.bodyText5)),
-              DataColumn(label: Text(descripcion, style: Typo.bodyText5)),
-              DataColumn(label: Text(empaque, style: Typo.bodyText5)),
-              DataColumn(label: Text(capacidad, style: Typo.bodyText5)),
-              DataColumn(label: Text(medida, style: Typo.bodyText5)),
-              DataColumn(label: Text(calibre, style: Typo.bodyText5)),
-              DataColumn(label: Text(pieza, style: Typo.bodyText5)),
-              DataColumn(label: Text(peso, style: Typo.bodyText5)),
-              DataColumn(label: Text(stock, style: Typo.bodyText5)),
-            ], rows: [])));
-    /*Row(
-            children: [
-              Expanded(
-                child: OutlinedButton(
-                    onPressed: () {},
-                    child: Text(clave, style: Typo.bodyText5)),
-                flex: clave.length,
-              ),
-              Expanded(
-                child: OutlinedButton(
-                    onPressed: () {},
-                    child: Text(descripcion, style: Typo.bodyText5)),
-                flex: descripcion.length,
-              ),
-              Expanded(
-                child: OutlinedButton(
-                    onPressed: () {},
-                    child: Text(empaque, style: Typo.bodyText5)),
-                flex: empaque.length,
-              ),
-              Expanded(
-                child: OutlinedButton(
-                    onPressed: () {},
-                    child: Text(capacidad, style: Typo.bodyText5)),
-                flex: capacidad.length,
-              ),
-              Expanded(
-                child: OutlinedButton(
-                    onPressed: () {},
-                    child: Text(medida, style: Typo.bodyText5)),
-                flex: medida.length,
-              ),
-              Expanded(
-                child: OutlinedButton(
-                    onPressed: () {},
-                    child: Text(calibre, style: Typo.bodyText5)),
-                flex: calibre.length,
-              ),
-              Expanded(
-                child: OutlinedButton(
-                    onPressed: () {},
-                    child: Text(pieza, style: Typo.bodyText5)),
-                flex: pieza.length,
-              ),
-              Expanded(
-                child: OutlinedButton(
-                    onPressed: () {}, child: Text(peso, style: Typo.bodyText5)),
-                flex: peso.length,
-              ),
-              Expanded(
-                child: OutlinedButton(
-                    onPressed: () {},
-                    child: Text(stock, style: Typo.bodyText5)),
-                flex: stock.length,
-              ),
-            ],
-          ),*/
+            child: DataTable(
+              columns: columns,
+              rows: rows,
+            )));
   }
 }
