@@ -23,6 +23,7 @@ class PluginsBar extends StatelessWidget {
             child: IconButton(
               onPressed: elementList.action,
               icon: elementList.icon!,
+              color: Colors.white70,
             ),
           );
         }),

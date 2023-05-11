@@ -9,11 +9,13 @@ import '../../../../models/elemnets_bar_model.dart';
 import '../../../../settings/theme.dart';
 import '../../../user/view/views/home_view.dart';
 import '../../cubit/inventory_load/inventory_load_cubit.dart';
-import '../controllers/table_warehouse_controller.dart';
+import '../controllers/listview_warehouse_controller.dart';
+
 import 'warehouse_menu_view.dart';
 
 class WarehouseView extends StatelessWidget {
-  const WarehouseView({super.key});
+  final String warehouseName;
+  const WarehouseView({super.key, required this.warehouseName});
 
   @override
   Widget build(BuildContext context) {
@@ -42,7 +44,7 @@ class WarehouseView extends StatelessWidget {
                 PluginsBar(listData: [
                   ElementsBarModel(
                       text: null,
-                      icon: const Icon(Icons.home, color: Colors.white70),
+                      icon: const Icon(Icons.home),
                       action: () {
                         Navigator.pop(context);
                         Navigator.push(
@@ -52,7 +54,7 @@ class WarehouseView extends StatelessWidget {
                       }),
                   ElementsBarModel(
                       text: null,
-                      icon: const Icon(Icons.inventory, color: Colors.white70),
+                      icon: const Icon(Icons.inventory),
                       action: () {
                         Navigator.pop(context);
                         Navigator.push(
@@ -62,9 +64,7 @@ class WarehouseView extends StatelessWidget {
                                     const WarehouseMenuView()));
                       }),
                   ElementsBarModel(
-                      text: null,
-                      icon: const Icon(Icons.note, color: Colors.white70),
-                      action: () {})
+                      text: null, icon: const Icon(Icons.note), action: () {})
                 ]),
                 ViewsBar(
                   listData: [
@@ -82,9 +82,18 @@ class WarehouseView extends StatelessWidget {
                         action: () {})
                   ],
                 ),
-                const Expanded(child: TableWarehouseController()),
-                const Toolbar(
-                  listData: [],
+                Expanded(
+                    child: ListviewWarehouseController(
+                  warehouseName: warehouseName,
+                )),
+                Toolbar(
+                  listData: [
+                    ElementsBarModel(
+                      text: null,
+                      icon: const Icon(Icons.add),
+                      action: () {},
+                    )
+                  ],
                 )
               ],
             ),

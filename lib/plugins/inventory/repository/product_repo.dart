@@ -6,7 +6,7 @@ class ProductRepo {
   final String PRODUCT = 'attributes';
   final supabase = Supabase.instance.client;
 
-  Future<List<Map<String, dynamic>>> getProductList(
+  Future<List<Map<String, dynamic>>> fetchProductList(
       List<String> codeList) async {
     Map<String, dynamic> element;
     List<Map<String, dynamic>> newList = [];

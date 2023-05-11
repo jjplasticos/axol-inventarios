@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-import '../../../../settings/theme.dart';
-import '../views/warehouse_view.dart';
+import '../../../../../settings/theme.dart';
+import '../../views/warehouse_view.dart';
 
 class ListviewWarehouseMenu extends StatelessWidget {
   final List<String> listData;
@@ -26,7 +26,9 @@ class ListviewWarehouseMenu extends StatelessWidget {
                   Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => const WarehouseView()));
+                          builder: (context) => WarehouseView(
+                                warehouseName: elementList,
+                              )));
                 },
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,

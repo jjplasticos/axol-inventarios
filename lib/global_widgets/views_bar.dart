@@ -28,8 +28,8 @@ class ViewsBar extends StatelessWidget {
               },
               icon: elementList.icon!,
               label: Text(elementList.text!,
-                  style: TextStyle(color: Colors.white54)),
-              style: ButtonStyle(
+                  style: const TextStyle(color: Colors.white54)),
+              style: const ButtonStyle(
                   iconColor: MaterialStatePropertyAll(Colors.white54)),
             ),
           );

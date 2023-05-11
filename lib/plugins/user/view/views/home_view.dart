@@ -34,12 +34,10 @@ class HomeView extends StatelessWidget {
           children: [
             PluginsBar(listData: [
               ElementsBarModel(
-                  text: null,
-                  icon: const Icon(Icons.home, color: Colors.white70),
-                  action: () {}),
+                  text: null, icon: const Icon(Icons.home), action: () {}),
               ElementsBarModel(
                   text: null,
-                  icon: const Icon(Icons.inventory, color: Colors.white70),
+                  icon: const Icon(Icons.inventory),
                   action: () {
                     Navigator.pop(context);
                     Navigator.push(
@@ -48,9 +46,7 @@ class HomeView extends StatelessWidget {
                             builder: (context) => const WarehouseMenuView()));
                   }),
               ElementsBarModel(
-                  text: null,
-                  icon: const Icon(Icons.note, color: Colors.white70),
-                  action: () {})
+                  text: null, icon: const Icon(Icons.note), action: () {})
             ]),
             /*ViewsBar(
               listData: [

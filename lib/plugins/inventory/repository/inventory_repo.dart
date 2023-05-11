@@ -24,13 +24,14 @@ class InventoryRepo {
   //Instancia a la base de datos
   final supabase = Supabase.instance.client;
 
-  Future<List<InventoryRowModel>> getInventoryList() async {
+  Future<List<InventoryRowModel>> getInventoryList(String inventoryName) async {
     List<InventoryRowModel> inventoryList = [];
     InventoryRowModel inventoryRow;
     List<String> codes = [];
     //Lee en la base de datos el inventario del usuario registrado.
     //y obtiene una lista de claves de las existencias en inventario.
-    final List<Map<String, dynamic>> inventoryDB = await readInventory();
+    final List<Map<String, dynamic>> inventoryDB =
+        await fetchInventory(inventoryName);
     print(inventoryDB);
     for (Map<String, dynamic> element in inventoryDB) {
       if (double.parse(element[STOCK].toString()) > 0) {
@@ -39,7 +40,7 @@ class InventoryRepo {
     }
     //Obtiene la lista de productos: {code: Map<String,dynamic>}
     final List<Map<String, dynamic>> productsDB =
-        await ProductRepo().getProductList(codes);
+        await ProductRepo().fetchProductList(codes);
     print(productsDB);
     //Llena inventoryList con iteraciones de codes y utilizando los elementos
     // de productDB e inventoryDB.
@@ -57,17 +58,22 @@ class InventoryRepo {
     return inventoryList;
   }
 
-  Future<List<Map<String, dynamic>>> readInventory() async {
-    List<Map<String, dynamic>> productsList = [];
-    final String userName;
+  Future<List<Map<String, dynamic>>> fetchInventory(
+      String? inventoryName) async {
+    final String name;
     List<Map<String, dynamic>> inventoryList = [];
 
-    final pref = await SharedPreferences.getInstance();
-    userName = pref.getString(USER)!;
+    if (inventoryName != null) {
+      name = inventoryName;
+    } else {
+      final pref = await SharedPreferences.getInstance();
+      name = pref.getString(USER)!;
+    }
+
     inventoryList = await supabase
         .from(TABLE)
         .select<List<Map<String, dynamic>>>()
-        .eq(NAME, userName);
+        .eq(NAME, name);
     return inventoryList;
   }
 }

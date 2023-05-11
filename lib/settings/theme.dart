@@ -18,6 +18,11 @@ class Typo {
       fontWeight: FontWeight.w600,
       fontSize: 22,
       color: ColorPalette.primaryText);
+  static const title2 = TextStyle(
+      fontFamily: 'Poppins',
+      fontWeight: FontWeight.w600,
+      fontSize: 20,
+      color: ColorPalette.primaryText);
   static const textButton = TextStyle(
       fontFamily: 'Poppins',
       fontWeight: FontWeight.w600,
