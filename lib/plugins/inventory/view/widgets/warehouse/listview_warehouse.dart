@@ -6,24 +6,14 @@ import 'dialog_productinfo.dart';
 
 class ListviewWarehouse extends StatelessWidget {
   final List<InventoryRowModel> listData;
-  final String warehouseName;
 
-  const ListviewWarehouse(
-      {super.key, required this.listData, required this.warehouseName});
+  const ListviewWarehouse({super.key, required this.listData});
 
   @override
   Widget build(BuildContext context) {
     const String descriptrion_ = 'description';
     return Column(
       children: [
-        Row(
-          children: const [
-            Text(
-              'Almacén: ',
-              style: Typo.bodyText5,
-            ),
-          ],
-        ),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           crossAxisAlignment: CrossAxisAlignment.center,

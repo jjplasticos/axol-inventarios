@@ -24,8 +24,10 @@ class InventoryRepo {
   //Instancia a la base de datos
   final supabase = Supabase.instance.client;
 
-  Future<List<InventoryRowModel>> getInventoryList(String inventoryName) async {
+  Future<List<InventoryRowModel>> getInventoryList(
+      String inventoryName, String filter) async {
     List<InventoryRowModel> inventoryList = [];
+    List<InventoryRowModel> finalInventoryList = [];
     InventoryRowModel inventoryRow;
     List<String> codes = [];
     //Lee en la base de datos el inventario del usuario registrado.
@@ -54,8 +56,19 @@ class InventoryRepo {
               .toString()));
       inventoryList.add(inventoryRow);
     }
+    //Filtra la lista
+    if (filter != '') {
+      for (var element in inventoryList) {
+        if (element.code.contains(filter) ||
+            element.properties[DESCRIPTION].toString().contains(filter)) {
+          finalInventoryList.add(element);
+        }
+      }
+    } else {
+      finalInventoryList = inventoryList;
+    }
 
-    return inventoryList;
+    return finalInventoryList;
   }
 
   Future<List<Map<String, dynamic>>> fetchInventory(

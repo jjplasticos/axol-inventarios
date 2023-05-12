@@ -14,14 +14,13 @@ class ListviewWarehouseController extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<InventoryLoadCubit, InventoryLoadState>(
       bloc: BlocProvider.of<InventoryLoadCubit>(context)
-        ..loadInventory(warehouseName),
+        ..loadInventory(warehouseName, ''),
       builder: (context, state) {
         if (state is LoadingState) {
           return const LinearProgressIndicator();
         } else if (state is LoadedState) {
           return ListviewWarehouse(
             listData: state.inventoryList,
-            warehouseName: '',
           );
         } else if (state is ErrorState) {
           return Text(

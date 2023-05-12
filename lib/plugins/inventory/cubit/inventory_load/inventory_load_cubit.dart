@@ -7,12 +7,12 @@ import 'inventory_load_state.dart';
 class InventoryLoadCubit extends Cubit<InventoryLoadState> {
   InventoryLoadCubit() : super(InitialState());
 
-  Future<void> loadInventory(String inventoryName) async {
+  Future<void> loadInventory(String inventoryName, String filter) async {
     try {
       emit(InitialState());
       emit(LoadingState());
       final List<InventoryRowModel> inventoryList =
-          await InventoryRepo().getInventoryList(inventoryName);
+          await InventoryRepo().getInventoryList(inventoryName, filter);
       emit(LoadedState(inventoryList: inventoryList));
     } catch (e) {
       emit(ErrorState(error: e.toString()));

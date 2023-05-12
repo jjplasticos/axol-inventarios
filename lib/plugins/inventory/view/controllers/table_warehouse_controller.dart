@@ -11,7 +11,7 @@ class TableWarehouseController extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<InventoryLoadCubit, InventoryLoadState>(
-      bloc: BlocProvider.of<InventoryLoadCubit>(context)..loadInventory(''),
+      bloc: BlocProvider.of<InventoryLoadCubit>(context)..loadInventory('', ''),
       builder: (context, state) {
         if (state is LoadingState) {
           return const LinearProgressIndicator();
