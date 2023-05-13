@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../../../../../settings/theme.dart';
+
 class ListviewInventoryMovement extends StatelessWidget {
   final List<String> listData;
 
@@ -9,6 +11,65 @@ class ListviewInventoryMovement extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            Expanded(
+              flex: 2,
+              child: OutlinedButton(
+                  onPressed: () {},
+                  child: const Text(
+                    'Clave',
+                    style: Typo.labelText1,
+                  )),
+            ),
+            Expanded(
+              flex: 4,
+              child: OutlinedButton(
+                  onPressed: () {},
+                  child: const Text(
+                    'Descripción',
+                    style: Typo.labelText1,
+                  )),
+            ),
+            Expanded(
+              flex: 2,
+              child: OutlinedButton(
+                  onPressed: () {},
+                  child: const Text(
+                    'Cantidad',
+                    style: Typo.labelText1,
+                  )),
+            ),
+            Expanded(
+              flex: 2,
+              child: OutlinedButton(
+                  onPressed: () {},
+                  child: const Text(
+                    'Peso unitario',
+                    style: Typo.labelText1,
+                  )),
+            ),
+            Expanded(
+              flex: 2,
+              child: OutlinedButton(
+                  onPressed: () {},
+                  child: const Text(
+                    'Peso total',
+                    style: Typo.labelText1,
+                  )),
+            ),
+            Expanded(
+              flex: 1,
+              child: OutlinedButton(
+                  onPressed: () {},
+                  child: const Text(
+                    'Mov',
+                    style: Typo.labelText1,
+                  )),
+            ),
+          ],
+        ),
         ListView.builder(
           shrinkWrap: true,
           itemCount: listData.length,
@@ -20,7 +81,23 @@ class ListviewInventoryMovement extends StatelessWidget {
               decoration:
                   BoxDecoration(border: Border.all(color: Colors.black45)),
               child: Row(
-                children: [Text('')],
+                children: [
+                  TextField(),
+                  Text('', style: Typo.labelText1),
+                  TextField(),
+                  Text(
+                    '',
+                    style: Typo.labelText1,
+                  ),
+                  Text(
+                    '',
+                    style: Typo.labelText1,
+                  ),
+                  Text(
+                    '',
+                    style: Typo.labelText1,
+                  ),
+                ],
               ),
             );
           }),

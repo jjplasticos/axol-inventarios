@@ -7,6 +7,7 @@ import '../../../../global_widgets/views_bar.dart';
 import '../../../../models/elemnets_bar_model.dart';
 import '../../../../settings/theme.dart';
 import '../../cubit/warehouses_load/warehouses_load_cubit.dart';
+import '../widgets/inventory_movement/lsitview_inventory_movement.dart';
 
 class InventoryMovementView extends StatelessWidget {
   const InventoryMovementView({super.key});
@@ -47,7 +48,11 @@ class InventoryMovementView extends StatelessWidget {
               ),
               Expanded(
                 child: Column(
-                  children: const [],
+                  children: const [
+                    ListviewInventoryMovement(
+                      listData: [],
+                    ),
+                  ],
                 ),
               ),
               Toolbar(

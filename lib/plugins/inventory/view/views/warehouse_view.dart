@@ -13,6 +13,7 @@ import '../../cubit/textfield_finder_invrow_cubit.dart';
 import '../controllers/listview_warehouse_controller.dart';
 
 import '../widgets/warehouse/textfield_finder_inventoryrow.dart';
+import 'inventory_movement_view.dart';
 import 'warehouse_menu_view.dart';
 
 class WarehouseView extends StatelessWidget {
@@ -116,7 +117,13 @@ class WarehouseView extends StatelessWidget {
                   ElementsBarModel(
                     text: null,
                     icon: const Icon(Icons.add),
-                    action: () {},
+                    action: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) =>
+                                  const InventoryMovementView()));
+                    },
                   )
                 ],
               )
