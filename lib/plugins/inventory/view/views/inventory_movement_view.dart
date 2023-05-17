@@ -26,7 +26,7 @@ class InventoryMovementView extends StatelessWidget {
         ],
         child: Scaffold(
           backgroundColor: ColorPalette.primaryBackground,
-          appBar: PreferredSize(
+          appBar: const PreferredSize(
             preferredSize: Size.fromHeight(50),
             child: AppBarGlobal(
               title: title,
@@ -46,12 +46,13 @@ class InventoryMovementView extends StatelessWidget {
                       icon: const Icon(Icons.arrow_back),
                       text: 'Regresar',
                       action: () {
-                        Navigator.pop(context);
+                        Navigator.of(context).pop();
+                        print('object');
                       }),
                 ],
               ),
               //const ListviewInvMovController(),
-              Expanded(
+              const Expanded(
                 child: ListviewInvMovController(),
                 //child: ListviewInventoryMovement(listData: state),
               ),
@@ -61,7 +62,8 @@ class InventoryMovementView extends StatelessWidget {
                     text: null,
                     icon: const Icon(Icons.add),
                     action: () {
-                      context.read<ListviewInvMovCubit>().addRow();
+                      //context.read<ListviewInvMovCubit>().addRow();
+                      Navigator.pop(context);
                     },
                   )
                 ],

@@ -20,12 +20,13 @@ class ViewsBar extends StatelessWidget {
           final elementList = listData[index];
           return Padding(
             padding: const EdgeInsetsDirectional.fromSTEB(8, 0, 8, 8),
-            child: OutlinedButton.icon(
-              onPressed: () {
-                if (elementList.action != null) {
-                  elementList.action;
-                }
-              },
+            child: /*IconButton(
+              onPressed: elementList.action,
+              icon: elementList.icon!,
+              color: Colors.white70,
+            ),*/
+             OutlinedButton.icon(
+              onPressed: elementList.action,
               icon: elementList.icon!,
               label: Text(elementList.text!,
                   style: const TextStyle(color: Colors.white54)),
