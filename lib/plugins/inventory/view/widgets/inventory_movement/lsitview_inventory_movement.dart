@@ -1,9 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../../../global_widgets/toolbar.dart';
+import '../../../../../models/elemnets_bar_model.dart';
+import '../../../../../models/inventory_move_row_model.dart';
 import '../../../../../settings/theme.dart';
+import '../../../cubit/list_view_invmov_cubit.dart';
 
 class ListviewInventoryMovement extends StatelessWidget {
-  final List<String> listData;
+  final List<InventoryMoveRowModel> listData;
 
   const ListviewInventoryMovement({super.key, required this.listData});
 
@@ -15,16 +20,18 @@ class ListviewInventoryMovement extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
             Expanded(
-              flex: 2,
+              flex: 1,
               child: OutlinedButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    context.read<ListviewInvMovCubit>().addRow();
+                  },
                   child: const Text(
                     'Clave',
                     style: Typo.labelText1,
                   )),
             ),
             Expanded(
-              flex: 4,
+              flex: 2,
               child: OutlinedButton(
                   onPressed: () {},
                   child: const Text(
@@ -33,7 +40,7 @@ class ListviewInventoryMovement extends StatelessWidget {
                   )),
             ),
             Expanded(
-              flex: 2,
+              flex: 1,
               child: OutlinedButton(
                   onPressed: () {},
                   child: const Text(
@@ -42,7 +49,7 @@ class ListviewInventoryMovement extends StatelessWidget {
                   )),
             ),
             Expanded(
-              flex: 2,
+              flex: 1,
               child: OutlinedButton(
                   onPressed: () {},
                   child: const Text(
@@ -51,20 +58,11 @@ class ListviewInventoryMovement extends StatelessWidget {
                   )),
             ),
             Expanded(
-              flex: 2,
-              child: OutlinedButton(
-                  onPressed: () {},
-                  child: const Text(
-                    'Peso total',
-                    style: Typo.labelText1,
-                  )),
-            ),
-            Expanded(
               flex: 1,
               child: OutlinedButton(
                   onPressed: () {},
                   child: const Text(
-                    'Mov',
+                    'Peso total',
                     style: Typo.labelText1,
                   )),
             ),
@@ -82,21 +80,39 @@ class ListviewInventoryMovement extends StatelessWidget {
                   BoxDecoration(border: Border.all(color: Colors.black45)),
               child: Row(
                 children: [
-                  TextField(),
-                  Text('', style: Typo.labelText1),
-                  TextField(),
-                  Text(
-                    '',
-                    style: Typo.labelText1,
+                  Expanded(
+                    child: TextField(),
+                    flex: 1,
                   ),
-                  Text(
-                    '',
-                    style: Typo.labelText1,
+                  Expanded(
+                    child: Text('', style: Typo.labelText1),
+                    flex: 2,
                   ),
-                  Text(
-                    '',
-                    style: Typo.labelText1,
+                  Expanded(
+                    child: TextField(),
+                    flex: 1,
                   ),
+                  Expanded(
+                    child: Text(
+                      '',
+                      style: Typo.labelText1,
+                    ),
+                    flex: 1,
+                  ),
+                  Expanded(
+                    child: Text(
+                      '',
+                      style: Typo.labelText1,
+                    ),
+                    flex: 1,
+                  ),
+                  Expanded(
+                    child: Text(
+                      '',
+                      style: Typo.labelText1,
+                    ),
+                    flex: 1,
+                  )
                 ],
               ),
             );

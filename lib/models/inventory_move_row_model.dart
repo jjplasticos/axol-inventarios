@@ -4,7 +4,7 @@ class InventoryMoveRowModel {
   final double quantity;
   final double weightUnit;
   final double weightTotal;
-  final List<int> concept;
+  final String concept;
 
   const InventoryMoveRowModel(
       {required this.code,
