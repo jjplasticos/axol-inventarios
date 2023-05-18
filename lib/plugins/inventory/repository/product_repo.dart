@@ -23,4 +23,18 @@ class ProductRepo {
 
     return newList;
   }
+
+  Future<Map<String, dynamic>> fetchProduct(String code) async {
+    List<Map<String, dynamic>> products;
+    Map<String, dynamic> product;
+
+    products = await supabase.from(TABLE).select().eq(CODE, code);
+    if (products.isNotEmpty) {
+      product = products.first;
+    } else {
+      product = {};
+    }
+
+    return product;
+  }
 }

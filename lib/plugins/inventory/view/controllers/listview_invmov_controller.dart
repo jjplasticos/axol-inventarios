@@ -13,7 +13,7 @@ class ListviewInvMovController extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return /*BlocBuilder<ListviewInvMovCubit, List<InventoryMoveRowModel>>(
+    return BlocBuilder<ListviewInvMovCubit, List<InventoryMoveRowModel>>(
       bloc: context.read<ListviewInvMovCubit>()..initialState(),
       builder: (context, state) {
         return Row(
@@ -46,14 +46,6 @@ class ListviewInvMovController extends StatelessWidget {
               ],
             ),
           ],
-        );
-      },
-    );*/
-        BlocBuilder<ListviewInvMovCubit, List<InventoryMoveRowModel>>(
-      bloc: context.read<ListviewInvMovCubit>()..initialState(),
-      builder: (context, state) {
-        return ListviewInventoryMovement(
-          listData: state,
         );
       },
     );

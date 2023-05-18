@@ -81,7 +81,9 @@ class ListviewInventoryMovement extends StatelessWidget {
               child: Row(
                 children: [
                   Expanded(
-                    child: TextField(),
+                    child: TextField(
+                      onChanged: (value) {},
+                    ),
                     flex: 1,
                   ),
                   Expanded(
