@@ -28,7 +28,10 @@ class ProductRepo {
     List<Map<String, dynamic>> products;
     Map<String, dynamic> product;
 
-    products = await supabase.from(TABLE).select().eq(CODE, code);
+    products = await supabase
+        .from(TABLE)
+        .select<List<Map<String, dynamic>>>()
+        .eq(CODE, code);
     if (products.isNotEmpty) {
       product = products.first;
     } else {

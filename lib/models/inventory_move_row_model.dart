@@ -1,7 +1,7 @@
 class InventoryMoveRowModel {
   final String code;
   final String description;
-  final double quantity;
+  final String quantity;
   final double weightUnit;
   final double weightTotal;
   final String concept;

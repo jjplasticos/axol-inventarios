@@ -14,6 +14,10 @@ class ListviewInventoryMovement extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    //final txtValue = context.watch<TextfieldFinderInvrowCubit>().state;
+    /*final controller = TextEditingController()
+      ..text = txtValue
+      ..selection = TextSelection.collapsed(offset: txtValue.length);*/
     return Column(
       children: [
         Row(
@@ -22,9 +26,7 @@ class ListviewInventoryMovement extends StatelessWidget {
             Expanded(
               flex: 1,
               child: OutlinedButton(
-                  onPressed: () {
-                    context.read<ListviewInvMovCubit>().addRow();
-                  },
+                  onPressed: () {},
                   child: const Text(
                     'Clave',
                     style: Typo.labelText1,
@@ -81,40 +83,57 @@ class ListviewInventoryMovement extends StatelessWidget {
               child: Row(
                 children: [
                   Expanded(
-                    child: TextField(
-                      onChanged: (value) {},
-                    ),
                     flex: 1,
+                    child: Center(
+                        child: TextField(
+                      onChanged: (value) {
+                        context
+                            .read<ListviewInvMovCubit>()
+                            .editCode(index, value);
+                      },
+                      style: Typo.labelText1,
+                    )),
                   ),
                   Expanded(
-                    child: Text('', style: Typo.labelText1),
                     flex: 2,
+                    child: Center(
+                        child: Text(elementList.description,
+                            style: Typo.labelText1)),
                   ),
                   Expanded(
-                    child: TextField(),
                     flex: 1,
-                  ),
-                  Expanded(
-                    child: Text(
-                      '',
+                    child: TextField(
+                      onChanged: (value) {
+                        context
+                            .read<ListviewInvMovCubit>()
+                            .editQuantity(index, value);
+                      },
+                      controller: TextEditingController()
+                        ..text = elementList.quantity.toString()
+                        ..selection = TextSelection.collapsed(
+                            offset: elementList.quantity.toString().length),
+                      /*TextEditingController(
+                          text: elementList.quantity.toString()),*/
                       style: Typo.labelText1,
                     ),
-                    flex: 1,
                   ),
                   Expanded(
-                    child: Text(
-                      '',
-                      style: Typo.labelText1,
-                    ),
                     flex: 1,
+                    child: Center(
+                        child: Text(
+                      elementList.weightUnit.toString(),
+                      style: Typo.labelText1,
+                    )),
                   ),
                   Expanded(
-                    child: Text(
-                      '',
-                      style: Typo.labelText1,
-                    ),
                     flex: 1,
-                  )
+                    child: Center(
+                      child: Text(
+                        elementList.weightTotal.toStringAsFixed(2),
+                        style: Typo.labelText1,
+                      ),
+                    ),
+                  ),
                 ],
               ),
             );

@@ -8,7 +8,7 @@ class ListviewInvMovCubit extends Cubit<List<InventoryMoveRowModel>> {
       code: '',
       concept: '',
       description: '',
-      quantity: 0,
+      quantity: '0',
       weightTotal: 0,
       weightUnit: 0);
 
@@ -41,20 +41,55 @@ class ListviewInvMovCubit extends Cubit<List<InventoryMoveRowModel>> {
     double total;
     double quantity;
     //Buscar currentCode en la base de datos y obtener los datos ncesarios.
-    quantity = list.elementAt(i).quantity;
+    quantity = double.parse(list.elementAt(i).quantity);
     productDB = await ProductRepo().fetchProduct(currentCode);
     if (productDB.isNotEmpty) {
-      weight = double.parse(productDB['weight'].toString());
+      weight = double.parse(productDB['attributes']['weight'].toString());
       total = weight * quantity;
       product = InventoryMoveRowModel(
           code: productDB['code'].toString(),
-          description: productDB['description'].toString(),
-          quantity: quantity,
+          description: productDB['attributes']['description'].toString(),
+          quantity: quantity.toString(),
           weightUnit: weight,
           weightTotal: total,
           concept: list.elementAt(i).concept);
       list[i] = product;
     }
+    emit([]);
+    emit(list);
+  }
+
+  Future<void> editQuantity(int i, String currentQuantity) async {
+    List<InventoryMoveRowModel> list = state;
+    InventoryMoveRowModel product;
+    double weight;
+    double total;
+    double? quantity;
+    String quantityTxt;
+
+    if (currentQuantity == '') {
+      currentQuantity = '0';
+    }
+    quantity = double.tryParse(currentQuantity);
+    weight = list.elementAt(i).weightUnit;
+    if (quantity != null) {
+      if (currentQuantity.endsWith('.')) {
+        quantityTxt = currentQuantity;
+      } else {
+        quantityTxt = quantity.toString();
+      }
+      total = quantity * weight;
+      //total = total.floorToDouble();
+      product = InventoryMoveRowModel(
+          code: list.elementAt(i).code,
+          description: list.elementAt(i).description,
+          quantity: quantityTxt,
+          weightUnit: weight,
+          weightTotal: total,
+          concept: list.elementAt(i).concept);
+      list[i] = product;
+    }
+    emit([]);
     emit(list);
   }
 }
