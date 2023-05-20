@@ -121,8 +121,9 @@ class WarehouseView extends StatelessWidget {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) =>
-                                  const InventoryMovementView()));
+                              builder: (context) => InventoryMovementView(
+                                    inventoryName: warehouseName,
+                                  )));
                     },
                   )
                 ],

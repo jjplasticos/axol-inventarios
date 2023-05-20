@@ -89,4 +89,29 @@ class InventoryRepo {
         .eq(NAME, name);
     return inventoryList;
   }
+
+  Future<Map<String, dynamic>> fetchRowByCode(
+      String code, String? inventoryName) async {
+    final String name;
+    Map<String, dynamic> inventoryRow;
+    List<Map<String, dynamic>> inventoryList = [];
+
+    if (inventoryName != null) {
+      name = inventoryName;
+    } else {
+      final pref = await SharedPreferences.getInstance();
+      name = pref.getString(USER)!;
+    }
+    inventoryList = await supabase
+        .from(TABLE)
+        .select<List<Map<String, dynamic>>>()
+        .eq(NAME, name)
+        .eq(CODE, code);
+    if (inventoryList.isNotEmpty) {
+      inventoryRow = inventoryList.first;
+    } else {
+      inventoryRow = {};
+    }
+    return inventoryRow;
+  }
 }

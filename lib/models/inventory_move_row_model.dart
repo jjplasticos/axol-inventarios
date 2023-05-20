@@ -5,6 +5,7 @@ class InventoryMoveRowModel {
   final double weightUnit;
   final double weightTotal;
   final String concept;
+  final bool stockExist;
 
   const InventoryMoveRowModel(
       {required this.code,
@@ -12,5 +13,6 @@ class InventoryMoveRowModel {
       required this.quantity,
       required this.weightUnit,
       required this.weightTotal,
-      required this.concept});
+      required this.concept,
+      required this.stockExist});
 }

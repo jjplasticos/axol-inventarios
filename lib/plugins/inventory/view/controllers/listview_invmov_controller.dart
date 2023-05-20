@@ -9,7 +9,9 @@ import '../../cubit/list_view_invmov_cubit.dart';
 import '../widgets/inventory_movement/lsitview_inventory_movement.dart';
 
 class ListviewInvMovController extends StatelessWidget {
-  const ListviewInvMovController({super.key});
+  final String inventoryName;
+
+  const ListviewInvMovController({super.key, required this.inventoryName});
 
   @override
   Widget build(BuildContext context) {
@@ -32,7 +34,10 @@ class ListviewInvMovController extends StatelessWidget {
               ],
             ),
             Expanded(
-              child: ListviewInventoryMovement(listData: state),
+              child: ListviewInventoryMovement(
+                listData: state,
+                inventoryName: inventoryName,
+              ),
             ),
             Toolbar(
               listData: [

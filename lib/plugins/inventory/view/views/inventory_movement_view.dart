@@ -7,7 +7,9 @@ import '../../cubit/list_view_invmov_cubit.dart';
 import '../controllers/listview_invmov_controller.dart';
 
 class InventoryMovementView extends StatelessWidget {
-  const InventoryMovementView({super.key});
+  final String inventoryName;
+
+  const InventoryMovementView({super.key, required this.inventoryName});
 
   @override
   Widget build(BuildContext context) {
@@ -18,9 +20,9 @@ class InventoryMovementView extends StatelessWidget {
           //BlocProvider(create: (_) => WarehousesLoadCubit()),
           BlocProvider(create: (_) => ListviewInvMovCubit()),
         ],
-        child: const Scaffold(
+        child: Scaffold(
           backgroundColor: ColorPalette.primaryBackground,
-          appBar: PreferredSize(
+          appBar: const PreferredSize(
             preferredSize: Size.fromHeight(50),
             child: AppBarGlobal(
               title: title,
@@ -28,7 +30,7 @@ class InventoryMovementView extends StatelessWidget {
               iconActions: [],
             ),
           ),
-          body: ListviewInvMovController(),
+          body: ListviewInvMovController(inventoryName: inventoryName),
         ));
   }
 }

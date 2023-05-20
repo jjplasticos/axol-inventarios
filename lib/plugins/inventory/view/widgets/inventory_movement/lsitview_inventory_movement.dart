@@ -9,15 +9,13 @@ import '../../../cubit/list_view_invmov_cubit.dart';
 
 class ListviewInventoryMovement extends StatelessWidget {
   final List<InventoryMoveRowModel> listData;
+  final String inventoryName;
 
-  const ListviewInventoryMovement({super.key, required this.listData});
+  const ListviewInventoryMovement(
+      {super.key, required this.listData, required this.inventoryName});
 
   @override
   Widget build(BuildContext context) {
-    //final txtValue = context.watch<TextfieldFinderInvrowCubit>().state;
-    /*final controller = TextEditingController()
-      ..text = txtValue
-      ..selection = TextSelection.collapsed(offset: txtValue.length);*/
     return Column(
       children: [
         Row(
@@ -84,15 +82,19 @@ class ListviewInventoryMovement extends StatelessWidget {
                 children: [
                   Expanded(
                     flex: 1,
-                    child: Center(
-                        child: TextField(
+                    child: TextField(
+                      textAlign: TextAlign.center,
+                      textAlignVertical: TextAlignVertical.center,
+                      decoration: const InputDecoration(isDense: true),
                       onChanged: (value) {
                         context
                             .read<ListviewInvMovCubit>()
-                            .editCode(index, value);
+                            .editCode(index, value, inventoryName);
+                        /*context.read<ListviewInvMovCubit>().editQuantity(
+                            index, elementList.quantity, inventoryName);*/
                       },
                       style: Typo.labelText1,
-                    )),
+                    ),
                   ),
                   Expanded(
                     flex: 2,
@@ -106,14 +108,26 @@ class ListviewInventoryMovement extends StatelessWidget {
                       onChanged: (value) {
                         context
                             .read<ListviewInvMovCubit>()
-                            .editQuantity(index, value);
+                            .editQuantity(index, value, inventoryName);
+                        /*context
+                            .read<ListviewInvMovCubit>()
+                            .editCode(index, elementList.code);*/
                       },
+                      textAlign: TextAlign.center,
+                      textAlignVertical: TextAlignVertical.center,
+                      decoration: InputDecoration(
+                        isDense: true,
+                        errorStyle: const TextStyle(height: 0.3),
+                        errorText: elementList.stockExist
+                            ? 'Stock insuficiente'
+                            : null,
+                        errorBorder: const UnderlineInputBorder(
+                            borderSide: BorderSide(color: Colors.red)),
+                      ),
                       controller: TextEditingController()
                         ..text = elementList.quantity.toString()
                         ..selection = TextSelection.collapsed(
                             offset: elementList.quantity.toString().length),
-                      /*TextEditingController(
-                          text: elementList.quantity.toString()),*/
                       style: Typo.labelText1,
                     ),
                   ),
