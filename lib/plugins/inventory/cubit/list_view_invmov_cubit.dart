@@ -1,10 +1,13 @@
 import 'package:axol_inventarios/plugins/inventory/repository/inventory_repo.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../models/inventory_move_concept_model.dart';
+import '../../../models/inventory_move_elements_model.dart';
 import '../../../models/inventory_move_row_model.dart';
+import '../repository/inventory_concepts_repo.dart';
 import '../repository/product_repo.dart';
 
-class ListviewInvMovCubit extends Cubit<List<InventoryMoveRowModel>> {
+class ListviewInvMovCubit extends Cubit<InventoryMovetElementsModel> {
   final InventoryMoveRowModel emptyRow = const InventoryMoveRowModel(
       code: '',
       concept: '',
@@ -13,30 +16,52 @@ class ListviewInvMovCubit extends Cubit<List<InventoryMoveRowModel>> {
       weightTotal: 0,
       weightUnit: 0,
       stockExist: false);
+  final InventoryMovetElementsModel emptyElements =
+      const InventoryMovetElementsModel(
+          products: [], concept: '', date: '', document: '', concepts: []);
 
-  ListviewInvMovCubit() : super([]);
+  ListviewInvMovCubit()
+      : super(const InventoryMovetElementsModel(
+            products: [], concept: '', date: '', document: '', concepts: []));
 
   void initialState() {
-    emit([]);
-    List<InventoryMoveRowModel> list = state;
+    emit(emptyElements);
+    InventoryMovetElementsModel elements;
+    List<InventoryMoveRowModel> list = [];
     list.add(emptyRow);
-    emit(list);
+    elements = InventoryMovetElementsModel(
+      products: list,
+      concept: state.concept,
+      date: state.date,
+      document: state.document,
+      concepts: state.concepts,
+    );
+    emit(elements);
   }
 
   void addRow() {
-    List<InventoryMoveRowModel> list = state;
-    emit([]);
+    InventoryMovetElementsModel elements;
+    List<InventoryMoveRowModel> list = state.products;
+    emit(emptyElements);
     list.add(emptyRow);
-    emit(list);
+    elements = InventoryMovetElementsModel(
+      products: list,
+      concept: state.concept,
+      date: state.date,
+      document: state.document,
+      concepts: state.concepts,
+    );
+    emit(elements);
   }
 
   void removeRow(int i) {
-    state.removeAt(i);
+    //state.removeAt(i);
     emit(state);
   }
 
   Future<void> editCode(int i, String currentCode, String inventoryName) async {
-    List<InventoryMoveRowModel> list = state;
+    List<InventoryMoveRowModel> list = state.products;
+    InventoryMovetElementsModel elements;
     Map<String, dynamic> productDB;
     Map<String, dynamic> productStock;
     InventoryMoveRowModel product;
@@ -49,6 +74,7 @@ class ListviewInvMovCubit extends Cubit<List<InventoryMoveRowModel>> {
     productDB = await ProductRepo().fetchProduct(currentCode);
     productStock =
         await InventoryRepo().fetchRowByCode(currentCode, inventoryName);
+    //Valida si hay stock suficiente.
     if (productStock.isNotEmpty) {
       if (quantity > double.parse(productStock['stock'].toString())) {
         stockExist = true;
@@ -56,6 +82,8 @@ class ListviewInvMovCubit extends Cubit<List<InventoryMoveRowModel>> {
         stockExist = false;
       }
     }
+    //Sí el producto existe, lo agrega a la lista de movimientos que está por
+    // emitir.
     if (productDB.isNotEmpty) {
       weight = double.parse(productDB['attributes']['weight'].toString());
       total = weight * quantity;
@@ -67,15 +95,33 @@ class ListviewInvMovCubit extends Cubit<List<InventoryMoveRowModel>> {
           weightTotal: total,
           concept: list.elementAt(i).concept,
           stockExist: stockExist);
-      list[i] = product;
+    } else {
+      total = quantity * 0;
+      product = InventoryMoveRowModel(
+          code: productDB['code'].toString(),
+          description: '',
+          quantity: quantity.toString(),
+          weightUnit: 0,
+          weightTotal: total,
+          concept: list.elementAt(i).concept,
+          stockExist: stockExist);
     }
-    emit([]);
-    emit(list);
+    list[i] = product;
+    elements = InventoryMovetElementsModel(
+      products: list,
+      concept: state.concept,
+      date: state.date,
+      document: state.document,
+      concepts: state.concepts,
+    );
+    emit(emptyElements);
+    emit(elements);
   }
 
   Future<void> editQuantity(
       int i, String currentQuantity, String inventoryName) async {
-    List<InventoryMoveRowModel> list = state;
+    List<InventoryMoveRowModel> list = state.products;
+    InventoryMovetElementsModel elements;
     InventoryMoveRowModel product;
     Map<String, dynamic> productDB;
     double weight;
@@ -116,7 +162,35 @@ class ListviewInvMovCubit extends Cubit<List<InventoryMoveRowModel>> {
           stockExist: stockExist);
       list[i] = product;
     }
-    emit([]);
-    emit(list);
+    elements = InventoryMovetElementsModel(
+      products: list,
+      concept: state.concept,
+      date: state.date,
+      document: state.document,
+      concepts: state.concepts,
+    );
+    emit(emptyElements);
+    emit(elements);
+  }
+
+  Future<void> showConcepts() async {
+    //Muestra los conceptos de inventario guardado en la base de datos.
+    List<String> concepts = [];
+    List<InventoryMoveConceptModel> conceptsDB;
+    InventoryMovetElementsModel elements;
+
+    conceptsDB = await InventoryConceptsRepo().fetchAllConcepts();
+    for (var element in conceptsDB) {
+      concepts.add(element.concept);
+    }
+    elements = InventoryMovetElementsModel(
+      products: state.products,
+      concept: state.concept,
+      date: state.date,
+      document: state.document,
+      concepts: concepts,
+    );
+    emit(emptyElements);
+    emit(elements);
   }
 }

@@ -3,21 +3,66 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../../global_widgets/toolbar.dart';
 import '../../../../../models/elemnets_bar_model.dart';
+import '../../../../../models/inventory_move_elements_model.dart';
 import '../../../../../models/inventory_move_row_model.dart';
 import '../../../../../settings/theme.dart';
 import '../../../cubit/list_view_invmov_cubit.dart';
 
 class ListviewInventoryMovement extends StatelessWidget {
-  final List<InventoryMoveRowModel> listData;
+  //final List<InventoryMoveRowModel> listData;
+  final InventoryMovetElementsModel elementsData;
   final String inventoryName;
 
   const ListviewInventoryMovement(
-      {super.key, required this.listData, required this.inventoryName});
+      {super.key, required this.elementsData, required this.inventoryName});
 
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
+        Padding(
+          padding: const EdgeInsets.all(8),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              Container(
+                color: Colors.white30,
+                height: 30,
+                width: 200,
+                child: Row(
+                  children: [
+                    const Text('Concepto', style: Typo.labelText1),
+                    PopupMenuButton(
+                        onOpened: () {},
+                        itemBuilder: (context) => [
+                              const PopupMenuItem(child: Text('Concepto 1')),
+                              const PopupMenuItem(child: Text('Concepto 2')),
+                              const PopupMenuItem(child: Text('Concepto 3')),
+                            ])
+                  ],
+                ),
+              ),
+              Container(
+                color: Colors.white30,
+                height: 30,
+                width: 200,
+                child: const TextField(
+                  textAlignVertical: TextAlignVertical.center,
+                  decoration: InputDecoration(
+                    isDense: true,
+                    hintText: 'Documento',
+                  ),
+                ),
+              ),
+              Container(
+                height: 30,
+                width: 200,
+                color: Colors.white30,
+                child: const Center(child: Text('dd/mm/aaaa')),
+              )
+            ],
+          ),
+        ),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
@@ -70,9 +115,9 @@ class ListviewInventoryMovement extends StatelessWidget {
         ),
         ListView.builder(
           shrinkWrap: true,
-          itemCount: listData.length,
+          itemCount: elementsData.products.length,
           itemBuilder: ((context, index) {
-            final elementList = listData[index];
+            final elementList = elementsData.products[index];
             return Container(
               height: 30,
               width: double.infinity,
@@ -90,8 +135,6 @@ class ListviewInventoryMovement extends StatelessWidget {
                         context
                             .read<ListviewInvMovCubit>()
                             .editCode(index, value, inventoryName);
-                        /*context.read<ListviewInvMovCubit>().editQuantity(
-                            index, elementList.quantity, inventoryName);*/
                       },
                       style: Typo.labelText1,
                     ),
@@ -109,9 +152,6 @@ class ListviewInventoryMovement extends StatelessWidget {
                         context
                             .read<ListviewInvMovCubit>()
                             .editQuantity(index, value, inventoryName);
-                        /*context
-                            .read<ListviewInvMovCubit>()
-                            .editCode(index, elementList.code);*/
                       },
                       textAlign: TextAlign.center,
                       textAlignVertical: TextAlignVertical.center,

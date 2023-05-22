@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../global_widgets/toolbar.dart';
 import '../../../../global_widgets/views_bar.dart';
 import '../../../../models/elemnets_bar_model.dart';
+import '../../../../models/inventory_move_elements_model.dart';
 import '../../../../models/inventory_move_row_model.dart';
 import '../../cubit/list_view_invmov_cubit.dart';
 import '../widgets/inventory_movement/lsitview_inventory_movement.dart';
@@ -15,7 +16,7 @@ class ListviewInvMovController extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<ListviewInvMovCubit, List<InventoryMoveRowModel>>(
+    return BlocBuilder<ListviewInvMovCubit, InventoryMovetElementsModel>(
       bloc: context.read<ListviewInvMovCubit>()..initialState(),
       builder: (context, state) {
         return Row(
@@ -35,8 +36,8 @@ class ListviewInvMovController extends StatelessWidget {
             ),
             Expanded(
               child: ListviewInventoryMovement(
-                listData: state,
                 inventoryName: inventoryName,
+                elementsData: state,
               ),
             ),
             Toolbar(
