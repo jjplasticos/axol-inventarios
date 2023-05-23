@@ -16,9 +16,13 @@ class ListviewInvMovCubit extends Cubit<InventoryMovetElementsModel> {
       weightTotal: 0,
       weightUnit: 0,
       stockExist: false);
-  final InventoryMovetElementsModel emptyElements =
-      const InventoryMovetElementsModel(
-          products: [], concept: '', date: '', document: '', concepts: []);
+  static final DateTime _time = DateTime.now();
+  final InventoryMovetElementsModel emptyElements = InventoryMovetElementsModel(
+      products: [],
+      concept: 'Concept',
+      date: '${_time.day}/${_time.month}/${_time.year}',
+      document: '',
+      concepts: []);
 
   ListviewInvMovCubit()
       : super(const InventoryMovetElementsModel(
@@ -36,6 +40,8 @@ class ListviewInvMovCubit extends Cubit<InventoryMovetElementsModel> {
       document: state.document,
       concepts: state.concepts,
     );
+    emit(elements);
+    showConcepts();
     emit(elements);
   }
 
@@ -181,7 +187,7 @@ class ListviewInvMovCubit extends Cubit<InventoryMovetElementsModel> {
 
     conceptsDB = await InventoryConceptsRepo().fetchAllConcepts();
     for (var element in conceptsDB) {
-      concepts.add(element.concept);
+      concepts.add(element.concept.toString());
     }
     elements = InventoryMovetElementsModel(
       products: state.products,
@@ -189,6 +195,20 @@ class ListviewInvMovCubit extends Cubit<InventoryMovetElementsModel> {
       date: state.date,
       document: state.document,
       concepts: concepts,
+    );
+    emit(emptyElements);
+    emit(elements);
+  }
+
+  Future<void> selectConcept(String concept) async {
+    InventoryMovetElementsModel elements;
+
+    elements = InventoryMovetElementsModel(
+      products: state.products,
+      concept: concept,
+      date: state.date,
+      document: state.document,
+      concepts: state.concepts,
     );
     emit(emptyElements);
     emit(elements);

@@ -18,6 +18,8 @@ class ListviewInventoryMovement extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    List<PopupMenuItem> popupList = [];
+    PopupMenuItem popup;
     return Column(
       children: [
         Padding(
@@ -31,14 +33,25 @@ class ListviewInventoryMovement extends StatelessWidget {
                 width: 200,
                 child: Row(
                   children: [
-                    const Text('Concepto', style: Typo.labelText1),
+                    Text(elementsData.concept, style: Typo.labelText1),
                     PopupMenuButton(
-                        onOpened: () {},
-                        itemBuilder: (context) => [
-                              const PopupMenuItem(child: Text('Concepto 1')),
-                              const PopupMenuItem(child: Text('Concepto 2')),
-                              const PopupMenuItem(child: Text('Concepto 3')),
-                            ])
+                      onSelected: (value) {
+                        context
+                            .read<ListviewInvMovCubit>()
+                            .selectConcept(value.toString());
+                      },
+                      itemBuilder: (context) {
+                        popupList.clear();
+                        for (var element in elementsData.concepts) {
+                          popup = PopupMenuItem(
+                            value: element,
+                            child: Text(element),
+                          );
+                          popupList.add(popup);
+                        }
+                        return popupList;
+                      },
+                    )
                   ],
                 ),
               ),
@@ -58,7 +71,7 @@ class ListviewInventoryMovement extends StatelessWidget {
                 height: 30,
                 width: 200,
                 color: Colors.white30,
-                child: const Center(child: Text('dd/mm/aaaa')),
+                child: Center(child: Text(elementsData.date)),
               )
             ],
           ),

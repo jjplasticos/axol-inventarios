@@ -19,8 +19,8 @@ class InventoryConceptsRepo {
     for (var element in conceptsDB) {
       concept = InventoryMoveConceptModel(
         concept: element[_concept].toString(),
-        id: element[_id],
-        type: element[_type],
+        id: element[_id].toString(),
+        type: element[_type].toString(),
       );
       concepts.add(concept);
     }
