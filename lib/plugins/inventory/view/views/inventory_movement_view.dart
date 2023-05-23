@@ -4,7 +4,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../global_widgets/appbar/appbar_global.dart';
 import '../../../../settings/theme.dart';
 import '../../cubit/list_view_invmov_cubit.dart';
-import '../controllers/listview_invmov_controller.dart';
+import '../../cubit/inventory_movements/inventory_moves_cubit.dart';
+import '../controllers/inventory_moves_controller.dart';
 
 class InventoryMovementView extends StatelessWidget {
   final String inventoryName;
@@ -17,8 +18,8 @@ class InventoryMovementView extends StatelessWidget {
 
     return MultiBlocProvider(
         providers: [
-          //BlocProvider(create: (_) => WarehousesLoadCubit()),
-          BlocProvider(create: (_) => ListviewInvMovCubit()),
+          //BlocProvider(create: (_) => ListviewInvMovCubit()),
+          BlocProvider(create: (_) => InventoryMovesCubit()),
         ],
         child: Scaffold(
           backgroundColor: ColorPalette.primaryBackground,
@@ -30,7 +31,7 @@ class InventoryMovementView extends StatelessWidget {
               iconActions: [],
             ),
           ),
-          body: ListviewInvMovController(inventoryName: inventoryName),
+          body: InventoryMovesController(inventoryName: inventoryName),
         ));
   }
 }

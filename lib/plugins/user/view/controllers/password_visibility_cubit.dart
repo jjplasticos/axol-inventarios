@@ -14,7 +14,7 @@ class PasswordVisibilityCubit extends Cubit<PasswordVisibilityState> {
       }
     } catch (e) {
       emit(PVErrorState(error: e.toString()));
-      print(e.toString());
+      //print(e.toString());
     }
   }
 

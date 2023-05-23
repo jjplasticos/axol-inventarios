@@ -34,7 +34,6 @@ class InventoryRepo {
     //y obtiene una lista de claves de las existencias en inventario.
     final List<Map<String, dynamic>> inventoryDB =
         await fetchInventory(inventoryName);
-    print(inventoryDB);
     for (Map<String, dynamic> element in inventoryDB) {
       if (double.parse(element[STOCK].toString()) > 0) {
         codes.add(element[CODE]);
@@ -43,7 +42,6 @@ class InventoryRepo {
     //Obtiene la lista de productos: {code: Map<String,dynamic>}
     final List<Map<String, dynamic>> productsDB =
         await ProductRepo().fetchProductList(codes);
-    print(productsDB);
     //Llena inventoryList con iteraciones de codes y utilizando los elementos
     // de productDB e inventoryDB.
     for (String element in codes) {

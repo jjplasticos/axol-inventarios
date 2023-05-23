@@ -1,16 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../../../global_widgets/toolbar.dart';
-import '../../../../../models/elemnets_bar_model.dart';
 import '../../../../../models/inventory_move_elements_model.dart';
-import '../../../../../models/inventory_move_row_model.dart';
 import '../../../../../settings/theme.dart';
-import '../../../cubit/list_view_invmov_cubit.dart';
+import '../../../cubit/inventory_movements/inventory_moves_cubit.dart';
 
 class ListviewInventoryMovement extends StatelessWidget {
   //final List<InventoryMoveRowModel> listData;
-  final InventoryMovetElementsModel elementsData;
+  final InventoryMoveElementsModel elementsData;
   final String inventoryName;
 
   const ListviewInventoryMovement(
@@ -37,8 +34,8 @@ class ListviewInventoryMovement extends StatelessWidget {
                     PopupMenuButton(
                       onSelected: (value) {
                         context
-                            .read<ListviewInvMovCubit>()
-                            .selectConcept(value.toString());
+                            .read<InventoryMovesCubit>()
+                            .selectConcept(value.toString(), elementsData);
                       },
                       itemBuilder: (context) {
                         popupList.clear();
@@ -145,9 +142,8 @@ class ListviewInventoryMovement extends StatelessWidget {
                       textAlignVertical: TextAlignVertical.center,
                       decoration: const InputDecoration(isDense: true),
                       onChanged: (value) {
-                        context
-                            .read<ListviewInvMovCubit>()
-                            .editCode(index, value, inventoryName);
+                        context.read<InventoryMovesCubit>().editCode(
+                            index, value, inventoryName, elementsData);
                       },
                       style: Typo.labelText1,
                     ),
@@ -162,9 +158,8 @@ class ListviewInventoryMovement extends StatelessWidget {
                     flex: 1,
                     child: TextField(
                       onChanged: (value) {
-                        context
-                            .read<ListviewInvMovCubit>()
-                            .editQuantity(index, value, inventoryName);
+                        context.read<InventoryMovesCubit>().editQuantity(
+                            index, value, inventoryName, elementsData);
                       },
                       textAlign: TextAlign.center,
                       textAlignVertical: TextAlignVertical.center,

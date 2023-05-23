@@ -1,13 +1,13 @@
 import 'inventory_move_row_model.dart';
 
-class InventoryMovetElementsModel {
+class InventoryMoveElementsModel {
   final List<InventoryMoveRowModel> products;
   final List<String> concepts;
   final String concept;
   final String document;
   final String date;
 
-  const InventoryMovetElementsModel({
+  const InventoryMoveElementsModel({
     required this.products,
     required this.concept,
     required this.date,

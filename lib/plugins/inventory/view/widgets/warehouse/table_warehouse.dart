@@ -71,8 +71,8 @@ class TableWarehouse extends StatelessWidget {
       //print(columns.length);
       cells.clear();
     }
-    print(rows.elementAt(0).cells.length);
-    print(rows.elementAt(1).cells.length);
+    //print(rows.elementAt(0).cells.length);
+    //print(rows.elementAt(1).cells.length);
     return Scrollbar(
         thumbVisibility: true,
         controller: horizontalScrollController,
