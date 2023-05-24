@@ -1,6 +1,6 @@
 class InventoryMoveConceptModel {
-  final String id;
-  final String type;
+  final int id;
+  final int type;
   final String concept;
 
   InventoryMoveConceptModel({

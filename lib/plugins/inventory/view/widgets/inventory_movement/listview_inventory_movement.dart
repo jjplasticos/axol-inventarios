@@ -41,8 +41,8 @@ class ListviewInventoryMovement extends StatelessWidget {
                         popupList.clear();
                         for (var element in elementsData.concepts) {
                           popup = PopupMenuItem(
-                            value: element,
-                            child: Text(element),
+                            value: element.concept,
+                            child: Text(element.concept),
                           );
                           popupList.add(popup);
                         }
@@ -56,12 +56,17 @@ class ListviewInventoryMovement extends StatelessWidget {
                 color: Colors.white30,
                 height: 30,
                 width: 200,
-                child: const TextField(
+                child: TextField(
                   textAlignVertical: TextAlignVertical.center,
-                  decoration: InputDecoration(
+                  decoration: const InputDecoration(
                     isDense: true,
                     hintText: 'Documento',
                   ),
+                  onChanged: (value) {
+                    context
+                        .read<InventoryMovesCubit>()
+                        .editDocument(value, elementsData);
+                  },
                 ),
               ),
               Container(

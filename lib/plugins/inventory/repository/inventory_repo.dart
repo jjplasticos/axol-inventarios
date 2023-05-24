@@ -1,28 +1,29 @@
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
+import '../../../models/inventory_model.dart';
 import '../../../models/inventory_row_model.dart';
+import '../../../models/movement_model.dart';
 import 'product_repo.dart';
 
 class InventoryRepo {
   //Tabla
-  final String TABLE = 'inventory';
+  static const String _table = 'inventory';
   //--Columnas
-  final String STOCK = 'stock';
-  final String MANAGER = 'retail_manager';
-  final String CODE = 'code';
-  final String NAME = 'name';
-  final String UID = 'uid';
+  static const String _stock = 'stock';
+  static const String _manager = 'retail_manager';
+  static const String _code = 'code';
+  static const String _name = 'name';
+  static const String _id = 'uid';
   //Memoria local
-  final String USER = 'user_name';
+  static const String _user = 'user_name';
   //Otros
-  final String SHOPPINGCART = 'shoppingcart';
-  final String DESCRIPTION = 'description';
-  final String WEIGHT = 'weight';
-  final String PRICE = 'price';
-  final String QUANTITY = 'quantity';
+  static const String _description = 'description';
+  static const String _weight = 'weight';
+  static const String _price = 'price';
+  static const String _quantity = 'quantity';
   //Instancia a la base de datos
-  final supabase = Supabase.instance.client;
+  final _supabase = Supabase.instance.client;
 
   Future<List<InventoryRowModel>> getInventoryList(
       String inventoryName, String filter) async {
@@ -35,8 +36,8 @@ class InventoryRepo {
     final List<Map<String, dynamic>> inventoryDB =
         await fetchInventory(inventoryName);
     for (Map<String, dynamic> element in inventoryDB) {
-      if (double.parse(element[STOCK].toString()) > 0) {
-        codes.add(element[CODE]);
+      if (double.parse(element[_stock].toString()) > 0) {
+        codes.add(element[_code]);
       }
     }
     //Obtiene la lista de productos: {code: Map<String,dynamic>}
@@ -47,10 +48,11 @@ class InventoryRepo {
     for (String element in codes) {
       inventoryRow = InventoryRowModel(
           code: element,
-          properties: productsDB.where((value) => value[CODE] == element).first,
+          properties:
+              productsDB.where((value) => value[_code] == element).first,
           stock: double.parse(inventoryDB
-              .where((value) => value[CODE] == element)
-              .first[STOCK]
+              .where((value) => value[_code] == element)
+              .first[_stock]
               .toString()));
       inventoryList.add(inventoryRow);
     }
@@ -58,7 +60,7 @@ class InventoryRepo {
     if (filter != '') {
       for (var element in inventoryList) {
         if (element.code.contains(filter) ||
-            element.properties[DESCRIPTION].toString().contains(filter)) {
+            element.properties[_description].toString().contains(filter)) {
           finalInventoryList.add(element);
         }
       }
@@ -78,38 +80,68 @@ class InventoryRepo {
       name = inventoryName;
     } else {
       final pref = await SharedPreferences.getInstance();
-      name = pref.getString(USER)!;
+      name = pref.getString(_user)!;
     }
 
-    inventoryList = await supabase
-        .from(TABLE)
+    inventoryList = await _supabase
+        .from(_table)
         .select<List<Map<String, dynamic>>>()
-        .eq(NAME, name);
+        .eq(_name, name);
     return inventoryList;
   }
 
-  Future<Map<String, dynamic>> fetchRowByCode(
+  Future<InventoryModel?> fetchRowByCode(
       String code, String? inventoryName) async {
     final String name;
-    Map<String, dynamic> inventoryRow;
+    InventoryModel? inventoryRow;
     List<Map<String, dynamic>> inventoryList = [];
 
     if (inventoryName != null) {
       name = inventoryName;
     } else {
       final pref = await SharedPreferences.getInstance();
-      name = pref.getString(USER)!;
+      name = pref.getString(_user)!;
     }
-    inventoryList = await supabase
-        .from(TABLE)
+    inventoryList = await _supabase
+        .from(_table)
         .select<List<Map<String, dynamic>>>()
-        .eq(NAME, name)
-        .eq(CODE, code);
+        .eq(_name, name)
+        .eq(_code, code);
     if (inventoryList.isNotEmpty) {
-      inventoryRow = inventoryList.first;
+      inventoryRow = InventoryModel(
+          code: inventoryList.first[_code].toString(),
+          id: inventoryList.first[_id].toString(),
+          name: inventoryList.first[_name].toString(),
+          retailManager: inventoryList.first[_manager].toString(),
+          stock: inventoryList.first[_stock]);
     } else {
-      inventoryRow = {};
+      inventoryRow = null;
     }
     return inventoryRow;
+  }
+
+  Future<void> updateInventory(List<MovementModel> movements) async {
+    double currentStock = -1;
+    double newStock = -1;
+    InventoryModel? inventoryModel;
+
+    for (var element in movements) {
+      inventoryModel = await fetchRowByCode(element.code, element.warehouse);
+      if (inventoryModel != null) {
+        currentStock = inventoryModel.stock;
+        if (element.conceptType == 0) {
+          newStock = currentStock + element.quantity;
+        } else if (element.conceptType == 1) {
+          newStock = currentStock - element.quantity;
+        }
+        if (newStock >= 0) {
+          await _supabase
+              .from(_table)
+              .update({_stock: newStock})
+              .eq(_code, inventoryModel.code)
+              .eq(_name, inventoryModel.name);
+        }
+      }
+    }
   }
 }

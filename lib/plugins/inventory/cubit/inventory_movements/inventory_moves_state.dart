@@ -35,6 +35,15 @@ class SaveLoadedState extends InventoryMovesState {
   List<Object?> get props => [];
 }
 
+class SaveErrorState extends InventoryMovesState {
+  final InventoryMoveElementsModel inventoryMoveElements;
+  final String errorMessage;
+  const SaveErrorState(
+      {required this.inventoryMoveElements, required this.errorMessage});
+  @override
+  List<Object?> get props => [inventoryMoveElements, errorMessage];
+}
+
 class ErrorState extends InventoryMovesState {
   final String error;
   const ErrorState({required this.error});

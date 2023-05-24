@@ -5,7 +5,7 @@ import '../../../models/movement_model.dart';
 class MovementRepo {
   //Table
   static const String _table = 'movement_history';
-  //Columns
+  //Columns movement_history
   static const String _id = 'id';
   static const String _time = 'time';
   static const String _code = 'code';
@@ -15,10 +15,12 @@ class MovementRepo {
   static const String _concept = 'concept';
   static const String _conceptType = 'concept_type';
   static const String _quantity = 'quantity';
+  static const String _user = 'user';
   //Database
   static final _supabase = Supabase.instance.client;
 
   Future<void> insertMovemets(List<MovementModel> newMovements) async {
+    print(newMovements.first.code);
     for (var element in newMovements) {
       await _supabase.from(_table).insert({
         _id: element.id,
@@ -30,6 +32,7 @@ class MovementRepo {
         _concept: element.concept,
         _conceptType: element.conceptType,
         _quantity: element.quantity,
+        _user: element.user,
       });
     }
   }

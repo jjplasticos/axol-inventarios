@@ -1,21 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../../global_widgets/toolbar.dart';
-import '../../../../global_widgets/views_bar.dart';
-import '../../../../models/elemnets_bar_model.dart';
-import '../../../../models/inventory_move_elements_model.dart';
-import '../../../../models/inventory_move_row_model.dart';
-import '../../cubit/inventory_movements/inventory_moves_cubit.dart';
-import '../../cubit/inventory_movements/inventory_moves_state.dart';
-import '../../cubit/list_view_invmov_cubit.dart';
-import '../widgets/inventory_movement/lsitview_inventory_movement.dart';
+import '../../../../../global_widgets/toolbar.dart';
+import '../../../../../global_widgets/views_bar.dart';
+import '../../../../../models/elemnets_bar_model.dart';
+import '../../../../../models/inventory_move_elements_model.dart';
+import '../../../cubit/inventory_movements/inventory_moves_cubit.dart';
+import 'listview_inventory_movement.dart';
 
-class ListviewInvMovController extends StatelessWidget {
+class PageInvMov extends StatelessWidget {
   final InventoryMoveElementsModel inventoryMoveElements;
   final String inventoryName;
 
-  const ListviewInvMovController(
+  const PageInvMov(
       {super.key,
       required this.inventoryName,
       required this.inventoryMoveElements});
@@ -57,7 +54,11 @@ class ListviewInvMovController extends StatelessWidget {
             ElementsBarModel(
               text: null,
               icon: const Icon(Icons.save),
-              action: () {},
+              action: () {
+                context
+                    .read<InventoryMovesCubit>()
+                    .saveMovements(inventoryMoveElements, inventoryName);
+              },
             )
           ],
         ),

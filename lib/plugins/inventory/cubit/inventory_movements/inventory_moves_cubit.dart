@@ -1,10 +1,16 @@
+import 'package:axol_inventarios/models/user_mdoel.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:uuid/uuid.dart';
 
+import '../../../../models/inventory_model.dart';
 import '../../../../models/inventory_move_concept_model.dart';
 import '../../../../models/inventory_move_elements_model.dart';
 import '../../../../models/inventory_move_row_model.dart';
 import '../../../../models/movement_model.dart';
 import '../../../movements/repository/movement_repo.dart';
+import '../../../user/repository/user_repo.dart';
 import '../../repository/inventory_concepts_repo.dart';
 import '../../repository/inventory_repo.dart';
 import '../../repository/product_repo.dart';
@@ -71,20 +77,20 @@ class InventoryMovesCubit extends Cubit<InventoryMovesState> {
     List<InventoryMoveRowModel> list = current.products;
     InventoryMoveElementsModel elements;
     Map<String, dynamic> productDB;
-    Map<String, dynamic> productStock;
+    InventoryModel? productStock;
     InventoryMoveRowModel product;
     double weight;
     double total;
     double quantity;
     bool stockExist = false;
-    //Buscar currentCode en la base de datos y obtener los datos ncesarios.
+    //Buscar currentCode en la base de datos y obtiene los datos ncesarios.
     quantity = double.parse(list.elementAt(i).quantity);
     productDB = await ProductRepo().fetchProduct(currentCode);
     productStock =
         await InventoryRepo().fetchRowByCode(currentCode, inventoryName);
     //Valida si hay stock suficiente.
-    if (productStock.isNotEmpty) {
-      if (quantity > double.parse(productStock['stock'].toString())) {
+    if (productStock != null) {
+      if (quantity > productStock.stock) {
         stockExist = true;
       } else {
         stockExist = false;
@@ -131,7 +137,7 @@ class InventoryMovesCubit extends Cubit<InventoryMovesState> {
     List<InventoryMoveRowModel> list = current.products;
     InventoryMoveElementsModel elements;
     InventoryMoveRowModel product;
-    Map<String, dynamic> productDB;
+    InventoryModel? productDB;
     double weight;
     double total;
     double? quantity;
@@ -147,8 +153,8 @@ class InventoryMovesCubit extends Cubit<InventoryMovesState> {
     quantity = double.tryParse(currentQuantity);
     weight = list.elementAt(i).weightUnit;
     if (quantity != null) {
-      if (productDB.isNotEmpty) {
-        if (quantity > double.parse(productDB['stock'].toString())) {
+      if (productDB != null) {
+        if (quantity > productDB.stock) {
           stockExist = true;
         } else {
           stockExist = false;
@@ -183,20 +189,20 @@ class InventoryMovesCubit extends Cubit<InventoryMovesState> {
 
   Future<void> showConcepts(InventoryMoveElementsModel current) async {
     //Muestra los conceptos de inventario guardado en la base de datos.
-    List<String> concepts = [];
+    //List<String> concepts = [];
     List<InventoryMoveConceptModel> conceptsDB;
     InventoryMoveElementsModel elements;
 
     conceptsDB = await InventoryConceptsRepo().fetchAllConcepts();
-    for (var element in conceptsDB) {
+    /*for (var element in conceptsDB) {
       concepts.add(element.concept.toString());
-    }
+    }*/
     elements = InventoryMoveElementsModel(
       products: current.products,
       concept: current.concept,
       date: current.date,
       document: current.document,
-      concepts: concepts,
+      concepts: conceptsDB,
     );
     emit(EditInitialState());
     emit(EditState(inventoryMoveElements: elements));
@@ -217,13 +223,98 @@ class InventoryMovesCubit extends Cubit<InventoryMovesState> {
     emit(EditState(inventoryMoveElements: elements));
   }
 
+  Future<void> editDocument(
+      String document, InventoryMoveElementsModel current) async {
+    InventoryMoveElementsModel elements;
+
+    elements = InventoryMoveElementsModel(
+      products: current.products,
+      concept: current.concept,
+      date: current.date,
+      document: document,
+      concepts: current.concepts,
+    );
+    emit(EditInitialState());
+    emit(EditState(inventoryMoveElements: elements));
+  }
+
   Future<void> saveMovements(
-      List<MovementModel> movements, InventoryMoveElementsModel current) async {
+      InventoryMoveElementsModel current, String warehouseName) async {
     try {
-      emit(SaveInitialState());
-      emit(SaveLoadingState(inventoryMoveElements: current));
-      await MovementRepo().insertMovemets(movements);
-      emit(SaveLoadedState());
+      InventoryMoveElementsModel currentRedux;
+      List<InventoryMoveRowModel> productsRedux = [];
+      MovementModel movement;
+      List<MovementModel> movements = [];
+      InventoryMoveConceptModel conceptModel;
+      bool successValidatio = true;
+      String errorMessage = '';
+      int conceptType = -1;
+      UserModel userModel;
+
+      if (current.concepts
+              .indexWhere((value) => value.concept == current.concept) <
+          0) {
+        successValidatio = false;
+        errorMessage = 'Seleccione un concepto.';
+      } else {
+        conceptType = current.concepts
+            .elementAt(current.concepts
+                .indexWhere((value) => value.concept == current.concept))
+            .type;
+      }
+      //Reduce la lista de productos eliminando las filas que no contengan
+      // descripción y valida el estock.
+      for (var element in current.products) {
+        //si es concepto de salida...
+        if (conceptType == 1) {
+          if (element.stockExist == true) {
+            successValidatio = false;
+            errorMessage = 'La cantidad supera el stock disponible.';
+          }
+        }
+        if (element.description != '') {
+          productsRedux.add(element);
+        }
+      }
+      if (successValidatio == true) {
+        currentRedux = InventoryMoveElementsModel(
+          products: productsRedux,
+          concept: current.concept,
+          date: current.date,
+          document: current.document,
+          concepts: current.concepts,
+        );
+
+        //Craa la lista de movimientos que agragara al historial, en base de
+        // 'currentRedux'.
+        for (var element in currentRedux.products) {
+          conceptModel = currentRedux.concepts.elementAt(currentRedux.concepts
+              .indexWhere((value) => value.concept == current.concept));
+          userModel = await LocalUser().getLocalUser();
+          movement = MovementModel(
+            id: const Uuid().v4(),
+            code: element.code,
+            concept: conceptModel.id,
+            conceptType: conceptModel.type,
+            description: element.description,
+            document: currentRedux.document,
+            quantity: double.parse(element.quantity),
+            time: currentRedux.date,
+            warehouse: warehouseName,
+            user: userModel.name,
+          );
+          movements.add(movement);
+        }
+        emit(SaveInitialState());
+        emit(SaveLoadingState(inventoryMoveElements: current));
+        await InventoryRepo().updateInventory(movements);
+        await MovementRepo().insertMovemets(movements);
+        emit(SaveLoadedState());
+      } else {
+        emit(SaveInitialState());
+        emit(SaveErrorState(
+            inventoryMoveElements: current, errorMessage: errorMessage));
+      }
     } catch (e) {
       emit(ErrorState(error: e.toString()));
     }
