@@ -112,7 +112,7 @@ class InventoryMovesCubit extends Cubit<InventoryMovesState> {
     } else {
       total = quantity * 0;
       product = InventoryMoveRowModel(
-          code: productDB['code'].toString(),
+          code: currentCode, //productDB['code'].toString(),
           description: '',
           quantity: quantity.toString(),
           weightUnit: 0,
@@ -272,10 +272,16 @@ class InventoryMovesCubit extends Cubit<InventoryMovesState> {
             errorMessage = 'La cantidad supera el stock disponible.';
           }
         }
-        if (element.description != '') {
+        if (element.description != '' && double.parse(element.quantity) > 0) {
           productsRedux.add(element);
         }
       }
+      if (productsRedux.isEmpty) {
+        successValidatio = false;
+        errorMessage =
+            'Agrege al menos un producto a la lista con cantidad mayor a 0';
+      }
+
       if (successValidatio == true) {
         currentRedux = InventoryMoveElementsModel(
           products: productsRedux,

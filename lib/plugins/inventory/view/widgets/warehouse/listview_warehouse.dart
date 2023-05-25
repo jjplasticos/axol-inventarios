@@ -50,11 +50,11 @@ class ListviewWarehouse extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       Text(
-                        elementList.code,
+                        elementList.product.code,
                         style: Typo.labelText1,
                       ),
                       Text(
-                        elementList.properties[descriptrion_],
+                        elementList.product.properties[descriptrion_],
                         style: Typo.labelText1,
                       ),
                       Text(

@@ -1,3 +1,4 @@
+import 'package:axol_inventarios/models/product_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
@@ -30,6 +31,7 @@ class InventoryRepo {
     List<InventoryRowModel> inventoryList = [];
     List<InventoryRowModel> finalInventoryList = [];
     InventoryRowModel inventoryRow;
+    ProductModel productModel;
     List<String> codes = [];
     //Lee en la base de datos el inventario del usuario registrado.
     //y obtiene una lista de claves de las existencias en inventario.
@@ -41,15 +43,22 @@ class InventoryRepo {
       }
     }
     //Obtiene la lista de productos: {code: Map<String,dynamic>}
-    final List<Map<String, dynamic>> productsDB =
+    final List<ProductModel> productsDB =
         await ProductRepo().fetchProductList(codes);
     //Llena inventoryList con iteraciones de codes y utilizando los elementos
     // de productDB e inventoryDB.
     for (String element in codes) {
-      inventoryRow = InventoryRowModel(
+      productModel = productsDB
+          .elementAt(productsDB.indexWhere((value) => value.code == element));
+      /*productModel = ProductModel(
           code: element,
+          description: productModel.description,
+          properties: productModel.properties);*/
+      inventoryRow = InventoryRowModel(
+          product: productModel,
+          /*code: element,
           properties:
-              productsDB.where((value) => value[_code] == element).first,
+              productsDB.where((value) => value[_code] == element).first,*/
           stock: double.parse(inventoryDB
               .where((value) => value[_code] == element)
               .first[_stock]
@@ -59,8 +68,10 @@ class InventoryRepo {
     //Filtra la lista
     if (filter != '') {
       for (var element in inventoryList) {
-        if (element.code.contains(filter) ||
-            element.properties[_description].toString().contains(filter)) {
+        if (element.product.code.contains(filter) ||
+            element.product.properties[_description]
+                .toString()
+                .contains(filter)) {
           finalInventoryList.add(element);
         }
       }

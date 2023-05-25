@@ -12,7 +12,7 @@ import '../../cubit/inventory_load/inventory_load_cubit.dart';
 import '../../cubit/textfield_finder_invrow_cubit.dart';
 import '../controllers/listview_warehouse_controller.dart';
 
-import '../widgets/warehouse/textfield_finder_inventoryrow.dart';
+import '../widgets/textfield_finder_inventoryrow.dart';
 import 'inventory_movement_view.dart';
 import 'warehouse_menu_view.dart';
 

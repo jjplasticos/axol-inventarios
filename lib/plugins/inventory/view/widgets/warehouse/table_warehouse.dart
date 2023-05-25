@@ -50,14 +50,17 @@ class TableWarehouse extends StatelessWidget {
           elementDecoded = element1;
         }
         if (elementDecoded == '#code') {
-          dataCell = DataCell(Text(element0.code, style: Typo.bodyText6));
+          dataCell =
+              DataCell(Text(element0.product.code, style: Typo.bodyText6));
           cells.add(dataCell);
         } else if (elementDecoded == '#stock') {
-          dataCell = DataCell(Text(element0.code, style: Typo.bodyText6));
+          dataCell =
+              DataCell(Text(element0.product.code, style: Typo.bodyText6));
           cells.add(dataCell);
         } else {
-          if (element0.properties.containsKey(elementDecoded)) {
-            dataCell = DataCell(Text(element0.properties[elementDecoded],
+          if (element0.product.properties.containsKey(elementDecoded)) {
+            dataCell = DataCell(Text(
+                element0.product.properties[elementDecoded],
                 style: Typo.bodyText6));
             cells.add(dataCell);
           }

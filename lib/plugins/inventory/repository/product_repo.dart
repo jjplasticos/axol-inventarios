@@ -1,37 +1,49 @@
 import 'package:supabase_flutter/supabase_flutter.dart';
 
+import '../../../models/product_model.dart';
+
 class ProductRepo {
-  final String TABLE = 'products';
-  final String CODE = 'code';
-  final String PRODUCT = 'attributes';
-  final supabase = Supabase.instance.client;
+  static const String _table = 'products';
+  static const String _code = 'code';
+  static const String _properties = 'attributes';
+  static const String _description = 'description';
+  final _supabase = Supabase.instance.client;
 
-  Future<List<Map<String, dynamic>>> fetchProductList(
-      List<String> codeList) async {
-    Map<String, dynamic> element;
-    List<Map<String, dynamic>> newList = [];
-    List productList = [];
+  Future<List<ProductModel>> fetchProductList(List<String> codeList) async {
+    Map<String, dynamic> properties;
+    List<ProductModel> products = [];
+    ProductModel product;
+    //List<Map<String, dynamic>> newList = [];
+    List<Map<String, dynamic>> productsDB = [];
 
-    productList = await supabase.from(TABLE).select().in_(CODE, codeList);
+    productsDB = await _supabase
+        .from(_table)
+        .select<List<Map<String, dynamic>>>()
+        .in_(_code, codeList);
 
-    if (productList.isNotEmpty) {
-      for (element in productList) {
-        newList.add(element[PRODUCT]);
-        //element[PRODUCTO] --> {code: Map<String, dynamic>}
+    if (productsDB.isNotEmpty) {
+      for (var element in productsDB) {
+        product = ProductModel(
+          code: element[_code],
+          description: element[_description],
+          properties: element[_properties],
+        );
+        products.add(product);
       }
+      //newList.add(properties[_product]);
+      //element[PRODUCTO] --> {code: Map<String, dynamic>}
     }
-
-    return newList;
+    return products;
   }
 
   Future<Map<String, dynamic>> fetchProduct(String code) async {
     List<Map<String, dynamic>> products;
     Map<String, dynamic> product;
 
-    products = await supabase
-        .from(TABLE)
+    products = await _supabase
+        .from(_table)
         .select<List<Map<String, dynamic>>>()
-        .eq(CODE, code);
+        .eq(_code, code);
     if (products.isNotEmpty) {
       product = products.first;
     } else {

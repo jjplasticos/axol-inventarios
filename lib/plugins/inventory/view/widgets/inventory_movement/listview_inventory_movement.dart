@@ -3,10 +3,12 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../../models/inventory_move_elements_model.dart';
 import '../../../../../settings/theme.dart';
+import '../../../cubit/inventory_load/inventory_load_cubit.dart';
 import '../../../cubit/inventory_movements/inventory_moves_cubit.dart';
+import '../../../cubit/textfield_finder_invrow_cubit.dart';
+import 'dialog_serch_product.dart';
 
 class ListviewInventoryMovement extends StatelessWidget {
-  //final List<InventoryMoveRowModel> listData;
   final InventoryMoveElementsModel elementsData;
   final String inventoryName;
 
@@ -132,6 +134,7 @@ class ListviewInventoryMovement extends StatelessWidget {
           shrinkWrap: true,
           itemCount: elementsData.products.length,
           itemBuilder: ((context, index) {
+            TextEditingController txtCode = TextEditingController();
             final elementList = elementsData.products[index];
             return Container(
               height: 30,
@@ -141,17 +144,64 @@ class ListviewInventoryMovement extends StatelessWidget {
               child: Row(
                 children: [
                   Expanded(
-                    flex: 1,
-                    child: TextField(
-                      textAlign: TextAlign.center,
-                      textAlignVertical: TextAlignVertical.center,
-                      decoration: const InputDecoration(isDense: true),
-                      onChanged: (value) {
-                        context.read<InventoryMovesCubit>().editCode(
-                            index, value, inventoryName, elementsData);
-                      },
-                      style: Typo.labelText1,
-                    ),
+                    child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Expanded(
+                            flex: 1,
+                            child: TextField(
+                              controller: txtCode
+                                ..text = elementList.code.toString()
+                                ..selection = TextSelection.collapsed(
+                                    offset: elementList.code.toString().length),
+                              textAlign: TextAlign.center,
+                              textAlignVertical: TextAlignVertical.center,
+                              decoration: const InputDecoration(isDense: true),
+                              onSubmitted: (value) {
+                                context.read<InventoryMovesCubit>().editCode(
+                                    index, value, inventoryName, elementsData);
+                              },
+                              style: Typo.labelText1,
+                            ),
+                          ),
+                          SizedBox(
+                            width: 40,
+                            height: 30,
+                            child: IconButton(
+                              onPressed: () {
+                                showDialog(
+                                  context: context,
+                                  builder: (BuildContext context) => Dialog(
+                                    child: MultiBlocProvider(
+                                      providers: [
+                                        BlocProvider(
+                                            create: (_) =>
+                                                InventoryLoadCubit()),
+                                        BlocProvider(
+                                            create: (_) =>
+                                                TextfieldFinderInvrowCubit()),
+                                      ],
+                                      child: DialogSearchProduct(
+                                          inventoryName: inventoryName),
+                                    ),
+                                  ),
+                                ).then((value) {
+                                  context.read<InventoryMovesCubit>().editCode(
+                                      index,
+                                      value,
+                                      inventoryName,
+                                      elementsData);
+                                  txtCode.text = value.toString();
+                                });
+                              },
+                              icon: const Icon(
+                                Icons.search,
+                                size: 15,
+                                color: Colors.white,
+                              ),
+                            ),
+                          ),
+                        ]),
                   ),
                   Expanded(
                     flex: 2,
@@ -162,7 +212,7 @@ class ListviewInventoryMovement extends StatelessWidget {
                   Expanded(
                     flex: 1,
                     child: TextField(
-                      onChanged: (value) {
+                      onSubmitted: (value) {
                         context.read<InventoryMovesCubit>().editQuantity(
                             index, value, inventoryName, elementsData);
                       },
