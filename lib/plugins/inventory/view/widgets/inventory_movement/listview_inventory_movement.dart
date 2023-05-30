@@ -5,6 +5,7 @@ import '../../../../../models/inventory_move_elements_model.dart';
 import '../../../../../settings/theme.dart';
 import '../../../cubit/inventory_load/inventory_load_cubit.dart';
 import '../../../cubit/inventory_movements/inventory_moves_cubit.dart';
+import '../../../cubit/switch_transfer_cubit.dart';
 import '../../../cubit/textfield_finder_invrow_cubit.dart';
 import 'dialog_serch_product.dart';
 
@@ -18,6 +19,7 @@ class ListviewInventoryMovement extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     List<PopupMenuItem> popupList = [];
+    bool isVisible = false;
     PopupMenuItem popup;
     return Column(
       children: [
@@ -51,6 +53,31 @@ class ListviewInventoryMovement extends StatelessWidget {
                         return popupList;
                       },
                     )
+                  ],
+                ),
+              ),
+              Container(
+                color: Colors.white30,
+                height: 30,
+                width: 200,
+                child: Row(
+                  children: [
+                    BlocBuilder<SwitchTransferCubit, bool>(
+                      builder: (context, state) {
+                        return Switch(
+                          value: context.read<SwitchTransferCubit>().state,
+                          onChanged: (value) {
+                            context.read<SwitchTransferCubit>().change(value);
+                          },
+                        );
+                      },
+                    ),
+                    Visibility(
+                        visible: isVisible,
+                        child: DropdownButton(
+                          items: [],
+                          onChanged: (value) {},
+                        )),
                   ],
                 ),
               ),
