@@ -5,7 +5,7 @@ import '../../../../../models/inventory_move_elements_model.dart';
 import '../../../../../settings/theme.dart';
 import '../../../cubit/inventory_load/inventory_load_cubit.dart';
 import '../../../cubit/inventory_movements/inventory_moves_cubit.dart';
-import '../../../cubit/switch_transfer_cubit.dart';
+import '../../../cubit/transfer_cubit.dart';
 import '../../../cubit/textfield_finder_invrow_cubit.dart';
 import 'dialog_serch_product.dart';
 
@@ -18,9 +18,6 @@ class ListviewInventoryMovement extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    List<PopupMenuItem> popupList = [];
-    bool isVisible = false;
-    PopupMenuItem popup;
     return Column(
       children: [
         Padding(
@@ -28,57 +25,72 @@ class ListviewInventoryMovement extends StatelessWidget {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
-              Container(
+              /*Container(
                 color: Colors.white30,
                 height: 30,
                 width: 200,
                 child: Row(
                   children: [
-                    Text(elementsData.concept, style: Typo.labelText1),
-                    PopupMenuButton(
-                      onSelected: (value) {
-                        context
-                            .read<InventoryMovesCubit>()
-                            .selectConcept(value.toString(), elementsData);
-                      },
-                      itemBuilder: (context) {
-                        popupList.clear();
-                        for (var element in elementsData.concepts) {
-                          popup = PopupMenuItem(
-                            value: element.concept,
-                            child: Text(element.concept),
-                          );
-                          popupList.add(popup);
-                        }
-                        return popupList;
-                      },
-                    )
+                    //Text(elementsData.concept, style: Typo.labelText1),
                   ],
                 ),
-              ),
+              ),*/
               Container(
                 color: Colors.white30,
                 height: 30,
-                width: 200,
-                child: Row(
-                  children: [
-                    BlocBuilder<SwitchTransferCubit, bool>(
-                      builder: (context, state) {
-                        return Switch(
+                width: 400,
+                child: BlocBuilder<TransferCubit, List<String>>(
+                  builder: (context, state) {
+                    return Row(
+                      children: [
+                        DropdownButton<String>(
+                          value: elementsData.concepts
+                                  .map((element) {
+                                    return element.concept;
+                                  })
+                                  .toList()
+                                  .contains(elementsData.concept)
+                              ? elementsData.concept
+                              : null,
+                          items: elementsData.concepts.map((element) {
+                            return DropdownMenuItem(
+                                value: element.concept,
+                                child: Text(element.concept));
+                          }).toList(),
+                          onChanged: (value) {
+                            context
+                                .read<InventoryMovesCubit>()
+                                .selectConcept(value.toString(), elementsData);
+                            if (value == 'Salida por traspaso' ||
+                                value == 'Entrada por traspaso') {
+                              context.read<TransferCubit>().change(true);
+                            } else {
+                              context.read<TransferCubit>().change(false);
+                            }
+                          },
+                        ),
+                        const SizedBox(
+                          width: 20,
+                        ),
+                        /*Switch(
                           value: context.read<SwitchTransferCubit>().state,
                           onChanged: (value) {
                             context.read<SwitchTransferCubit>().change(value);
                           },
-                        );
-                      },
-                    ),
-                    Visibility(
-                        visible: isVisible,
-                        child: DropdownButton(
-                          items: [],
-                          onChanged: (value) {},
-                        )),
-                  ],
+                        ),*/
+                        Visibility(
+                            visible:
+                                context.read<TransferCubit>().state.isNotEmpty,
+                            child: DropdownButton(
+                              items: state.map((e) {
+                                return DropdownMenuItem(
+                                    value: e, child: Text(e));
+                              }).toList(),
+                              onChanged: (value) {},
+                            ))
+                      ],
+                    );
+                  },
                 ),
               ),
               Container(
