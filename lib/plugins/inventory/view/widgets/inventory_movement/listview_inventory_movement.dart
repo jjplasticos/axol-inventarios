@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../../models/inventory_move_elements_model.dart';
+import '../../../../../models/movement_transfer_model.dart';
 import '../../../../../settings/theme.dart';
 import '../../../cubit/inventory_load/inventory_load_cubit.dart';
 import '../../../cubit/inventory_movements/inventory_moves_cubit.dart';
@@ -39,7 +40,7 @@ class ListviewInventoryMovement extends StatelessWidget {
                 color: Colors.white30,
                 height: 30,
                 width: 400,
-                child: BlocBuilder<TransferCubit, List<String>>(
+                child: BlocBuilder<TransferCubit, MovementTransferModel>(
                   builder: (context, state) {
                     return Row(
                       children: [
@@ -61,11 +62,16 @@ class ListviewInventoryMovement extends StatelessWidget {
                             context
                                 .read<InventoryMovesCubit>()
                                 .selectConcept(value.toString(), elementsData);
-                            if (value == 'Salida por traspaso' ||
-                                value == 'Entrada por traspaso') {
-                              context.read<TransferCubit>().change(true);
+                            if (value == 'Salida por traspaso') {
+                              context.read<TransferCubit>().change(
+                                  true, inventoryName, state.inventory2, 1);
+                            } else if (value == 'Entrada por traspaso') {
+                              context.read<TransferCubit>().change(
+                                  true, inventoryName, state.inventory2, 2);
                             } else {
-                              context.read<TransferCubit>().change(false);
+                              context
+                                  .read<TransferCubit>()
+                                  .change(false, '', '', 0);
                             }
                           },
                         ),
@@ -79,14 +85,20 @@ class ListviewInventoryMovement extends StatelessWidget {
                           },
                         ),*/
                         Visibility(
-                            visible:
-                                context.read<TransferCubit>().state.isNotEmpty,
+                            visible: context
+                                .read<TransferCubit>()
+                                .state
+                                .currentConcepts
+                                .isNotEmpty,
                             child: DropdownButton(
-                              items: state.map((e) {
+                              items: state.currentConcepts.map((e) {
                                 return DropdownMenuItem(
                                     value: e, child: Text(e));
                               }).toList(),
-                              onChanged: (value) {},
+                              onChanged: (value) {
+                                context.read<TransferCubit>().change(true,
+                                    state.inventory1, value!, state.concept);
+                              },
                             ))
                       ],
                     );

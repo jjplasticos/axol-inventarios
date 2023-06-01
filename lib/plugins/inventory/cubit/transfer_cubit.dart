@@ -1,19 +1,30 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../models/movement_transfer_model.dart';
 import '../repository/warehouses_repo.dart';
 
-class TransferCubit extends Cubit<List<String>> {
-  TransferCubit() : super([]);
+class TransferCubit extends Cubit<MovementTransferModel> {
+  TransferCubit()
+      : super(MovementTransferModel(
+            currentConcepts: [], inventory1: '', inventory2: '', concept: 0));
 
-  Future<void> change(bool isTransfer) async {
+  Future<void> change(
+      bool isTransfer, String origin, String destiny, int concept) async {
     List<String> list;
+    MovementTransferModel emptyModel = MovementTransferModel(
+        currentConcepts: [], inventory1: '', inventory2: '', concept: 0);
 
     if (isTransfer == false) {
-      emit([]);
+      emit(emptyModel);
     } else {
       list = await WarehousesRepo().fetchNames();
-      emit([]);
-      emit(list);
+      emit(emptyModel);
+      emit(MovementTransferModel(
+        currentConcepts: list,
+        inventory1: origin,
+        inventory2: destiny,
+        concept: concept,
+      ));
     }
   }
 }

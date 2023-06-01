@@ -27,11 +27,13 @@ class InventoryMovesCubit extends Cubit<InventoryMovesState> {
       stockExist: false);
   static final DateTime _time = DateTime.now();
   final InventoryMoveElementsModel _emptyElements = InventoryMoveElementsModel(
-      products: [],
-      concept: 'Concept',
-      date: '${_time.day}/${_time.month}/${_time.year}',
-      document: '',
-      concepts: []);
+    products: [],
+    concept: 'Concept',
+    date: '${_time.day}/${_time.month}/${_time.year}',
+    document: '',
+    concepts: [],
+    invTransfer: {},
+  );
 
   InventoryMovesCubit() : super(SaveInitialState());
 
@@ -46,6 +48,7 @@ class InventoryMovesCubit extends Cubit<InventoryMovesState> {
       date: _emptyElements.date,
       document: _emptyElements.document,
       concepts: _emptyElements.concepts,
+      invTransfer: _emptyElements.invTransfer,
     );
     emit(EditState(inventoryMoveElements: elements));
     showConcepts(elements);
@@ -63,6 +66,7 @@ class InventoryMovesCubit extends Cubit<InventoryMovesState> {
       date: current.date,
       document: current.document,
       concepts: current.concepts,
+      invTransfer: current.invTransfer,
     );
     emit(EditState(inventoryMoveElements: elements));
   }
@@ -127,6 +131,7 @@ class InventoryMovesCubit extends Cubit<InventoryMovesState> {
       date: current.date,
       document: current.document,
       concepts: current.concepts,
+      invTransfer: current.invTransfer,
     );
     emit(EditInitialState());
     emit(EditState(inventoryMoveElements: elements));
@@ -182,6 +187,7 @@ class InventoryMovesCubit extends Cubit<InventoryMovesState> {
       date: current.date,
       document: current.document,
       concepts: current.concepts,
+      invTransfer: current.invTransfer,
     );
     emit(EditInitialState());
     emit(EditState(inventoryMoveElements: elements));
@@ -203,6 +209,7 @@ class InventoryMovesCubit extends Cubit<InventoryMovesState> {
       date: current.date,
       document: current.document,
       concepts: conceptsDB,
+      invTransfer: current.invTransfer,
     );
     emit(EditInitialState());
     emit(EditState(inventoryMoveElements: elements));
@@ -218,6 +225,7 @@ class InventoryMovesCubit extends Cubit<InventoryMovesState> {
       date: current.date,
       document: current.document,
       concepts: current.concepts,
+      invTransfer: current.invTransfer,
     );
     emit(EditInitialState());
     emit(EditState(inventoryMoveElements: elements));
@@ -233,6 +241,7 @@ class InventoryMovesCubit extends Cubit<InventoryMovesState> {
       date: current.date,
       document: document,
       concepts: current.concepts,
+      invTransfer: current.invTransfer,
     );
     emit(EditInitialState());
     emit(EditState(inventoryMoveElements: elements));
@@ -284,12 +293,12 @@ class InventoryMovesCubit extends Cubit<InventoryMovesState> {
 
       if (successValidatio == true) {
         currentRedux = InventoryMoveElementsModel(
-          products: productsRedux,
-          concept: current.concept,
-          date: current.date,
-          document: current.document,
-          concepts: current.concepts,
-        );
+            products: productsRedux,
+            concept: current.concept,
+            date: current.date,
+            document: current.document,
+            concepts: current.concepts,
+            invTransfer: current.invTransfer);
 
         //Craa la lista de movimientos que agragara al historial, en base de
         // 'currentRedux'.
@@ -325,4 +334,6 @@ class InventoryMovesCubit extends Cubit<InventoryMovesState> {
       emit(ErrorState(error: e.toString()));
     }
   }
+
+  Future<void> saveTransfer() async {}
 }

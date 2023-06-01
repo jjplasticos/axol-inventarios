@@ -51,22 +51,6 @@ class InventoryMovesController extends StatelessWidget {
           );
         } else if (state is SaveLoadingState) {
           return const LinearProgressIndicator();
-          /*Stack(
-            children: [
-              PageInvMov(
-                inventoryName: inventoryName,
-                inventoryMoveElements: state.inventoryMoveElements,
-              ),
-              Opacity(
-                opacity: 0.5,
-                child: Container(
-                  color: Colors.black,
-                  alignment: Alignment.center,
-                  child: const CircularProgressIndicator(),
-                ),
-              )
-            ],
-          );*/
         } else if (state is SaveErrorState) {
           return PageInvMov(
             inventoryName: inventoryName,
