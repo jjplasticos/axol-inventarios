@@ -65,10 +65,11 @@ class ListviewInventoryMovement extends StatelessWidget {
                             if (value == 'Salida por traspaso') {
                               context.read<TransferCubit>().change(
                                   true, inventoryName, state.inventory2, 1);
-                            } else if (value == 'Entrada por traspaso') {
+                            } /*else if (value == 'Entrada por traspaso') {
                               context.read<TransferCubit>().change(
                                   true, inventoryName, state.inventory2, 2);
-                            } else {
+                            }*/
+                            else {
                               context
                                   .read<TransferCubit>()
                                   .change(false, '', '', 0);
@@ -98,6 +99,12 @@ class ListviewInventoryMovement extends StatelessWidget {
                               onChanged: (value) {
                                 context.read<TransferCubit>().change(true,
                                     state.inventory1, value!, state.concept);
+
+                                //No se muestra el nombre del almacén seleccionado!!!
+
+                                context
+                                    .read<InventoryMovesCubit>()
+                                    .invTransfer(elementsData, value);
                               },
                             ))
                       ],

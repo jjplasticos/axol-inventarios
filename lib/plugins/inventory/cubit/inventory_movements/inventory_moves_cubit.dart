@@ -32,7 +32,7 @@ class InventoryMovesCubit extends Cubit<InventoryMovesState> {
     date: '${_time.day}/${_time.month}/${_time.year}',
     document: '',
     concepts: [],
-    invTransfer: {},
+    invTransfer: '',
   );
 
   InventoryMovesCubit() : super(SaveInitialState());
@@ -248,7 +248,7 @@ class InventoryMovesCubit extends Cubit<InventoryMovesState> {
   }
 
   Future<void> saveMovements(
-      InventoryMoveElementsModel current, String warehouseName) async {
+      InventoryMoveElementsModel current, String inventory1) async {
     try {
       InventoryMoveElementsModel currentRedux;
       List<InventoryMoveRowModel> productsRedux = [];
@@ -302,10 +302,10 @@ class InventoryMovesCubit extends Cubit<InventoryMovesState> {
 
         //Craa la lista de movimientos que agragara al historial, en base de
         // 'currentRedux'.
+        conceptModel = currentRedux.concepts.elementAt(currentRedux.concepts
+            .indexWhere((value) => value.concept == current.concept));
+        userModel = await LocalUser().getLocalUser();
         for (var element in currentRedux.products) {
-          conceptModel = currentRedux.concepts.elementAt(currentRedux.concepts
-              .indexWhere((value) => value.concept == current.concept));
-          userModel = await LocalUser().getLocalUser();
           movement = MovementModel(
             id: const Uuid().v4(),
             code: element.code,
@@ -315,10 +315,25 @@ class InventoryMovesCubit extends Cubit<InventoryMovesState> {
             document: currentRedux.document,
             quantity: double.parse(element.quantity),
             time: currentRedux.date,
-            warehouse: warehouseName,
+            warehouse: inventory1,
             user: userModel.name,
           );
           movements.add(movement);
+          if (conceptModel.id == 58) {
+            movement = MovementModel(
+              id: const Uuid().v4(),
+              code: element.code,
+              concept: 7,
+              conceptType: 0,
+              description: element.description,
+              document: currentRedux.document,
+              quantity: double.parse(element.quantity),
+              time: currentRedux.date,
+              warehouse: currentRedux.invTransfer,
+              user: userModel.name,
+            );
+            movements.add(movement);
+          }
         }
         emit(SaveInitialState());
         emit(SaveLoadingState(inventoryMoveElements: current));
@@ -335,5 +350,16 @@ class InventoryMovesCubit extends Cubit<InventoryMovesState> {
     }
   }
 
-  Future<void> saveTransfer() async {}
+  Future<void> invTransfer(
+      InventoryMoveElementsModel current, String inventory2) async {
+    InventoryMoveElementsModel newElement = InventoryMoveElementsModel(
+        products: current.products,
+        concept: current.concept,
+        date: current.date,
+        document: current.document,
+        concepts: current.concepts,
+        invTransfer: inventory2);
+    emit(EditInitialState());
+    emit(EditState(inventoryMoveElements: newElement));
+  }
 }

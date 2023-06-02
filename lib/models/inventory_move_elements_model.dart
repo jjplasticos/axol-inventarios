@@ -7,7 +7,7 @@ class InventoryMoveElementsModel {
   final String concept;
   final String document;
   final String date;
-  final Map<int, String> invTransfer;
+  final String invTransfer;
 
   const InventoryMoveElementsModel({
     required this.products,
