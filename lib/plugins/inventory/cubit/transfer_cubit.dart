@@ -6,21 +6,22 @@ import '../repository/warehouses_repo.dart';
 class TransferCubit extends Cubit<MovementTransferModel> {
   TransferCubit()
       : super(MovementTransferModel(
-            currentConcepts: [], inventory1: '', inventory2: '', concept: 0));
+            inventories: [], inventory1: '', inventory2: '', concept: 0));
 
   Future<void> change(
       bool isTransfer, String origin, String destiny, int concept) async {
     List<String> list;
     MovementTransferModel emptyModel = MovementTransferModel(
-        currentConcepts: [], inventory1: '', inventory2: '', concept: 0);
+        inventories: [], inventory1: '', inventory2: '', concept: 0);
 
     if (isTransfer == false) {
       emit(emptyModel);
     } else {
       list = await WarehousesRepo().fetchNames();
+      list.remove(origin);
       emit(emptyModel);
       emit(MovementTransferModel(
-        currentConcepts: list,
+        inventories: list,
         inventory1: origin,
         inventory2: destiny,
         concept: concept,

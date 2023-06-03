@@ -362,4 +362,8 @@ class InventoryMovesCubit extends Cubit<InventoryMovesState> {
     emit(EditInitialState());
     emit(EditState(inventoryMoveElements: newElement));
   }
+
+  Future<void> openProductDetails() async {
+    //Emitr estado para abrir detelles del producto y enviar InventoryRowModel.
+  }
 }

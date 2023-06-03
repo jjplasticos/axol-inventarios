@@ -1,11 +1,13 @@
 import 'package:axol_inventarios/models/product_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:uuid/uuid.dart';
 
 import '../../../models/inventory_model.dart';
 import '../../../models/inventory_row_model.dart';
 import '../../../models/movement_model.dart';
 import 'product_repo.dart';
+import 'warehouses_repo.dart';
 
 class InventoryRepo {
   //Tabla
@@ -135,6 +137,8 @@ class InventoryRepo {
     double currentStock = -1;
     double newStock = -1;
     InventoryModel? inventoryModel;
+    InventoryModel newInventoryRow;
+    List<String> inventories = [];
 
     for (var element in movements) {
       inventoryModel = await fetchRowByCode(element.code, element.warehouse);
@@ -152,7 +156,29 @@ class InventoryRepo {
               .eq(_code, inventoryModel.code)
               .eq(_name, inventoryModel.name);
         }
+      } else {
+        inventories = await WarehousesRepo().fetchNames();
+        if (inventories.contains(element.warehouse) &&
+            element.conceptType == 0) {
+          newInventoryRow = InventoryModel(
+              code: element.code,
+              id: const Uuid().v4(),
+              name: element.warehouse,
+              retailManager: '',
+              stock: element.quantity);
+          await insertInventoryRow(newInventoryRow);
+        }
       }
     }
+  }
+
+  Future<void> insertInventoryRow(InventoryModel inventory) async {
+    await _supabase.from(_table).insert({
+      _id: inventory.id,
+      _code: inventory.code,
+      _stock: inventory.stock,
+      _name: inventory.name,
+      _manager: inventory.retailManager,
+    });
   }
 }

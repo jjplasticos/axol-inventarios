@@ -1,6 +1,7 @@
 import 'package:equatable/equatable.dart';
 
 import '../../../../models/inventory_move_elements_model.dart';
+import '../../../../models/inventory_row_model.dart';
 
 abstract class InventoryMovesState extends Equatable {
   const InventoryMovesState();
@@ -16,6 +17,15 @@ class EditState extends InventoryMovesState {
   const EditState({required this.inventoryMoveElements});
   @override
   List<Object?> get props => [inventoryMoveElements];
+}
+
+class OpenProductDetailsState extends InventoryMovesState {
+  final InventoryMoveElementsModel inventoryMoveElements;
+  final InventoryRowModel inventoryRow;
+  const OpenProductDetailsState(
+      {required this.inventoryMoveElements, required this.inventoryRow});
+  @override
+  List<Object?> get props => [inventoryMoveElements, inventoryRow];
 }
 
 class SaveInitialState extends InventoryMovesState {

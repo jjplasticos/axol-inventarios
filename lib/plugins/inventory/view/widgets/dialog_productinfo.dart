@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../../../../models/inventory_row_model.dart';
+import '../../../../models/inventory_row_model.dart';
 
 class DialogProductInfo extends StatelessWidget {
   final InventoryRowModel inventoryRow;
@@ -23,7 +23,7 @@ class DialogProductInfo extends StatelessWidget {
         width: 400,
         height: 200,
         child: Padding(
-            padding: EdgeInsetsDirectional.all(4),
+            padding: const EdgeInsetsDirectional.all(4),
             child: Column(
               children: [
                 Expanded(

@@ -1,13 +1,16 @@
+import 'package:axol_inventarios/models/product_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../../models/inventory_move_elements_model.dart';
+import '../../../../../models/inventory_row_model.dart';
 import '../../../../../models/movement_transfer_model.dart';
 import '../../../../../settings/theme.dart';
 import '../../../cubit/inventory_load/inventory_load_cubit.dart';
 import '../../../cubit/inventory_movements/inventory_moves_cubit.dart';
 import '../../../cubit/transfer_cubit.dart';
 import '../../../cubit/textfield_finder_invrow_cubit.dart';
+import '../dialog_productinfo.dart';
 import 'dialog_serch_product.dart';
 
 class ListviewInventoryMovement extends StatelessWidget {
@@ -26,16 +29,6 @@ class ListviewInventoryMovement extends StatelessWidget {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
-              /*Container(
-                color: Colors.white30,
-                height: 30,
-                width: 200,
-                child: Row(
-                  children: [
-                    //Text(elementsData.concept, style: Typo.labelText1),
-                  ],
-                ),
-              ),*/
               Container(
                 color: Colors.white30,
                 height: 30,
@@ -65,11 +58,7 @@ class ListviewInventoryMovement extends StatelessWidget {
                             if (value == 'Salida por traspaso') {
                               context.read<TransferCubit>().change(
                                   true, inventoryName, state.inventory2, 1);
-                            } /*else if (value == 'Entrada por traspaso') {
-                              context.read<TransferCubit>().change(
-                                  true, inventoryName, state.inventory2, 2);
-                            }*/
-                            else {
+                            } else {
                               context
                                   .read<TransferCubit>()
                                   .change(false, '', '', 0);
@@ -79,29 +68,28 @@ class ListviewInventoryMovement extends StatelessWidget {
                         const SizedBox(
                           width: 20,
                         ),
-                        /*Switch(
-                          value: context.read<SwitchTransferCubit>().state,
-                          onChanged: (value) {
-                            context.read<SwitchTransferCubit>().change(value);
-                          },
-                        ),*/
                         Visibility(
                             visible: context
                                 .read<TransferCubit>()
                                 .state
-                                .currentConcepts
+                                .inventories
                                 .isNotEmpty,
                             child: DropdownButton(
-                              items: state.currentConcepts.map((e) {
+                              value: state.inventories
+                                      .map((e) {
+                                        return e;
+                                      })
+                                      .toList()
+                                      .contains(state.inventory2)
+                                  ? state.inventory2
+                                  : null,
+                              items: state.inventories.map((e) {
                                 return DropdownMenuItem(
                                     value: e, child: Text(e));
                               }).toList(),
                               onChanged: (value) {
                                 context.read<TransferCubit>().change(true,
                                     state.inventory1, value!, state.concept);
-
-                                //No se muestra el nombre del almacén seleccionado!!!
-
                                 context
                                     .read<InventoryMovesCubit>()
                                     .invTransfer(elementsData, value);
@@ -200,6 +188,7 @@ class ListviewInventoryMovement extends StatelessWidget {
               decoration:
                   BoxDecoration(border: Border.all(color: Colors.black45)),
               child: Row(
+                //1) Clave
                 children: [
                   Expanded(
                     child: Row(
@@ -261,12 +250,26 @@ class ListviewInventoryMovement extends StatelessWidget {
                           ),
                         ]),
                   ),
+                  //2) Descripcion
                   Expanded(
                     flex: 2,
                     child: Center(
-                        child: Text(elementList.description,
-                            style: Typo.labelText1)),
+                        child: TextButton(
+                      onPressed:
+                          () {} /*=> showDialog(
+                          context: context,
+                          builder: (BuildContext context) {
+                            InventoryRowModel inventoryRowModel;
+                            ProductModel productModel;
+
+                            return DialogProductInfo(inventoryRow: );
+                          })*/
+                      ,
+                      child:
+                          Text(elementList.description, style: Typo.labelText1),
+                    )),
                   ),
+                  //3) Cantidad
                   Expanded(
                     flex: 1,
                     child: TextField(
@@ -292,6 +295,7 @@ class ListviewInventoryMovement extends StatelessWidget {
                       style: Typo.labelText1,
                     ),
                   ),
+                  //4) Peso unitario
                   Expanded(
                     flex: 1,
                     child: Center(
@@ -300,6 +304,7 @@ class ListviewInventoryMovement extends StatelessWidget {
                       style: Typo.labelText1,
                     )),
                   ),
+                  //5) Pesto total
                   Expanded(
                     flex: 1,
                     child: Center(

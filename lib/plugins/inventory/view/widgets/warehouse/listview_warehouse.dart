@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../../../../models/inventory_row_model.dart';
 import '../../../../../settings/theme.dart';
-import 'dialog_productinfo.dart';
+import '../dialog_productinfo.dart';
 
 class ListviewWarehouse extends StatelessWidget {
   final List<InventoryRowModel> listData;
