@@ -52,4 +52,25 @@ class ProductRepo {
 
     return product;
   }
+
+  Future<ProductModel?> fetchProductByCode(String code) async {
+    ProductModel? product;
+    List<Map<String, dynamic>> productsDB;
+
+    productsDB = await _supabase
+        .from(_table)
+        .select<List<Map<String, dynamic>>>()
+        .eq(_code, code);
+
+    if (productsDB.length == 1) {
+      product = ProductModel(
+          code: productsDB.single[_code],
+          description: productsDB.single[_description],
+          properties: productsDB.single[_properties]);
+    } else {
+      product = null;
+    }
+
+    return product;
+  }
 }

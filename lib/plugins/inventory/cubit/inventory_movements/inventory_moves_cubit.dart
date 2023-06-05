@@ -1,7 +1,5 @@
 import 'package:axol_inventarios/models/user_mdoel.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:uuid/uuid.dart';
 
 import '../../../../models/inventory_model.dart';
@@ -71,9 +69,20 @@ class InventoryMovesCubit extends Cubit<InventoryMovesState> {
     emit(EditState(inventoryMoveElements: elements));
   }
 
-  void removeRow(int i) {
-    //state.removeAt(i);
-    emit(state);
+  void removeRow(InventoryMoveElementsModel current, int index) {
+    InventoryMoveElementsModel elements;
+    List<InventoryMoveRowModel> list = current.products;
+    list.removeAt(index);
+    elements = InventoryMoveElementsModel(
+      products: list,
+      concept: current.concept,
+      date: current.date,
+      document: current.document,
+      concepts: current.concepts,
+      invTransfer: current.invTransfer,
+    );
+    emit(EditInitialState());
+    emit(EditState(inventoryMoveElements: elements));
   }
 
   Future<void> editCode(int i, String currentCode, String inventoryName,
@@ -361,9 +370,5 @@ class InventoryMovesCubit extends Cubit<InventoryMovesState> {
         invTransfer: inventory2);
     emit(EditInitialState());
     emit(EditState(inventoryMoveElements: newElement));
-  }
-
-  Future<void> openProductDetails() async {
-    //Emitr estado para abrir detelles del producto y enviar InventoryRowModel.
   }
 }

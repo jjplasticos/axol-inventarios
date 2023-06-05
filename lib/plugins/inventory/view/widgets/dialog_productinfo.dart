@@ -96,6 +96,13 @@ class DialogProductInfo extends StatelessWidget {
                             .toString())
                       ],
                     ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        const Text('Stock: '),
+                        Text(inventoryRow.stock.toString())
+                      ],
+                    ),
                   ]),
                 ),
                 TextButton(

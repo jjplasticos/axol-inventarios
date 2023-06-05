@@ -8,8 +8,10 @@ import '../../../../../models/movement_transfer_model.dart';
 import '../../../../../settings/theme.dart';
 import '../../../cubit/inventory_load/inventory_load_cubit.dart';
 import '../../../cubit/inventory_movements/inventory_moves_cubit.dart';
+import '../../../cubit/show_details_product_stock/showdetails_productstock_cubit.dart';
 import '../../../cubit/transfer_cubit.dart';
 import '../../../cubit/textfield_finder_invrow_cubit.dart';
+import '../../controllers/opendetails_productstock_controller.dart';
 import '../dialog_productinfo.dart';
 import 'dialog_serch_product.dart';
 
@@ -128,51 +130,54 @@ class ListviewInventoryMovement extends StatelessWidget {
         ),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: [
+          children: const [
             Expanded(
               flex: 1,
-              child: OutlinedButton(
-                  onPressed: () {},
-                  child: const Text(
-                    'Clave',
-                    style: Typo.labelText1,
-                  )),
+              child: Center(
+                  child: Text(
+                'Clave',
+                style: Typo.labelText1,
+              )),
             ),
             Expanded(
               flex: 2,
-              child: OutlinedButton(
-                  onPressed: () {},
-                  child: const Text(
-                    'Descripción',
-                    style: Typo.labelText1,
-                  )),
+              child: Center(
+                  child: Text(
+                'Descripción',
+                style: Typo.labelText1,
+              )),
             ),
             Expanded(
               flex: 1,
-              child: OutlinedButton(
-                  onPressed: () {},
-                  child: const Text(
-                    'Cantidad',
-                    style: Typo.labelText1,
-                  )),
+              child: Center(
+                  child: Text(
+                'Cantidad',
+                style: Typo.labelText1,
+              )),
             ),
             Expanded(
               flex: 1,
-              child: OutlinedButton(
-                  onPressed: () {},
-                  child: const Text(
-                    'Peso unitario',
-                    style: Typo.labelText1,
-                  )),
+              child: Center(
+                  child: Text(
+                'Peso unitario',
+                style: Typo.labelText1,
+              )),
             ),
             Expanded(
               flex: 1,
-              child: OutlinedButton(
-                  onPressed: () {},
-                  child: const Text(
-                    'Peso total',
-                    style: Typo.labelText1,
-                  )),
+              child: Center(
+                  child: Text(
+                'Peso total',
+                style: Typo.labelText1,
+              )),
+            ),
+            Expanded(
+              flex: 1,
+              child: Center(
+                  child: Text(
+                '',
+                style: Typo.labelText1,
+              )),
             ),
           ],
         ),
@@ -254,20 +259,24 @@ class ListviewInventoryMovement extends StatelessWidget {
                   Expanded(
                     flex: 2,
                     child: Center(
-                        child: TextButton(
-                      onPressed:
-                          () {} /*=> showDialog(
-                          context: context,
-                          builder: (BuildContext context) {
-                            InventoryRowModel inventoryRowModel;
-                            ProductModel productModel;
-
-                            return DialogProductInfo(inventoryRow: );
-                          })*/
-                      ,
-                      child:
-                          Text(elementList.description, style: Typo.labelText1),
-                    )),
+                        child: elementList.description != ''
+                            ? TextButton(
+                                onPressed: () => showDialog(
+                                    context: context,
+                                    builder: (BuildContext context) =>
+                                        BlocProvider(
+                                          create: (_) =>
+                                              ShowDetailsProductStockCubit(),
+                                          child:
+                                              OpenDetailsProductStockController(
+                                            code: elementList.code,
+                                            inventoryName: inventoryName,
+                                          ),
+                                        )),
+                                child: Text(elementList.description,
+                                    style: Typo.labelText1),
+                              )
+                            : const Text('')),
                   ),
                   //3) Cantidad
                   Expanded(
@@ -311,6 +320,24 @@ class ListviewInventoryMovement extends StatelessWidget {
                       child: Text(
                         elementList.weightTotal.toStringAsFixed(2),
                         style: Typo.labelText1,
+                      ),
+                    ),
+                  ),
+                  //6) Eliminar fila
+                  Expanded(
+                    flex: 1,
+                    child: Center(
+                      child: IconButton(
+                        onPressed: () {
+                          context
+                              .read<InventoryMovesCubit>()
+                              .removeRow(elementsData, index);
+                        },
+                        icon: const Icon(
+                          Icons.delete,
+                          size: 15,
+                          color: Colors.white,
+                        ),
                       ),
                     ),
                   ),
