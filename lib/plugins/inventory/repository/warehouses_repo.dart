@@ -36,14 +36,32 @@ class WarehousesRepo {
         .eq(_name, name);
     if (warehouses.length == 1) {
       warehouse = WarehouseModel(
-        id: warehouses.single[_id],
-        name: warehouses.single[_name],
-        retailManager: warehouses.single[_retailManager],
+        id: warehouses.single[_id].toString(),
+        name: warehouses.single[_name].toString(),
+        retailManager: warehouses.single[_retailManager].toString(),
       );
     } else {
       warehouse = null;
     }
     return warehouse;
+  }
+
+  Future<List<WarehouseModel>> fetchAllWarehouses() async {
+    List<WarehouseModel> warehouses = [];
+    WarehouseModel warehouse;
+    List<Map<String, dynamic>> warehousesDB = [];
+    warehousesDB =
+        await _supabase.from(_table).select<List<Map<String, dynamic>>>();
+    if (warehousesDB.isNotEmpty) {
+      for (var element in warehousesDB) {
+        warehouse = WarehouseModel(
+            id: element[_id].toString(),
+            name: element[_name].toString(),
+            retailManager: element[_retailManager].toString());
+        warehouses.add(warehouse);
+      }
+    }
+    return warehouses;
   }
 
   Future<void> insertWarehouse(WarehouseModel warehouse) async {

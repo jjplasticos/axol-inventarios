@@ -1,6 +1,7 @@
 import 'package:axol_inventarios/models/warehouse_model.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:uuid/uuid.dart';
 
 import '../../repository/warehouses_repo.dart';
 import 'warehouse_setting_state.dart';
@@ -8,10 +9,10 @@ import 'warehouse_setting_state.dart';
 class WarehouseSettingCubit extends Cubit<WarehouseSettingState> {
   WarehouseSettingCubit() : super(InitialState());
 
-  Future<void> change(String? userSelected) async {
+  Future<void> change(String? userSelected, String currentName) async {
     try {
       emit(InitialState());
-      emit(EditState(userSelected: userSelected));
+      emit(EditState(userSelected: userSelected, currentName: currentName));
     } catch (e) {
       emit(ErrorState(error: e.toString()));
     }
@@ -24,14 +25,16 @@ class WarehouseSettingCubit extends Cubit<WarehouseSettingState> {
       emit(InitialState());
       emit(LoadingState());
       warehouseDB = await WarehousesRepo().fetchWarehouse(name);
-      if (warehouseDB != null) {
+      if (warehouseDB == null) {
         warehouse = WarehouseModel(
-            id: warehouseDB.id, name: name, retailManager: retailManager);
+            id: const Uuid().v4(), name: name, retailManager: retailManager);
         await WarehousesRepo().insertWarehouse(warehouse);
       } else {
-        if (kDebugMode) {
-          print('warehouseDB == null');
-        }
+        emit(EditState(
+            userSelected: name,
+            currentName: retailManager,
+            error: true,
+            message: 'El nombre de inventario ya existe'));
       }
       emit(LoadedState());
     } catch (e) {

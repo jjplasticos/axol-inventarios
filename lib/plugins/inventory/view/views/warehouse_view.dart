@@ -6,6 +6,7 @@ import '../../../../global_widgets/plugins_bar.dart';
 import '../../../../global_widgets/toolbar.dart';
 import '../../../../global_widgets/views_bar.dart';
 import '../../../../models/elemnets_bar_model.dart';
+import '../../../../models/user_mdoel.dart';
 import '../../../../settings/theme.dart';
 import '../../../user/view/views/home_view.dart';
 import '../../cubit/inventory_load/inventory_load_cubit.dart';
@@ -18,7 +19,9 @@ import 'warehouse_menu_view.dart';
 
 class WarehouseView extends StatelessWidget {
   final String warehouseName;
-  const WarehouseView({super.key, required this.warehouseName});
+  final List<UserModel> users;
+  const WarehouseView(
+      {super.key, required this.warehouseName, required this.users});
 
   @override
   Widget build(BuildContext context) {

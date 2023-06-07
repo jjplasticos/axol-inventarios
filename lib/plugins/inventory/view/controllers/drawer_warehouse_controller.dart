@@ -11,34 +11,53 @@ class DrawerWarehouseController extends StatelessWidget {
   final List<UserModel> users;
   final int settingMode;
   final WarehouseModel? currentWarehouse;
+  final double widthDrawer;
 
   const DrawerWarehouseController(
       {super.key,
       required this.users,
       required this.settingMode,
-      this.currentWarehouse});
+      this.currentWarehouse,
+      required this.widthDrawer});
 
   @override
   Widget build(BuildContext context) {
     String? userSelect;
+    String currentName = '';
     if (settingMode == 0) {
       //add mode
       userSelect = null;
+      currentName = '';
     } else if (settingMode == 1) {
       //edit mode
       userSelect = currentWarehouse!.retailManager;
+      currentName = currentWarehouse!.name;
     }
     return BlocConsumer<WarehouseSettingCubit, WarehouseSettingState>(
-      bloc: context.read<WarehouseSettingCubit>()..change(userSelect),
+      bloc: context.read<WarehouseSettingCubit>()
+        ..change(userSelect, currentName),
       builder: (context, state) {
         if (state is LoadingState) {
-          return const LinearProgressIndicator();
+          return Drawer(
+            width: widthDrawer,
+            child: Column(
+              children: [
+                const SizedBox(
+                  height: 5,
+                  child: LinearProgressIndicator(),
+                ),
+                Expanded(child: Container()),
+              ],
+            ),
+          );
         } else if (state is EditState) {
           return DrawerWarehouse(
             users: users,
             settingMode: settingMode,
             userSelected: state.userSelected,
             currentWarehouse: currentWarehouse,
+            currentName: state.currentName,
+            widthDrawer: widthDrawer,
           );
         } else {
           return Container();
@@ -47,6 +66,23 @@ class DrawerWarehouseController extends StatelessWidget {
       listener: (context, state) {
         if (state is LoadedState) {
           Navigator.pop(context);
+        }
+        if (state is EditState) {
+          if (state.error == true) {
+            showDialog(
+              context: context,
+              builder: (context) => AlertDialog(
+                content: Text(state.message!),
+                actions: [
+                  TextButton(
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
+                      child: const Text('Aceptar'))
+                ],
+              ),
+            );
+          }
         }
       },
     );

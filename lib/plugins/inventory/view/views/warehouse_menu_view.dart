@@ -8,7 +8,6 @@ import '../../../../global_widgets/views_bar.dart';
 import '../../../../models/elemnets_bar_model.dart';
 import '../../../../settings/theme.dart';
 import '../../../user/view/views/home_view.dart';
-import '../../cubit/drawer_inventory_cubit.dart';
 import '../../cubit/warehouse_setting/warehouse_setting_cubit.dart';
 import '../../cubit/warehouses_load/warehouses_load_cubit.dart';
 import '../controllers/drawer_warehouse_controller.dart';
@@ -20,12 +19,8 @@ class WarehouseMenuView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     const String title = 'Menú de almacenes';
-    return MultiBlocProvider(
-        providers: [
-          BlocProvider(create: (_) => WarehousesLoadCubit()),
-          //BlocProvider(create: (_) => DrawerInventoryCubit()),
-          //BlocProvider(create: (_) => WarehouseSettingCubit()),
-        ],
+    return BlocProvider(
+        create: (_) => WarehousesLoadCubit(),
         child: Scaffold(
           backgroundColor: ColorPalette.primaryBackground,
           appBar: const PreferredSize(
@@ -36,12 +31,6 @@ class WarehouseMenuView extends StatelessWidget {
               iconActions: [],
             ),
           ),
-          /*drawer: state == 1
-                  ? const Drawer(
-                      key: Key('keyDrawer'),
-                      child: Text('Un drawer abiert'),
-                    )
-                  : null,*/
           body: SizedBox(
             height: double.infinity,
             width: double.infinity,
@@ -89,87 +78,9 @@ class WarehouseMenuView extends StatelessWidget {
                 const Expanded(
                   child: ListviewWHMenuController(),
                 ),
-                Toolbar(
-                  listData: [
-                    ElementsBarModel(
-                        text: null,
-                        icon: const Icon(Icons.add),
-                        action: () {
-                          showDialog(
-                              context: context,
-                              builder: (context) => BlocProvider(
-                                  create: (_) => WarehouseSettingCubit(),
-                                  child: Row(
-                                    children: [
-                                      Expanded(
-                                          child: Container(
-                                        color: Colors.black26,
-                                      )),
-                                      const DrawerWarehouseController(
-                                        settingMode: 0,
-                                        users: [],
-                                      ),
-                                    ],
-                                  )));
-                          /*context
-                                    .read<DrawerInventoryCubit>()
-                                    .openDrawer();*/
-                        }),
-                    ElementsBarModel(
-                      text: null,
-                      icon: const Icon(Icons.edit_square),
-                      action: () {},
-                    ),
-                    ElementsBarModel(
-                      text: null,
-                      icon: const Icon(Icons.delete),
-                      action: () {},
-                    )
-                  ],
-                ),
               ],
             ),
           ),
         ));
   }
 }
-
-/*class WarehouseMenuBuilder extends StatelessWidget {
-  final String title;
-
-  const WarehouseMenuBuilder({super.key, required this.title});
-
-  @override
-  Widget build(BuildContext context) {
-    return BlocBuilder<DrawerInventoryCubit, bool>(
-      bloc: context.read<DrawerInventoryCubit>()..closeDrawer(),
-      builder: (context, state) {
-        return Stack(
-          children: [
-            
-            if (state)
-              Row(
-                children: [
-                  Expanded(
-                      child: Container(
-                    color: Colors.black26,
-                  )),
-                  DrawerWarehouseController(
-                    settingMode: 0,
-                    users: [],
-                    //back: context.read<DrawerInventoryCubit>(),
-                  ),
-                  /*Drawer(
-                    width: 300,
-                    child: OutlinedButton(child: Text('Regresar'), onPressed: (){
-                      context.read<DrawerInventoryCubit>().closeDrawer();
-                    }),
-                  )*/
-                ],
-              )
-          ],
-        );
-      },
-    );
-  }
-}*/

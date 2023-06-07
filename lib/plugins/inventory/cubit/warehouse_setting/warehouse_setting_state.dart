@@ -11,9 +11,16 @@ class InitialState extends WarehouseSettingState {
 
 class EditState extends WarehouseSettingState {
   final String? userSelected;
-  const EditState({required this.userSelected});
+  final String currentName;
+  final bool? error;
+  final String? message;
+  const EditState(
+      {required this.userSelected,
+      required this.currentName,
+      this.error,
+      this.message});
   @override
-  List<Object?> get props => [userSelected];
+  List<Object?> get props => [userSelected, currentName, error, message];
 }
 
 class LoadingState extends WarehouseSettingState {

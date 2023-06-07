@@ -348,7 +348,8 @@ class InventoryMovesCubit extends Cubit<InventoryMovesState> {
         emit(SaveLoadingState(inventoryMoveElements: current));
         await InventoryRepo().updateInventory(movements);
         await MovementRepo().insertMovemets(movements);
-        emit(SaveLoadedState());
+        final List<UserModel> users = await DatabaseUser().fetchAllUsers();
+        emit(SaveLoadedState(users: users));
       } else {
         emit(SaveInitialState());
         emit(SaveErrorState(

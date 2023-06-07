@@ -24,6 +24,7 @@ class InventoryMovesController extends StatelessWidget {
               MaterialPageRoute(
                   builder: (context) => WarehouseView(
                         warehouseName: inventoryName,
+                        users: state.users,
                       )));
         } else if (state is SaveErrorState) {
           showDialog(

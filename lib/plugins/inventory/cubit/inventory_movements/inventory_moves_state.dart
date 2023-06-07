@@ -1,6 +1,7 @@
 import 'package:equatable/equatable.dart';
 
 import '../../../../models/inventory_move_elements_model.dart';
+import '../../../../models/user_mdoel.dart';
 
 abstract class InventoryMovesState extends Equatable {
   const InventoryMovesState();
@@ -31,8 +32,10 @@ class SaveLoadingState extends InventoryMovesState {
 }
 
 class SaveLoadedState extends InventoryMovesState {
+  final List<UserModel> users;
+  const SaveLoadedState({required this.users});
   @override
-  List<Object?> get props => [];
+  List<Object?> get props => [users];
 }
 
 class SaveErrorState extends InventoryMovesState {

@@ -1,4 +1,7 @@
+import 'package:axol_inventarios/models/warehouse_model.dart';
 import 'package:equatable/equatable.dart';
+
+import '../../../../models/user_mdoel.dart';
 
 abstract class WarehousesLoadState extends Equatable {
   const WarehousesLoadState();
@@ -15,12 +18,13 @@ class LoadingState extends WarehousesLoadState {
 }
 
 class LoadedState extends WarehousesLoadState {
-  final List<String> names;
+  final List<WarehouseModel> warehouses;
+  final List<UserModel> users;
 
-  const LoadedState({required this.names});
+  const LoadedState({required this.warehouses, required this.users});
 
   @override
-  List<Object?> get props => [names];
+  List<Object?> get props => [warehouses, users];
 }
 
 class ErrorState extends WarehousesLoadState {

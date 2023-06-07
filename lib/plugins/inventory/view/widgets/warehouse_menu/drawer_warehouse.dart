@@ -10,13 +10,17 @@ class DrawerWarehouse extends StatelessWidget {
   final int settingMode;
   final WarehouseModel? currentWarehouse;
   final String? userSelected;
+  final String currentName;
+  final double widthDrawer;
 
   const DrawerWarehouse(
       {super.key,
       required this.users,
       required this.settingMode,
       this.currentWarehouse,
-      this.userSelected});
+      this.userSelected,
+      required this.currentName,
+      required this.widthDrawer});
 
   @override
   Widget build(BuildContext context) {
@@ -24,16 +28,19 @@ class DrawerWarehouse extends StatelessWidget {
     TextEditingController textController = TextEditingController();
     if (settingMode == 0) {
       //Add mode
+      textController.value = TextEditingValue(
+          text: currentName,
+          selection: TextSelection.collapsed(offset: currentName.length));
     } else if (settingMode == 1) {
       //Edit mode
       textController.text = currentWarehouse!.name;
     }
     return Drawer(
-      width: 500,
+      width: widthDrawer,
       child: Padding(
         padding: const EdgeInsets.all(8),
         child: Column(children: [
-          Center(
+          const Center(
             child: Text('Titulo de drawer'),
           ),
           Expanded(
@@ -45,12 +52,15 @@ class DrawerWarehouse extends StatelessWidget {
                     const Text('Nombre de almacén'),
                     SizedBox(
                       width: 250,
-                      height: 50,
+                      height: 40,
                       child: TextField(
                         controller: textController,
                         onChanged: (value) {
-                          textController.text = value;
+                          context
+                              .read<WarehouseSettingCubit>()
+                              .change(userSelected, value);
                         },
+                        onSubmitted: (value) {},
                       ),
                     ),
                   ],
@@ -60,16 +70,23 @@ class DrawerWarehouse extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     const Text('Encargado de almacén'),
-                    DropdownButton<String>(
-                      value: userSelected,
-                      items: users.map((element) {
-                        return DropdownMenuItem<String>(
-                            value: element.name, child: Text(element.name));
-                      }).toList(),
-                      onChanged: (value) {
-                        context.read<WarehouseSettingCubit>().change(value);
-                      },
-                    ),
+                    SizedBox(
+                      width: 250,
+                      height: 40,
+                      child: DropdownButton<String>(
+                        isExpanded: true,
+                        value: userSelected,
+                        items: users.map((element) {
+                          return DropdownMenuItem<String>(
+                              value: element.name, child: Text(element.name));
+                        }).toList(),
+                        onChanged: (value) {
+                          context
+                              .read<WarehouseSettingCubit>()
+                              .change(value, currentName);
+                        },
+                      ),
+                    )
                   ],
                 ),
               ],
@@ -88,13 +105,13 @@ class DrawerWarehouse extends StatelessWidget {
                 onPressed: () {
                   if (settingMode == 0) {
                     //add mode
-                    if (userSelected == null) {
+                    if (userSelected == null && currentName == '') {
                       showDialog(
                         context: context,
                         builder: (context) => AlertDialog(
                           title: const Text('Alerta!'),
-                          content:
-                              const Text('Seleccione un encargado de almacén'),
+                          content: const Text(
+                              'Seleccione un encargado de almacén y llene el campo de nombre'),
                           actions: [
                             TextButton(
                                 onPressed: () {
@@ -107,7 +124,7 @@ class DrawerWarehouse extends StatelessWidget {
                     } else {
                       context
                           .read<WarehouseSettingCubit>()
-                          .add(textController.text, userSelected!);
+                          .add(currentName, userSelected!);
                     }
                   } else if (settingMode == 1) {
                     //edit mode
