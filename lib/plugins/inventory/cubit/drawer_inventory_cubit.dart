@@ -1,13 +1,13 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class DrawerInventoryCubit extends Cubit<int> {
-  DrawerInventoryCubit() : super(-1);
+class DrawerInventoryCubit extends Cubit<bool> {
+  DrawerInventoryCubit() : super(false);
 
   void openDrawer() {
-    emit(1);
+    emit(true);
   }
 
   void closeDrawer() {
-    emit(0);
+    emit(false);
   }
 }

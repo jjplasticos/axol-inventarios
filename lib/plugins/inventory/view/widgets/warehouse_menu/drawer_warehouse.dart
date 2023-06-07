@@ -28,84 +28,101 @@ class DrawerWarehouse extends StatelessWidget {
       //Edit mode
       textController.text = currentWarehouse!.name;
     }
-    return Padding(
-      padding: const EdgeInsets.all(8),
-      child: Column(children: [
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: [
-            const Text('Nombre de almacén'),
-            TextField(
-              controller: textController,
-              onChanged: (value) {
-                textController.text = value;
-              },
-            ),
-          ],
-        ),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: [
-            const Text('Encargado de almacén'),
-            DropdownButton<String>(
-              value: userSelected,
-              items: users.map((element) {
-                return DropdownMenuItem<String>(
-                    value: element.name, child: Text(element.name));
-              }).toList(),
-              onChanged: (value) {
-                context.read<WarehouseSettingCubit>().change(value);
-              },
-            ),
-          ],
-        ),
-        Row(
-          children: [
-            OutlinedButton(
-              onPressed: () {
-                Navigator.canPop(context);
-              },
-              child: const Text('Cancelar'),
-            ),
-            OutlinedButton(
-              onPressed: () {
-                if (settingMode == 0) {
-                  //add mode
-                  if (userSelected == null) {
-                    showDialog(
-                      context: context,
-                      builder: (context) => AlertDialog(
-                        title: const Text('Alerta!'),
-                        content:
-                            const Text('Seleccione un encargado de almacén'),
-                        actions: [
-                          TextButton(
-                              onPressed: () {
-                                Navigator.pop(context);
-                              },
-                              child: const Text('Aceptar'))
-                        ],
+    return Drawer(
+      width: 500,
+      child: Padding(
+        padding: const EdgeInsets.all(8),
+        child: Column(children: [
+          Center(
+            child: Text('Titulo de drawer'),
+          ),
+          Expanded(
+            child: ListView(
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    const Text('Nombre de almacén'),
+                    SizedBox(
+                      width: 250,
+                      height: 50,
+                      child: TextField(
+                        controller: textController,
+                        onChanged: (value) {
+                          textController.text = value;
+                        },
                       ),
-                    );
-                  } else {
-                    context
-                        .read<WarehouseSettingCubit>()
-                        .add(textController.text, userSelected!);
-                  }
-                } else if (settingMode == 1) {
-                  //edit mode
-                  warehouseEdited = WarehouseModel(
-                      id: currentWarehouse!.id,
-                      name: textController.text,
-                      retailManager: userSelected!);
-                  context.read<WarehouseSettingCubit>().edit(warehouseEdited);
-                }
-              },
-              child: const Text('Guardar'),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 20),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    const Text('Encargado de almacén'),
+                    DropdownButton<String>(
+                      value: userSelected,
+                      items: users.map((element) {
+                        return DropdownMenuItem<String>(
+                            value: element.name, child: Text(element.name));
+                      }).toList(),
+                      onChanged: (value) {
+                        context.read<WarehouseSettingCubit>().change(value);
+                      },
+                    ),
+                  ],
+                ),
+              ],
             ),
-          ],
-        ),
-      ]),
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              OutlinedButton(
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+                child: const Text('Cancelar'),
+              ),
+              OutlinedButton(
+                onPressed: () {
+                  if (settingMode == 0) {
+                    //add mode
+                    if (userSelected == null) {
+                      showDialog(
+                        context: context,
+                        builder: (context) => AlertDialog(
+                          title: const Text('Alerta!'),
+                          content:
+                              const Text('Seleccione un encargado de almacén'),
+                          actions: [
+                            TextButton(
+                                onPressed: () {
+                                  Navigator.pop(context);
+                                },
+                                child: const Text('Aceptar'))
+                          ],
+                        ),
+                      );
+                    } else {
+                      context
+                          .read<WarehouseSettingCubit>()
+                          .add(textController.text, userSelected!);
+                    }
+                  } else if (settingMode == 1) {
+                    //edit mode
+                    warehouseEdited = WarehouseModel(
+                        id: currentWarehouse!.id,
+                        name: textController.text,
+                        retailManager: userSelected!);
+                  }
+                },
+                child: const Text('Guardar'),
+              ),
+            ],
+          ),
+        ]),
+      ),
     );
   }
 }
