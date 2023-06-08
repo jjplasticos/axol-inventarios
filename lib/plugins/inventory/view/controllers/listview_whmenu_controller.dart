@@ -15,11 +15,18 @@ class ListviewWHMenuController extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<WarehousesLoadCubit, WarehousesLoadState>(
-      bloc: BlocProvider.of<WarehousesLoadCubit>(context)..loadWarehouses(),
+      bloc: BlocProvider.of<WarehousesLoadCubit>(context)..loadWarehouses(0),
       builder: (context, state) {
         if (state is LoadingState) {
           return const LinearProgressIndicator();
         } else if (state is LoadedState) {
+          Color? colorEdit;
+          Color? colorDelete;
+          if (state.mode == 1) {
+            colorEdit = Colors.white;
+          } else if (state.mode == 2) {
+            colorDelete = Colors.white;
+          }
           return Row(
             children: [
               Expanded(
@@ -28,6 +35,7 @@ class ListviewWHMenuController extends StatelessWidget {
                   child: ListviewWarehouseMenu(
                     listData: state.warehouses,
                     users: state.users,
+                    mode: state.mode,
                   ),
                 ),
               ),
@@ -53,18 +61,48 @@ class ListviewWHMenuController extends StatelessWidget {
                                       widthDrawer: 500,
                                     ),
                                   ],
-                                )));
+                                ))).then((value) {
+                          context.read<WarehousesLoadCubit>().loadWarehouses(0);
+                        });
                       }),
                   ElementsBarModel(
                     text: null,
                     icon: const Icon(Icons.edit_square),
-                    action: () {},
+                    action: () {
+                      if (state.mode == 1) {
+                        context
+                            .read<WarehousesLoadCubit>()
+                            .reload(0, state.users, state.warehouses);
+                      } else {
+                        context
+                            .read<WarehousesLoadCubit>()
+                            .reload(1, state.users, state.warehouses);
+                      }
+                    },
+                    secondaryColor: colorEdit,
                   ),
                   ElementsBarModel(
                     text: null,
                     icon: const Icon(Icons.delete),
-                    action: () {},
-                  )
+                    action: () {
+                      if (state.mode == 2) {
+                        context
+                            .read<WarehousesLoadCubit>()
+                            .reload(0, state.users, state.warehouses);
+                      } else {
+                        context
+                            .read<WarehousesLoadCubit>()
+                            .reload(2, state.users, state.warehouses);
+                      }
+                    },
+                    secondaryColor: colorDelete,
+                  ),
+                  ElementsBarModel(
+                    icon: const Icon(Icons.refresh),
+                    action: () {
+                      context.read<WarehousesLoadCubit>().loadWarehouses(0);
+                    },
+                  ),
                 ],
               ),
             ],

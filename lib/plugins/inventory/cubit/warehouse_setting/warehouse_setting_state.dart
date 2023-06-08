@@ -12,13 +12,15 @@ class InitialState extends WarehouseSettingState {
 class EditState extends WarehouseSettingState {
   final String? userSelected;
   final String currentName;
+  final int txtPosition;
   final bool? error;
   final String? message;
   const EditState(
       {required this.userSelected,
       required this.currentName,
       this.error,
-      this.message});
+      this.message,
+      required this.txtPosition});
   @override
   List<Object?> get props => [userSelected, currentName, error, message];
 }
@@ -29,6 +31,21 @@ class LoadingState extends WarehouseSettingState {
 }
 
 class LoadedState extends WarehouseSettingState {
+  @override
+  List<Object?> get props => [];
+}
+
+class RemoveAlertState extends WarehouseSettingState {
+  @override
+  List<Object?> get props => [];
+}
+
+class RemoveLoadingState extends WarehouseSettingState {
+  @override
+  List<Object?> get props => [];
+}
+
+class RemoveLoadedState extends WarehouseSettingState {
   @override
   List<Object?> get props => [];
 }

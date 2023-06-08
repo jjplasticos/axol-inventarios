@@ -18,12 +18,18 @@ class Toolbar extends StatelessWidget {
         itemCount: listData.length,
         itemBuilder: ((context, index) {
           final elementList = listData[index];
+          final Color color;
+          if (elementList.secondaryColor != null) {
+            color = elementList.secondaryColor!;
+          } else {
+            color = Colors.white54;
+          }
           return Padding(
               padding: const EdgeInsetsDirectional.fromSTEB(8, 0, 8, 8),
               child: IconButton(
                 onPressed: elementList.action,
                 icon: elementList.icon!,
-                color: Colors.white54,
+                color: color,
               ));
         }),
       ),

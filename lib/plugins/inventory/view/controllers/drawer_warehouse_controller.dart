@@ -32,10 +32,13 @@ class DrawerWarehouseController extends StatelessWidget {
       //edit mode
       userSelect = currentWarehouse!.retailManager;
       currentName = currentWarehouse!.name;
+      if (userSelect == '') {
+        userSelect = null;
+      }
     }
     return BlocConsumer<WarehouseSettingCubit, WarehouseSettingState>(
       bloc: context.read<WarehouseSettingCubit>()
-        ..change(userSelect, currentName),
+        ..change(userSelect, currentName, 0),
       builder: (context, state) {
         if (state is LoadingState) {
           return Drawer(
@@ -58,6 +61,7 @@ class DrawerWarehouseController extends StatelessWidget {
             currentWarehouse: currentWarehouse,
             currentName: state.currentName,
             widthDrawer: widthDrawer,
+            txtPosition: state.txtPosition,
           );
         } else {
           return Container();
@@ -83,6 +87,9 @@ class DrawerWarehouseController extends StatelessWidget {
               ),
             );
           }
+        }
+        if (state is RemoveLoadedState) {
+          print('RemoveLoadedState');
         }
       },
     );

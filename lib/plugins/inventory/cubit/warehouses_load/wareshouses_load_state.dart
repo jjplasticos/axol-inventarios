@@ -20,8 +20,10 @@ class LoadingState extends WarehousesLoadState {
 class LoadedState extends WarehousesLoadState {
   final List<WarehouseModel> warehouses;
   final List<UserModel> users;
+  final int mode;
 
-  const LoadedState({required this.warehouses, required this.users});
+  const LoadedState(
+      {required this.warehouses, required this.users, required this.mode});
 
   @override
   List<Object?> get props => [warehouses, users];

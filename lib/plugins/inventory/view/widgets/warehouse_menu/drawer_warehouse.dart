@@ -12,6 +12,7 @@ class DrawerWarehouse extends StatelessWidget {
   final String? userSelected;
   final String currentName;
   final double widthDrawer;
+  final int txtPosition;
 
   const DrawerWarehouse(
       {super.key,
@@ -20,21 +21,26 @@ class DrawerWarehouse extends StatelessWidget {
       this.currentWarehouse,
       this.userSelected,
       required this.currentName,
-      required this.widthDrawer});
+      required this.widthDrawer,
+      required this.txtPosition});
 
   @override
   Widget build(BuildContext context) {
     WarehouseModel warehouseEdited;
     TextEditingController textController = TextEditingController();
-    if (settingMode == 0) {
+    textController.value = TextEditingValue(
+        text: currentName,
+        //selection: TextSelection.collapsed(offset: currentName.length));
+        selection: TextSelection.collapsed(offset: txtPosition));
+    /*if (settingMode == 0) {
       //Add mode
+    } else if (settingMode == 1) {
+      //Edit mode
+      //textController.text = currentWarehouse!.name;
       textController.value = TextEditingValue(
           text: currentName,
           selection: TextSelection.collapsed(offset: currentName.length));
-    } else if (settingMode == 1) {
-      //Edit mode
-      textController.text = currentWarehouse!.name;
-    }
+    }*/
     return Drawer(
       width: widthDrawer,
       child: Padding(
@@ -56,9 +62,10 @@ class DrawerWarehouse extends StatelessWidget {
                       child: TextField(
                         controller: textController,
                         onChanged: (value) {
+                          final x = textController.selection.base.offset;
                           context
                               .read<WarehouseSettingCubit>()
-                              .change(userSelected, value);
+                              .change(userSelected, value, x);
                         },
                         onSubmitted: (value) {},
                       ),
@@ -83,7 +90,7 @@ class DrawerWarehouse extends StatelessWidget {
                         onChanged: (value) {
                           context
                               .read<WarehouseSettingCubit>()
-                              .change(value, currentName);
+                              .change(value, currentName, txtPosition);
                         },
                       ),
                     )
@@ -105,7 +112,7 @@ class DrawerWarehouse extends StatelessWidget {
                 onPressed: () {
                   if (settingMode == 0) {
                     //add mode
-                    if (userSelected == null && currentName == '') {
+                    if (userSelected == null || currentName == '') {
                       showDialog(
                         context: context,
                         builder: (context) => AlertDialog(
@@ -132,6 +139,27 @@ class DrawerWarehouse extends StatelessWidget {
                         id: currentWarehouse!.id,
                         name: textController.text,
                         retailManager: userSelected!);
+                    if (userSelected == null || currentName == '') {
+                      showDialog(
+                        context: context,
+                        builder: (context) => AlertDialog(
+                          title: const Text('Alerta!'),
+                          content: const Text(
+                              'Seleccione un encargado de almacén y llene el campo de nombre'),
+                          actions: [
+                            TextButton(
+                                onPressed: () {
+                                  Navigator.pop(context);
+                                },
+                                child: const Text('Aceptar'))
+                          ],
+                        ),
+                      );
+                    } else {
+                      context
+                          .read<WarehouseSettingCubit>()
+                          .edit(warehouseEdited);
+                    }
                   }
                 },
                 child: const Text('Guardar'),
