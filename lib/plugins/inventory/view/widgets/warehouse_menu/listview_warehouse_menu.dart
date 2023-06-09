@@ -84,26 +84,11 @@ class ListviewWarehouseMenu extends StatelessWidget {
                       context: context,
                       builder: (context) => BlocProvider(
                           create: (_) => WarehouseSettingCubit(),
-                          child: AlertDialog(
-                            content: const Text(
-                                '¿Estas seguro de elimnar este almacén?'),
-                            actions: [
-                              TextButton(
-                                  onPressed: () {
-                                    Navigator.pop(context);
-                                  },
-                                  child: const Text('Cancelar')),
-                              TextButton(
-                                onPressed: () {
-                                  Navigator.pop(context);
-                                  context
-                                      .read<WarehouseSettingCubit>()
-                                      .remove(elementList.id);
-                                  //CallRemove().call(context, elementList);
-                                },
-                                child: const Text('Aceptar'),
-                              )
-                            ],
+                          child: DrawerWarehouseController(
+                            settingMode: 3,
+                            users: users,
+                            widthDrawer: 0,
+                            currentWarehouse: elementList,
                           )),
                     ).then((value) {
                       context.read<WarehousesLoadCubit>().loadWarehouses(0);

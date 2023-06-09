@@ -1,9 +1,7 @@
-import 'package:axol_inventarios/models/product_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../../models/inventory_move_elements_model.dart';
-import '../../../../../models/inventory_row_model.dart';
 import '../../../../../models/movement_transfer_model.dart';
 import '../../../../../settings/theme.dart';
 import '../../../cubit/inventory_load/inventory_load_cubit.dart';
@@ -12,7 +10,6 @@ import '../../../cubit/show_details_product_stock/showdetails_productstock_cubit
 import '../../../cubit/transfer_cubit.dart';
 import '../../../cubit/textfield_finder_invrow_cubit.dart';
 import '../../controllers/opendetails_productstock_controller.dart';
-import '../dialog_productinfo.dart';
 import 'dialog_serch_product.dart';
 
 class ListviewInventoryMovement extends StatelessWidget {

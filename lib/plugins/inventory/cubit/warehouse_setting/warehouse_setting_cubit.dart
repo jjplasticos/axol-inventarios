@@ -68,4 +68,13 @@ class WarehouseSettingCubit extends Cubit<WarehouseSettingState> {
       emit(ErrorState(error: e.toString()));
     }
   }
+
+  Future<void> openAlert(String id) async {
+    try {
+      emit(InitialState());
+      emit(RemoveAlertState(id: id));
+    } catch (e) {
+      emit(ErrorState(error: e.toString()));
+    }
+  }
 }

@@ -5,7 +5,7 @@ import 'package:uuid/uuid.dart';
 
 import '../../../models/inventory_model.dart';
 import '../../../models/inventory_row_model.dart';
-import '../../../models/movement_model.dart';
+import '../../movements/model/movement_model.dart';
 import 'product_repo.dart';
 import 'warehouses_repo.dart';
 

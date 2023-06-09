@@ -24,6 +24,8 @@ class DrawerWarehouseController extends StatelessWidget {
   Widget build(BuildContext context) {
     String? userSelect;
     String currentName = '';
+    WarehouseSettingCubit cubit = context.read<WarehouseSettingCubit>()
+      ..change(userSelect, currentName, 0);
     if (settingMode == 0) {
       //add mode
       userSelect = null;
@@ -35,10 +37,13 @@ class DrawerWarehouseController extends StatelessWidget {
       if (userSelect == '') {
         userSelect = null;
       }
+    } else if (settingMode == 3) {
+      //remove mode
+      cubit = context.read<WarehouseSettingCubit>()
+        ..openAlert(currentWarehouse!.id);
     }
     return BlocConsumer<WarehouseSettingCubit, WarehouseSettingState>(
-      bloc: context.read<WarehouseSettingCubit>()
-        ..change(userSelect, currentName, 0),
+      bloc: cubit,
       builder: (context, state) {
         if (state is LoadingState) {
           return Drawer(
@@ -62,6 +67,28 @@ class DrawerWarehouseController extends StatelessWidget {
             currentName: state.currentName,
             widthDrawer: widthDrawer,
             txtPosition: state.txtPosition,
+          );
+        } else if (state is RemoveAlertState) {
+          return AlertDialog(
+            content: const Text('¿Desea elimnar este almacén?'),
+            actions: [
+              TextButton(
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                  child: const Text('Cancelar')),
+              TextButton(
+                onPressed: () {
+                  context.read<WarehouseSettingCubit>().remove(state.id);
+                },
+                child: const Text('Aceptar'),
+              )
+            ],
+          );
+        } else if (state is RemoveLoadingState) {
+          return const AlertDialog(
+            content: LinearProgressIndicator(),
+            backgroundColor: Colors.transparent,
           );
         } else {
           return Container();
@@ -89,7 +116,7 @@ class DrawerWarehouseController extends StatelessWidget {
           }
         }
         if (state is RemoveLoadedState) {
-          print('RemoveLoadedState');
+          Navigator.pop(context);
         }
       },
     );

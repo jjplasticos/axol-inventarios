@@ -3,14 +3,12 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../global_widgets/appbar/appbar_global.dart';
 import '../../../../global_widgets/plugins_bar.dart';
-import '../../../../global_widgets/toolbar.dart';
 import '../../../../global_widgets/views_bar.dart';
 import '../../../../models/elemnets_bar_model.dart';
 import '../../../../settings/theme.dart';
+import '../../../movements/view/views/movements_view.dart';
 import '../../../user/view/views/home_view.dart';
-import '../../cubit/warehouse_setting/warehouse_setting_cubit.dart';
 import '../../cubit/warehouses_load/warehouses_load_cubit.dart';
-import '../controllers/drawer_warehouse_controller.dart';
 import '../controllers/listview_whmenu_controller.dart';
 
 class WarehouseMenuView extends StatelessWidget {
@@ -68,7 +66,13 @@ class WarehouseMenuView extends StatelessWidget {
                     ElementsBarModel(
                         icon: const Icon(Icons.move_down),
                         text: 'Movimientos',
-                        action: () {}),
+                        action: () {
+                          Navigator.pop(context);
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => const MovementsView()));
+                        }),
                     ElementsBarModel(
                         text: 'Productos',
                         icon: const Icon(Icons.grid_view_sharp),

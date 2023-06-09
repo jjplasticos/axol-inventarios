@@ -6,32 +6,22 @@ import '../../../../global_widgets/plugins_bar.dart';
 import '../../../../global_widgets/toolbar.dart';
 import '../../../../global_widgets/views_bar.dart';
 import '../../../../models/elemnets_bar_model.dart';
-import '../../../../models/user_mdoel.dart';
 import '../../../../settings/theme.dart';
-import '../../../movements/view/views/movements_view.dart';
+import '../../../inventory/cubit/inventory_load/inventory_load_cubit.dart';
+import '../../../inventory/view/views/warehouse_menu_view.dart';
 import '../../../user/view/views/home_view.dart';
-import '../../cubit/inventory_load/inventory_load_cubit.dart';
-import '../../cubit/textfield_finder_invrow_cubit.dart';
-import '../controllers/listview_warehouse_controller.dart';
+import '../widgets/listview_movements.dart';
 
-import '../widgets/textfield_finder_inventoryrow.dart';
-import 'inventory_movement_view.dart';
-import 'warehouse_menu_view.dart';
-
-class WarehouseView extends StatelessWidget {
-  final String warehouseName;
-  final List<UserModel> users;
-  const WarehouseView(
-      {super.key, required this.warehouseName, required this.users});
+class MovementsView extends StatelessWidget {
+  const MovementsView({super.key});
 
   @override
   Widget build(BuildContext context) {
-    const String title = 'View de almacén';
+    const String title = 'View de movimientos';
 
     return MultiBlocProvider(
       providers: [
         BlocProvider(create: (_) => InventoryLoadCubit()),
-        BlocProvider(create: (_) => TextfieldFinderInvrowCubit()),
       ],
       child: Scaffold(
         backgroundColor: ColorPalette.primaryBackground,
@@ -91,13 +81,7 @@ class WarehouseView extends StatelessWidget {
                   ElementsBarModel(
                       icon: const Icon(Icons.move_down),
                       text: 'Movimientos',
-                      action: () {
-                        Navigator.pop(context);
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => const MovementsView()));
-                      }),
+                      action: () {}),
                   ElementsBarModel(
                       text: 'Productos',
                       icon: const Icon(Icons.grid_view_sharp),
@@ -105,43 +89,25 @@ class WarehouseView extends StatelessWidget {
                 ],
               ),
               Expanded(
-                  child: Column(
-                children: [
-                  Row(
-                    children: [
-                      const Text(
-                        'Almacén: ',
-                        style: Typo.bodyText5,
-                      ),
-                      Text(
-                        warehouseName,
-                        style: Typo.bodyText5,
-                      ),
-                      const SizedBox(width: 20),
-                      Expanded(
-                        child: TextfieldFinderInventroyrow(
-                            inventoryName: warehouseName),
-                      )
-                    ],
-                  ),
-                  ListviewWarehouseController(
-                    warehouseName: warehouseName,
-                  ),
-                ],
+                  child: ListviewMovements(
+                movementsList: [],
               )),
               Toolbar(
                 listData: [
                   ElementsBarModel(
                     text: null,
                     icon: const Icon(Icons.add),
-                    action: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => InventoryMovementView(
-                                    inventoryName: warehouseName,
-                                  )));
-                    },
+                    action: () {},
+                  ),
+                  ElementsBarModel(
+                    text: null,
+                    icon: const Icon(Icons.filter_alt),
+                    action: () {},
+                  ),
+                  ElementsBarModel(
+                    text: null,
+                    icon: const Icon(Icons.restart_alt),
+                    action: () {},
                   )
                 ],
               )

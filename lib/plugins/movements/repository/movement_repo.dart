@@ -1,6 +1,6 @@
 import 'package:supabase_flutter/supabase_flutter.dart';
 
-import '../../../models/movement_model.dart';
+import '../model/movement_model.dart';
 
 class MovementRepo {
   //Table

@@ -6,7 +6,7 @@ import '../../../../models/inventory_model.dart';
 import '../../../../models/inventory_move_concept_model.dart';
 import '../../../../models/inventory_move_elements_model.dart';
 import '../../../../models/inventory_move_row_model.dart';
-import '../../../../models/movement_model.dart';
+import '../../../movements/model/movement_model.dart';
 import '../../../movements/repository/movement_repo.dart';
 import '../../../user/repository/user_repo.dart';
 import '../../repository/inventory_concepts_repo.dart';

@@ -36,8 +36,10 @@ class LoadedState extends WarehouseSettingState {
 }
 
 class RemoveAlertState extends WarehouseSettingState {
+  String id;
+  RemoveAlertState({required this.id});
   @override
-  List<Object?> get props => [];
+  List<Object?> get props => [id];
 }
 
 class RemoveLoadingState extends WarehouseSettingState {
