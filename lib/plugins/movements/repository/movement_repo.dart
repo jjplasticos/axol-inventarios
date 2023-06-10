@@ -36,4 +36,36 @@ class MovementRepo {
       });
     }
   }
+
+  Future<List<MovementModel>> fetchMovements(int limit) async {
+    List<MovementModel> movements = [];
+    MovementModel move;
+    List<Map<String, dynamic>> movementsDB = [];
+
+    movementsDB = await _supabase
+        .from(_table)
+        .select<List<Map<String, dynamic>>>()
+        .order(_time, ascending: true)
+        .limit(limit);
+
+    if (movementsDB.isNotEmpty) {
+      for (var element in movementsDB) {
+        move = MovementModel(
+          id: element[_id].toString(),
+          code: element[_code].toString(),
+          concept: element[_concept],
+          conceptType: element[_conceptType],
+          description: element[_description].toString(),
+          document: element[_document].toString(),
+          quantity: element[_quantity],
+          time: element[_time].toString(),
+          warehouse: element[_warehouse].toString(),
+          user: element[_user].toString(),
+        );
+        movements.add(move);
+      }
+    }
+
+    return movements;
+  }
 }

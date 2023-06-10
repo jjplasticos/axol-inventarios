@@ -5,7 +5,7 @@ import 'movements_state.dart';
 class MovementsCuibit extends Cubit<MovementsState> {
   MovementsCuibit() : super(InitialState());
 
-  void change(String text) {
+  void loadList(String text) {
     try {
       emit(InitialState());
       emit(LoadingState());
