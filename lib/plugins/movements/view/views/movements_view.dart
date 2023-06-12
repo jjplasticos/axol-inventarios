@@ -3,14 +3,13 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../global_widgets/appbar/appbar_global.dart';
 import '../../../../global_widgets/plugins_bar.dart';
-import '../../../../global_widgets/toolbar.dart';
 import '../../../../global_widgets/views_bar.dart';
 import '../../../../models/elemnets_bar_model.dart';
 import '../../../../settings/theme.dart';
-import '../../../inventory/cubit/inventory_load/inventory_load_cubit.dart';
 import '../../../inventory/view/views/warehouse_menu_view.dart';
 import '../../../user/view/views/home_view.dart';
-import '../widgets/listview_movements.dart';
+import '../../cubit/movements_view/movements_cubit.dart';
+import '../controllers/listview_movements_controller.dart';
 
 class MovementsView extends StatelessWidget {
   const MovementsView({super.key});
@@ -21,7 +20,7 @@ class MovementsView extends StatelessWidget {
 
     return MultiBlocProvider(
       providers: [
-        BlocProvider(create: (_) => InventoryLoadCubit()),
+        BlocProvider(create: (_) => MovementsCuibit()),
       ],
       child: Scaffold(
         backgroundColor: ColorPalette.primaryBackground,
@@ -88,29 +87,7 @@ class MovementsView extends StatelessWidget {
                       action: () {})
                 ],
               ),
-              Expanded(
-                  child: ListviewMovements(
-                movementsList: [],
-              )),
-              Toolbar(
-                listData: [
-                  ElementsBarModel(
-                    text: null,
-                    icon: const Icon(Icons.add),
-                    action: () {},
-                  ),
-                  ElementsBarModel(
-                    text: null,
-                    icon: const Icon(Icons.filter_alt),
-                    action: () {},
-                  ),
-                  ElementsBarModel(
-                    text: null,
-                    icon: const Icon(Icons.restart_alt),
-                    action: () {},
-                  )
-                ],
-              )
+              const Expanded(child: ListviewMovementsController()),
             ],
           ),
         ),

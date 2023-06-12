@@ -45,7 +45,7 @@ class MovementRepo {
     movementsDB = await _supabase
         .from(_table)
         .select<List<Map<String, dynamic>>>()
-        .order(_time, ascending: true)
+        .order(_time, ascending: false)
         .limit(limit);
 
     if (movementsDB.isNotEmpty) {
