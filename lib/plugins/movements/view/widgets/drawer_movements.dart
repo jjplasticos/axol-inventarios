@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../model/movement_filter_model.dart';
+import 'dropdown_concepts.dart';
 import 'dropdown_warehouses.dart';
 
 class DrawerMovements extends StatelessWidget {
@@ -75,6 +76,17 @@ class DrawerMovements extends StatelessWidget {
                       ],
                     )
                   ]),
+                ],
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  const Text('Concepto:'),
+                  DropdownConcepts(
+                    concepts: filters.conceptsList ?? [],
+                    currenConcept: filters.concept,
+                    filters: filters,
+                  ),
                 ],
               ),
             ],

@@ -1,7 +1,9 @@
 import 'package:axol_inventarios/plugins/inventory/repository/warehouses_repo.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../../models/inventory_move_concept_model.dart';
 import '../../../../models/warehouse_model.dart';
+import '../../../inventory/repository/inventory_concepts_repo.dart';
 import '../../model/movement_filter_model.dart';
 import 'movement_filters_state.dart';
 
@@ -17,6 +19,8 @@ class MovementFiltersCubit extends Cubit<MovementFiltersState> {
         date: currentFilter.date,
         warehouse: warehouse,
         warehousesList: currentFilter.warehousesList,
+        concept: currentFilter.concept,
+        conceptsList: currentFilter.conceptsList,
       );
       emit(LoadedState(movementFilters: movementFilter));
     } catch (e) {
@@ -24,16 +28,27 @@ class MovementFiltersCubit extends Cubit<MovementFiltersState> {
     }
   }
 
-  Future<void> getWarehouses(MovementFilterModel currentFilter) async {
+  Future<void> getInitialValues(MovementFilterModel currentFilter) async {
     List<WarehouseModel> warehouses;
+    List<InventoryMoveConceptModel> concepts;
     MovementFilterModel movementFilter;
     emit(LoadingState());
     warehouses = await WarehousesRepo().fetchAllWarehouses();
+    if (warehouses.last.id != 'all') {
+      warehouses
+          .add(WarehouseModel(id: 'all', name: 'TODOS', retailManager: ''));
+    }
+    concepts = await InventoryConceptsRepo().fetchAllConcepts();
+    if (concepts.last.id != -1) {
+      concepts
+          .add(InventoryMoveConceptModel(concept: 'TODOS', id: -1, type: -1));
+    }
     movementFilter = MovementFilterModel(
-      warehousesList: warehouses,
-      warehouse: currentFilter.warehouse,
-      date: currentFilter.date,
-    );
+        warehousesList: warehouses,
+        warehouse: currentFilter.warehouse,
+        date: currentFilter.date,
+        concept: currentFilter.concept,
+        conceptsList: concepts);
     emit(LoadedState(movementFilters: movementFilter));
   }
 
@@ -44,7 +59,27 @@ class MovementFiltersCubit extends Cubit<MovementFiltersState> {
       warehousesList: currentFilter.warehousesList,
       warehouse: currentFilter.warehouse,
       date: dateTime,
+      concept: currentFilter.concept,
+      conceptsList: currentFilter.conceptsList,
     );
     emit(LoadedState(movementFilters: movementFilter));
+  }
+
+  void changeConcept(
+      MovementFilterModel currentFilter, InventoryMoveConceptModel? concept) {
+    try {
+      MovementFilterModel movementFilter;
+      emit(LoadingState());
+      movementFilter = MovementFilterModel(
+        date: currentFilter.date,
+        warehouse: currentFilter.warehouse,
+        warehousesList: currentFilter.warehousesList,
+        concept: concept,
+        conceptsList: currentFilter.conceptsList,
+      );
+      emit(LoadedState(movementFilters: movementFilter));
+    } catch (e) {
+      emit(ErrorState(error: e.toString()));
+    }
   }
 }

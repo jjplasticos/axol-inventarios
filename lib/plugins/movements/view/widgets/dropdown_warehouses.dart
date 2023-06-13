@@ -18,10 +18,6 @@ class DropdownWarehouses extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if (warehouses.last.id != 'all') {
-      warehouses
-          .add(WarehouseModel(id: 'all', name: 'TODOS', retailManager: ''));
-    }
     return SizedBox(
       width: 250,
       height: 40,

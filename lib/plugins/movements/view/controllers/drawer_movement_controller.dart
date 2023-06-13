@@ -21,7 +21,7 @@ class DrawerMovementsController extends StatelessWidget {
           width: 500,
           child: BlocBuilder<MovementFiltersCubit, MovementFiltersState>(
             bloc: context.read<MovementFiltersCubit>()
-              ..getWarehouses(const MovementFilterModel()),
+              ..getInitialValues(const MovementFilterModel()),
             builder: (context, state) {
               if (state is LoadingState) {
                 return Column(
