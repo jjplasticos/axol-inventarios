@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import '../../cubit/movement_filters/movement_filters_cubit.dart';
 import '../../model/movement_filter_model.dart';
 import 'dropdown_concepts.dart';
 import 'dropdown_warehouses.dart';
@@ -9,10 +11,17 @@ class DrawerMovements extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    DateTime dateTime = DateTime.now();
-    String textDate = '${dateTime.day}/${dateTime.month}/${dateTime.year}';
+    DateTime timeNow = DateTime.now();
+    String textDate = filters.date.toString();
+    bool allDates;
+    if (filters.date == null) {
+      allDates = true;
+      textDate = 'HASTA HOY';
+    } else {
+      allDates = false;
+    }
     return Padding(
-      padding: EdgeInsets.all(8),
+      padding: const EdgeInsets.all(8),
       child: Column(
         children: [
           const Center(
@@ -50,7 +59,13 @@ class DrawerMovements extends StatelessWidget {
                                 firstDate: DateTime(1900),
                                 lastDate: DateTime.now(),
                               ).then((value) {
-                                print(value);
+                                if (value != null) {
+                                  textDate =
+                                      '${value.day}/${value.month}/${value.year}';
+                                  context
+                                      .read<MovementFiltersCubit>()
+                                      .changeDate(filters, textDate);
+                                }
                               });
                             },
                             child: const Text('Fecha')),
@@ -61,18 +76,49 @@ class DrawerMovements extends StatelessWidget {
                                 initialDate: DateTime.now(),
                                 firstDate: DateTime(1900),
                                 lastDate: DateTime.now(),
-                              );
+                              ).then((value) {
+                                if (value != null) {
+                                  textDate =
+                                      '${value.day}/${value.month}/${value.year} -> ${timeNow.day}/${timeNow.month}/${timeNow.year}';
+                                  context
+                                      .read<MovementFiltersCubit>()
+                                      .changeDate(filters, textDate);
+                                }
+                              });
                             },
                             child: const Text('Fecha inicial')),
                         OutlinedButton(
                             onPressed: () {
                               showDateRangePicker(
                                 context: context,
-                                firstDate: DateTime(1900),
+                                firstDate: DateTime(DateTime.now().year - 10),
                                 lastDate: DateTime.now(),
-                              );
+                              ).then((value) {
+                                if (value != null) {
+                                  textDate =
+                                      '${value.start.day}/${value.start.month}/${value.start.year} -> ${value.end.day}/${value.end.month}/${value.end.year}';
+                                  context
+                                      .read<MovementFiltersCubit>()
+                                      .changeDate(filters, textDate);
+                                }
+                              });
                             },
                             child: const Text('Rango')),
+                        Switch(
+                            value: allDates,
+                            onChanged: (value) {
+                              if (value) {
+                                context
+                                    .read<MovementFiltersCubit>()
+                                    .changeDate(filters, null);
+                              } else {
+                                textDate =
+                                    '${timeNow.day}/${timeNow.month}/${timeNow.year}';
+                                context
+                                    .read<MovementFiltersCubit>()
+                                    .changeDate(filters, textDate);
+                              }
+                            }),
                       ],
                     )
                   ]),
