@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../cubit/movement_filters/movement_filters_cubit.dart';
 import '../../model/movement_filter_model.dart';
 import 'dropdown_concepts.dart';
+import 'dropdown_users.dart';
 import 'dropdown_warehouses.dart';
 
 class DrawerMovements extends StatelessWidget {
@@ -35,9 +36,7 @@ class DrawerMovements extends StatelessWidget {
                 children: [
                   const Text('Almacén:'),
                   DropdownWarehouses(
-                    warehouses: filters.warehousesList != null
-                        ? filters.warehousesList!
-                        : [],
+                    warehouses: filters.warehousesList ?? [],
                     currenWarehouse: filters.warehouse,
                     filters: filters,
                   ),
@@ -135,12 +134,31 @@ class DrawerMovements extends StatelessWidget {
                   ),
                 ],
               ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  const Text('Encargado de almacén:'),
+                  DropdownUsers(
+                    users: filters.usersList ?? [],
+                    currentUser: filters.user,
+                    filters: filters,
+                  ),
+                ],
+              ),
             ],
           )),
           Row(
             children: [
-              OutlinedButton(onPressed: () {}, child: const Text('Aceptar')),
-              OutlinedButton(onPressed: () {}, child: const Text('Cancelar'))
+              OutlinedButton(
+                onPressed: () {},
+                child: const Text('Aceptar'),
+              ),
+              OutlinedButton(
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+                child: const Text('Cancelar'),
+              )
             ],
           )
         ],

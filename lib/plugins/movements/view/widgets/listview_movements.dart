@@ -7,6 +7,7 @@ import '../../../../settings/theme.dart';
 import '../../cubit/movement_filters/movement_filters_cubit.dart';
 import '../../model/movement_model.dart';
 import '../controllers/drawer_movement_controller.dart';
+import 'drawer_details_movements.dart';
 
 class ListviewMovements extends StatelessWidget {
   final List<MovementModel> movementsList;
@@ -93,7 +94,13 @@ class ListviewMovements extends StatelessWidget {
                     decoration: BoxDecoration(
                         border: Border.all(color: Colors.black45)),
                     child: OutlinedButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        showDialog(
+                          context: context,
+                          builder: (context) =>
+                              DrawerDetailsMovements(movement: movement),
+                        );
+                      },
                       child: Row(
                         children: [
                           Expanded(

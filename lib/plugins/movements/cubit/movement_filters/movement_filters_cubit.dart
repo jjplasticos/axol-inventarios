@@ -2,8 +2,10 @@ import 'package:axol_inventarios/plugins/inventory/repository/warehouses_repo.da
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../models/inventory_move_concept_model.dart';
+import '../../../../models/user_mdoel.dart';
 import '../../../../models/warehouse_model.dart';
 import '../../../inventory/repository/inventory_concepts_repo.dart';
+import '../../../user/repository/user_repo.dart';
 import '../../model/movement_filter_model.dart';
 import 'movement_filters_state.dart';
 
@@ -16,12 +18,13 @@ class MovementFiltersCubit extends Cubit<MovementFiltersState> {
       MovementFilterModel movementFilter;
       emit(LoadingState());
       movementFilter = MovementFilterModel(
-        date: currentFilter.date,
-        warehouse: warehouse,
-        warehousesList: currentFilter.warehousesList,
-        concept: currentFilter.concept,
-        conceptsList: currentFilter.conceptsList,
-      );
+          date: currentFilter.date,
+          warehouse: warehouse,
+          warehousesList: currentFilter.warehousesList,
+          concept: currentFilter.concept,
+          conceptsList: currentFilter.conceptsList,
+          user: currentFilter.user,
+          usersList: currentFilter.usersList);
       emit(LoadedState(movementFilters: movementFilter));
     } catch (e) {
       emit(ErrorState(error: e.toString()));
@@ -31,6 +34,7 @@ class MovementFiltersCubit extends Cubit<MovementFiltersState> {
   Future<void> getInitialValues(MovementFilterModel currentFilter) async {
     List<WarehouseModel> warehouses;
     List<InventoryMoveConceptModel> concepts;
+    List<UserModel> users;
     MovementFilterModel movementFilter;
     emit(LoadingState());
     warehouses = await WarehousesRepo().fetchAllWarehouses();
@@ -43,12 +47,19 @@ class MovementFiltersCubit extends Cubit<MovementFiltersState> {
       concepts
           .add(InventoryMoveConceptModel(concept: 'TODOS', id: -1, type: -1));
     }
+    users = await DatabaseUser().fetchAllUsers();
+    if (users.last.uid != 'all') {
+      users
+          .add(UserModel(name: 'TODOS', uid: 'all', rol: '//', password: '//'));
+    }
     movementFilter = MovementFilterModel(
         warehousesList: warehouses,
-        warehouse: currentFilter.warehouse,
+        warehouse: warehouses.last,
         date: currentFilter.date,
-        concept: currentFilter.concept,
-        conceptsList: concepts);
+        concept: concepts.last,
+        conceptsList: concepts,
+        user: users.last,
+        usersList: users);
     emit(LoadedState(movementFilters: movementFilter));
   }
 
@@ -56,12 +67,13 @@ class MovementFiltersCubit extends Cubit<MovementFiltersState> {
     MovementFilterModel movementFilter;
     emit(InitialState());
     movementFilter = MovementFilterModel(
-      warehousesList: currentFilter.warehousesList,
-      warehouse: currentFilter.warehouse,
-      date: dateTime,
-      concept: currentFilter.concept,
-      conceptsList: currentFilter.conceptsList,
-    );
+        warehousesList: currentFilter.warehousesList,
+        warehouse: currentFilter.warehouse,
+        date: dateTime,
+        concept: currentFilter.concept,
+        conceptsList: currentFilter.conceptsList,
+        user: currentFilter.user,
+        usersList: currentFilter.usersList);
     emit(LoadedState(movementFilters: movementFilter));
   }
 
@@ -76,6 +88,27 @@ class MovementFiltersCubit extends Cubit<MovementFiltersState> {
         warehousesList: currentFilter.warehousesList,
         concept: concept,
         conceptsList: currentFilter.conceptsList,
+        user: currentFilter.user,
+        usersList: currentFilter.usersList,
+      );
+      emit(LoadedState(movementFilters: movementFilter));
+    } catch (e) {
+      emit(ErrorState(error: e.toString()));
+    }
+  }
+
+  void changeUser(MovementFilterModel currentFilter, UserModel? user) {
+    try {
+      MovementFilterModel movementFilter;
+      emit(LoadingState());
+      movementFilter = MovementFilterModel(
+        date: currentFilter.date,
+        warehouse: currentFilter.warehouse,
+        warehousesList: currentFilter.warehousesList,
+        concept: currentFilter.concept,
+        conceptsList: currentFilter.conceptsList,
+        user: user,
+        usersList: currentFilter.usersList,
       );
       emit(LoadedState(movementFilters: movementFilter));
     } catch (e) {
