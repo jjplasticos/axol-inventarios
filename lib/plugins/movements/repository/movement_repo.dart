@@ -20,7 +20,7 @@ class MovementRepo {
   static final _supabase = Supabase.instance.client;
 
   Future<void> insertMovemets(List<MovementModel> newMovements) async {
-    print(newMovements.first.code);
+    //print(newMovements.first.code);
     for (var element in newMovements) {
       await _supabase.from(_table).insert({
         _id: element.id,
@@ -37,16 +37,25 @@ class MovementRepo {
     }
   }
 
-  Future<List<MovementModel>> fetchMovements(int limit) async {
+  Future<List<MovementModel>> fetchMovements(int limit, String? filter) async {
     List<MovementModel> movements = [];
     MovementModel move;
     List<Map<String, dynamic>> movementsDB = [];
 
-    movementsDB = await _supabase
-        .from(_table)
-        .select<List<Map<String, dynamic>>>()
-        .order(_time, ascending: false)
-        .limit(limit);
+    if (filter == null || filter == '') {
+      movementsDB = await _supabase
+          .from(_table)
+          .select<List<Map<String, dynamic>>>()
+          .order(_time, ascending: false)
+          .limit(limit);
+    } else {
+      movementsDB = await _supabase
+          .from(_table)
+          .select<List<Map<String, dynamic>>>()
+          .or('$_code.ilike.%$filter%,$_description.ilike.%$filter%')
+          .order(_time, ascending: false)
+          .limit(limit);
+    }
 
     if (movementsDB.isNotEmpty) {
       for (var element in movementsDB) {

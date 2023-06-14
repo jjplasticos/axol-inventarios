@@ -1,5 +1,6 @@
 import 'package:equatable/equatable.dart';
 
+import '../../../../models/textfield_model.dart';
 import '../../model/movement_model.dart';
 
 abstract class MovementsState extends Equatable {
@@ -12,15 +13,18 @@ class InitialState extends MovementsState {
 }
 
 class LoadingState extends MovementsState {
+  final TextfieldModel finder;
+  const LoadingState({required this.finder});
   @override
-  List<Object?> get props => [];
+  List<Object?> get props => [finder];
 }
 
 class LoadedState extends MovementsState {
   final List<MovementModel> movements;
-  const LoadedState({required this.movements});
+  final TextfieldModel finder;
+  const LoadedState({required this.movements, required this.finder});
   @override
-  List<Object?> get props => [movements];
+  List<Object?> get props => [movements, finder];
 }
 
 class EditState extends MovementsState {

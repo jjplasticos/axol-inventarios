@@ -2,8 +2,8 @@ import 'package:axol_inventarios/plugins/movements/model/movement_filter_model.d
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../../models/warehouse_model.dart';
-import '../../cubit/movement_filters/movement_filters_cubit.dart';
+import '../../../../../models/warehouse_model.dart';
+import '../../../cubit/movement_filters/movement_filters_cubit.dart';
 
 class DropdownWarehouses extends StatelessWidget {
   final MovementFilterModel filters;

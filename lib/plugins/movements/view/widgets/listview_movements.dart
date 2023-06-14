@@ -1,18 +1,23 @@
+import 'package:axol_inventarios/plugins/movements/view/widgets/toolbar_movements.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../global_widgets/toolbar.dart';
 import '../../../../models/elemnets_bar_model.dart';
+import '../../../../models/textfield_model.dart';
 import '../../../../settings/theme.dart';
 import '../../cubit/movement_filters/movement_filters_cubit.dart';
 import '../../model/movement_model.dart';
 import '../controllers/drawer_movement_controller.dart';
 import 'drawer_details_movements.dart';
+import 'textfield_finder_movement.dart';
 
 class ListviewMovements extends StatelessWidget {
   final List<MovementModel> movementsList;
+  final TextfieldModel finder;
 
-  const ListviewMovements({super.key, required this.movementsList});
+  const ListviewMovements(
+      {super.key, required this.movementsList, required this.finder});
 
   @override
   Widget build(BuildContext context) {
@@ -21,9 +26,13 @@ class ListviewMovements extends StatelessWidget {
         Expanded(
           child: Column(
             children: [
-              const Row(
+              TextfieldFinderMovement(
+                isLoading: true,
+                currentFinder: finder,
+              ),
+              Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
+                children: const [
                   Expanded(
                     flex: 1,
                     child: Center(
@@ -182,32 +191,7 @@ class ListviewMovements extends StatelessWidget {
             ],
           ),
         ),
-        Toolbar(
-          listData: [
-            ElementsBarModel(
-              text: null,
-              icon: const Icon(Icons.add),
-              action: () {},
-            ),
-            ElementsBarModel(
-              text: null,
-              icon: const Icon(Icons.filter_alt),
-              action: () {
-                showDialog(
-                  context: context,
-                  builder: (context) => BlocProvider(
-                      create: (_) => MovementFiltersCubit(),
-                      child: const DrawerMovementsController()),
-                );
-              },
-            ),
-            ElementsBarModel(
-              text: null,
-              icon: const Icon(Icons.restart_alt),
-              action: () {},
-            )
-          ],
-        )
+        const ToolbarMovements(isLoading: false),
       ],
     );
   }

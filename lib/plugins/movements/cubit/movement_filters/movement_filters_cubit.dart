@@ -123,10 +123,7 @@ class MovementFiltersCubit extends Cubit<MovementFiltersState> {
 
   void changeLimit(MovementFilterModel currentFilter, int limit, int position) {
     try {
-      Map<String, int> currentLimit = {};
-      if (limit != -1 && position != -1) {
-        currentLimit = {'limit': limit, 'position': position};
-      }
+      Map<String, int> currentLimit = {'limit': limit, 'position': position};
       MovementFilterModel movementFilter;
       emit(LoadingState());
       movementFilter = MovementFilterModel(
