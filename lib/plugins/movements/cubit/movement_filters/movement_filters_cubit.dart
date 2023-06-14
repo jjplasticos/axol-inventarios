@@ -24,7 +24,8 @@ class MovementFiltersCubit extends Cubit<MovementFiltersState> {
           concept: currentFilter.concept,
           conceptsList: currentFilter.conceptsList,
           user: currentFilter.user,
-          usersList: currentFilter.usersList);
+          usersList: currentFilter.usersList,
+          currentLimit: currentFilter.currentLimit);
       emit(LoadedState(movementFilters: movementFilter));
     } catch (e) {
       emit(ErrorState(error: e.toString()));
@@ -59,7 +60,8 @@ class MovementFiltersCubit extends Cubit<MovementFiltersState> {
         concept: concepts.last,
         conceptsList: concepts,
         user: users.last,
-        usersList: users);
+        usersList: users,
+        currentLimit: {'limit': 50, 'position': 0});
     emit(LoadedState(movementFilters: movementFilter));
   }
 
@@ -73,7 +75,8 @@ class MovementFiltersCubit extends Cubit<MovementFiltersState> {
         concept: currentFilter.concept,
         conceptsList: currentFilter.conceptsList,
         user: currentFilter.user,
-        usersList: currentFilter.usersList);
+        usersList: currentFilter.usersList,
+        currentLimit: currentFilter.currentLimit);
     emit(LoadedState(movementFilters: movementFilter));
   }
 
@@ -90,6 +93,7 @@ class MovementFiltersCubit extends Cubit<MovementFiltersState> {
         conceptsList: currentFilter.conceptsList,
         user: currentFilter.user,
         usersList: currentFilter.usersList,
+        currentLimit: currentFilter.currentLimit,
       );
       emit(LoadedState(movementFilters: movementFilter));
     } catch (e) {
@@ -109,6 +113,31 @@ class MovementFiltersCubit extends Cubit<MovementFiltersState> {
         conceptsList: currentFilter.conceptsList,
         user: user,
         usersList: currentFilter.usersList,
+        currentLimit: currentFilter.currentLimit,
+      );
+      emit(LoadedState(movementFilters: movementFilter));
+    } catch (e) {
+      emit(ErrorState(error: e.toString()));
+    }
+  }
+
+  void changeLimit(MovementFilterModel currentFilter, int limit, int position) {
+    try {
+      Map<String, int> currentLimit = {};
+      if (limit != -1 && position != -1) {
+        currentLimit = {'limit': limit, 'position': position};
+      }
+      MovementFilterModel movementFilter;
+      emit(LoadingState());
+      movementFilter = MovementFilterModel(
+        date: currentFilter.date,
+        warehouse: currentFilter.warehouse,
+        warehousesList: currentFilter.warehousesList,
+        concept: currentFilter.concept,
+        conceptsList: currentFilter.conceptsList,
+        user: currentFilter.user,
+        usersList: currentFilter.usersList,
+        currentLimit: currentLimit,
       );
       emit(LoadedState(movementFilters: movementFilter));
     } catch (e) {

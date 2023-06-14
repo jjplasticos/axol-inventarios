@@ -10,6 +10,7 @@ class MovementFilterModel {
   final List<InventoryMoveConceptModel>? conceptsList;
   final UserModel? user;
   final List<UserModel>? usersList;
+  final Map<String, int>? currentLimit;
 
   const MovementFilterModel(
       {this.date,
@@ -18,5 +19,7 @@ class MovementFilterModel {
       this.concept,
       this.conceptsList,
       this.user,
-      this.usersList});
+      this.usersList,
+      this.currentLimit,
+      });
 }

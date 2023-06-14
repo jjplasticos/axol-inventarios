@@ -21,9 +21,9 @@ class ListviewMovements extends StatelessWidget {
         Expanded(
           child: Column(
             children: [
-              Row(
+              const Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: const [
+                children: [
                   Expanded(
                     flex: 1,
                     child: Center(

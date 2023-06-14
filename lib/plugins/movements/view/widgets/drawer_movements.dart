@@ -5,6 +5,7 @@ import '../../model/movement_filter_model.dart';
 import 'dropdown_concepts.dart';
 import 'dropdown_users.dart';
 import 'dropdown_warehouses.dart';
+import 'textfield_select_limit.dart';
 
 class DrawerMovements extends StatelessWidget {
   final MovementFilterModel filters;
@@ -143,6 +144,13 @@ class DrawerMovements extends StatelessWidget {
                     currentUser: filters.user,
                     filters: filters,
                   ),
+                ],
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  const Text('Limite:'),
+                  TextfieldSelectLimit(filter: filters),
                 ],
               ),
             ],
