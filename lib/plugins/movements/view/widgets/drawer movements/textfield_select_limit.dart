@@ -13,9 +13,9 @@ class TextfieldSelectLimit extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    String text = filter.currentLimit!['limit']!.toString();
-    int limit = filter.currentLimit!['limit']!;
-    int position = filter.currentLimit!['position']!;
+    String text = filter.currentLimit!.text;
+    int limit = int.parse(filter.currentLimit!.text);
+    int position = filter.currentLimit!.position;
     TextEditingController textController = TextEditingController();
     textController.value = TextEditingValue(
       text: limit.toString(),

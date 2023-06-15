@@ -1,4 +1,5 @@
 import '../../../models/inventory_move_concept_model.dart';
+import '../../../models/textfield_model.dart';
 import '../../../models/user_mdoel.dart';
 import '../../../models/warehouse_model.dart';
 
@@ -10,7 +11,7 @@ class MovementFilterModel {
   final List<InventoryMoveConceptModel>? conceptsList;
   final UserModel? user;
   final List<UserModel>? usersList;
-  final Map<String, int>? currentLimit;
+  final TextfieldModel? currentLimit;
 
   const MovementFilterModel(
       {this.date,

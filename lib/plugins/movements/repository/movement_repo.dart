@@ -1,5 +1,6 @@
 import 'package:supabase_flutter/supabase_flutter.dart';
 
+import '../model/movement_filter_model.dart';
 import '../model/movement_model.dart';
 
 class MovementRepo {
@@ -37,11 +38,25 @@ class MovementRepo {
     }
   }
 
-  Future<List<MovementModel>> fetchMovements(int limit, String? filter) async {
+  Future<List<MovementModel>> fetchMovements(MovementFilterModel moveFilter , int limit, String? filter) async {
     List<MovementModel> movements = [];
     MovementModel move;
+    int filterLimit;
+    Map<String, dynamic> filters = {};
     List<Map<String, dynamic>> movementsDB = [];
-
+    if (moveFilter.warehouse != null) {
+      if (moveFilter.warehouse!.id != 'all') {
+        filters[_warehouse] = moveFilter.warehouse;
+      }
+    }
+    if (moveFilter.date != null) {
+      if (moveFilter.date != 'HASTA HOY') {
+        filters[_time] = moveFilter;
+        //Cambiar a fechas serializadas
+        //DateTime dateTime = DateTime.now();
+        //dateTime.millisecondsSinceEpoch;
+      }
+    }
     if (filter == null || filter == '') {
       movementsDB = await _supabase
           .from(_table)

@@ -2,6 +2,7 @@ import 'package:axol_inventarios/plugins/inventory/repository/warehouses_repo.da
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../models/inventory_move_concept_model.dart';
+import '../../../../models/textfield_model.dart';
 import '../../../../models/user_mdoel.dart';
 import '../../../../models/warehouse_model.dart';
 import '../../../inventory/repository/inventory_concepts_repo.dart';
@@ -61,7 +62,7 @@ class MovementFiltersCubit extends Cubit<MovementFiltersState> {
         conceptsList: concepts,
         user: users.last,
         usersList: users,
-        currentLimit: {'limit': 50, 'position': 0});
+        currentLimit: TextfieldModel(text: '50', position: 0));
     emit(LoadedState(movementFilters: movementFilter));
   }
 
@@ -123,7 +124,8 @@ class MovementFiltersCubit extends Cubit<MovementFiltersState> {
 
   void changeLimit(MovementFilterModel currentFilter, int limit, int position) {
     try {
-      Map<String, int> currentLimit = {'limit': limit, 'position': position};
+      TextfieldModel currentLimit = TextfieldModel(text: limit.toString(), position: position);
+      //Map<String, int> currentLimit = {'limit': limit, 'position': position};
       MovementFilterModel movementFilter;
       emit(LoadingState());
       movementFilter = MovementFilterModel(
