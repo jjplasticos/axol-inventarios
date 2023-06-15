@@ -57,7 +57,7 @@ class MovementFiltersCubit extends Cubit<MovementFiltersState> {
     movementFilter = MovementFilterModel(
         warehousesList: warehouses,
         warehouse: warehouses.last,
-        date: currentFilter.date,
+        date: {0: DateTime.now(), 1: DateTime.now()},
         concept: concepts.last,
         conceptsList: concepts,
         user: users.last,
@@ -66,7 +66,8 @@ class MovementFiltersCubit extends Cubit<MovementFiltersState> {
     emit(LoadedState(movementFilters: movementFilter));
   }
 
-  void changeDate(MovementFilterModel currentFilter, String? dateTime) async {
+  void changeDate(
+      MovementFilterModel currentFilter, Map<int, DateTime> dateTime) async {
     MovementFilterModel movementFilter;
     emit(InitialState());
     movementFilter = MovementFilterModel(
@@ -124,7 +125,8 @@ class MovementFiltersCubit extends Cubit<MovementFiltersState> {
 
   void changeLimit(MovementFilterModel currentFilter, int limit, int position) {
     try {
-      TextfieldModel currentLimit = TextfieldModel(text: limit.toString(), position: position);
+      TextfieldModel currentLimit =
+          TextfieldModel(text: limit.toString(), position: position);
       //Map<String, int> currentLimit = {'limit': limit, 'position': position};
       MovementFilterModel movementFilter;
       emit(LoadingState());

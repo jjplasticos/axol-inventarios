@@ -5,7 +5,7 @@ import '../../../models/warehouse_model.dart';
 
 class MovementFilterModel {
   final WarehouseModel? warehouse;
-  final String? date;
+  final Map<int, DateTime>? date;
   final List<WarehouseModel>? warehousesList;
   final InventoryMoveConceptModel? concept;
   final List<InventoryMoveConceptModel>? conceptsList;
@@ -13,14 +13,14 @@ class MovementFilterModel {
   final List<UserModel>? usersList;
   final TextfieldModel? currentLimit;
 
-  const MovementFilterModel(
-      {this.date,
-      this.warehouse,
-      this.warehousesList,
-      this.concept,
-      this.conceptsList,
-      this.user,
-      this.usersList,
-      this.currentLimit,
-      });
+  const MovementFilterModel({
+    this.date,
+    this.warehouse,
+    this.warehousesList,
+    this.concept,
+    this.conceptsList,
+    this.user,
+    this.usersList,
+    this.currentLimit,
+  });
 }

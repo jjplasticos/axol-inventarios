@@ -1,6 +1,6 @@
 class MovementModel {
   final String id;
-  final String time;
+  final DateTime time;
   final String code;
   final String description;
   final String document;

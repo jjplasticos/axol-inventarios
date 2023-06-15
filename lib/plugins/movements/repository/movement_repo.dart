@@ -25,7 +25,7 @@ class MovementRepo {
     for (var element in newMovements) {
       await _supabase.from(_table).insert({
         _id: element.id,
-        _time: element.time,
+        _time: element.time.millisecondsSinceEpoch,
         _code: element.code,
         _description: element.description,
         _document: element.document,
@@ -38,23 +38,35 @@ class MovementRepo {
     }
   }
 
-  Future<List<MovementModel>> fetchMovements(MovementFilterModel moveFilter , int limit, String? filter) async {
+  Future<List<MovementModel>> fetchMovements(
+      MovementFilterModel moveFilter, int limit, String? filter) async {
     List<MovementModel> movements = [];
     MovementModel move;
-    int filterLimit;
+    int filterLimit = 50;
+    int filterStartDate = 0;
+    int filterEndDate = 32503708800000;
     Map<String, dynamic> filters = {};
     List<Map<String, dynamic>> movementsDB = [];
+
     if (moveFilter.warehouse != null) {
       if (moveFilter.warehouse!.id != 'all') {
         filters[_warehouse] = moveFilter.warehouse;
       }
     }
     if (moveFilter.date != null) {
-      if (moveFilter.date != 'HASTA HOY') {
-        filters[_time] = moveFilter;
-        //Cambiar a fechas serializadas
-        //DateTime dateTime = DateTime.now();
-        //dateTime.millisecondsSinceEpoch;
+      if (moveFilter.date![0]!.year != 0) {
+        filterStartDate = moveFilter.date![0]!.millisecondsSinceEpoch;
+        filterEndDate = moveFilter.date![1]!.millisecondsSinceEpoch;
+      }
+    }
+    if (moveFilter.concept != null) {
+      if (moveFilter.concept!.id != -1) {
+        filters[_concept] = moveFilter.concept!.concept;
+      }
+    }
+    if (moveFilter.user != null) {
+      if (moveFilter.user!.uid != 'all') {
+        //Seguir aqui
       }
     }
     if (filter == null || filter == '') {
@@ -82,7 +94,7 @@ class MovementRepo {
           description: element[_description].toString(),
           document: element[_document].toString(),
           quantity: element[_quantity],
-          time: element[_time].toString(),
+          time: DateTime.fromMillisecondsSinceEpoch(int.parse(element[_time])),
           warehouse: element[_warehouse].toString(),
           user: element[_user].toString(),
         );

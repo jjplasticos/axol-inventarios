@@ -120,7 +120,9 @@ class ListviewInventoryMovement extends StatelessWidget {
                 height: 30,
                 width: 200,
                 color: Colors.white30,
-                child: Center(child: Text(elementsData.date)),
+                child: Center(
+                    child: Text(
+                        '${elementsData.date.day}/${elementsData.date.month}/${elementsData.date.year}')),
               )
             ],
           ),

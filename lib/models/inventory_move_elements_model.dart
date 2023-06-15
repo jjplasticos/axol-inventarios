@@ -6,7 +6,7 @@ class InventoryMoveElementsModel {
   final List<InventoryMoveConceptModel> concepts;
   final String concept;
   final String document;
-  final String date;
+  final DateTime date;
   final String invTransfer;
 
   const InventoryMoveElementsModel({

@@ -167,7 +167,7 @@ class ListviewMovements extends StatelessWidget {
                             flex: 1,
                             child: Center(
                               child: Text(
-                                movement.time,
+                                '${movement.time.day}/${movement.time.month}/${movement.time.year}',
                                 style: Typo.labelText1,
                               ),
                             ),

@@ -27,7 +27,7 @@ class InventoryMovesCubit extends Cubit<InventoryMovesState> {
   final InventoryMoveElementsModel _emptyElements = InventoryMoveElementsModel(
     products: [],
     concept: 'Concept',
-    date: '${_time.day}/${_time.month}/${_time.year}',
+    date: _time,
     document: '',
     concepts: [],
     invTransfer: '',

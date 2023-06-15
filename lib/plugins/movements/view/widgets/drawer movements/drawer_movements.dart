@@ -13,13 +13,20 @@ class DrawerMovements extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    DateTime timeNow = DateTime.now();
-    String textDate = filters.date.toString();
+    //DateTime timeNow = DateTime.now();
+    String textDate;
     bool allDates;
-    if (filters.date == null) {
+    if (filters.date![0]!.year == 0) {
       allDates = true;
       textDate = 'HASTA HOY';
     } else {
+      if (filters.date![0] == filters.date![1]) {
+        textDate =
+            '${filters.date![0]!.day}/${filters.date![0]!.month}/${filters.date![0]!.year}';
+      } else {
+        textDate =
+            '${filters.date![0]!.day}/${filters.date![0]!.month}/${filters.date![0]!.year} -> ${filters.date![1]!.day}/${filters.date![1]!.month}/${filters.date![1]!.year}';
+      }
       allDates = false;
     }
     return Padding(
@@ -60,11 +67,10 @@ class DrawerMovements extends StatelessWidget {
                                 lastDate: DateTime.now(),
                               ).then((value) {
                                 if (value != null) {
-                                  textDate =
-                                      '${value.day}/${value.month}/${value.year}';
                                   context
                                       .read<MovementFiltersCubit>()
-                                      .changeDate(filters, textDate);
+                                      .changeDate(
+                                          filters, {0: value, 1: value});
                                 }
                               });
                             },
@@ -78,11 +84,12 @@ class DrawerMovements extends StatelessWidget {
                                 lastDate: DateTime.now(),
                               ).then((value) {
                                 if (value != null) {
-                                  textDate =
-                                      '${value.day}/${value.month}/${value.year} -> ${timeNow.day}/${timeNow.month}/${timeNow.year}';
+                                  /*textDate =
+                                      '${value.day}/${value.month}/${value.year} -> ${timeNow.day}/${timeNow.month}/${timeNow.year}';*/
                                   context
                                       .read<MovementFiltersCubit>()
-                                      .changeDate(filters, textDate);
+                                      .changeDate(filters,
+                                          {0: value, 1: DateTime.now()});
                                 }
                               });
                             },
@@ -95,11 +102,12 @@ class DrawerMovements extends StatelessWidget {
                                 lastDate: DateTime.now(),
                               ).then((value) {
                                 if (value != null) {
-                                  textDate =
-                                      '${value.start.day}/${value.start.month}/${value.start.year} -> ${value.end.day}/${value.end.month}/${value.end.year}';
+                                  /*textDate =
+                                      '${value.start.day}/${value.start.month}/${value.start.year} -> ${value.end.day}/${value.end.month}/${value.end.year}';*/
                                   context
                                       .read<MovementFiltersCubit>()
-                                      .changeDate(filters, textDate);
+                                      .changeDate(filters,
+                                          {0: value.start, 1: value.end});
                                 }
                               });
                             },
@@ -108,15 +116,14 @@ class DrawerMovements extends StatelessWidget {
                             value: allDates,
                             onChanged: (value) {
                               if (value) {
-                                context
-                                    .read<MovementFiltersCubit>()
-                                    .changeDate(filters, null);
+                                context.read<MovementFiltersCubit>().changeDate(
+                                    filters, {0: DateTime(0), 1: DateTime(0)});
                               } else {
-                                textDate =
-                                    '${timeNow.day}/${timeNow.month}/${timeNow.year}';
-                                context
-                                    .read<MovementFiltersCubit>()
-                                    .changeDate(filters, textDate);
+                                /*textDate =
+                                    '${timeNow.day}/${timeNow.month}/${timeNow.year}';*/
+                                context.read<MovementFiltersCubit>().changeDate(
+                                    filters,
+                                    {0: DateTime.now(), 1: DateTime.now()});
                               }
                             }),
                       ],
