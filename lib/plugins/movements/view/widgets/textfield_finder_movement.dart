@@ -4,13 +4,18 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../models/textfield_model.dart';
 import '../../../../settings/theme.dart';
 import '../../cubit/movements_view/movements_cubit.dart';
+import '../../model/movement_filter_model.dart';
 
 class TextfieldFinderMovement extends StatelessWidget {
   final TextfieldModel currentFinder;
   final bool isLoading;
+  final MovementFilterModel filters;
 
   const TextfieldFinderMovement(
-      {super.key, required this.currentFinder, required this.isLoading});
+      {super.key,
+      required this.currentFinder,
+      required this.isLoading,
+      required this.filters});
 
   @override
   Widget build(BuildContext context) {
@@ -33,9 +38,11 @@ class TextfieldFinderMovement extends StatelessWidget {
                 autofocus: true,
                 enabled: isLoading,
                 onFieldSubmitted: (value) {
-                  context.read<MovementsCuibit>().finderList(TextfieldModel(
-                      text: value,
-                      position: textController.selection.base.offset));
+                  context.read<MovementsCuibit>().finderList(
+                      filters,
+                      TextfieldModel(
+                          text: value,
+                          position: textController.selection.base.offset));
                 },
                 onChanged: (value) {
                   text = value;
@@ -57,8 +64,11 @@ class TextfieldFinderMovement extends StatelessWidget {
               Icons.search,
             ),
             onPressed: () {
-              context.read<MovementsCuibit>().finderList(TextfieldModel(
-                  text: text, position: textController.selection.base.offset));
+              context.read<MovementsCuibit>().finderList(
+                  filters,
+                  TextfieldModel(
+                      text: text,
+                      position: textController.selection.base.offset));
             },
           ),
           IconButton(
@@ -70,7 +80,7 @@ class TextfieldFinderMovement extends StatelessWidget {
             onPressed: () {
               context
                   .read<MovementsCuibit>()
-                  .finderList(TextfieldModel(text: '', position: 0));
+                  .finderList(filters, TextfieldModel(text: '', position: 0));
             },
           ),
         ],

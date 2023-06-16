@@ -1,14 +1,19 @@
+import 'package:axol_inventarios/models/textfield_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../global_widgets/toolbar.dart';
 import '../../../../models/elemnets_bar_model.dart';
 import '../../cubit/movement_filters/movement_filters_cubit.dart';
+import '../../cubit/movements_view/movements_cubit.dart';
+import '../../model/movement_filter_model.dart';
 import '../controllers/drawer_movement_controller.dart';
 
 class ToolbarMovements extends StatelessWidget {
   final bool isLoading;
-  const ToolbarMovements({super.key, required this.isLoading});
+  final MovementFilterModel currentFilter;
+  const ToolbarMovements(
+      {super.key, required this.isLoading, required this.currentFilter});
 
   @override
   Widget build(BuildContext context) {
@@ -28,8 +33,17 @@ class ToolbarMovements extends StatelessWidget {
                 context: context,
                 builder: (context) => BlocProvider(
                     create: (_) => MovementFiltersCubit(),
-                    child: const DrawerMovementsController()),
-              );
+                    child: DrawerMovementsController(
+                      currentFilter: currentFilter,
+                    )),
+              ).then((value) {
+                if (value != null) {
+                  //print(value);
+                  context
+                      .read<MovementsCuibit>()
+                      .finderList(value, TextfieldModel(text: '', position: 0));
+                }
+              });
             }
           },
         ),

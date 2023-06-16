@@ -23,6 +23,7 @@ class ListviewMovementsController extends StatelessWidget {
                   child: Column(
                 children: [
                   TextfieldFinderMovement(
+                    filters: state.filters,
                     isLoading: true,
                     currentFinder: state.finder,
                   ),
@@ -30,11 +31,15 @@ class ListviewMovementsController extends StatelessWidget {
                   const Expanded(child: SizedBox())
                 ],
               )),
-              const ToolbarMovements(isLoading: true),
+              ToolbarMovements(
+                isLoading: true,
+                currentFilter: state.filters,
+              ),
             ],
           );
         } else if (state is LoadedState) {
           return ListviewMovements(
+            filters: state.filters,
             movementsList: state.movements,
             finder: state.finder,
           );

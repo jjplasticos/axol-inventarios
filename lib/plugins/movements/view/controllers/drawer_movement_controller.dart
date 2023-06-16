@@ -7,7 +7,9 @@ import '../../model/movement_filter_model.dart';
 import '../widgets/drawer movements/drawer_movements.dart';
 
 class DrawerMovementsController extends StatelessWidget {
-  const DrawerMovementsController({super.key});
+  final MovementFilterModel currentFilter;
+
+  const DrawerMovementsController({super.key, required this.currentFilter});
 
   @override
   Widget build(BuildContext context) {
@@ -21,7 +23,7 @@ class DrawerMovementsController extends StatelessWidget {
           width: 500,
           child: BlocBuilder<MovementFiltersCubit, MovementFiltersState>(
             bloc: context.read<MovementFiltersCubit>()
-              ..getInitialValues(const MovementFilterModel()),
+              ..getInitialValues(currentFilter),
             builder: (context, state) {
               if (state is LoadingState) {
                 return Column(
@@ -31,6 +33,14 @@ class DrawerMovementsController extends StatelessWidget {
                   ],
                 );
               } else if (state is LoadedState) {
+                print(state.movementFilters.concept);
+                print(state.movementFilters.conceptsList);
+                print(state.movementFilters.currentLimit);
+                print(state.movementFilters.date);
+                print(state.movementFilters.user);
+                print(state.movementFilters.usersList);
+                print(state.movementFilters.warehouse);
+                print(state.movementFilters.warehousesList);
                 return DrawerMovements(
                   filters: state.movementFilters,
                 );

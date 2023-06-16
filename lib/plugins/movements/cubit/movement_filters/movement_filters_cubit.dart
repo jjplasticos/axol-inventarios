@@ -38,6 +38,12 @@ class MovementFiltersCubit extends Cubit<MovementFiltersState> {
     List<InventoryMoveConceptModel> concepts;
     List<UserModel> users;
     MovementFilterModel movementFilter;
+    final WarehouseModel warehouse;
+    final Map<int, DateTime> date;
+    final InventoryMoveConceptModel concept;
+    final UserModel user;
+    final TextfieldModel limit;
+
     emit(LoadingState());
     warehouses = await WarehousesRepo().fetchAllWarehouses();
     if (warehouses.last.id != 'all') {
@@ -54,15 +60,40 @@ class MovementFiltersCubit extends Cubit<MovementFiltersState> {
       users
           .add(UserModel(name: 'TODOS', uid: 'all', rol: '//', password: '//'));
     }
+    if (currentFilter.warehouse == null) {
+      warehouse = WarehouseModel(id: 'all', name: 'TODOS', retailManager: '');
+    } else {
+      warehouse = currentFilter.warehouse!;
+    }
+    if (currentFilter.date == null) {
+      date = {0: DateTime(0), 1: DateTime(3000)};
+    } else {
+      date = currentFilter.date!;
+    }
+    if (currentFilter.concept == null) {
+      concept = InventoryMoveConceptModel(concept: 'TODOS', id: -1, type: -1);
+    } else {
+      concept = currentFilter.concept!;
+    }
+    if (currentFilter.user == null) {
+      user = UserModel(name: 'TODOS', uid: 'all', rol: '//', password: '//');
+    } else {
+      user = currentFilter.user!;
+    }
+    if (currentFilter.currentLimit == null) {
+      limit = TextfieldModel(text: '50', position: 0);
+    } else {
+      limit = currentFilter.currentLimit!;
+    }
     movementFilter = MovementFilterModel(
         warehousesList: warehouses,
-        warehouse: warehouses.last,
-        date: {0: DateTime.now(), 1: DateTime.now()},
-        concept: concepts.last,
+        warehouse: warehouse,
+        date: date,
+        concept: concept,
         conceptsList: concepts,
-        user: users.last,
+        user: user,
         usersList: users,
-        currentLimit: TextfieldModel(text: '50', position: 0));
+        currentLimit: limit);
     emit(LoadedState(movementFilters: movementFilter));
   }
 

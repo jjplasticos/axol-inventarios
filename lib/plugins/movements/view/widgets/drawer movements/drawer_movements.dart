@@ -13,7 +13,8 @@ class DrawerMovements extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    //DateTime timeNow = DateTime.now();
+    DateTime startTime;
+    DateTime endTime;
     String textDate;
     bool allDates;
     if (filters.date![0]!.year == 0) {
@@ -43,11 +44,11 @@ class DrawerMovements extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   const Text('Almacén:'),
-                  DropdownWarehouses(
+                  /*DropdownWarehouses(
                     warehouses: filters.warehousesList ?? [],
                     currenWarehouse: filters.warehouse,
                     filters: filters,
-                  ),
+                  ),*/
                 ],
               ),
               Row(
@@ -67,10 +68,14 @@ class DrawerMovements extends StatelessWidget {
                                 lastDate: DateTime.now(),
                               ).then((value) {
                                 if (value != null) {
+                                  startTime = DateTime(
+                                      value.year, value.month, value.day);
+                                  endTime = DateTime(value.year, value.month,
+                                      value.day, 23, 59, 59, 999);
                                   context
                                       .read<MovementFiltersCubit>()
                                       .changeDate(
-                                          filters, {0: value, 1: value});
+                                          filters, {0: startTime, 1: endTime});
                                 }
                               });
                             },
@@ -84,8 +89,8 @@ class DrawerMovements extends StatelessWidget {
                                 lastDate: DateTime.now(),
                               ).then((value) {
                                 if (value != null) {
-                                  /*textDate =
-                                      '${value.day}/${value.month}/${value.year} -> ${timeNow.day}/${timeNow.month}/${timeNow.year}';*/
+                                  startTime = startTime = DateTime(
+                                      value.year, value.month, value.day);
                                   context
                                       .read<MovementFiltersCubit>()
                                       .changeDate(filters,
@@ -102,12 +107,20 @@ class DrawerMovements extends StatelessWidget {
                                 lastDate: DateTime.now(),
                               ).then((value) {
                                 if (value != null) {
-                                  /*textDate =
-                                      '${value.start.day}/${value.start.month}/${value.start.year} -> ${value.end.day}/${value.end.month}/${value.end.year}';*/
+                                  startTime = DateTime(value.start.year,
+                                      value.start.month, value.start.day);
+                                  endTime = DateTime(
+                                      value.end.year,
+                                      value.end.month,
+                                      value.end.day,
+                                      23,
+                                      59,
+                                      59,
+                                      999);
                                   context
                                       .read<MovementFiltersCubit>()
-                                      .changeDate(filters,
-                                          {0: value.start, 1: value.end});
+                                      .changeDate(
+                                          filters, {0: startTime, 1: endTime});
                                 }
                               });
                             },
@@ -117,13 +130,18 @@ class DrawerMovements extends StatelessWidget {
                             onChanged: (value) {
                               if (value) {
                                 context.read<MovementFiltersCubit>().changeDate(
-                                    filters, {0: DateTime(0), 1: DateTime(0)});
+                                    filters,
+                                    {0: DateTime(0), 1: DateTime(3000)});
                               } else {
                                 /*textDate =
                                     '${timeNow.day}/${timeNow.month}/${timeNow.year}';*/
-                                context.read<MovementFiltersCubit>().changeDate(
-                                    filters,
-                                    {0: DateTime.now(), 1: DateTime.now()});
+                                context
+                                    .read<MovementFiltersCubit>()
+                                    .changeDate(filters, {
+                                  0: DateTime(DateTime.now().year,
+                                      DateTime.now().month, DateTime.now().day),
+                                  1: DateTime.now()
+                                });
                               }
                             }),
                       ],
@@ -136,7 +154,7 @@ class DrawerMovements extends StatelessWidget {
                 children: [
                   const Text('Concepto:'),
                   DropdownConcepts(
-                    concepts: filters.conceptsList ?? [],
+                    concepts: filters.conceptsList!,
                     currenConcept: filters.concept,
                     filters: filters,
                   ),
@@ -165,7 +183,9 @@ class DrawerMovements extends StatelessWidget {
           Row(
             children: [
               OutlinedButton(
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.pop(context, filters);
+                },
                 child: const Text('Aceptar'),
               ),
               OutlinedButton(

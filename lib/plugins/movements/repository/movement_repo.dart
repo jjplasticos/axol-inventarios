@@ -39,7 +39,7 @@ class MovementRepo {
   }
 
   Future<List<MovementModel>> fetchMovements(
-      MovementFilterModel moveFilter, int limit, String? filter) async {
+      MovementFilterModel moveFilter, String? filter) async {
     List<MovementModel> movements = [];
     MovementModel move;
     int filterLimit = 50;
@@ -50,7 +50,8 @@ class MovementRepo {
 
     if (moveFilter.warehouse != null) {
       if (moveFilter.warehouse!.id != 'all') {
-        filters[_warehouse] = moveFilter.warehouse;
+        filters[_warehouse] = moveFilter.warehouse!.name;
+        //print(filters[_warehouse].warehouse as MovementFilterModel);
       }
     }
     if (moveFilter.date != null) {
@@ -61,27 +62,45 @@ class MovementRepo {
     }
     if (moveFilter.concept != null) {
       if (moveFilter.concept!.id != -1) {
-        filters[_concept] = moveFilter.concept!.concept;
+        filters[_concept] = moveFilter.concept!.id;
+        print(filters[_concept]);
       }
     }
     if (moveFilter.user != null) {
       if (moveFilter.user!.uid != 'all') {
-        //Seguir aqui
+        filters[_user] = moveFilter.user!.name;
+      }
+    }
+    if (moveFilter.currentLimit != null) {
+      if (moveFilter.currentLimit!.text != '50') {
+        filterLimit = int.parse(moveFilter.currentLimit!.text);
       }
     }
     if (filter == null || filter == '') {
       movementsDB = await _supabase
           .from(_table)
           .select<List<Map<String, dynamic>>>()
+          .match(filters)
+          .lte(_time, filterEndDate)
+          .gte(_time, filterStartDate)
           .order(_time, ascending: false)
-          .limit(limit);
+          .limit(filterLimit);
     } else {
       movementsDB = await _supabase
           .from(_table)
           .select<List<Map<String, dynamic>>>()
           .or('$_code.ilike.%$filter%,$_description.ilike.%$filter%')
+          .match(filters)
+          .lte(_time, filterEndDate)
+          .gte(_time, filterStartDate)
           .order(_time, ascending: false)
-          .limit(limit);
+          .limit(filterLimit);
+      /*movementsDB = await _supabase
+          .from(_table)
+          .select<List<Map<String, dynamic>>>()
+          .or('$_code.ilike.%$filter%,$_description.ilike.%$filter%')
+          .order(_time, ascending: false)
+          .limit(limit);*/
     }
 
     if (movementsDB.isNotEmpty) {

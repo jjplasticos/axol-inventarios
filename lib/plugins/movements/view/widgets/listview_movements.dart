@@ -7,6 +7,7 @@ import '../../../../models/elemnets_bar_model.dart';
 import '../../../../models/textfield_model.dart';
 import '../../../../settings/theme.dart';
 import '../../cubit/movement_filters/movement_filters_cubit.dart';
+import '../../model/movement_filter_model.dart';
 import '../../model/movement_model.dart';
 import '../controllers/drawer_movement_controller.dart';
 import 'drawer_details_movements.dart';
@@ -15,9 +16,13 @@ import 'textfield_finder_movement.dart';
 class ListviewMovements extends StatelessWidget {
   final List<MovementModel> movementsList;
   final TextfieldModel finder;
+  final MovementFilterModel filters;
 
   const ListviewMovements(
-      {super.key, required this.movementsList, required this.finder});
+      {super.key,
+      required this.movementsList,
+      required this.finder,
+      required this.filters});
 
   @override
   Widget build(BuildContext context) {
@@ -27,6 +32,7 @@ class ListviewMovements extends StatelessWidget {
           child: Column(
             children: [
               TextfieldFinderMovement(
+                filters: filters,
                 isLoading: true,
                 currentFinder: finder,
               ),
@@ -191,7 +197,7 @@ class ListviewMovements extends StatelessWidget {
             ],
           ),
         ),
-        const ToolbarMovements(isLoading: false),
+        ToolbarMovements(isLoading: false, currentFilter: filters),
       ],
     );
   }
