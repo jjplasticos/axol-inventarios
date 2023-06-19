@@ -14,7 +14,7 @@ class MovementFiltersCubit extends Cubit<MovementFiltersState> {
   MovementFiltersCubit() : super(InitialState());
 
   void changeWarehouse(
-      MovementFilterModel currentFilter, WarehouseModel? warehouse) {
+      MovementFilterModel currentFilter, WarehouseModel warehouse) {
     try {
       MovementFilterModel movementFilter;
       emit(LoadingState());
@@ -34,66 +34,42 @@ class MovementFiltersCubit extends Cubit<MovementFiltersState> {
   }
 
   Future<void> getInitialValues(MovementFilterModel currentFilter) async {
-    List<WarehouseModel> warehouses;
-    List<InventoryMoveConceptModel> concepts;
-    List<UserModel> users;
+    List<WarehouseModel> warehouses = [];
+    List<InventoryMoveConceptModel> concepts = [];
+    List<UserModel> users = [];
     MovementFilterModel movementFilter;
-    final WarehouseModel warehouse;
-    final Map<int, DateTime> date;
-    final InventoryMoveConceptModel concept;
-    final UserModel user;
-    final TextfieldModel limit;
+    const WarehouseModel warehouse = MovementFilterModel.initWarehouse;
+    final Map<int, DateTime> date = MovementFilterModel.initDate;
+    const InventoryMoveConceptModel concept = MovementFilterModel.initConcept;
+    const UserModel user = MovementFilterModel.initUser;
+    const TextfieldModel limit = MovementFilterModel.initLimit;
 
     emit(LoadingState());
     warehouses = await WarehousesRepo().fetchAllWarehouses();
+    //print(warehouses.length);
     if (warehouses.last.id != 'all') {
-      warehouses
-          .add(WarehouseModel(id: 'all', name: 'TODOS', retailManager: ''));
+      warehouses.add(
+          const WarehouseModel(id: 'all', name: 'TODOS', retailManager: ''));
     }
     concepts = await InventoryConceptsRepo().fetchAllConcepts();
     if (concepts.last.id != -1) {
-      concepts
-          .add(InventoryMoveConceptModel(concept: 'TODOS', id: -1, type: -1));
+      concepts.add(
+          const InventoryMoveConceptModel(concept: 'TODOS', id: -1, type: -1));
     }
     users = await DatabaseUser().fetchAllUsers();
     if (users.last.uid != 'all') {
-      users
-          .add(UserModel(name: 'TODOS', uid: 'all', rol: '//', password: '//'));
-    }
-    if (currentFilter.warehouse == null) {
-      warehouse = WarehouseModel(id: 'all', name: 'TODOS', retailManager: '');
-    } else {
-      warehouse = currentFilter.warehouse!;
-    }
-    if (currentFilter.date == null) {
-      date = {0: DateTime(0), 1: DateTime(3000)};
-    } else {
-      date = currentFilter.date!;
-    }
-    if (currentFilter.concept == null) {
-      concept = InventoryMoveConceptModel(concept: 'TODOS', id: -1, type: -1);
-    } else {
-      concept = currentFilter.concept!;
-    }
-    if (currentFilter.user == null) {
-      user = UserModel(name: 'TODOS', uid: 'all', rol: '//', password: '//');
-    } else {
-      user = currentFilter.user!;
-    }
-    if (currentFilter.currentLimit == null) {
-      limit = TextfieldModel(text: '50', position: 0);
-    } else {
-      limit = currentFilter.currentLimit!;
+      users.add(const UserModel(
+          name: 'TODOS', uid: 'all', rol: '//', password: '//'));
     }
     movementFilter = MovementFilterModel(
         warehousesList: warehouses,
-        warehouse: warehouse,
-        date: date,
-        concept: concept,
+        warehouse: currentFilter.warehouse,
+        date: currentFilter.date,
+        concept: currentFilter.concept,
         conceptsList: concepts,
-        user: user,
+        user: currentFilter.user,
         usersList: users,
-        currentLimit: limit);
+        currentLimit: currentFilter.currentLimit);
     emit(LoadedState(movementFilters: movementFilter));
   }
 
@@ -114,7 +90,7 @@ class MovementFiltersCubit extends Cubit<MovementFiltersState> {
   }
 
   void changeConcept(
-      MovementFilterModel currentFilter, InventoryMoveConceptModel? concept) {
+      MovementFilterModel currentFilter, InventoryMoveConceptModel concept) {
     try {
       MovementFilterModel movementFilter;
       emit(LoadingState());
@@ -134,7 +110,7 @@ class MovementFiltersCubit extends Cubit<MovementFiltersState> {
     }
   }
 
-  void changeUser(MovementFilterModel currentFilter, UserModel? user) {
+  void changeUser(MovementFilterModel currentFilter, UserModel user) {
     try {
       MovementFilterModel movementFilter;
       emit(LoadingState());

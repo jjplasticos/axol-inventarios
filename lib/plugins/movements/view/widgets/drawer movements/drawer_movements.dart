@@ -17,16 +17,16 @@ class DrawerMovements extends StatelessWidget {
     DateTime endTime;
     String textDate;
     bool allDates;
-    if (filters.date![0]!.year == 0) {
+    if (filters.date[0]!.year == 0) {
       allDates = true;
       textDate = 'HASTA HOY';
     } else {
-      if (filters.date![0] == filters.date![1]) {
+      if (filters.date[0] == filters.date[1]) {
         textDate =
-            '${filters.date![0]!.day}/${filters.date![0]!.month}/${filters.date![0]!.year}';
+            '${filters.date[0]!.day}/${filters.date[0]!.month}/${filters.date[0]!.year}';
       } else {
         textDate =
-            '${filters.date![0]!.day}/${filters.date![0]!.month}/${filters.date![0]!.year} -> ${filters.date![1]!.day}/${filters.date![1]!.month}/${filters.date![1]!.year}';
+            '${filters.date[0]!.day}/${filters.date[0]!.month}/${filters.date[0]!.year} -> ${filters.date[1]!.day}/${filters.date[1]!.month}/${filters.date[1]!.year}';
       }
       allDates = false;
     }
@@ -44,11 +44,11 @@ class DrawerMovements extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   const Text('Almacén:'),
-                  /*DropdownWarehouses(
-                    warehouses: filters.warehousesList ?? [],
+                  DropdownWarehouses(
+                    warehouses: filters.warehousesList,
                     currenWarehouse: filters.warehouse,
                     filters: filters,
-                  ),*/
+                  ),
                 ],
               ),
               Row(
@@ -154,7 +154,7 @@ class DrawerMovements extends StatelessWidget {
                 children: [
                   const Text('Concepto:'),
                   DropdownConcepts(
-                    concepts: filters.conceptsList!,
+                    concepts: filters.conceptsList,
                     currenConcept: filters.concept,
                     filters: filters,
                   ),
@@ -165,7 +165,7 @@ class DrawerMovements extends StatelessWidget {
                 children: [
                   const Text('Encargado de almacén:'),
                   DropdownUsers(
-                    users: filters.usersList ?? [],
+                    users: filters.usersList,
                     currentUser: filters.user,
                     filters: filters,
                   ),

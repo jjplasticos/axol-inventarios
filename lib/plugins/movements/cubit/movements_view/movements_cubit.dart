@@ -11,16 +11,17 @@ class MovementsCuibit extends Cubit<MovementsState> {
 
   Future<void> loadList() async {
     try {
-      MovementFilterModel filters = const MovementFilterModel();
+      MovementFilterModel filters = MovementFilterModel.initialValue();
       List<MovementModel> movements;
       emit(InitialState());
       emit(LoadingState(
-          filters: filters, finder: TextfieldModel(text: '', position: 0)));
+          filters: filters,
+          finder: const TextfieldModel(text: '', position: 0)));
       //Obtener lista de movimientos de base de datos
       movements = await MovementRepo().fetchMovements(filters, null);
       emit(LoadedState(
           movements: movements,
-          finder: TextfieldModel(text: '', position: 0),
+          finder: const TextfieldModel(text: '', position: 0),
           filters: filters));
       //emit(EditState());
     } catch (e) {

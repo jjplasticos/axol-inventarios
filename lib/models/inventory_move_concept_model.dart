@@ -3,7 +3,7 @@ class InventoryMoveConceptModel {
   final int type;
   final String concept;
 
-  InventoryMoveConceptModel({
+  const InventoryMoveConceptModel({
     required this.concept,
     required this.id,
     required this.type,

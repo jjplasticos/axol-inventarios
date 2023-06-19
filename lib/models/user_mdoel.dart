@@ -4,5 +4,9 @@ class UserModel {
   final String rol;
   final String password;
 
-  UserModel({required this.name, required this.uid, required this.rol, required this.password});
+  const UserModel(
+      {required this.name,
+      required this.uid,
+      required this.rol,
+      required this.password});
 }

@@ -33,14 +33,6 @@ class DrawerMovementsController extends StatelessWidget {
                   ],
                 );
               } else if (state is LoadedState) {
-                print(state.movementFilters.concept);
-                print(state.movementFilters.conceptsList);
-                print(state.movementFilters.currentLimit);
-                print(state.movementFilters.date);
-                print(state.movementFilters.user);
-                print(state.movementFilters.usersList);
-                print(state.movementFilters.warehouse);
-                print(state.movementFilters.warehousesList);
                 return DrawerMovements(
                   filters: state.movementFilters,
                 );

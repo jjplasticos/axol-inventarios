@@ -8,12 +8,12 @@ import '../../../cubit/movement_filters/movement_filters_cubit.dart';
 class DropdownWarehouses extends StatelessWidget {
   final MovementFilterModel filters;
   final List<WarehouseModel> warehouses;
-  final WarehouseModel? currenWarehouse;
+  final WarehouseModel currenWarehouse;
 
   const DropdownWarehouses(
       {super.key,
       required this.warehouses,
-      this.currenWarehouse,
+      required this.currenWarehouse,
       required this.filters});
 
   @override
@@ -28,7 +28,11 @@ class DropdownWarehouses extends StatelessWidget {
           return DropdownMenuItem(value: e, child: Text(e.name));
         }).toList(),
         onChanged: (value) {
-          context.read<MovementFiltersCubit>().changeWarehouse(filters, value);
+          if (value != null) {
+            context
+                .read<MovementFiltersCubit>()
+                .changeWarehouse(filters, value);
+          }
         },
       ),
     );

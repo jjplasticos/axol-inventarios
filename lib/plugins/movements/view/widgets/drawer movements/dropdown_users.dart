@@ -28,7 +28,9 @@ class DropdownUsers extends StatelessWidget {
           return DropdownMenuItem(value: e, child: Text(e.name));
         }).toList(),
         onChanged: (value) {
-          context.read<MovementFiltersCubit>().changeUser(filters, value);
+          if (value != null) {
+            context.read<MovementFiltersCubit>().changeUser(filters, value);
+          }
         },
       ),
     );

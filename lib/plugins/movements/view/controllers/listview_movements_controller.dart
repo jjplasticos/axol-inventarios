@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../../models/textfield_model.dart';
 import '../../cubit/movements_view/movements_cubit.dart';
 import '../../cubit/movements_view/movements_state.dart';
 import '../widgets/listview_movements.dart';

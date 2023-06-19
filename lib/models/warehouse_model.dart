@@ -3,7 +3,7 @@ class WarehouseModel {
   final String name;
   final String retailManager;
 
-  WarehouseModel({
+  const WarehouseModel({
     required this.id,
     required this.name,
     required this.retailManager,

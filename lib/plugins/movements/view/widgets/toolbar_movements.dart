@@ -38,10 +38,8 @@ class ToolbarMovements extends StatelessWidget {
                     )),
               ).then((value) {
                 if (value != null) {
-                  //print(value);
-                  context
-                      .read<MovementsCuibit>()
-                      .finderList(value, TextfieldModel(text: '', position: 0));
+                  context.read<MovementsCuibit>().finderList(
+                      value, const TextfieldModel(text: '', position: 0));
                 }
               });
             }

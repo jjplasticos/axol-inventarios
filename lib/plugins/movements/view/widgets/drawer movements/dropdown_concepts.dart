@@ -28,7 +28,9 @@ class DropdownConcepts extends StatelessWidget {
           return DropdownMenuItem(value: e, child: Text(e.concept));
         }).toList(),
         onChanged: (value) {
-          context.read<MovementFiltersCubit>().changeConcept(filters, value);
+          if (value != null) {
+            context.read<MovementFiltersCubit>().changeConcept(filters, value);
+          }
         },
       ),
     );
