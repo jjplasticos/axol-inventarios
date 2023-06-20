@@ -19,11 +19,11 @@ class ToolbarMovements extends StatelessWidget {
   Widget build(BuildContext context) {
     return Toolbar(
       listData: [
-        ElementsBarModel(
+        /*ElementsBarModel(
           text: null,
           icon: const Icon(Icons.add),
           action: () {},
-        ),
+        ),*/
         ElementsBarModel(
           text: null,
           icon: const Icon(Icons.filter_alt),
@@ -41,6 +41,7 @@ class ToolbarMovements extends StatelessWidget {
                   context.read<MovementsCuibit>().finderList(
                       value, const TextfieldModel(text: '', position: 0));
                 }
+                //print(value);
               });
             }
           },
@@ -48,7 +49,9 @@ class ToolbarMovements extends StatelessWidget {
         ElementsBarModel(
           text: null,
           icon: const Icon(Icons.restart_alt),
-          action: () {},
+          action: () {
+            context.read<MovementsCuibit>().loadList();
+          },
         )
       ],
     );

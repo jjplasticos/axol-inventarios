@@ -48,33 +48,22 @@ class MovementRepo {
     Map<String, dynamic> filters = {};
     List<Map<String, dynamic>> movementsDB = [];
 
-    if (moveFilter.warehouse != null) {
-      if (moveFilter.warehouse!.id != 'all') {
-        filters[_warehouse] = moveFilter.warehouse!.name;
-        //print(filters[_warehouse].warehouse as MovementFilterModel);
-      }
+    if (moveFilter.warehouse.id != 'all') {
+      filters[_warehouse] = moveFilter.warehouse.name;
+      //print(filters[_warehouse].warehouse as MovementFilterModel);
     }
-    if (moveFilter.date != null) {
-      if (moveFilter.date![0]!.year != 0) {
-        filterStartDate = moveFilter.date![0]!.millisecondsSinceEpoch;
-        filterEndDate = moveFilter.date![1]!.millisecondsSinceEpoch;
-      }
+    if (moveFilter.date[0]!.year != 0) {
+      filterStartDate = moveFilter.date[0]!.millisecondsSinceEpoch;
+      filterEndDate = moveFilter.date[1]!.millisecondsSinceEpoch;
     }
-    if (moveFilter.concept != null) {
-      if (moveFilter.concept!.id != -1) {
-        filters[_concept] = moveFilter.concept!.id;
-        print(filters[_concept]);
-      }
+    if (moveFilter.concept.id != -1) {
+      filters[_concept] = moveFilter.concept.id;
     }
-    if (moveFilter.user != null) {
-      if (moveFilter.user!.uid != 'all') {
-        filters[_user] = moveFilter.user!.name;
-      }
+    if (moveFilter.user.uid != 'all') {
+      filters[_user] = moveFilter.user.name;
     }
-    if (moveFilter.currentLimit != null) {
-      if (moveFilter.currentLimit!.text != '50') {
-        filterLimit = int.parse(moveFilter.currentLimit!.text);
-      }
+    if (moveFilter.currentLimit.text != '50') {
+      filterLimit = int.parse(moveFilter.currentLimit.text);
     }
     if (filter == null || filter == '') {
       movementsDB = await _supabase
@@ -89,18 +78,12 @@ class MovementRepo {
       movementsDB = await _supabase
           .from(_table)
           .select<List<Map<String, dynamic>>>()
-          .or('$_code.ilike.%$filter%,$_description.ilike.%$filter%')
+          .or('$_code.ilike.%$filter%,$_description.ilike.%$filter%,$_document.ilike.%$filter%')
           .match(filters)
           .lte(_time, filterEndDate)
           .gte(_time, filterStartDate)
           .order(_time, ascending: false)
           .limit(filterLimit);
-      /*movementsDB = await _supabase
-          .from(_table)
-          .select<List<Map<String, dynamic>>>()
-          .or('$_code.ilike.%$filter%,$_description.ilike.%$filter%')
-          .order(_time, ascending: false)
-          .limit(limit);*/
     }
 
     if (movementsDB.isNotEmpty) {

@@ -45,8 +45,6 @@ class DrawerMovements extends StatelessWidget {
                 children: [
                   const Text('Almacén:'),
                   DropdownWarehouses(
-                    warehouses: filters.warehousesList,
-                    currenWarehouse: filters.warehouse,
                     filters: filters,
                   ),
                 ],
@@ -154,8 +152,6 @@ class DrawerMovements extends StatelessWidget {
                 children: [
                   const Text('Concepto:'),
                   DropdownConcepts(
-                    concepts: filters.conceptsList,
-                    currenConcept: filters.concept,
                     filters: filters,
                   ),
                 ],
@@ -165,8 +161,6 @@ class DrawerMovements extends StatelessWidget {
                 children: [
                   const Text('Encargado de almacén:'),
                   DropdownUsers(
-                    users: filters.usersList,
-                    currentUser: filters.user,
                     filters: filters,
                   ),
                 ],
@@ -193,6 +187,14 @@ class DrawerMovements extends StatelessWidget {
                   Navigator.pop(context);
                 },
                 child: const Text('Cancelar'),
+              ),
+              OutlinedButton(
+                onPressed: () {
+                  context
+                      .read<MovementFiltersCubit>()
+                      .getInitialValues(MovementFilterModel.initialValue());
+                },
+                child: const Text('Reiniciar'),
               )
             ],
           )

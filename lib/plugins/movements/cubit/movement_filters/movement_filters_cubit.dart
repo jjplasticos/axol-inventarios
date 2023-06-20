@@ -38,15 +38,9 @@ class MovementFiltersCubit extends Cubit<MovementFiltersState> {
     List<InventoryMoveConceptModel> concepts = [];
     List<UserModel> users = [];
     MovementFilterModel movementFilter;
-    const WarehouseModel warehouse = MovementFilterModel.initWarehouse;
-    final Map<int, DateTime> date = MovementFilterModel.initDate;
-    const InventoryMoveConceptModel concept = MovementFilterModel.initConcept;
-    const UserModel user = MovementFilterModel.initUser;
-    const TextfieldModel limit = MovementFilterModel.initLimit;
 
     emit(LoadingState());
     warehouses = await WarehousesRepo().fetchAllWarehouses();
-    //print(warehouses.length);
     if (warehouses.last.id != 'all') {
       warehouses.add(
           const WarehouseModel(id: 'all', name: 'TODOS', retailManager: ''));

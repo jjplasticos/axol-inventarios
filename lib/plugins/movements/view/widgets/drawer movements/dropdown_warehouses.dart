@@ -7,24 +7,31 @@ import '../../../cubit/movement_filters/movement_filters_cubit.dart';
 
 class DropdownWarehouses extends StatelessWidget {
   final MovementFilterModel filters;
-  final List<WarehouseModel> warehouses;
-  final WarehouseModel currenWarehouse;
 
-  const DropdownWarehouses(
-      {super.key,
-      required this.warehouses,
-      required this.currenWarehouse,
-      required this.filters});
+  const DropdownWarehouses({super.key, required this.filters});
 
   @override
   Widget build(BuildContext context) {
+    final WarehouseModel warehouseValue;
+    final int i;
+    if (filters.warehousesList.contains(filters.warehouse)) {
+      warehouseValue = filters.warehouse;
+    } else {
+      i = filters.warehousesList
+          .indexWhere((element) => element.name == filters.warehouse.name);
+      if (i > -1) {
+        warehouseValue = filters.warehousesList.elementAt(i);
+      } else {
+        warehouseValue = filters.warehousesList.last;
+      }
+    }
     return SizedBox(
       width: 250,
       height: 40,
-      child: DropdownButton(
+      child: DropdownButton<WarehouseModel>(
         isExpanded: true,
-        value: currenWarehouse,
-        items: warehouses.map((e) {
+        value: warehouseValue,
+        items: filters.warehousesList.map((e) {
           return DropdownMenuItem(value: e, child: Text(e.name));
         }).toList(),
         onChanged: (value) {

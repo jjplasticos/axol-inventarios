@@ -7,24 +7,31 @@ import '../../../model/movement_filter_model.dart';
 
 class DropdownConcepts extends StatelessWidget {
   final MovementFilterModel filters;
-  final List<InventoryMoveConceptModel> concepts;
-  final InventoryMoveConceptModel? currenConcept;
 
-  const DropdownConcepts(
-      {super.key,
-      required this.concepts,
-      this.currenConcept,
-      required this.filters});
+  const DropdownConcepts({super.key, required this.filters});
 
   @override
   Widget build(BuildContext context) {
+    final InventoryMoveConceptModel conceptValue;
+    final int i;
+    if (filters.conceptsList.contains(filters.concept)) {
+      conceptValue = filters.concept;
+    } else {
+      i = filters.conceptsList
+          .indexWhere((element) => element.id == filters.concept.id);
+      if (i > -1) {
+        conceptValue = filters.conceptsList.elementAt(i);
+      } else {
+        conceptValue = filters.conceptsList.last;
+      }
+    }
     return SizedBox(
       width: 250,
       height: 40,
       child: DropdownButton(
         isExpanded: true,
-        value: currenConcept,
-        items: concepts.map((e) {
+        value: conceptValue,
+        items: filters.conceptsList.map((e) {
           return DropdownMenuItem(value: e, child: Text(e.concept));
         }).toList(),
         onChanged: (value) {
