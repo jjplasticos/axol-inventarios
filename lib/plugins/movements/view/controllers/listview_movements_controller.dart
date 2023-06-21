@@ -33,6 +33,8 @@ class ListviewMovementsController extends StatelessWidget {
               ToolbarMovements(
                 isLoading: true,
                 currentFilter: state.filters,
+                movementsList: const [],
+                mode: state.mode,
               ),
             ],
           );
@@ -41,6 +43,7 @@ class ListviewMovementsController extends StatelessWidget {
             filters: state.filters,
             movementsList: state.movements,
             finder: state.finder,
+            mode: state.mode,
           );
         }
         return Container();

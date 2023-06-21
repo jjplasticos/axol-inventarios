@@ -4,12 +4,12 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../cubit/movement_filters/movement_filters_cubit.dart';
 import '../../cubit/movement_filters/movement_filters_state.dart';
 import '../../model/movement_filter_model.dart';
-import '../widgets/drawer movements/drawer_movements.dart';
+import '../widgets/drawer_history.dart';
 
-class DrawerMovementsController extends StatelessWidget {
+class DrawerHistoryController extends StatelessWidget {
   final MovementFilterModel currentFilter;
 
-  const DrawerMovementsController({super.key, required this.currentFilter});
+  const DrawerHistoryController({super.key, required this.currentFilter});
 
   @override
   Widget build(BuildContext context) {
@@ -33,7 +33,7 @@ class DrawerMovementsController extends StatelessWidget {
                   ],
                 );
               } else if (state is LoadedState) {
-                return DrawerMovements(
+                return DrawerHistory(
                   filters: state.movementFilters,
                 );
               } else if (state is ErrorState) {

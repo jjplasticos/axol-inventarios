@@ -1,15 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../../../cubit/movement_filters/movement_filters_cubit.dart';
-import '../../../model/movement_filter_model.dart';
-import 'dropdown_concepts.dart';
-import 'dropdown_users.dart';
-import 'dropdown_warehouses.dart';
-import 'textfield_select_limit.dart';
 
-class DrawerMovements extends StatelessWidget {
+import '../../cubit/movement_filters/movement_filters_cubit.dart';
+import '../../model/movement_filter_model.dart';
+import 'drawer movements/dropdown_warehouses.dart';
+import 'drawer movements/textfield_select_limit.dart';
+
+class DrawerHistory extends StatelessWidget {
   final MovementFilterModel filters;
-  const DrawerMovements({super.key, required this.filters});
+  const DrawerHistory({super.key, required this.filters});
 
   @override
   Widget build(BuildContext context) {
@@ -46,7 +45,7 @@ class DrawerMovements extends StatelessWidget {
                   const Text('Almacén:'),
                   DropdownWarehouses(
                     filters: filters,
-                    mode: 0,
+                    mode: 1,
                   ),
                 ],
               ),
@@ -151,24 +150,6 @@ class DrawerMovements extends StatelessWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  const Text('Concepto:'),
-                  DropdownConcepts(
-                    filters: filters,
-                  ),
-                ],
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  const Text('Encargado de almacén:'),
-                  DropdownUsers(
-                    filters: filters,
-                  ),
-                ],
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
                   const Text('Limite:'),
                   TextfieldSelectLimit(filter: filters),
                 ],
@@ -189,14 +170,6 @@ class DrawerMovements extends StatelessWidget {
                 },
                 child: const Text('Cancelar'),
               ),
-              OutlinedButton(
-                onPressed: () {
-                  context
-                      .read<MovementFiltersCubit>()
-                      .getInitialValues(MovementFilterModel.initialValue());
-                },
-                child: const Text('Reiniciar'),
-              )
             ],
           )
         ],

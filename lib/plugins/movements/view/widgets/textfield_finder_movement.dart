@@ -38,7 +38,7 @@ class TextfieldFinderMovement extends StatelessWidget {
                 autofocus: true,
                 enabled: isLoading,
                 onFieldSubmitted: (value) {
-                  context.read<MovementsCuibit>().finderList(
+                  context.read<MovementsCuibit>().filterMode(
                       filters,
                       TextfieldModel(
                           text: value,
@@ -64,7 +64,7 @@ class TextfieldFinderMovement extends StatelessWidget {
               Icons.search,
             ),
             onPressed: () {
-              context.read<MovementsCuibit>().finderList(
+              context.read<MovementsCuibit>().filterMode(
                   filters,
                   TextfieldModel(
                       text: text,
@@ -78,7 +78,7 @@ class TextfieldFinderMovement extends StatelessWidget {
               Icons.cancel,
             ),
             onPressed: () {
-              context.read<MovementsCuibit>().finderList(
+              context.read<MovementsCuibit>().filterMode(
                   filters, const TextfieldModel(text: '', position: 0));
             },
           ),

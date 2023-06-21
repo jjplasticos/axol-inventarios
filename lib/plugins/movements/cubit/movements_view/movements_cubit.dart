@@ -16,41 +16,57 @@ class MovementsCuibit extends Cubit<MovementsState> {
       emit(InitialState());
       emit(LoadingState(
           filters: filters,
-          finder: const TextfieldModel(text: '', position: 0)));
-      //Obtener lista de movimientos de base de datos
-      movements = await MovementRepo().fetchMovements(filters, null);
-      emit(LoadedState(
-          movements: movements,
           finder: const TextfieldModel(text: '', position: 0),
-          filters: filters));
+          mode: 0));
+      //Obtener lista de movimientos de base de datos
+      movements = await MovementRepo().fetchMovements(filters, null, false);
+      emit(LoadedState(
+        movements: movements,
+        finder: const TextfieldModel(text: '', position: 0),
+        filters: filters,
+        mode: 0,
+      ));
       //emit(EditState());
     } catch (e) {
       emit(ErrorState(error: e.toString()));
     }
   }
 
-  Future<void> finderList(
+  Future<void> filterMode(
       MovementFilterModel filters, TextfieldModel finder) async {
     try {
       List<MovementModel> movements;
       emit(InitialState());
-      emit(LoadingState(finder: finder, filters: filters));
-      movements = await MovementRepo().fetchMovements(filters, finder.text);
-      emit(LoadedState(movements: movements, finder: finder, filters: filters));
+      emit(LoadingState(finder: finder, filters: filters, mode: 0));
+      movements =
+          await MovementRepo().fetchMovements(filters, finder.text, false);
+      emit(LoadedState(
+        movements: movements,
+        finder: finder,
+        filters: filters,
+        mode: 0,
+      ));
     } catch (e) {
       emit(ErrorState(error: e.toString()));
     }
   }
 
-  /*Future<void> changeFilters() async {
+  Future<void> historyMode(
+      MovementFilterModel filters, TextfieldModel finder) async {
     try {
       List<MovementModel> movements;
       emit(InitialState());
-      emit(LoadingState(finder: finder, filters: filters));
-      movements = await MovementRepo().fetchMovements(filters, finder.text);
-      emit(LoadedState(movements: movements, finder: finder, filters: filters));
+      emit(LoadingState(finder: finder, filters: filters, mode: 1));
+      movements =
+          await MovementRepo().fetchMovements(filters, finder.text, true);
+      emit(LoadedState(
+        movements: movements,
+        finder: finder,
+        filters: filters,
+        mode: 1,
+      ));
     } catch (e) {
       emit(ErrorState(error: e.toString()));
     }
-  }*/
+  }
 }

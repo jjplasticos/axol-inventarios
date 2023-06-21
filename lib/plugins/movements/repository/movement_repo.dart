@@ -39,7 +39,7 @@ class MovementRepo {
   }
 
   Future<List<MovementModel>> fetchMovements(
-      MovementFilterModel moveFilter, String? filter) async {
+      MovementFilterModel moveFilter, String? filter, bool ascending) async {
     List<MovementModel> movements = [];
     MovementModel move;
     int filterLimit = 50;
@@ -72,7 +72,7 @@ class MovementRepo {
           .match(filters)
           .lte(_time, filterEndDate)
           .gte(_time, filterStartDate)
-          .order(_time, ascending: false)
+          .order(_time, ascending: ascending)
           .limit(filterLimit);
     } else {
       movementsDB = await _supabase
@@ -82,7 +82,7 @@ class MovementRepo {
           .match(filters)
           .lte(_time, filterEndDate)
           .gte(_time, filterStartDate)
-          .order(_time, ascending: false)
+          .order(_time, ascending: ascending)
           .limit(filterLimit);
     }
 

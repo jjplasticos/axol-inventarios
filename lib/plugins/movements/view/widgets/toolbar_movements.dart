@@ -1,27 +1,29 @@
-import 'dart:typed_data';
-
 import 'package:axol_inventarios/models/textfield_model.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:path_provider/path_provider.dart';
-import 'dart:io';
-import 'package:pdf/pdf.dart';
-import 'package:pdf/widgets.dart' as pw;
-import 'package:printing/printing.dart';
 
 import '../../../../global_widgets/toolbar.dart';
 import '../../../../models/elemnets_bar_model.dart';
 import '../../cubit/movement_filters/movement_filters_cubit.dart';
 import '../../cubit/movements_view/movements_cubit.dart';
 import '../../model/movement_filter_model.dart';
+import '../../model/movement_model.dart';
+import '../controllers/drawer_history_controller.dart';
 import '../controllers/drawer_movement_controller.dart';
+import 'pdf_movements_format.dart';
+import 'pdf_preview_page.dart';
 
 class ToolbarMovements extends StatelessWidget {
+  final List<MovementModel> movementsList;
   final bool isLoading;
   final MovementFilterModel currentFilter;
+  final int mode;
   const ToolbarMovements(
-      {super.key, required this.isLoading, required this.currentFilter});
+      {super.key,
+      required this.isLoading,
+      required this.currentFilter,
+      required this.movementsList,
+      required this.mode});
 
   @override
   Widget build(BuildContext context) {
@@ -36,7 +38,7 @@ class ToolbarMovements extends StatelessWidget {
           text: null,
           icon: const Icon(Icons.filter_alt),
           action: () {
-            if (isLoading == false) {
+            if (isLoading == false && mode == 0) {
               showDialog(
                 context: context,
                 builder: (context) => BlocProvider(
@@ -46,7 +48,7 @@ class ToolbarMovements extends StatelessWidget {
                     )),
               ).then((value) {
                 if (value != null) {
-                  context.read<MovementsCuibit>().finderList(
+                  context.read<MovementsCuibit>().filterMode(
                       value, const TextfieldModel(text: '', position: 0));
                 }
                 //print(value);
@@ -58,31 +60,48 @@ class ToolbarMovements extends StatelessWidget {
           text: null,
           icon: const Icon(Icons.restart_alt),
           action: () {
-            context.read<MovementsCuibit>().loadList();
+            if (isLoading == false) {
+              context.read<MovementsCuibit>().loadList();
+            }
           },
         ),
         ElementsBarModel(
           text: null,
-          icon: const Icon(Icons.print),
-          action: () async {
-            /*final Uint8List fontData = File('open-sans.ttf').readAsBytesSync();
-            final ttf = pw.Font.ttf(fontData.buffer.asByteData());*/
-            /*final font = await rootBundle.load("assets/open-sans.ttf");
-            final ttf = pw.Font.ttf(font);*/
-            final font = await PdfGoogleFonts.nunitoExtraLight();
-
-            final pdf = pw.Document();
-            pdf.addPage(pw.Page(
-              pageFormat: PdfPageFormat.a4,
-              build: (pw.Context context) {
-                return pw.Center(
-                  child: pw.Text('Hola mundo!', style: pw.TextStyle(font: font, fontSize: 40),)
-                );
-              }
-            ));
-            final output = await getTemporaryDirectory();
-            final outputFile = File('${output.path}/holaMundo.pdf');
-            await outputFile.writeAsBytes(await pdf.save());
+          icon: const Icon(Icons.picture_as_pdf),
+          action: () {
+            if (isLoading == false) {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => PdfPreviewPage(
+                            makePdf: PdfMovementsFormats()
+                                .pdfMovements(movementsList),
+                          )));
+            }
+          },
+        ),
+        ElementsBarModel(
+          text: null,
+          icon: const Icon(Icons.history_edu),
+          secondaryColor: mode == 1 ? Colors.white : null,
+          action: () {
+            if (isLoading == false) {
+              showDialog(
+                context: context,
+                builder: (context) => BlocProvider(
+                    create: (_) => MovementFiltersCubit(),
+                    child: DrawerHistoryController(
+                      currentFilter: mode == 1
+                          ? currentFilter
+                          : MovementFilterModel.initialValue(),
+                    )),
+              ).then((value) {
+                if (value != null) {
+                  context.read<MovementsCuibit>().historyMode(
+                      value, const TextfieldModel(text: '', position: 0));
+                }
+              });
+            }
           },
         )
       ],

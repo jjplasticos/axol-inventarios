@@ -16,19 +16,25 @@ class InitialState extends MovementsState {
 class LoadingState extends MovementsState {
   final MovementFilterModel filters;
   final TextfieldModel finder;
-  const LoadingState({required this.finder, required this.filters});
+  final int mode;
+  const LoadingState(
+      {required this.finder, required this.filters, required this.mode});
   @override
-  List<Object?> get props => [finder, filters];
+  List<Object?> get props => [finder, filters, mode];
 }
 
 class LoadedState extends MovementsState {
   final MovementFilterModel filters;
   final List<MovementModel> movements;
   final TextfieldModel finder;
+  final int mode;
   const LoadedState(
-      {required this.movements, required this.finder, required this.filters});
+      {required this.movements,
+      required this.finder,
+      required this.filters,
+      required this.mode});
   @override
-  List<Object?> get props => [movements, finder, filters];
+  List<Object?> get props => [movements, finder, filters, mode];
 }
 
 class EditState extends MovementsState {
