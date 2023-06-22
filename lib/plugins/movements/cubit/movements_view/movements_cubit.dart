@@ -19,7 +19,7 @@ class MovementsCuibit extends Cubit<MovementsState> {
           finder: const TextfieldModel(text: '', position: 0),
           mode: 0));
       //Obtener lista de movimientos de base de datos
-      movements = await MovementRepo().fetchMovements(filters, null, false);
+      movements = await MovementRepo().fetchMovements(filters, null, false, 0);
       emit(LoadedState(
         movements: movements,
         finder: const TextfieldModel(text: '', position: 0),
@@ -39,7 +39,7 @@ class MovementsCuibit extends Cubit<MovementsState> {
       emit(InitialState());
       emit(LoadingState(finder: finder, filters: filters, mode: 0));
       movements =
-          await MovementRepo().fetchMovements(filters, finder.text, false);
+          await MovementRepo().fetchMovements(filters, finder.text, false, 0);
       emit(LoadedState(
         movements: movements,
         finder: finder,
@@ -58,7 +58,7 @@ class MovementsCuibit extends Cubit<MovementsState> {
       emit(InitialState());
       emit(LoadingState(finder: finder, filters: filters, mode: 1));
       movements =
-          await MovementRepo().fetchMovements(filters, finder.text, true);
+          await MovementRepo().fetchMovements(filters, finder.text, true, 1);
       emit(LoadedState(
         movements: movements,
         finder: finder,

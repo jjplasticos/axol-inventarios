@@ -268,6 +268,8 @@ class InventoryMovesCubit extends Cubit<InventoryMovesState> {
       String errorMessage = '';
       int conceptType = -1;
       UserModel userModel;
+      InventoryModel? inventoryModel;
+      double stock = 0;
 
       if (current.concepts
               .indexWhere((value) => value.concept == current.concept) <
@@ -315,6 +317,17 @@ class InventoryMovesCubit extends Cubit<InventoryMovesState> {
             .indexWhere((value) => value.concept == current.concept));
         userModel = await LocalUser().getLocalUser();
         for (var element in currentRedux.products) {
+          inventoryModel =
+              await InventoryRepo().fetchRowByCode(element.code, inventory1);
+          if (inventoryModel != null) {
+            if (conceptModel.type == 0) {
+              stock = inventoryModel.stock + double.parse(element.quantity);
+            } else if (conceptModel.type == 1) {
+              stock = inventoryModel.stock - double.parse(element.quantity);
+            }
+          } else {
+            stock = 0;
+          }
           movement = MovementModel(
             id: const Uuid().v4(),
             code: element.code,
@@ -326,21 +339,29 @@ class InventoryMovesCubit extends Cubit<InventoryMovesState> {
             time: currentRedux.date,
             warehouse: inventory1,
             user: userModel.name,
+            stock: stock,
           );
           movements.add(movement);
           if (conceptModel.id == 58) {
+            inventoryModel = await InventoryRepo()
+                .fetchRowByCode(element.code, currentRedux.invTransfer);
+            if (inventoryModel != null) {
+              stock = inventoryModel.stock + double.parse(element.quantity);
+            } else {
+              stock = double.parse(element.quantity);
+            }
             movement = MovementModel(
-              id: const Uuid().v4(),
-              code: element.code,
-              concept: 7,
-              conceptType: 0,
-              description: element.description,
-              document: currentRedux.document,
-              quantity: double.parse(element.quantity),
-              time: currentRedux.date,
-              warehouse: currentRedux.invTransfer,
-              user: userModel.name,
-            );
+                id: const Uuid().v4(),
+                code: element.code,
+                concept: 7,
+                conceptType: 0,
+                description: element.description,
+                document: currentRedux.document,
+                quantity: double.parse(element.quantity),
+                time: DateTime.now(),
+                warehouse: currentRedux.invTransfer,
+                user: userModel.name,
+                stock: stock);
             movements.add(movement);
           }
         }

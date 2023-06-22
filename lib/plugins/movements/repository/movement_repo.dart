@@ -17,6 +17,7 @@ class MovementRepo {
   static const String _conceptType = 'concept_type';
   static const String _quantity = 'quantity';
   static const String _user = 'user';
+  static const String _stock = 'stock';
   //Database
   static final _supabase = Supabase.instance.client;
 
@@ -34,12 +35,13 @@ class MovementRepo {
         _conceptType: element.conceptType,
         _quantity: element.quantity,
         _user: element.user,
+        _stock: element.stock,
       });
     }
   }
 
-  Future<List<MovementModel>> fetchMovements(
-      MovementFilterModel moveFilter, String? filter, bool ascending) async {
+  Future<List<MovementModel>> fetchMovements(MovementFilterModel moveFilter,
+      String? filter, bool ascending, int mode) async {
     List<MovementModel> movements = [];
     MovementModel move;
     int filterLimit = 50;
@@ -75,31 +77,44 @@ class MovementRepo {
           .order(_time, ascending: ascending)
           .limit(filterLimit);
     } else {
-      movementsDB = await _supabase
-          .from(_table)
-          .select<List<Map<String, dynamic>>>()
-          .or('$_code.ilike.%$filter%,$_description.ilike.%$filter%,$_document.ilike.%$filter%')
-          .match(filters)
-          .lte(_time, filterEndDate)
-          .gte(_time, filterStartDate)
-          .order(_time, ascending: ascending)
-          .limit(filterLimit);
+      if (mode == 1) {
+        movementsDB = await _supabase
+            .from(_table)
+            .select<List<Map<String, dynamic>>>()
+            .or('$_code.ilike.%$filter%,$_description.ilike.%$filter%,$_document.ilike.%$filter%')
+            .match(filters)
+            .lte(_time, filterEndDate)
+            .gte(_time, filterStartDate)
+            .order(_time, ascending: ascending)
+            .limit(filterLimit);
+      } else {
+        movementsDB = await _supabase
+            .from(_table)
+            .select<List<Map<String, dynamic>>>()
+            .or('$_code.ilike.%$filter%,$_description.ilike.%$filter%,$_document.ilike.%$filter%')
+            .match(filters)
+            .lte(_time, filterEndDate)
+            .gte(_time, filterStartDate)
+            .order(_time, ascending: ascending)
+            .limit(filterLimit);
+      }
     }
 
     if (movementsDB.isNotEmpty) {
       for (var element in movementsDB) {
         move = MovementModel(
-          id: element[_id].toString(),
-          code: element[_code].toString(),
-          concept: element[_concept],
-          conceptType: element[_conceptType],
-          description: element[_description].toString(),
-          document: element[_document].toString(),
-          quantity: element[_quantity],
-          time: DateTime.fromMillisecondsSinceEpoch(int.parse(element[_time])),
-          warehouse: element[_warehouse].toString(),
-          user: element[_user].toString(),
-        );
+            id: element[_id].toString(),
+            code: element[_code].toString(),
+            concept: element[_concept],
+            conceptType: element[_conceptType],
+            description: element[_description].toString(),
+            document: element[_document].toString(),
+            quantity: element[_quantity],
+            time:
+                DateTime.fromMillisecondsSinceEpoch(int.parse(element[_time])),
+            warehouse: element[_warehouse].toString(),
+            user: element[_user].toString(),
+            stock: element[_stock]);
         movements.add(move);
       }
     }

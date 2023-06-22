@@ -24,7 +24,24 @@ class ListviewMovements extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Column contain;
+    int i;
+    int i2;
+    List<MovementModel> sortMovements = movementsList;
     if (mode == 1) {
+      sortMovements.sort(
+        (a, b) {
+          i = a.warehouse.compareTo(b.warehouse);
+          if (i == 0) {
+            i2 = a.code.compareTo(b.code);
+            if (i2 == 0) {
+              return a.time.millisecondsSinceEpoch
+                  .compareTo(b.time.millisecondsSinceEpoch);
+            }
+            return i2;
+          }
+          return i;
+        },
+      );
       contain = Column(
         children: [
           TextfieldFinderMovement(
@@ -104,17 +121,17 @@ class ListviewMovements extends StatelessWidget {
           Expanded(
               child: ListView.builder(
             shrinkWrap: true,
-            itemCount: movementsList.length,
+            itemCount: sortMovements.length,
             itemBuilder: (context, index) {
-              double stock = 0;
-              final movement = movementsList[index];
-              for (int i = 0; i <= index; i++) {
+              //double stock = 0;
+              final movement = sortMovements[index];
+              /*for (int i = 0; i <= index; i++) {
                 if (movementsList.elementAt(i).conceptType == 0) {
                   stock = stock + movementsList.elementAt(i).quantity;
                 } else if (movementsList.elementAt(i).conceptType == 1) {
                   stock = stock - movementsList.elementAt(i).quantity;
                 }
-              }
+              }*/
               return Container(
                 height: 30,
                 width: double.infinity,
@@ -195,7 +212,9 @@ class ListviewMovements extends StatelessWidget {
                         flex: 1,
                         child: Center(
                           child: Text(
-                            movement.quantity.toString(),
+                            movement.conceptType == 0
+                                ? movement.quantity.toString()
+                                : '-${movement.quantity}',
                             style: Typo.labelText1,
                           ),
                         ),
@@ -205,7 +224,7 @@ class ListviewMovements extends StatelessWidget {
                         flex: 1,
                         child: Center(
                           child: Text(
-                            stock.toString(),
+                            movement.stock.toString(),
                             style: Typo.labelText1,
                           ),
                         ),

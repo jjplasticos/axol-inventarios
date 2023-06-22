@@ -9,16 +9,19 @@ class MovementModel {
   final int conceptType;
   final double quantity;
   final String user;
+  final double stock;
 
-  MovementModel(
-      {required this.id,
-      required this.code,
-      required this.concept,
-      required this.conceptType,
-      required this.description,
-      required this.document,
-      required this.quantity,
-      required this.time,
-      required this.warehouse,
-      required this.user});
+  MovementModel({
+    required this.id,
+    required this.code,
+    required this.concept,
+    required this.conceptType,
+    required this.description,
+    required this.document,
+    required this.quantity,
+    required this.time,
+    required this.warehouse,
+    required this.user,
+    required this.stock,
+  });
 }

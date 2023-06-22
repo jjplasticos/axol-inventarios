@@ -16,20 +16,25 @@ class DropdownWarehouses extends StatelessWidget {
   Widget build(BuildContext context) {
     final WarehouseModel warehouseValue;
     final int i;
-    if (mode == 1 && filters.warehousesList.last.id == 'all') {
+    /*if (mode == 1 && filters.warehousesList.last.id == 'all') {
       filters.warehousesList.removeLast();
-      warehouseValue = filters.warehousesList.first;
-    } else {
-      if (filters.warehousesList.contains(filters.warehouse)) {
-        warehouseValue = filters.warehouse;
+      if (filters.warehouse.id == 'all') {
+        warehouseValue = filters.warehousesList.first;
       } else {
-        i = filters.warehousesList
-            .indexWhere((element) => element.name == filters.warehouse.name);
-        if (i > -1) {
-          warehouseValue = filters.warehousesList.elementAt(i);
-        } else {
-          warehouseValue = filters.warehousesList.last;
-        }
+        warehouseValue = filters.warehouse;
+      }
+    } else {
+      
+    }*/
+    if (filters.warehousesList.contains(filters.warehouse)) {
+      warehouseValue = filters.warehouse;
+    } else {
+      i = filters.warehousesList
+          .indexWhere((element) => element.name == filters.warehouse.name);
+      if (i > -1) {
+        warehouseValue = filters.warehousesList.elementAt(i);
+      } else {
+        warehouseValue = filters.warehousesList.last;
       }
     }
     return SizedBox(

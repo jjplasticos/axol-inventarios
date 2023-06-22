@@ -22,9 +22,6 @@ class InventoryRepo {
   static const String _user = 'user_name';
   //Otros
   static const String _description = 'description';
-  static const String _weight = 'weight';
-  static const String _price = 'price';
-  static const String _quantity = 'quantity';
   //Instancia a la base de datos
   final _supabase = Supabase.instance.client;
 
