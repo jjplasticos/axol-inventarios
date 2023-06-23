@@ -1,7 +1,12 @@
+import 'dart:io';
+
+import 'package:flutter/material.dart';
 import 'package:flutter/services.dart'; //
 import 'package:pdf/pdf.dart';
 import 'package:pdf/widgets.dart' as pw;
+import 'package:printing/printing.dart';
 
+import '../../../../settings/theme.dart';
 import '../../model/movement_model.dart';
 
 class PdfMovementsFormats {
@@ -125,6 +130,8 @@ class PdfMovementsFormats {
 
   Future<Uint8List> pdfHistory(List<MovementModel> movements) async {
     final pdf = pw.Document();
+    //Fuente de letra:
+    //final font = await PdfGoogleFonts.nunitoExtraLight();
     List<pw.Row> content = [];
     for (var element in movements) {
       content.add(
@@ -169,7 +176,15 @@ class PdfMovementsFormats {
         pw.Expanded(
           flex: 1,
           child: pw.Center(
-            child: pw.Text(element.quantity.toString()),
+            child: element.conceptType == 0
+                ? pw.Text(element.quantity.toString())
+                : pw.Text('-${element.quantity}'),
+          ),
+        ),
+        pw.Expanded(
+          flex: 1,
+          child: pw.Center(
+            child: pw.Text(element.stock.toString()),
           ),
         ),
       ]));
@@ -223,6 +238,12 @@ class PdfMovementsFormats {
                       flex: 1,
                       child: pw.Center(
                         child: pw.Text('Cantidad'),
+                      ),
+                    ),
+                    pw.Expanded(
+                      flex: 1,
+                      child: pw.Center(
+                        child: pw.Text('Existencias'),
                       ),
                     ),
                   ]),

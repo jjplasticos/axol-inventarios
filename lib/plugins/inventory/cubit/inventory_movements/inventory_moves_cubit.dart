@@ -336,7 +336,7 @@ class InventoryMovesCubit extends Cubit<InventoryMovesState> {
             description: element.description,
             document: currentRedux.document,
             quantity: double.parse(element.quantity),
-            time: currentRedux.date,
+            time: DateTime.now(),
             warehouse: inventory1,
             user: userModel.name,
             stock: stock,

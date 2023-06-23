@@ -74,7 +74,8 @@ class ToolbarMovements extends StatelessWidget {
                   context,
                   MaterialPageRoute(
                       builder: (context) => PdfPreviewPage(
-                            makePdf: PdfMovementsFormats()
+                            makePdf: mode == 1 ? PdfMovementsFormats()
+                                .pdfHistory(movementsList) : PdfMovementsFormats()
                                 .pdfMovements(movementsList),
                           )));
             }
