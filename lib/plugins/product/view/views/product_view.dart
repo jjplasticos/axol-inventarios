@@ -5,30 +5,30 @@ import '../../../../global_widgets/appbar/appbar_global.dart';
 import '../../../../global_widgets/plugins_bar.dart';
 import '../../../../global_widgets/views_bar.dart';
 import '../../../../models/elemnets_bar_model.dart';
+import '../../../../models/textfield_model.dart';
 import '../../../../settings/theme.dart';
 import '../../../inventory/view/views/warehouse_menu_view.dart';
-import '../../../product/view/views/product_view.dart';
+import '../../../movements/view/views/movements_view.dart';
 import '../../../user/view/views/home_view.dart';
-import '../../cubit/movements_view/movements_cubit.dart';
-import '../controllers/listview_movements_controller.dart';
+import '../../cubit/products/products_cubit.dart';
+import '../controllers/listview_products_controller.dart';
+import '../widgets/listview_products.dart';
 
-class MovementsView extends StatelessWidget {
-  const MovementsView({super.key});
+class ProductView extends StatelessWidget {
+  const ProductView({super.key});
 
   @override
   Widget build(BuildContext context) {
-    const String title = 'View de movimientos';
-
     return MultiBlocProvider(
       providers: [
-        BlocProvider(create: (_) => MovementsCuibit()),
+        BlocProvider(create: (_) => ProductsCubit()),
       ],
       child: Scaffold(
         backgroundColor: ColorPalette.primaryBackground,
         appBar: const PreferredSize(
           preferredSize: Size.fromHeight(50),
           child: AppBarGlobal(
-            title: title,
+            title: 'Productos',
             iconButton: null,
             iconActions: [],
           ),
@@ -81,20 +81,20 @@ class MovementsView extends StatelessWidget {
                   ElementsBarModel(
                       icon: const Icon(Icons.move_down),
                       text: 'Movimientos',
-                      action: () {}),
-                  ElementsBarModel(
-                      text: 'Productos',
-                      icon: const Icon(Icons.grid_view_sharp),
                       action: () {
                         Navigator.pop(context);
                         Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => const ProductView()));
-                      })
+                                builder: (context) => const MovementsView()));
+                      }),
+                  ElementsBarModel(
+                      text: 'Productos',
+                      icon: const Icon(Icons.grid_view_sharp),
+                      action: () {})
                 ],
               ),
-              const Expanded(child: ListviewMovementsController()),
+              const Expanded(child: ListviewProductsController()),
             ],
           ),
         ),

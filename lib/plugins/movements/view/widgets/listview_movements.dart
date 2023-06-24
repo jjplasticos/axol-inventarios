@@ -46,7 +46,7 @@ class ListviewMovements extends StatelessWidget {
         children: [
           TextfieldFinderMovement(
             filters: filters,
-            isLoading: true,
+            isLoading: false,
             currentFinder: finder,
           ),
           const Row(

@@ -14,10 +14,10 @@ class ListviewWarehouse extends StatelessWidget {
     const String descriptrion_ = 'description';
     return Column(
       children: [
-        Row(
+        const Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           crossAxisAlignment: CrossAxisAlignment.center,
-          children: const [
+          children: [
             Text(
               'Clave',
               style: Typo.bodyText5,

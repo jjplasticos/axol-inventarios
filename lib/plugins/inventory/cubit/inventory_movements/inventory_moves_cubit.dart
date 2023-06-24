@@ -11,7 +11,7 @@ import '../../../movements/repository/movement_repo.dart';
 import '../../../user/repository/user_repo.dart';
 import '../../repository/inventory_concepts_repo.dart';
 import '../../repository/inventory_repo.dart';
-import '../../repository/product_repo.dart';
+import '../../../product/repository/product_repo.dart';
 import 'inventory_moves_state.dart';
 
 class InventoryMovesCubit extends Cubit<InventoryMovesState> {

@@ -10,7 +10,7 @@ class ProductRepo {
   final _supabase = Supabase.instance.client;
 
   Future<List<ProductModel>> fetchProductList(List<String> codeList) async {
-    Map<String, dynamic> properties;
+    //Map<String, dynamic> properties;
     List<ProductModel> products = [];
     ProductModel product;
     //List<Map<String, dynamic>> newList = [];
@@ -72,5 +72,45 @@ class ProductRepo {
     }
 
     return product;
+  }
+
+  Future<List<ProductModel>> fetchAllProducts() async {
+    ProductModel product;
+    List<ProductModel> products = [];
+    List<Map<String, dynamic>> productsDB;
+    productsDB =
+        await _supabase.from(_table).select<List<Map<String, dynamic>>>();
+    if (productsDB.isNotEmpty) {
+      for (var element in productsDB) {
+        product = ProductModel(
+          code: element[_code],
+          description: element[_description],
+          properties: element[_properties],
+        );
+        products.add(product);
+      }
+    }
+    return products;
+  }
+
+  Future<List<ProductModel>> fetchProductFinder(String finder) async {
+    ProductModel product;
+    List<ProductModel> products = [];
+    List<Map<String, dynamic>> productsDB;
+    productsDB = await _supabase
+        .from(_table)
+        .select<List<Map<String, dynamic>>>()
+        .or('$_code.ilike.%$finder%,$_description.ilike.%$finder%');
+    if (productsDB.isNotEmpty) {
+      for (var element in productsDB) {
+        product = ProductModel(
+          code: element[_code],
+          description: element[_description],
+          properties: element[_properties],
+        );
+        products.add(product);
+      }
+    }
+    return products;
   }
 }

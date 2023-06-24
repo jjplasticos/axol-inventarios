@@ -3,19 +3,17 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../models/textfield_model.dart';
 import '../../../../settings/theme.dart';
-import '../../cubit/movements_view/movements_cubit.dart';
-import '../../model/movement_filter_model.dart';
+import '../../cubit/products/products_cubit.dart';
 
-class TextfieldFinderMovement extends StatelessWidget {
+class FinderProducts extends StatelessWidget {
   final TextfieldModel currentFinder;
   final bool isLoading;
-  final MovementFilterModel filters;
 
-  const TextfieldFinderMovement(
-      {super.key,
-      required this.currentFinder,
-      required this.isLoading,
-      required this.filters});
+  const FinderProducts({
+    super.key,
+    required this.currentFinder,
+    required this.isLoading,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -38,11 +36,11 @@ class TextfieldFinderMovement extends StatelessWidget {
                 autofocus: true,
                 enabled: !isLoading,
                 onFieldSubmitted: (value) {
-                  context.read<MovementsCuibit>().filterMode(
-                      filters,
-                      TextfieldModel(
-                          text: value,
-                          position: textController.selection.base.offset));
+                  final textFinder = TextfieldModel(
+                    text: value,
+                    position: textController.selection.base.offset,
+                  );
+                  context.read<ProductsCubit>().reloadList(textFinder);
                 },
                 onChanged: (value) {
                   text = value;
@@ -64,11 +62,11 @@ class TextfieldFinderMovement extends StatelessWidget {
               Icons.search,
             ),
             onPressed: () {
-              context.read<MovementsCuibit>().filterMode(
-                  filters,
-                  TextfieldModel(
-                      text: text,
-                      position: textController.selection.base.offset));
+              final textFinder = TextfieldModel(
+                text: text,
+                position: textController.selection.base.offset,
+              );
+              context.read<ProductsCubit>().reloadList(textFinder);
             },
           ),
           IconButton(
@@ -78,8 +76,9 @@ class TextfieldFinderMovement extends StatelessWidget {
               Icons.cancel,
             ),
             onPressed: () {
-              context.read<MovementsCuibit>().filterMode(
-                  filters, const TextfieldModel(text: '', position: 0));
+              if (text != '') {
+                context.read<ProductsCubit>().initialList();
+              }
             },
           ),
         ],

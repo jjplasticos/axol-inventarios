@@ -1,7 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-
-import '../../settings/theme.dart';
 
 class IconButtonActions extends StatelessWidget {
   final String data;
