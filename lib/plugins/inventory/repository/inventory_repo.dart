@@ -1,4 +1,4 @@
-import 'package:axol_inventarios/models/product_model.dart';
+import 'package:axol_inventarios/plugins/product/model/product_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:uuid/uuid.dart';

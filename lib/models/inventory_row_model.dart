@@ -1,4 +1,4 @@
-import 'product_model.dart';
+import '../plugins/product/model/product_model.dart';
 
 class InventoryRowModel {
   final ProductModel product;

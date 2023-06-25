@@ -1,6 +1,6 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../../models/product_model.dart';
+import '../../model/product_model.dart';
 import '../../../../models/textfield_model.dart';
 import '../../repository/product_repo.dart';
 import 'products_state.dart';

@@ -3,8 +3,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../global_widgets/toolbar.dart';
 import '../../../../models/elemnets_bar_model.dart';
-import '../../../movements/model/movement_model.dart';
+import '../../cubit/drawer_product/drawer_product_cubit.dart';
 import '../../cubit/products/products_cubit.dart';
+import '../controllers/drawer_product_controller.dart';
 
 class ToolbarProducts extends StatelessWidget {
   final bool isLoading;
@@ -18,7 +19,14 @@ class ToolbarProducts extends StatelessWidget {
           text: null,
           icon: const Icon(Icons.add),
           action: () {
-            if (isLoading == false) {}
+            if (isLoading == false) {
+              showDialog(
+                context: context,
+                builder: (context) => BlocProvider(
+                    create: (_) => DrawerProductCubit(),
+                    child: const DrawerProductController()),
+              );
+            }
           },
         ),
         ElementsBarModel(

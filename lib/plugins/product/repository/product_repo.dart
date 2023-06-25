@@ -1,6 +1,6 @@
 import 'package:supabase_flutter/supabase_flutter.dart';
 
-import '../../../models/product_model.dart';
+import '../model/product_model.dart';
 
 class ProductRepo {
   static const String _table = 'products';

@@ -1,6 +1,6 @@
 import 'package:equatable/equatable.dart';
 
-import '../../../../models/product_model.dart';
+import '../../model/product_model.dart';
 
 abstract class DrawerProductState extends Equatable {
   const DrawerProductState();
@@ -18,22 +18,22 @@ class LoadingState extends DrawerProductState {
 }
 
 class LoadingCodeState extends DrawerProductState {
-  const LoadingCodeState();
+  final ProductModel product;
+  final List<Map<int, dynamic>> validationCode;
+  final int mode;
+  const LoadingCodeState({required this.product, required this.validationCode, required this.mode});
   @override
-  List<Object?> get props => [];
+  List<Object?> get props => [product, validationCode, mode];
 }
 
 class LoadedState extends DrawerProductState {
   final ProductModel product;
-  final Map<int, dynamic> validationCode;
-  const LoadedState({required this.product, required this.validationCode});
+  final List<Map<int, dynamic>> validation;
+  final int mode;
+  final bool finalValidation;
+  const LoadedState({required this.product, required this.validation, required this.mode, required this.finalValidation});
   @override
-  List<Object?> get props => [product, validationCode];
-}
-
-class EditState extends DrawerProductState {
-  @override
-  List<Object?> get props => [];
+  List<Object?> get props => [product, validation, mode, finalValidation];
 }
 
 class ErrorState extends DrawerProductState {

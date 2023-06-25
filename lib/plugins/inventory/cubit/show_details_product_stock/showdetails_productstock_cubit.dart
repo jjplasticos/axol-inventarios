@@ -2,7 +2,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../models/inventory_model.dart';
 import '../../../../models/inventory_row_model.dart';
-import '../../../../models/product_model.dart';
+import '../../../product/model/product_model.dart';
 import '../../repository/inventory_repo.dart';
 import '../../../product/repository/product_repo.dart';
 import 'showdetails_productstock_state.dart';

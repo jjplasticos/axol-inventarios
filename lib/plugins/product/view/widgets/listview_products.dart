@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../../../models/product_model.dart';
+import '../../model/product_model.dart';
 import '../../../../models/textfield_model.dart';
 import '../../../../settings/theme.dart';
 import 'finder_products.dart';
