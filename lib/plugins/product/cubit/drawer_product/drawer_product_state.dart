@@ -21,9 +21,14 @@ class LoadingCodeState extends DrawerProductState {
   final ProductModel product;
   final List<Map<int, dynamic>> validationCode;
   final int mode;
-  const LoadingCodeState({required this.product, required this.validationCode, required this.mode});
+  final int currentFocus;
+  const LoadingCodeState(
+      {required this.product,
+      required this.validationCode,
+      required this.mode,
+      required this.currentFocus});
   @override
-  List<Object?> get props => [product, validationCode, mode];
+  List<Object?> get props => [product, validationCode, mode, currentFocus];
 }
 
 class LoadedState extends DrawerProductState {
@@ -31,9 +36,16 @@ class LoadedState extends DrawerProductState {
   final List<Map<int, dynamic>> validation;
   final int mode;
   final bool finalValidation;
-  const LoadedState({required this.product, required this.validation, required this.mode, required this.finalValidation});
+  final int currentFocus;
+  const LoadedState(
+      {required this.product,
+      required this.validation,
+      required this.mode,
+      required this.finalValidation,
+      required this.currentFocus});
   @override
-  List<Object?> get props => [product, validation, mode, finalValidation];
+  List<Object?> get props =>
+      [product, validation, mode, finalValidation, currentFocus];
 }
 
 class ErrorState extends DrawerProductState {

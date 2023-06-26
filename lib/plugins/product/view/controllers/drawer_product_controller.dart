@@ -7,7 +7,6 @@ import '../../cubit/drawer_product/drawer_product_state.dart';
 import '../widgets/drawer_add_product.dart';
 
 class DrawerProductController extends StatelessWidget {
-
   const DrawerProductController({super.key});
 
   @override
@@ -21,7 +20,8 @@ class DrawerProductController extends StatelessWidget {
         Drawer(
           width: 500,
           child: BlocBuilder<DrawerProductCubit, DrawerProductState>(
-            bloc: context.read<DrawerProductCubit>()..initialDrawer(ProductModel.emptyValue(), 9),
+            bloc: context.read<DrawerProductCubit>()
+              ..initialDrawer(ProductModel.emptyValue(), 9, 0),
             builder: (context, state) {
               if (state is LoadingState) {
                 return const Column(
@@ -31,9 +31,21 @@ class DrawerProductController extends StatelessWidget {
                   ],
                 );
               } else if (state is LoadedState) {
-                return DrawerAddProduct(product: state.product, validation: state.validation, mode: state.mode, finalValidation: state.finalValidation,);
+                return DrawerAddProduct(
+                  product: state.product,
+                  validation: state.validation,
+                  mode: state.mode,
+                  finalValidation: state.finalValidation,
+                  currentFocus: state.currentFocus,
+                );
               } else if (state is LoadingCodeState) {
-                return DrawerAddProduct(product: state.product, validation: state.validationCode, mode: state.mode, finalValidation: false,);
+                return DrawerAddProduct(
+                  product: state.product,
+                  validation: state.validationCode,
+                  mode: state.mode,
+                  finalValidation: false,
+                  currentFocus: state.currentFocus,
+                );
               } else if (state is ErrorState) {
                 return Text(state.error);
               } else {

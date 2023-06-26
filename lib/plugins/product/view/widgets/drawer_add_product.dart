@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../model/product_model.dart';
@@ -9,28 +10,65 @@ class DrawerAddProduct extends StatelessWidget {
   final List<Map<int, dynamic>> validation;
   final int mode;
   final bool finalValidation;
+  final int currentFocus;
 
   const DrawerAddProduct(
       {super.key,
       required this.product,
       required this.validation,
       required this.mode,
-      required this.finalValidation});
+      required this.finalValidation,
+      required this.currentFocus});
 
   @override
   Widget build(BuildContext context) {
-    FocusNode focusNode = FocusNode();
-    TextEditingController textController = TextEditingController();
-    textController.text = product.code;
-    focusNode.addListener(
-      () {
-        if (!focusNode.hasFocus) {
-          context
-              .read<DrawerProductCubit>()
-              .codeValidation(textController.text, product, validation);
+    //----Text Controllers y Focus Node
+    List<bool> isError = [];
+    List<FocusNode> focusNode = [];
+    List<TextEditingController> textController = [];
+    final List<dynamic> propertiesValues = List.from(product.properties.values);
+    final List<dynamic> propertiesKeys = List.from(product.properties.keys);
+    for (int i = 0; i < propertiesValues.length; i++) {
+      focusNode.add(FocusNode());
+      textController.add(TextEditingController());
+      isError.add(false);
+      textController[i].text = propertiesValues[i].toString();
+      if (i == currentFocus) {
+        focusNode[i].requestFocus();
+      }
+      focusNode[i].addListener(() {
+        RawKeyEvent event;
+        if (focusNode[i].hasFocus == true) {
+          /*if (event is RawKeyDownEvent) {
+
+          }
+          if (event.logicalKey == LogicalKeyboardKey.keyR) {
+
+          }*/
+          if (i == 0) {
+            context
+                .read<DrawerProductCubit>()
+                .codeValidation(textController[i].text, product, validation, i);
+          } else {
+            if (textController[i].text == '') {
+              isError[i] = true;
+            } else {
+              isError[i] = false;
+            }
+            context.read<DrawerProductCubit>().singleValidation(
+                textController[i].text,
+                propertiesKeys[i],
+                product,
+                validation,
+                isError[i],
+                i);
+          }
+          focusNode[i].dispose();
+          textController[i].dispose();
         }
-      },
-    );
+      });
+    }
+
     return Row(
       children: [
         Expanded(
@@ -65,8 +103,8 @@ class DrawerAddProduct extends StatelessWidget {
                             height: 40,
                             width: 250,
                             child: TextField(
-                              focusNode: focusNode,
-                              controller: textController,
+                              focusNode: focusNode[0],
+                              controller: textController[0],
                               decoration: InputDecoration(
                                 isDense: true,
                                 errorStyle: const TextStyle(height: 0.3),
@@ -78,11 +116,18 @@ class DrawerAddProduct extends StatelessWidget {
                               onSubmitted: (value) {
                                 context
                                     .read<DrawerProductCubit>()
-                                    .codeValidation(value, product, validation);
+                                    .codeValidation(
+                                        value, product, validation, 0);
                               },
                               onChanged: (value) {
                                 //textController.text = value;
-                                textController.value = TextEditingValue(text: value, selection: TextSelection.collapsed(offset: textController.selection.base.offset));
+                                textController[0].value = TextEditingValue(
+                                    text: value,
+                                    selection: TextSelection.collapsed(
+                                        offset: textController[0]
+                                            .selection
+                                            .base
+                                            .offset));
                               },
                             ),
                           ),
@@ -96,8 +141,8 @@ class DrawerAddProduct extends StatelessWidget {
                             height: 40,
                             width: 250,
                             child: TextField(
-                              //focusNode: focusNode,
-                              controller: TextEditingController(),
+                              focusNode: focusNode[1],
+                              controller: textController[1],
                               decoration: InputDecoration(
                                 isDense: true,
                                 errorStyle: const TextStyle(height: 0.3),
@@ -107,16 +152,24 @@ class DrawerAddProduct extends StatelessWidget {
                                     borderSide: BorderSide(color: Colors.red)),
                               ),
                               onSubmitted: (value) {
-                                final bool isError;
                                 if (value == '') {
-                                  isError = true;
+                                  isError[1] = true;
                                 } else {
-                                  isError = false;
+                                  isError[1] = false;
                                 }
                                 context
                                     .read<DrawerProductCubit>()
                                     .singleValidation(value, 'description',
-                                        product, validation, isError, 1);
+                                        product, validation, isError[1], 1);
+                              },
+                              onChanged: (value) {
+                                textController[1].value = TextEditingValue(
+                                    text: value,
+                                    selection: TextSelection.collapsed(
+                                        offset: textController[1]
+                                            .selection
+                                            .base
+                                            .offset));
                               },
                             ),
                           )
@@ -130,6 +183,8 @@ class DrawerAddProduct extends StatelessWidget {
                             height: 40,
                             width: 250,
                             child: TextField(
+                              focusNode: focusNode[2],
+                              controller: textController[2],
                               decoration: InputDecoration(
                                 isDense: true,
                                 errorStyle: const TextStyle(height: 0.3),
@@ -139,16 +194,24 @@ class DrawerAddProduct extends StatelessWidget {
                                     borderSide: BorderSide(color: Colors.red)),
                               ),
                               onSubmitted: (value) {
-                                final bool isError;
                                 if (value == '') {
-                                  isError = true;
+                                  isError[2] = true;
                                 } else {
-                                  isError = false;
+                                  isError[2] = false;
                                 }
                                 context
                                     .read<DrawerProductCubit>()
                                     .singleValidation(value, 'type', product,
-                                        validation, isError, 2);
+                                        validation, isError[2], 2);
+                              },
+                              onChanged: (value) {
+                                textController[2].value = TextEditingValue(
+                                    text: value,
+                                    selection: TextSelection.collapsed(
+                                        offset: textController[2]
+                                            .selection
+                                            .base
+                                            .offset));
                               },
                             ),
                           )
@@ -162,6 +225,8 @@ class DrawerAddProduct extends StatelessWidget {
                             height: 40,
                             width: 250,
                             child: TextField(
+                              focusNode: focusNode[3],
+                              controller: textController[3],
                               decoration: InputDecoration(
                                 isDense: true,
                                 errorStyle: const TextStyle(height: 0.3),
@@ -171,16 +236,24 @@ class DrawerAddProduct extends StatelessWidget {
                                     borderSide: BorderSide(color: Colors.red)),
                               ),
                               onSubmitted: (value) {
-                                final bool isError;
                                 if (value == '') {
-                                  isError = true;
+                                  isError[3] = true;
                                 } else {
-                                  isError = false;
+                                  isError[3] = false;
                                 }
                                 context
                                     .read<DrawerProductCubit>()
                                     .singleValidation(value, 'gauge', product,
-                                        validation, isError, 3);
+                                        validation, isError[3], 3);
+                              },
+                              onChanged: (value) {
+                                textController[3].value = TextEditingValue(
+                                    text: value,
+                                    selection: TextSelection.collapsed(
+                                        offset: textController[3]
+                                            .selection
+                                            .base
+                                            .offset));
                               },
                             ),
                           )
@@ -194,6 +267,8 @@ class DrawerAddProduct extends StatelessWidget {
                             height: 40,
                             width: 250,
                             child: TextField(
+                              focusNode: focusNode[4],
+                              controller: textController[4],
                               decoration: InputDecoration(
                                 isDense: true,
                                 errorStyle: const TextStyle(height: 0.3),
@@ -203,16 +278,24 @@ class DrawerAddProduct extends StatelessWidget {
                                     borderSide: BorderSide(color: Colors.red)),
                               ),
                               onSubmitted: (value) {
-                                final bool isError;
                                 if (value == '') {
-                                  isError = true;
+                                  isError[4] = true;
                                 } else {
-                                  isError = false;
+                                  isError[4] = false;
                                 }
                                 context
                                     .read<DrawerProductCubit>()
                                     .singleValidation(value, 'pices', product,
-                                        validation, isError, 4);
+                                        validation, isError[4], 4);
+                              },
+                              onChanged: (value) {
+                                textController[4].value = TextEditingValue(
+                                    text: value,
+                                    selection: TextSelection.collapsed(
+                                        offset: textController[4]
+                                            .selection
+                                            .base
+                                            .offset));
                               },
                             ),
                           )
@@ -226,6 +309,8 @@ class DrawerAddProduct extends StatelessWidget {
                             height: 40,
                             width: 250,
                             child: TextField(
+                              focusNode: focusNode[5],
+                              controller: textController[5],
                               decoration: InputDecoration(
                                 isDense: true,
                                 errorStyle: const TextStyle(height: 0.3),
@@ -235,17 +320,25 @@ class DrawerAddProduct extends StatelessWidget {
                                     borderSide: BorderSide(color: Colors.red)),
                               ),
                               onSubmitted: (value) {
-                                final bool isError;
                                 if (value == '' ||
                                     double.tryParse(value) == null) {
-                                  isError = true;
+                                  isError[5] = true;
                                 } else {
-                                  isError = false;
+                                  isError[5] = false;
                                 }
                                 context
                                     .read<DrawerProductCubit>()
                                     .singleValidation(value, 'weight', product,
-                                        validation, isError, 5);
+                                        validation, isError[5], 5);
+                              },
+                              onChanged: (value) {
+                                textController[5].value = TextEditingValue(
+                                    text: value,
+                                    selection: TextSelection.collapsed(
+                                        offset: textController[5]
+                                            .selection
+                                            .base
+                                            .offset));
                               },
                             ),
                           )
@@ -259,6 +352,8 @@ class DrawerAddProduct extends StatelessWidget {
                             height: 40,
                             width: 250,
                             child: TextField(
+                              focusNode: focusNode[6],
+                              controller: textController[6],
                               decoration: InputDecoration(
                                 isDense: true,
                                 errorStyle: const TextStyle(height: 0.3),
@@ -268,16 +363,24 @@ class DrawerAddProduct extends StatelessWidget {
                                     borderSide: BorderSide(color: Colors.red)),
                               ),
                               onSubmitted: (value) {
-                                final bool isError;
                                 if (value == '') {
-                                  isError = true;
+                                  isError[6] = true;
                                 } else {
-                                  isError = false;
+                                  isError[6] = false;
                                 }
                                 context
                                     .read<DrawerProductCubit>()
                                     .singleValidation(value, 'measure', product,
-                                        validation, isError, 6);
+                                        validation, isError[6], 6);
+                              },
+                              onChanged: (value) {
+                                textController[6].value = TextEditingValue(
+                                    text: value,
+                                    selection: TextSelection.collapsed(
+                                        offset: textController[6]
+                                            .selection
+                                            .base
+                                            .offset));
                               },
                             ),
                           )
@@ -291,6 +394,8 @@ class DrawerAddProduct extends StatelessWidget {
                             height: 40,
                             width: 250,
                             child: TextField(
+                              focusNode: focusNode[7],
+                              controller: textController[7],
                               decoration: InputDecoration(
                                 isDense: true,
                                 errorStyle: const TextStyle(height: 0.3),
@@ -300,16 +405,24 @@ class DrawerAddProduct extends StatelessWidget {
                                     borderSide: BorderSide(color: Colors.red)),
                               ),
                               onSubmitted: (value) {
-                                final bool isError;
                                 if (value == '') {
-                                  isError = true;
+                                  isError[7] = true;
                                 } else {
-                                  isError = false;
+                                  isError[7] = false;
                                 }
                                 context
                                     .read<DrawerProductCubit>()
                                     .singleValidation(value, 'packing', product,
-                                        validation, isError, 7);
+                                        validation, isError[7], 7);
+                              },
+                              onChanged: (value) {
+                                textController[7].value = TextEditingValue(
+                                    text: value,
+                                    selection: TextSelection.collapsed(
+                                        offset: textController[7]
+                                            .selection
+                                            .base
+                                            .offset));
                               },
                             ),
                           )
@@ -323,6 +436,8 @@ class DrawerAddProduct extends StatelessWidget {
                             height: 40,
                             width: 250,
                             child: TextField(
+                              focusNode: focusNode[8],
+                              controller: textController[8],
                               decoration: InputDecoration(
                                 isDense: true,
                                 errorStyle: const TextStyle(height: 0.3),
@@ -332,16 +447,24 @@ class DrawerAddProduct extends StatelessWidget {
                                     borderSide: BorderSide(color: Colors.red)),
                               ),
                               onSubmitted: (value) {
-                                final bool isError;
                                 if (value == '') {
-                                  isError = true;
+                                  isError[8] = true;
                                 } else {
-                                  isError = false;
+                                  isError[8] = false;
                                 }
                                 context
                                     .read<DrawerProductCubit>()
                                     .singleValidation(value, 'capacity',
-                                        product, validation, isError, 8);
+                                        product, validation, isError[8], 8);
+                              },
+                              onChanged: (value) {
+                                textController[8].value = TextEditingValue(
+                                    text: value,
+                                    selection: TextSelection.collapsed(
+                                        offset: textController[8]
+                                            .selection
+                                            .base
+                                            .offset));
                               },
                             ),
                           )
