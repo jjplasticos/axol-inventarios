@@ -21,7 +21,7 @@ class DrawerProductController extends StatelessWidget {
           width: 500,
           child: BlocBuilder<DrawerProductCubit, DrawerProductState>(
             bloc: context.read<DrawerProductCubit>()
-              ..initialDrawer(ProductModel.emptyValue(), 9, 0),
+              ..initialDrawer(ProductModel.emptyValue(), 9, 1),
             builder: (context, state) {
               if (state is LoadingState) {
                 return const Column(

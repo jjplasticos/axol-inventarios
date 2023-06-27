@@ -33,7 +33,7 @@ class FinderProducts extends StatelessWidget {
               padding: const EdgeInsetsDirectional.fromSTEB(12, 0, 0, 0),
               child: TextFormField(
                 controller: textController,
-                autofocus: true,
+                //autofocus: true,
                 enabled: !isLoading,
                 onFieldSubmitted: (value) {
                   final textFinder = TextfieldModel(

@@ -38,6 +38,7 @@ class DrawerProductCubit extends Cubit<DrawerProductState> {
       List<Map<int, dynamic>> validation = currentValidation;
       final ProductModel? productDB;
       ProductModel product;
+      final int loadingFocus = focus - 1;
       emit(InitialState());
       product = ProductModel(
           code: code,
@@ -48,7 +49,7 @@ class DrawerProductCubit extends Cubit<DrawerProductState> {
           product: product,
           validationCode: currentValidation,
           mode: 1,
-          currentFocus: ++focus));
+          currentFocus: -1));
       if (code == '') {
         validation[0] = {0: false, 1: 'Ingrese una clave'};
       } else {
@@ -59,13 +60,12 @@ class DrawerProductCubit extends Cubit<DrawerProductState> {
           validation[0] = {0: false, 1: 'Clave existente'};
         }
       }
-
       emit(LoadedState(
           product: product,
           validation: validation,
           mode: 0,
           finalValidation: false,
-          currentFocus: ++focus));
+          currentFocus: focus));
     } catch (e) {
       emit(ErrorState(error: e.toString()));
     }
@@ -111,12 +111,14 @@ class DrawerProductCubit extends Cubit<DrawerProductState> {
   }
 
   Future<void> singleValidation(
-      String value,
-      String nameField,
-      ProductModel currentProduct,
-      List<Map<int, dynamic>> currentValidation,
-      bool isError,
-      int field) async {
+    String value,
+    String nameField,
+    ProductModel currentProduct,
+    List<Map<int, dynamic>> currentValidation,
+    bool isError,
+    int field,
+    int focus,
+  ) async {
     try {
       List<Map<int, dynamic>> validation = currentValidation;
       ProductModel product;
@@ -141,7 +143,7 @@ class DrawerProductCubit extends Cubit<DrawerProductState> {
           validation: validation,
           mode: 0,
           finalValidation: false,
-          currentFocus: ++field));
+          currentFocus: focus));
     } catch (e) {
       emit(ErrorState(error: e.toString()));
     }
