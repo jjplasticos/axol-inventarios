@@ -36,7 +36,10 @@ class TextfieldProductDB extends StatelessWidget {
     final int nextFocus = position + 1;
     if (isFocus) {
       focusNode.requestFocus();
-    } else {}
+    }
+    /*focusNode.addListener(() {
+      KeyboardListener(focusNode: focusNode, child: child)
+    });*/
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
@@ -52,30 +55,40 @@ class TextfieldProductDB extends StatelessWidget {
         SizedBox(
           height: 40,
           width: 250,
-          child: TextField(
-          //autofocus: false,
-            focusNode: focusNode,
-            controller: textController,
-            decoration: InputDecoration(
-              isDense: true,
-              errorStyle: const TextStyle(height: 0.3),
-              errorText:
-                  validation[position][0] ? null : validation[position][1],
-              errorBorder: const UnderlineInputBorder(
-                  borderSide: BorderSide(color: Colors.red)),
+          child: KeyboardListener(
+            onKeyEvent: (event) {
+              if (event.logicalKey.keyLabel ==
+                  LogicalKeyboardKey.tab.keyLabel) {
+                context.read<DrawerProductCubit>().codeValidation(
+                    textController.text, product, validation, nextFocus);
+              }
+            },
+            focusNode: FocusNode(),
+            child: TextField(
+              //autofocus: false,
+              focusNode: focusNode,
+              controller: textController,
+              decoration: InputDecoration(
+                isDense: true,
+                errorStyle: const TextStyle(height: 0.3),
+                errorText:
+                    validation[position][0] ? null : validation[position][1],
+                errorBorder: const UnderlineInputBorder(
+                    borderSide: BorderSide(color: Colors.red)),
+              ),
+              onSubmitted: (value) {
+                context
+                    .read<DrawerProductCubit>()
+                    .codeValidation(value, product, validation, nextFocus);
+                //focusNode.unfocus();
+              },
+              onChanged: (value) {
+                textController.value = TextEditingValue(
+                    text: value,
+                    selection: TextSelection.collapsed(
+                        offset: textController.selection.base.offset));
+              },
             ),
-            onSubmitted: (value) {
-              context
-                  .read<DrawerProductCubit>()
-                  .codeValidation(value, product, validation, nextFocus);
-              //focusNode.unfocus();
-            },
-            onChanged: (value) {
-              textController.value = TextEditingValue(
-                  text: value,
-                  selection: TextSelection.collapsed(
-                      offset: textController.selection.base.offset));
-            },
           ),
         ),
       ],
@@ -121,33 +134,53 @@ class TextfieldProductString extends StatelessWidget {
         SizedBox(
           height: 40,
           width: 250,
-          child: TextField(
-            focusNode: focusNode,
-            controller: textController,
-            decoration: InputDecoration(
-              isDense: true,
-              errorStyle: const TextStyle(height: 0.3),
-              errorText:
-                  validation[position][0] ? null : validation[position][1],
-              errorBorder: const UnderlineInputBorder(
-                  borderSide: BorderSide(color: Colors.red)),
-            ),
-            onSubmitted: (value) {
-              if (value == '') {
-                isError = true;
-              } else {
-                isError = false;
-              }
-              context.read<DrawerProductCubit>().singleValidation(value, tag,
-                  product, validation, isError, position, nextFocus);
-            },
-            onChanged: (value) {
-              textController.value = TextEditingValue(
-                  text: value,
-                  selection: TextSelection.collapsed(
-                      offset: textController.selection.base.offset));
-            },
-          ),
+          child: KeyboardListener(
+              onKeyEvent: (event) {
+                if (event.logicalKey.keyLabel ==
+                    LogicalKeyboardKey.tab.keyLabel) {
+                  if (textController.text == '') {
+                    isError = true;
+                  } else {
+                    isError = false;
+                  }
+                  context.read<DrawerProductCubit>().singleValidation(
+                      textController.text,
+                      tag,
+                      product,
+                      validation,
+                      isError,
+                      position,
+                      nextFocus);
+                }
+              },
+              focusNode: FocusNode(),
+              child: TextField(
+                focusNode: focusNode,
+                controller: textController,
+                decoration: InputDecoration(
+                  isDense: true,
+                  errorStyle: const TextStyle(height: 0.3),
+                  errorText:
+                      validation[position][0] ? null : validation[position][1],
+                  errorBorder: const UnderlineInputBorder(
+                      borderSide: BorderSide(color: Colors.red)),
+                ),
+                onSubmitted: (value) {
+                  if (value == '') {
+                    isError = true;
+                  } else {
+                    isError = false;
+                  }
+                  context.read<DrawerProductCubit>().singleValidation(value,
+                      tag, product, validation, isError, position, nextFocus);
+                },
+                onChanged: (value) {
+                  textController.value = TextEditingValue(
+                      text: value,
+                      selection: TextSelection.collapsed(
+                          offset: textController.selection.base.offset));
+                },
+              )),
         )
       ],
     );
