@@ -15,14 +15,14 @@ class ProductModel {
       description: '',
       properties: {
         'code': '',
+        'description': '',
         'type': '',
-        'gauge': '',
         'pices': '',
         'weight': '',
         'measure': '',
         'packing': '',
         'capacity': '',
-        'description': '',
+        'gauge': '',
       }
     );
   }

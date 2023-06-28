@@ -53,7 +53,7 @@ class TextfieldProductDB extends StatelessWidget {
           height: 40,
           width: 250,
           child: TextField(
-            //autofocus: isFocus,
+          //autofocus: false,
             focusNode: focusNode,
             controller: textController,
             decoration: InputDecoration(
@@ -65,33 +65,18 @@ class TextfieldProductDB extends StatelessWidget {
                   borderSide: BorderSide(color: Colors.red)),
             ),
             onSubmitted: (value) {
-              //focusNode.dispose();
               context
                   .read<DrawerProductCubit>()
                   .codeValidation(value, product, validation, nextFocus);
+              //focusNode.unfocus();
             },
-            onEditingComplete: () {},
-            //textInputAction: TextInputAction.,
             onChanged: (value) {
-              //textController.text = value;
               textController.value = TextEditingValue(
                   text: value,
                   selection: TextSelection.collapsed(
                       offset: textController.selection.base.offset));
             },
           ),
-          /*KeyboardListener(
-              onKeyEvent: (value) {
-                if (value.logicalKey == LogicalKeyboardKey.keyA) {
-                  /*context.read<DrawerProductCubit>().codeValidation(
-                      textController.text, product, validation, nextFocus);*/
-                  //focusNode.dispose();
-                  //textController.
-                }
-              },
-              focusNode: FocusNode(),
-              child: 
-            )*/
         ),
       ],
     );
@@ -138,7 +123,6 @@ class TextfieldProductString extends StatelessWidget {
           width: 250,
           child: TextField(
             focusNode: focusNode,
-            //autofocus: isFocus,
             controller: textController,
             decoration: InputDecoration(
               isDense: true,
@@ -156,7 +140,6 @@ class TextfieldProductString extends StatelessWidget {
               }
               context.read<DrawerProductCubit>().singleValidation(value, tag,
                   product, validation, isError, position, nextFocus);
-              //focusNode.dispose();
             },
             onChanged: (value) {
               textController.value = TextEditingValue(
@@ -165,28 +148,6 @@ class TextfieldProductString extends StatelessWidget {
                       offset: textController.selection.base.offset));
             },
           ),
-          /*KeyboardListener(
-            onKeyEvent: (event) {
-              if (event.logicalKey == LogicalKeyboardKey.tab) {
-                if (textController.text == '') {
-                  isError = true;
-                } else {
-                  isError = false;
-                }
-                context.read<DrawerProductCubit>().singleValidation(
-                    textController.text,
-                    tag,
-                    product,
-                    validation,
-                    isError,
-                    position,
-                    nextFocus);
-                //focusNode.dispose();
-              }
-            },
-            focusNode: FocusNode(),
-            child: 
-          ),*/
         )
       ],
     );
