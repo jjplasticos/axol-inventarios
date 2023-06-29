@@ -91,536 +91,64 @@ class DrawerAddProduct extends StatelessWidget {
                         tag: 'type',
                         validation: validation,
                       ),
-                      /*Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          const Text('Descripción:'),
-                          SizedBox(
-                            height: 40,
-                            width: 250,
-                            child: KeyboardListener(
-                              onKeyEvent: (value) {
-                                if (value.logicalKey ==
-                                    LogicalKeyboardKey.tab) {
-                                  if (textController[1].text == '') {
-                                    isError[1] = true;
-                                  } else {
-                                    isError[1] = false;
-                                  }
-                                  context
-                                      .read<DrawerProductCubit>()
-                                      .singleValidation(
-                                          textController[1].text,
-                                          'description',
-                                          product,
-                                          validation,
-                                          isError[1],
-                                          1);
-                                }
-                              },
-                              focusNode: FocusNode(),
-                              child: TextField(
-                                focusNode: focusNode[1],
-                                controller: textController[1],
-                                decoration: InputDecoration(
-                                  isDense: true,
-                                  errorStyle: const TextStyle(height: 0.3),
-                                  errorText: validation[1][0]
-                                      ? null
-                                      : validation[1][1],
-                                  errorBorder: const UnderlineInputBorder(
-                                      borderSide:
-                                          BorderSide(color: Colors.red)),
-                                ),
-                                onSubmitted: (value) {
-                                  if (value == '') {
-                                    isError[1] = true;
-                                  } else {
-                                    isError[1] = false;
-                                  }
-                                  context
-                                      .read<DrawerProductCubit>()
-                                      .singleValidation(value, 'description',
-                                          product, validation, isError[1], 1);
-                                },
-                                onChanged: (value) {
-                                  textController[1].value = TextEditingValue(
-                                      text: value,
-                                      selection: TextSelection.collapsed(
-                                          offset: textController[1]
-                                              .selection
-                                              .base
-                                              .offset));
-                                },
-                              ),
-                            ),
-                          )
-                        ],
-                      ),*/
-                      /*Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          const Text('Tipo:'),
-                          SizedBox(
-                            height: 40,
-                            width: 250,
-                            child: KeyboardListener(
-                              onKeyEvent: (event) {
-                                if (event.logicalKey ==
-                                    LogicalKeyboardKey.tab) {
-                                  if (textController[2].text == '') {
-                                    isError[2] = true;
-                                  } else {
-                                    isError[2] = false;
-                                  }
-                                  context
-                                      .read<DrawerProductCubit>()
-                                      .singleValidation(
-                                          textController[2].text,
-                                          'type',
-                                          product,
-                                          validation,
-                                          isError[2],
-                                          2);
-                                }
-                              },
-                              focusNode: FocusNode(),
-                              child: TextField(
-                                //focusNode: focusNode[2],
-                                controller: textController[2],
-                                decoration: InputDecoration(
-                                  isDense: true,
-                                  errorStyle: const TextStyle(height: 0.3),
-                                  errorText: validation[2][0]
-                                      ? null
-                                      : validation[2][1],
-                                  errorBorder: const UnderlineInputBorder(
-                                      borderSide:
-                                          BorderSide(color: Colors.red)),
-                                ),
-                                onSubmitted: (value) {
-                                  if (value == '') {
-                                    isError[2] = true;
-                                  } else {
-                                    isError[2] = false;
-                                  }
-                                  context
-                                      .read<DrawerProductCubit>()
-                                      .singleValidation(value, 'type', product,
-                                          validation, isError[2], 2);
-                                },
-                                onChanged: (value) {
-                                  textController[2].value = TextEditingValue(
-                                      text: value,
-                                      selection: TextSelection.collapsed(
-                                          offset: textController[2]
-                                              .selection
-                                              .base
-                                              .offset));
-                                },
-                              ),
-                            ),
-                          )
+                      TextfieldProductString(
+                        currentText: textController[3].text,
+                        isFocus: isFocus[3],
+                        label: 'Calibre:',
+                        position: 3,
+                        product: product,
+                        tag: 'gauge',
+                        validation: validation,
+                      ),
+                      TextfieldProductString(
+                        currentText: textController[4].text,
+                        isFocus: isFocus[4],
+                        label: 'Piezas:',
+                        position: 4,
+                        product: product,
+                        tag: 'pices',
+                        validation: validation,
+                      ),
+                      TextfieldProductString(
+                        currentText: textController[5].text,
+                        isFocus: isFocus[5],
+                        label: 'Peso:',
+                        position: 5,
+                        product: product,
+                        tag: 'weight',
+                        validation: validation,
+                        inputFormatter: [
+                          FilteringTextInputFormatter.allow(
+                              RegExp(r'^\d*\.?\d*$')),
                         ],
                       ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          const Text('Calibre:'),
-                          SizedBox(
-                            height: 40,
-                            width: 250,
-                            child: KeyboardListener(
-                                onKeyEvent: (event) {
-                                  if (event.logicalKey ==
-                                      LogicalKeyboardKey.tab) {
-                                    if (textController[3].text == '') {
-                                      isError[3] = true;
-                                    } else {
-                                      isError[3] = false;
-                                    }
-                                    context
-                                        .read<DrawerProductCubit>()
-                                        .singleValidation(
-                                            textController[3].text,
-                                            'gauge',
-                                            product,
-                                            validation,
-                                            isError[3],
-                                            3);
-                                  }
-                                },
-                                focusNode: FocusNode(),
-                                child: TextField(
-                                  focusNode: focusNode[3],
-                                  controller: textController[3],
-                                  decoration: InputDecoration(
-                                    isDense: true,
-                                    errorStyle: const TextStyle(height: 0.3),
-                                    errorText: validation[3][0]
-                                        ? null
-                                        : validation[3][1],
-                                    errorBorder: const UnderlineInputBorder(
-                                        borderSide:
-                                            BorderSide(color: Colors.red)),
-                                  ),
-                                  onSubmitted: (value) {
-                                    if (value == '') {
-                                      isError[3] = true;
-                                    } else {
-                                      isError[3] = false;
-                                    }
-                                    context
-                                        .read<DrawerProductCubit>()
-                                        .singleValidation(value, 'gauge',
-                                            product, validation, isError[3], 3);
-                                  },
-                                  onChanged: (value) {
-                                    textController[3].value = TextEditingValue(
-                                        text: value,
-                                        selection: TextSelection.collapsed(
-                                            offset: textController[3]
-                                                .selection
-                                                .base
-                                                .offset));
-                                  },
-                                )),
-                          )
-                        ],
+                      TextfieldProductString(
+                        currentText: textController[6].text,
+                        isFocus: isFocus[6],
+                        label: 'Medida:',
+                        position: 6,
+                        product: product,
+                        tag: 'measure',
+                        validation: validation,
                       ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          const Text('Piezas:'),
-                          SizedBox(
-                            height: 40,
-                            width: 250,
-                            child: KeyboardListener(
-                              onKeyEvent: (event) {
-                                if (event.logicalKey ==
-                                    LogicalKeyboardKey.tab) {
-                                  if (textController[4].text == '') {
-                                    isError[4] = true;
-                                  } else {
-                                    isError[4] = false;
-                                  }
-                                  context
-                                      .read<DrawerProductCubit>()
-                                      .singleValidation(
-                                          textController[4].text,
-                                          'pices',
-                                          product,
-                                          validation,
-                                          isError[4],
-                                          4);
-                                }
-                              },
-                              focusNode: FocusNode(),
-                              child: TextField(
-                                focusNode: focusNode[4],
-                                controller: textController[4],
-                                decoration: InputDecoration(
-                                  isDense: true,
-                                  errorStyle: const TextStyle(height: 0.3),
-                                  errorText: validation[4][0]
-                                      ? null
-                                      : validation[4][1],
-                                  errorBorder: const UnderlineInputBorder(
-                                      borderSide:
-                                          BorderSide(color: Colors.red)),
-                                ),
-                                onSubmitted: (value) {
-                                  if (value == '') {
-                                    isError[4] = true;
-                                  } else {
-                                    isError[4] = false;
-                                  }
-                                  context
-                                      .read<DrawerProductCubit>()
-                                      .singleValidation(value, 'pices', product,
-                                          validation, isError[4], 4);
-                                },
-                                onChanged: (value) {
-                                  textController[4].value = TextEditingValue(
-                                      text: value,
-                                      selection: TextSelection.collapsed(
-                                          offset: textController[4]
-                                              .selection
-                                              .base
-                                              .offset));
-                                },
-                              ),
-                            ),
-                          )
-                        ],
+                      TextfieldProductString(
+                        currentText: textController[7].text,
+                        isFocus: isFocus[7],
+                        label: 'Empaque:',
+                        position: 7,
+                        product: product,
+                        tag: 'packing',
+                        validation: validation,
                       ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          const Text('Peso:'),
-                          SizedBox(
-                            height: 40,
-                            width: 250,
-                            child: KeyboardListener(
-                              onKeyEvent: (event) {
-                                if (event.logicalKey ==
-                                    LogicalKeyboardKey.tab) {
-                                  if (textController[5].text == '' ||
-                                      double.tryParse(textController[5].text) ==
-                                          null) {
-                                    isError[5] = true;
-                                  } else {
-                                    isError[5] = false;
-                                  }
-                                  context
-                                      .read<DrawerProductCubit>()
-                                      .singleValidation(
-                                          textController[5].text,
-                                          'weight',
-                                          product,
-                                          validation,
-                                          isError[5],
-                                          5);
-                                }
-                              },
-                              focusNode: FocusNode(),
-                              child: TextField(
-                                focusNode: focusNode[5],
-                                controller: textController[5],
-                                decoration: InputDecoration(
-                                  isDense: true,
-                                  errorStyle: const TextStyle(height: 0.3),
-                                  errorText: validation[5][0]
-                                      ? null
-                                      : validation[5][1],
-                                  errorBorder: const UnderlineInputBorder(
-                                      borderSide:
-                                          BorderSide(color: Colors.red)),
-                                ),
-                                onSubmitted: (value) {
-                                  if (value == '' ||
-                                      double.tryParse(value) == null) {
-                                    isError[5] = true;
-                                  } else {
-                                    isError[5] = false;
-                                  }
-                                  context
-                                      .read<DrawerProductCubit>()
-                                      .singleValidation(value, 'weight',
-                                          product, validation, isError[5], 5);
-                                },
-                                onChanged: (value) {
-                                  textController[5].value = TextEditingValue(
-                                      text: value,
-                                      selection: TextSelection.collapsed(
-                                          offset: textController[5]
-                                              .selection
-                                              .base
-                                              .offset));
-                                },
-                              ),
-                            ),
-                          )
-                        ],
+                      TextfieldProductString(
+                        currentText: textController[8].text,
+                        isFocus: isFocus[8],
+                        label: 'Capacidad:',
+                        position: 8,
+                        product: product,
+                        tag: 'capacity',
+                        validation: validation,
                       ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          const Text('Medida:'),
-                          SizedBox(
-                            height: 40,
-                            width: 250,
-                            child: KeyboardListener(
-                              onKeyEvent: (event) {
-                                if (event.logicalKey ==
-                                    LogicalKeyboardKey.tab) {
-                                  if (textController[6].text == '') {
-                                    isError[6] = true;
-                                  } else {
-                                    isError[6] = false;
-                                  }
-                                  context
-                                      .read<DrawerProductCubit>()
-                                      .singleValidation(
-                                          textController[6].text,
-                                          'measure',
-                                          product,
-                                          validation,
-                                          isError[6],
-                                          6);
-                                }
-                              },
-                              focusNode: FocusNode(),
-                              child: TextField(
-                                focusNode: focusNode[6],
-                                controller: textController[6],
-                                decoration: InputDecoration(
-                                  isDense: true,
-                                  errorStyle: const TextStyle(height: 0.3),
-                                  errorText: validation[6][0]
-                                      ? null
-                                      : validation[6][1],
-                                  errorBorder: const UnderlineInputBorder(
-                                      borderSide:
-                                          BorderSide(color: Colors.red)),
-                                ),
-                                onSubmitted: (value) {
-                                  if (value == '') {
-                                    isError[6] = true;
-                                  } else {
-                                    isError[6] = false;
-                                  }
-                                  context
-                                      .read<DrawerProductCubit>()
-                                      .singleValidation(value, 'measure',
-                                          product, validation, isError[6], 6);
-                                },
-                                onChanged: (value) {
-                                  textController[6].value = TextEditingValue(
-                                      text: value,
-                                      selection: TextSelection.collapsed(
-                                          offset: textController[6]
-                                              .selection
-                                              .base
-                                              .offset));
-                                },
-                              ),
-                            ),
-                          )
-                        ],
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          const Text('Empaque:'),
-                          SizedBox(
-                            height: 40,
-                            width: 250,
-                            child: KeyboardListener(
-                              onKeyEvent: (event) {
-                                if (event.logicalKey ==
-                                    LogicalKeyboardKey.tab) {
-                                  if (textController[7].text == '') {
-                                    isError[7] = true;
-                                  } else {
-                                    isError[7] = false;
-                                  }
-                                  context
-                                      .read<DrawerProductCubit>()
-                                      .singleValidation(
-                                          textController[7].text,
-                                          'packing',
-                                          product,
-                                          validation,
-                                          isError[7],
-                                          7);
-                                }
-                              },
-                              focusNode: FocusNode(),
-                              child: TextField(
-                                focusNode: focusNode[7],
-                                controller: textController[7],
-                                decoration: InputDecoration(
-                                  isDense: true,
-                                  errorStyle: const TextStyle(height: 0.3),
-                                  errorText: validation[7][0]
-                                      ? null
-                                      : validation[7][1],
-                                  errorBorder: const UnderlineInputBorder(
-                                      borderSide:
-                                          BorderSide(color: Colors.red)),
-                                ),
-                                onSubmitted: (value) {
-                                  if (value == '') {
-                                    isError[7] = true;
-                                  } else {
-                                    isError[7] = false;
-                                  }
-                                  context
-                                      .read<DrawerProductCubit>()
-                                      .singleValidation(value, 'packing',
-                                          product, validation, isError[7], 7);
-                                },
-                                onChanged: (value) {
-                                  textController[7].value = TextEditingValue(
-                                      text: value,
-                                      selection: TextSelection.collapsed(
-                                          offset: textController[7]
-                                              .selection
-                                              .base
-                                              .offset));
-                                },
-                              ),
-                            ),
-                          )
-                        ],
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          const Text('Capacidad:'),
-                          SizedBox(
-                            height: 40,
-                            width: 250,
-                            child: KeyboardListener(
-                              onKeyEvent: (event) {
-                                if (event.logicalKey ==
-                                    LogicalKeyboardKey.tab) {
-                                  if (textController[8].text == '') {
-                                    isError[8] = true;
-                                  } else {
-                                    isError[8] = false;
-                                  }
-                                  context
-                                      .read<DrawerProductCubit>()
-                                      .singleValidation(
-                                          textController[8].text,
-                                          'capacity',
-                                          product,
-                                          validation,
-                                          isError[8],
-                                          8);
-                                }
-                              },
-                              focusNode: FocusNode(),
-                              child: TextField(
-                                focusNode: focusNode[8],
-                                controller: textController[8],
-                                decoration: InputDecoration(
-                                  isDense: true,
-                                  errorStyle: const TextStyle(height: 0.3),
-                                  errorText: validation[8][0]
-                                      ? null
-                                      : validation[8][1],
-                                  errorBorder: const UnderlineInputBorder(
-                                      borderSide:
-                                          BorderSide(color: Colors.red)),
-                                ),
-                                onSubmitted: (value) {
-                                  if (value == '') {
-                                    isError[8] = true;
-                                  } else {
-                                    isError[8] = false;
-                                  }
-                                  context
-                                      .read<DrawerProductCubit>()
-                                      .singleValidation(value, 'capacity',
-                                          product, validation, isError[8], 8);
-                                },
-                                onChanged: (value) {
-                                  textController[8].value = TextEditingValue(
-                                      text: value,
-                                      selection: TextSelection.collapsed(
-                                          offset: textController[8]
-                                              .selection
-                                              .base
-                                              .offset));
-                                },
-                              ),
-                            ),
-                          )
-                        ],
-                      ),*/
                     ],
                   )),
                   Row(

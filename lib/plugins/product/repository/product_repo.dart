@@ -113,4 +113,8 @@ class ProductRepo {
     }
     return products;
   }
+
+  /*Futurte<void> insertProduct() async {
+
+  }*/
 }

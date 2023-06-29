@@ -10,20 +10,16 @@ class ProductModel {
   });
 
   static ProductModel emptyValue() {
-    return ProductModel(
-      code: '',
-      description: '',
-      properties: {
-        'code': '',
-        'description': '',
-        'type': '',
-        'pices': '',
-        'weight': '',
-        'measure': '',
-        'packing': '',
-        'capacity': '',
-        'gauge': '',
-      }
-    );
+    return ProductModel(code: '', description: '', properties: {
+      'code': '',
+      'description': '',
+      'type': '',
+      'gauge': '',
+      'pices': '',
+      'weight': '',
+      'measure': '',
+      'packing': '',
+      'capacity': '',
+    });
   }
 }

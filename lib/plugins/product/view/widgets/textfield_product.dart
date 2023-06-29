@@ -9,7 +9,6 @@ class TextfieldProductDB extends StatelessWidget {
   final String currentText;
   final ProductModel product;
   final List<Map<int, dynamic>> validation;
-  //final FocusNode focusNode;
   final bool isFocus;
   final bool isLoading;
   final int position;
@@ -21,7 +20,6 @@ class TextfieldProductDB extends StatelessWidget {
       required this.currentText,
       required this.product,
       required this.validation,
-      //required this.focusNode,
       required this.position,
       required this.isLoading,
       required this.label,
@@ -34,16 +32,9 @@ class TextfieldProductDB extends StatelessWidget {
     textController.text = currentText;
     FocusNode focusNode = FocusNode();
     final int nextFocus = position + 1;
-    focusNode.addListener(() {
-      if (focusNode.hasFocus == false) {
-        context.read<DrawerProductCubit>().codeValidation(
-            textController.text, product, validation, nextFocus);
-      }
-    });
     if (isFocus) {
       focusNode.requestFocus();
     }
-    focusNode.canRequestFocus = false;
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
@@ -94,22 +85,22 @@ class TextfieldProductString extends StatelessWidget {
   final String currentText;
   final ProductModel product;
   final List<Map<int, dynamic>> validation;
-  //final FocusNode focusNode;
   final bool isFocus;
   final int position;
   final String label;
   final String tag;
+  final List<TextInputFormatter>? inputFormatter;
 
   const TextfieldProductString(
       {super.key,
       required this.currentText,
       required this.product,
       required this.validation,
-      //required this.focusNode,
       required this.position,
       required this.label,
       required this.tag,
-      required this.isFocus});
+      required this.isFocus,
+      this.inputFormatter});
 
   @override
   Widget build(BuildContext context) {
@@ -118,17 +109,6 @@ class TextfieldProductString extends StatelessWidget {
     FocusNode focusNode = FocusNode();
     bool isError = false;
     final int nextFocus = position + 1;
-    focusNode.addListener(() {
-      if (focusNode.hasFocus == false) {
-        if (textController.text == '') {
-          isError = true;
-        } else {
-          isError = false;
-        }
-        context.read<DrawerProductCubit>().singleValidation(textController.text,
-            tag, product, validation, isError, position, nextFocus);
-      }
-    });
     if (isFocus) {
       focusNode.requestFocus();
     }
@@ -140,6 +120,7 @@ class TextfieldProductString extends StatelessWidget {
             height: 40,
             width: 250,
             child: TextField(
+              inputFormatters: inputFormatter,
               focusNode: focusNode,
               controller: textController,
               decoration: InputDecoration(
