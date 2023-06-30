@@ -51,6 +51,7 @@ class TextfieldProductDB extends StatelessWidget {
           height: 40,
           width: 250,
           child: TextField(
+            
             focusNode: focusNode,
             controller: textController,
             decoration: InputDecoration(

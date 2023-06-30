@@ -148,4 +148,8 @@ class DrawerProductCubit extends Cubit<DrawerProductState> {
       emit(ErrorState(error: e.toString()));
     }
   }
+
+  Future<void> insertProduct() async {
+    
+  } 
 }

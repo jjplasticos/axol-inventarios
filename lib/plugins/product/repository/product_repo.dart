@@ -114,7 +114,13 @@ class ProductRepo {
     return products;
   }
 
-  /*Futurte<void> insertProduct() async {
-
-  }*/
+  Future<void> insertProduct(ProductModel product) async {
+    await _supabase.from(_table).insert(
+     {
+       _code: product.code,
+       _description: product.description,
+       _properties: product.properties,
+     } 
+    );
+  }
 }

@@ -23,17 +23,11 @@ class DrawerAddProduct extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    //----Text Controllers y Focus Node
-    //List<bool> isError = [];
-    //List<FocusNode> focusNode = [];
     List<TextEditingController> textController = [];
     List<bool> isFocus = [];
     final List<dynamic> propertiesValues = List.from(product.properties.values);
-    final List<dynamic> propertiesKeys = List.from(product.properties.keys);
     for (int i = 0; i < propertiesValues.length; i++) {
-      //focusNode.add(FocusNode());
       textController.add(TextEditingController());
-      //isError.add(false);
       textController[i].text = propertiesValues[i].toString();
       if (currentFocus == i) {
         isFocus.add(true);
@@ -41,11 +35,6 @@ class DrawerAddProduct extends StatelessWidget {
         isFocus.add(false);
       }
     }
-    //FocusScope.of(context).requestFocus(focusNode[currentFocus]);
-    //focusNode[currentFocus].requestFocus();
-    print(currentFocus);
-    print(isFocus);
-
     return Row(
       children: [
         Expanded(

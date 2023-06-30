@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../cubit/drawer_product/drawer_product_cubit.dart';
 import '../../cubit/drawer_product/drawer_product_state.dart';
+import '../../cubit/drawer_product/listen_drawer_cubit.dart';
 import '../widgets/drawer_add_product.dart';
 
 class DrawerProductController extends StatelessWidget {
@@ -52,6 +53,33 @@ class DrawerProductController extends StatelessWidget {
                 return Container();
               }
             },
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+class DrawerProductListenController extends StatelessWidget {
+  const DrawerProductListenController({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      children: [
+        Expanded(
+            child: Container(
+          color: Colors.black26,
+        )),
+        Drawer(
+          width: 500,
+          child: BlocListener<ListenProductCubit, ProductModel>(
+            bloc: context.read<ListenProductCubit>(),
+            listener: (context, state) {
+              
+            },
+            //poner en child el widget que se requiere envolver con BlocListener
+            child: Container(),
           ),
         ),
       ],
