@@ -9,7 +9,6 @@ import '../../../../settings/theme.dart';
 import '../../../inventory/view/views/warehouse_menu_view.dart';
 import '../../../movements/view/views/movements_view.dart';
 import '../../../user/view/views/home_view.dart';
-import '../../cubit/drawer_product/drawer_product_cubit.dart';
 import '../../cubit/products/products_cubit.dart';
 import '../controllers/listview_products_controller.dart';
 
@@ -21,7 +20,6 @@ class ProductView extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         BlocProvider(create: (_) => ProductsCubit()),
-        BlocProvider(create: (_) => DrawerProductCubit()),
       ],
       child: Scaffold(
         backgroundColor: ColorPalette.primaryBackground,

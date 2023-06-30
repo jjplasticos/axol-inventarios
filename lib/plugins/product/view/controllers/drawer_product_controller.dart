@@ -60,7 +60,7 @@ class DrawerProductController extends StatelessWidget {
   }
 }
 
-class DrawerProductListenController extends StatelessWidget {
+/*class DrawerProductListenController extends StatelessWidget {
   const DrawerProductListenController({super.key});
 
   @override
@@ -79,10 +79,10 @@ class DrawerProductListenController extends StatelessWidget {
               
             },
             //poner en child el widget que se requiere envolver con BlocListener
-            child: Container(),
+            child: const DrawerProductController(),
           ),
         ),
       ],
     );
   }
-}
+}*/

@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../cubit/drawer_product/drawer_product_cubit.dart';
+import '../../cubit/drawer_product/listen_drawer_cubit.dart';
 import '../../model/product_model.dart';
 
 class TextfieldProductDB extends StatelessWidget {
@@ -51,7 +52,6 @@ class TextfieldProductDB extends StatelessWidget {
           height: 40,
           width: 250,
           child: TextField(
-            
             focusNode: focusNode,
             controller: textController,
             decoration: InputDecoration(
@@ -63,10 +63,15 @@ class TextfieldProductDB extends StatelessWidget {
                   borderSide: BorderSide(color: Colors.red)),
             ),
             onSubmitted: (value) {
-              focusNode.nextFocus();
-              context
-                  .read<DrawerProductCubit>()
-                  .codeValidation(value, product, validation, nextFocus);
+              //focusNode.nextFocus();
+              final currentProduct =
+                  context.read<ListenProductCubit>().getProduct();
+              context.read<DrawerProductCubit>().codeValidation(
+                    value,
+                    currentProduct,
+                    validation,
+                    nextFocus,
+                  );
               focusNode.unfocus();
             },
             onChanged: (value) {
@@ -74,6 +79,11 @@ class TextfieldProductDB extends StatelessWidget {
                   text: value,
                   selection: TextSelection.collapsed(
                       offset: textController.selection.base.offset));
+              final currentProduct =
+                  context.read<ListenProductCubit>().getProduct();
+              context
+                  .read<ListenProductCubit>()
+                  .change(currentProduct, position, value);
             },
           ),
         ),
@@ -133,20 +143,30 @@ class TextfieldProductString extends StatelessWidget {
                     borderSide: BorderSide(color: Colors.red)),
               ),
               onSubmitted: (value) {
+                final currentProduct =
+                    context.read<ListenProductCubit>().getProduct();
                 if (value == '') {
                   isError = true;
                 } else {
                   isError = false;
                 }
                 context.read<DrawerProductCubit>().singleValidation(value, tag,
-                    product, validation, isError, position, nextFocus);
+                    currentProduct, validation, isError, position, nextFocus);
                 focusNode.unfocus();
+                /*currentProduct.properties.forEach((key, value) {
+                  print('$key: $value');
+                });*/
               },
               onChanged: (value) {
                 textController.value = TextEditingValue(
                     text: value,
                     selection: TextSelection.collapsed(
                         offset: textController.selection.base.offset));
+                final currentProduct =
+                    context.read<ListenProductCubit>().getProduct();
+                context
+                    .read<ListenProductCubit>()
+                    .change(currentProduct, position, value);
               },
             ))
       ],

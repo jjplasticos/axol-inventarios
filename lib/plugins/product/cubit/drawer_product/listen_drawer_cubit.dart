@@ -5,21 +5,35 @@ class ListenProductCubit extends Cubit<ProductModel> {
   ListenProductCubit() : super(ProductModel.emptyValue());
 
   Future<void> change(ProductModel product, int keyChange, String value) async {
+    //print(value);
     ProductModel changedProduct;
     Map<String, dynamic> properties = {};
+    String productCode = product.code;
+    String descriptionCode = product.description;
     final List<dynamic> propertiesKeys = List.from(product.properties.keys);
-    for (int i = 0; i <= propertiesKeys.length; i++) {
+    //print(product.properties);
+    for (int i = 0; i < propertiesKeys.length; i++) {
       if (i == keyChange) {
+        if (i == 0) {
+          productCode = value;
+        } else if (i == 1) {
+          descriptionCode = value;
+        }
         properties[propertiesKeys[i]] = value;
       } else {
-        properties[propertiesKeys[i]] = product.properties[i];
+        properties[propertiesKeys[i]] = product.properties[propertiesKeys[i]];
       }
     }
     changedProduct = ProductModel(
-        code: product.code,
-        description: product.description,
+        code: productCode,
+        description: descriptionCode,
         properties: properties);
+    //print(changedProduct.properties);
     emit(ProductModel.emptyValue());
     emit(changedProduct);
+  }
+
+  ProductModel getProduct() {
+    return state;
   }
 }

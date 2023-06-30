@@ -3,18 +3,23 @@ import 'package:flutter/material.dart';
 import '../../model/product_model.dart';
 import '../../../../models/textfield_model.dart';
 import '../../../../settings/theme.dart';
+import 'drawer_details_product.dart';
 import 'finder_products.dart';
 import 'toolbar_products.dart';
 
 class ListviewProducts extends StatelessWidget {
   final List<ProductModel> listData;
   final TextfieldModel finder;
+  final int mode;
   static const String _type = 'type';
   static const String _weight = 'weight';
   static const String _packing = 'packing';
 
   const ListviewProducts(
-      {super.key, required this.finder, required this.listData});
+      {super.key,
+      required this.finder,
+      required this.listData,
+      required this.mode});
 
   @override
   Widget build(BuildContext context) {
@@ -70,6 +75,11 @@ class ListviewProducts extends StatelessWidget {
                       style: Typo.bodyText5,
                     )),
                   ),
+                  Expanded(
+                    flex: 1,
+                    child: Center(
+                        child: IconButton(onPressed: onPressed, icon: icon)),
+                  ),
                 ],
               ),
               Expanded(
@@ -85,11 +95,11 @@ class ListviewProducts extends StatelessWidget {
                           border: Border.all(color: Colors.black45)),
                       child: OutlinedButton(
                         onPressed: () {
-                          /*showDialog(
-                          context: context,
-                          builder: (context) =>
-                              DrawerDetailsMovements(movement: movement),
-                        );*/
+                          showDialog(
+                            context: context,
+                            builder: (context) =>
+                                DrawerDetailsProduct(product: productRow),
+                          );
                         },
                         child: Row(
                           children: [

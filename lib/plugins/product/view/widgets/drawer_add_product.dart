@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../cubit/drawer_product/listen_drawer_cubit.dart';
 import '../../model/product_model.dart';
 import '../../cubit/drawer_product/drawer_product_cubit.dart';
 import 'textfield_product.dart';
@@ -144,12 +145,23 @@ class DrawerAddProduct extends StatelessWidget {
                     children: [
                       OutlinedButton(
                         onPressed: () {
+                          Navigator.pop(context, false);
+                        },
+                        child: const Text('Cancelar'),
+                      ),
+                      OutlinedButton(
+                        onPressed: () {
+                          final currentProduct =
+                              context.read<ListenProductCubit>().getProduct();
                           context
                               .read<DrawerProductCubit>()
-                              .formValidation(product, validation)
+                              .formValidation(currentProduct, validation)
                               .then((value) {
                             if (value) {
-                              Navigator.pop(context);
+                              context
+                                  .read<DrawerProductCubit>()
+                                  .insertProduct(currentProduct);
+                              Navigator.pop(context, true);
                             }
                           });
                         },

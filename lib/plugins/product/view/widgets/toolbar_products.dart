@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../global_widgets/toolbar.dart';
 import '../../../../models/elemnets_bar_model.dart';
 import '../../cubit/drawer_product/drawer_product_cubit.dart';
+import '../../cubit/drawer_product/listen_drawer_cubit.dart';
 import '../../cubit/products/products_cubit.dart';
 import '../controllers/drawer_product_controller.dart';
 
@@ -22,10 +23,15 @@ class ToolbarProducts extends StatelessWidget {
             if (isLoading == false) {
               showDialog(
                 context: context,
-                builder: (context) => BlocProvider(
-                    create: (_) => DrawerProductCubit(),
-                    child: const DrawerProductController()),
-              );
+                builder: (context) => MultiBlocProvider(providers: [
+                  BlocProvider(create: (_) => DrawerProductCubit()),
+                  BlocProvider(create: (_) => ListenProductCubit()),
+                ], child: const DrawerProductController()),
+              ).then((value) {
+                if (value == true) {
+                  context.read<ProductsCubit>().initialList();
+                }
+              });
             }
           },
         ),

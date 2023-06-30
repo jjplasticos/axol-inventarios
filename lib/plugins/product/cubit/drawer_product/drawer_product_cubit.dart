@@ -38,7 +38,6 @@ class DrawerProductCubit extends Cubit<DrawerProductState> {
       List<Map<int, dynamic>> validation = currentValidation;
       final ProductModel? productDB;
       ProductModel product;
-      final int loadingFocus = focus - 1;
       emit(InitialState());
       product = ProductModel(
           code: code,
@@ -74,6 +73,12 @@ class DrawerProductCubit extends Cubit<DrawerProductState> {
   Future<bool> formValidation(ProductModel currentProduct,
       List<Map<int, dynamic>> currentValidation) async {
     try {
+      emit(LoadingCodeState(
+          product: currentProduct,
+          validationCode: currentValidation,
+          mode: 1,
+          currentFocus: -1));
+      ProductModel? productDB;
       final bool finalValidation;
       int errors = 0;
       List<Map<int, dynamic>> validation = currentValidation;
@@ -82,7 +87,17 @@ class DrawerProductCubit extends Cubit<DrawerProductState> {
         if (properties[i] == '') {
           validation[i] = {0: false, 1: 'Dato no admitido'};
         } else {
-          validation[i] = currentValidation[i];
+          if (i == 0) {
+            productDB =
+                await ProductRepo().fetchProductByCode(currentProduct.code);
+            if (productDB == null) {
+              validation[i] = {0: true, 1: ''};
+            } else {
+              validation[i] = {0: false, 1: 'Clave existente'};
+            }
+          } else {
+            validation[i] = {0: true, 1: ''};
+          }
         }
       }
       for (var element in validation) {
@@ -149,7 +164,7 @@ class DrawerProductCubit extends Cubit<DrawerProductState> {
     }
   }
 
-  Future<void> insertProduct() async {
-    
-  } 
+  Future<void> insertProduct(ProductModel product) async {
+    await ProductRepo().insertProduct(product);
+  }
 }
