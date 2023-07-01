@@ -1,8 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../cubit/drawer_product/drawer_product_cubit.dart';
+import '../../cubit/drawer_product/listen_drawer_cubit.dart';
+import '../../cubit/products/products_cubit.dart';
 import '../../model/product_model.dart';
 import '../../../../models/textfield_model.dart';
 import '../../../../settings/theme.dart';
+import '../controllers/drawer_product_controller.dart';
 import 'drawer_details_product.dart';
 import 'finder_products.dart';
 import 'toolbar_products.dart';
@@ -23,6 +28,10 @@ class ListviewProducts extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    Icon icon =
+        const Icon(Icons.error_outline, color: ColorPalette.primaryText);
+    Function()? action;
+
     return Row(
       children: [
         Expanded(
@@ -31,11 +40,12 @@ class ListviewProducts extends StatelessWidget {
               FinderProducts(
                 currentFinder: finder,
                 isLoading: false,
+                mode: mode,
               ),
-              const Row(
+              Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
-                  Expanded(
+                  const Expanded(
                     flex: 1,
                     child: Center(
                         child: Text(
@@ -43,7 +53,7 @@ class ListviewProducts extends StatelessWidget {
                       style: Typo.bodyText5,
                     )),
                   ),
-                  Expanded(
+                  const Expanded(
                     flex: 1,
                     child: Center(
                         child: Text(
@@ -51,7 +61,7 @@ class ListviewProducts extends StatelessWidget {
                       style: Typo.bodyText5,
                     )),
                   ),
-                  Expanded(
+                  const Expanded(
                     flex: 1,
                     child: Center(
                         child: Text(
@@ -59,7 +69,7 @@ class ListviewProducts extends StatelessWidget {
                       style: Typo.bodyText5,
                     )),
                   ),
-                  Expanded(
+                  const Expanded(
                     flex: 1,
                     child: Center(
                         child: Text(
@@ -67,7 +77,7 @@ class ListviewProducts extends StatelessWidget {
                       style: Typo.bodyText5,
                     )),
                   ),
-                  Expanded(
+                  const Expanded(
                     flex: 1,
                     child: Center(
                         child: Text(
@@ -75,10 +85,16 @@ class ListviewProducts extends StatelessWidget {
                       style: Typo.bodyText5,
                     )),
                   ),
-                  Expanded(
-                    flex: 1,
-                    child: Center(
-                        child: IconButton(onPressed: onPressed, icon: icon)),
+                  Visibility(
+                    visible: mode > 0,
+                    child: const Expanded(
+                      flex: 1,
+                      child: Center(
+                          child: Text(
+                        '',
+                        style: Typo.bodyText5,
+                      )),
+                    ),
                   ),
                 ],
               ),
@@ -88,6 +104,37 @@ class ListviewProducts extends StatelessWidget {
                   itemCount: listData.length,
                   itemBuilder: (context, index) {
                     final productRow = listData[index];
+
+                    if (mode == 1) {
+                      icon = const Icon(Icons.edit,
+                          color: ColorPalette.primaryText);
+                      action = () {
+                        showDialog(
+                          context: context,
+                          builder: (context) => MultiBlocProvider(
+                              providers: [
+                                BlocProvider(
+                                    create: (_) => DrawerProductCubit()),
+                                BlocProvider(
+                                    create: (_) => ListenProductCubit(
+                                        initialProduct: productRow)),
+                              ],
+                              child: DrawerProductController(
+                                mode: mode,
+                                initialProduct: productRow,
+                              )),
+                        ).then((value) {
+                          if (value == true) {
+                            context.read<ProductsCubit>().reloadList(
+                                const TextfieldModel(text: '', position: 0), 0);
+                          }
+                        });
+                      };
+                    } else if (mode == 2) {
+                      icon = const Icon(Icons.highlight_remove,
+                          color: ColorPalette.primaryText);
+                      action = () {};
+                    }
                     return Container(
                       height: 30,
                       width: double.infinity,
@@ -153,6 +200,19 @@ class ListviewProducts extends StatelessWidget {
                                 ),
                               ),
                             ),
+                            // 5) Eidt / delete
+                            Visibility(
+                              visible: mode > 0,
+                              child: Expanded(
+                                flex: 1,
+                                child: Center(
+                                  child: IconButton(
+                                    onPressed: action,
+                                    icon: icon,
+                                  ),
+                                ),
+                              ),
+                            )
                           ],
                         ),
                       ),
@@ -163,8 +223,9 @@ class ListviewProducts extends StatelessWidget {
             ],
           ),
         ),
-        const ToolbarProducts(
+        ToolbarProducts(
           isLoading: false,
+          mode: mode,
         ),
       ],
     );

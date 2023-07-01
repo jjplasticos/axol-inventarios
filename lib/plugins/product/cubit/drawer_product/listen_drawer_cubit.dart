@@ -2,7 +2,9 @@ import 'package:axol_inventarios/plugins/product/model/product_model.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class ListenProductCubit extends Cubit<ProductModel> {
-  ListenProductCubit() : super(ProductModel.emptyValue());
+  final ProductModel initialProduct;
+
+  ListenProductCubit({required this.initialProduct}) : super(initialProduct);
 
   Future<void> change(ProductModel product, int keyChange, String value) async {
     //print(value);

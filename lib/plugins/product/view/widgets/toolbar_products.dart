@@ -1,3 +1,5 @@
+import 'package:axol_inventarios/models/textfield_model.dart';
+import 'package:axol_inventarios/plugins/product/model/product_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -10,7 +12,10 @@ import '../controllers/drawer_product_controller.dart';
 
 class ToolbarProducts extends StatelessWidget {
   final bool isLoading;
-  const ToolbarProducts({super.key, required this.isLoading});
+  final int mode;
+
+  const ToolbarProducts(
+      {super.key, required this.isLoading, required this.mode});
 
   @override
   Widget build(BuildContext context) {
@@ -20,16 +25,24 @@ class ToolbarProducts extends StatelessWidget {
           text: null,
           icon: const Icon(Icons.add),
           action: () {
-            if (isLoading == false) {
+            if (isLoading == false && mode == 0) {
               showDialog(
                 context: context,
-                builder: (context) => MultiBlocProvider(providers: [
-                  BlocProvider(create: (_) => DrawerProductCubit()),
-                  BlocProvider(create: (_) => ListenProductCubit()),
-                ], child: const DrawerProductController()),
+                builder: (context) => MultiBlocProvider(
+                    providers: [
+                      BlocProvider(create: (_) => DrawerProductCubit()),
+                      BlocProvider(
+                          create: (_) => ListenProductCubit(
+                              initialProduct: ProductModel.emptyValue())),
+                    ],
+                    child: DrawerProductController(
+                      mode: mode,
+                      initialProduct: ProductModel.emptyValue(),
+                    )),
               ).then((value) {
                 if (value == true) {
-                  context.read<ProductsCubit>().initialList();
+                  context.read<ProductsCubit>().reloadList(
+                      const TextfieldModel(text: '', position: 0), 0);
                 }
               });
             }
@@ -38,15 +51,37 @@ class ToolbarProducts extends StatelessWidget {
         ElementsBarModel(
           text: null,
           icon: const Icon(Icons.edit_square),
+          secondaryColor: mode == 1 ? Colors.white : null,
           action: () {
-            if (isLoading == false) {}
+            if (isLoading == false) {
+              if (mode == 1) {
+                context
+                    .read<ProductsCubit>()
+                    .reloadList(const TextfieldModel(text: '', position: 0), 0);
+              } else {
+                context
+                    .read<ProductsCubit>()
+                    .reloadList(const TextfieldModel(text: '', position: 0), 1);
+              }
+            }
           },
         ),
         ElementsBarModel(
           text: null,
           icon: const Icon(Icons.delete),
+          secondaryColor: mode == 2 ? Colors.white : null,
           action: () {
-            if (isLoading == false) {}
+            if (isLoading == false) {
+              if (mode == 2) {
+                context
+                    .read<ProductsCubit>()
+                    .reloadList(const TextfieldModel(text: '', position: 0), 0);
+              } else {
+                context
+                    .read<ProductsCubit>()
+                    .reloadList(const TextfieldModel(text: '', position: 0), 2);
+              }
+            }
           },
         ),
         ElementsBarModel(

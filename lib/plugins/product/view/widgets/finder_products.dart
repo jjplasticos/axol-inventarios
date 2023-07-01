@@ -8,11 +8,13 @@ import '../../cubit/products/products_cubit.dart';
 class FinderProducts extends StatelessWidget {
   final TextfieldModel currentFinder;
   final bool isLoading;
+  final int mode;
 
   const FinderProducts({
     super.key,
     required this.currentFinder,
     required this.isLoading,
+    required this.mode,
   });
 
   @override
@@ -40,7 +42,7 @@ class FinderProducts extends StatelessWidget {
                     text: value,
                     position: textController.selection.base.offset,
                   );
-                  context.read<ProductsCubit>().reloadList(textFinder);
+                  context.read<ProductsCubit>().reloadList(textFinder, mode);
                 },
                 onChanged: (value) {
                   text = value;
@@ -66,7 +68,7 @@ class FinderProducts extends StatelessWidget {
                 text: text,
                 position: textController.selection.base.offset,
               );
-              context.read<ProductsCubit>().reloadList(textFinder);
+              context.read<ProductsCubit>().reloadList(textFinder, mode);
             },
           ),
           IconButton(

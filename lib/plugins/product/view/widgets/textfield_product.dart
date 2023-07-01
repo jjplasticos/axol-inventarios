@@ -15,6 +15,7 @@ class TextfieldProductDB extends StatelessWidget {
   final int position;
   final String label;
   final String? tag;
+  final int mode;
 
   const TextfieldProductDB(
       {super.key,
@@ -25,16 +26,57 @@ class TextfieldProductDB extends StatelessWidget {
       required this.isLoading,
       required this.label,
       this.tag,
-      required this.isFocus});
+      required this.isFocus,
+      required this.mode});
 
   @override
   Widget build(BuildContext context) {
+    Widget codeField = Container();
     TextEditingController textController = TextEditingController();
     textController.text = currentText;
     FocusNode focusNode = FocusNode();
     final int nextFocus = position + 1;
     if (isFocus) {
       focusNode.requestFocus();
+    }
+
+    if (mode == 0) {
+      codeField = TextField(
+        focusNode: focusNode,
+        controller: textController,
+        decoration: InputDecoration(
+          isDense: true,
+          errorStyle: const TextStyle(height: 0.3),
+          errorText: validation[position][0] ? null : validation[position][1],
+          errorBorder: const UnderlineInputBorder(
+              borderSide: BorderSide(color: Colors.red)),
+        ),
+        onSubmitted: (value) {
+          //focusNode.nextFocus();
+          final currentProduct =
+              context.read<ListenProductCubit>().getProduct();
+          context.read<DrawerProductCubit>().codeValidation(
+                value,
+                currentProduct,
+                validation,
+                nextFocus,
+              );
+          focusNode.unfocus();
+        },
+        onChanged: (value) {
+          textController.value = TextEditingValue(
+              text: value,
+              selection: TextSelection.collapsed(
+                  offset: textController.selection.base.offset));
+          final currentProduct =
+              context.read<ListenProductCubit>().getProduct();
+          context
+              .read<ListenProductCubit>()
+              .change(currentProduct, position, value);
+        },
+      );
+    } else if (mode == 1) {
+      codeField = Text(textController.text);
     }
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -51,41 +93,7 @@ class TextfieldProductDB extends StatelessWidget {
         SizedBox(
           height: 40,
           width: 250,
-          child: TextField(
-            focusNode: focusNode,
-            controller: textController,
-            decoration: InputDecoration(
-              isDense: true,
-              errorStyle: const TextStyle(height: 0.3),
-              errorText:
-                  validation[position][0] ? null : validation[position][1],
-              errorBorder: const UnderlineInputBorder(
-                  borderSide: BorderSide(color: Colors.red)),
-            ),
-            onSubmitted: (value) {
-              //focusNode.nextFocus();
-              final currentProduct =
-                  context.read<ListenProductCubit>().getProduct();
-              context.read<DrawerProductCubit>().codeValidation(
-                    value,
-                    currentProduct,
-                    validation,
-                    nextFocus,
-                  );
-              focusNode.unfocus();
-            },
-            onChanged: (value) {
-              textController.value = TextEditingValue(
-                  text: value,
-                  selection: TextSelection.collapsed(
-                      offset: textController.selection.base.offset));
-              final currentProduct =
-                  context.read<ListenProductCubit>().getProduct();
-              context
-                  .read<ListenProductCubit>()
-                  .change(currentProduct, position, value);
-            },
-          ),
+          child: codeField,
         ),
       ],
     );

@@ -24,7 +24,6 @@ class DrawerProductCubit extends Cubit<DrawerProductState> {
       emit(LoadedState(
           product: initialProduct,
           validation: initValidatino,
-          mode: 0,
           finalValidation: false,
           currentFocus: focus));
     } catch (e) {
@@ -47,7 +46,6 @@ class DrawerProductCubit extends Cubit<DrawerProductState> {
       emit(LoadingCodeState(
           product: product,
           validationCode: currentValidation,
-          mode: 1,
           currentFocus: -1));
       if (code == '') {
         validation[0] = {0: false, 1: 'Ingrese una clave'};
@@ -62,7 +60,6 @@ class DrawerProductCubit extends Cubit<DrawerProductState> {
       emit(LoadedState(
           product: product,
           validation: validation,
-          mode: 0,
           finalValidation: false,
           currentFocus: focus));
     } catch (e) {
@@ -71,19 +68,22 @@ class DrawerProductCubit extends Cubit<DrawerProductState> {
   }
 
   Future<bool> formValidation(ProductModel currentProduct,
-      List<Map<int, dynamic>> currentValidation) async {
+      List<Map<int, dynamic>> currentValidation, int mode) async {
     try {
       emit(LoadingCodeState(
           product: currentProduct,
           validationCode: currentValidation,
-          mode: 1,
           currentFocus: -1));
       ProductModel? productDB;
       final bool finalValidation;
       int errors = 0;
+      int i = 0;
       List<Map<int, dynamic>> validation = currentValidation;
       List<dynamic> properties = List.from(currentProduct.properties.values);
-      for (int i = 0; i < properties.length; i++) {
+      if (mode == 1) {
+        i = 1;
+      }
+      for (i; i < properties.length; i++) {
         if (properties[i] == '') {
           validation[i] = {0: false, 1: 'Dato no admitido'};
         } else {
@@ -115,7 +115,6 @@ class DrawerProductCubit extends Cubit<DrawerProductState> {
       emit(LoadedState(
           product: currentProduct,
           validation: currentValidation,
-          mode: 0,
           finalValidation: finalValidation,
           currentFocus: 0));
       return finalValidation;
@@ -156,7 +155,6 @@ class DrawerProductCubit extends Cubit<DrawerProductState> {
       emit(LoadedState(
           product: product,
           validation: validation,
-          mode: 0,
           finalValidation: false,
           currentFocus: focus));
     } catch (e) {
@@ -166,5 +164,9 @@ class DrawerProductCubit extends Cubit<DrawerProductState> {
 
   Future<void> insertProduct(ProductModel product) async {
     await ProductRepo().insertProduct(product);
+  }
+
+  Future<void> updateProduct(ProductModel product) async {
+    await ProductRepo().updateProduct(product);
   }
 }

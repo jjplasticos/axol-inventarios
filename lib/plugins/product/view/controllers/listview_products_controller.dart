@@ -22,6 +22,7 @@ class ListviewProductsController extends StatelessWidget {
                   child: Column(
                 children: [
                   FinderProducts(
+                    mode: state.mode,
                     isLoading: true,
                     currentFinder: state.finder,
                   ),
@@ -29,13 +30,15 @@ class ListviewProductsController extends StatelessWidget {
                   const Expanded(child: SizedBox())
                 ],
               )),
-              const ToolbarProducts(
+              ToolbarProducts(
                 isLoading: true,
+                mode: state.mode,
               ),
             ],
           );
         } else if (state is LoadedState) {
           return ListviewProducts(
+            mode: state.mode,
             finder: state.finder,
             listData: state.products,
           );

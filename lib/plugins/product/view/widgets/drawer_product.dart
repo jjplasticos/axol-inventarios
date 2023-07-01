@@ -7,18 +7,20 @@ import '../../model/product_model.dart';
 import '../../cubit/drawer_product/drawer_product_cubit.dart';
 import 'textfield_product.dart';
 
-class DrawerAddProduct extends StatelessWidget {
+class DrawerProduct extends StatelessWidget {
   final ProductModel product;
   final List<Map<int, dynamic>> validation;
   final int mode;
   final bool finalValidation;
   final int currentFocus;
+  final bool codeLoading;
 
-  const DrawerAddProduct(
+  const DrawerProduct(
       {super.key,
       required this.product,
       required this.validation,
       required this.mode,
+      required this.codeLoading,
       required this.finalValidation,
       required this.currentFocus});
 
@@ -60,8 +62,9 @@ class DrawerAddProduct extends StatelessWidget {
                         position: 0,
                         product: product,
                         validation: validation,
-                        isLoading: mode == 1,
+                        isLoading: codeLoading,
                         label: 'Clave',
+                        mode: mode,
                       ),
                       TextfieldProductString(
                         currentText: textController[1].text,
@@ -153,19 +156,35 @@ class DrawerAddProduct extends StatelessWidget {
                         onPressed: () {
                           final currentProduct =
                               context.read<ListenProductCubit>().getProduct();
-                          context
-                              .read<DrawerProductCubit>()
-                              .formValidation(currentProduct, validation)
-                              .then((value) {
-                            if (value) {
-                              context
-                                  .read<DrawerProductCubit>()
-                                  .insertProduct(currentProduct);
-                              Navigator.pop(context, true);
-                            }
-                          });
+                          if (mode == 0) {
+                            context
+                                .read<DrawerProductCubit>()
+                                .formValidation(
+                                    currentProduct, validation, mode)
+                                .then((value) {
+                              if (value) {
+                                context
+                                    .read<DrawerProductCubit>()
+                                    .insertProduct(currentProduct);
+                                Navigator.pop(context, true);
+                              }
+                            });
+                          } else if (mode == 1) {
+                            context
+                                .read<DrawerProductCubit>()
+                                .formValidation(
+                                    currentProduct, validation, mode)
+                                .then((value) {
+                              if (value) {
+                                context
+                                    .read<DrawerProductCubit>()
+                                    .updateProduct(product);
+                                Navigator.pop(context, true);
+                              }
+                            });
+                          }
                         },
-                        child: const Text('Aceptar'),
+                        child: const Text('Guardar'),
                       ),
                     ],
                   )

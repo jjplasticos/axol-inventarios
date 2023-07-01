@@ -115,12 +115,17 @@ class ProductRepo {
   }
 
   Future<void> insertProduct(ProductModel product) async {
-    await _supabase.from(_table).insert(
-     {
-       _code: product.code,
-       _description: product.description,
-       _properties: product.properties,
-     } 
-    );
+    await _supabase.from(_table).insert({
+      _code: product.code,
+      _description: product.description,
+      _properties: product.properties,
+    });
+  }
+
+  Future<void> updateProduct(ProductModel product) async {
+    await _supabase.from(_table).update({
+      _description: product.description,
+      _properties: product.properties,
+    }).eq(_code, product.code);
   }
 }

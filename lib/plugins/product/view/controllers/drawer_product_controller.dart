@@ -4,14 +4,25 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../cubit/drawer_product/drawer_product_cubit.dart';
 import '../../cubit/drawer_product/drawer_product_state.dart';
-import '../../cubit/drawer_product/listen_drawer_cubit.dart';
-import '../widgets/drawer_add_product.dart';
+import '../widgets/drawer_product.dart';
 
 class DrawerProductController extends StatelessWidget {
-  const DrawerProductController({super.key});
+  final int mode;
+  final ProductModel initialProduct;
+
+  const DrawerProductController(
+      {super.key, required this.mode, required this.initialProduct});
 
   @override
   Widget build(BuildContext context) {
+    DrawerProductCubit? drawerProductCubit;
+    if (mode == 0) {
+      drawerProductCubit = context.read<DrawerProductCubit>()
+        ..initialDrawer(initialProduct, 9, 0);
+    } else if (mode == 1) {
+      drawerProductCubit = context.read<DrawerProductCubit>()
+        ..initialDrawer(initialProduct, 9, 0);
+    }
     return Row(
       children: [
         Expanded(
@@ -21,8 +32,7 @@ class DrawerProductController extends StatelessWidget {
         Drawer(
           width: 500,
           child: BlocBuilder<DrawerProductCubit, DrawerProductState>(
-            bloc: context.read<DrawerProductCubit>()
-              ..initialDrawer(ProductModel.emptyValue(), 9, 0),
+            bloc: drawerProductCubit,
             builder: (context, state) {
               if (state is LoadingState) {
                 return const Column(
@@ -32,18 +42,20 @@ class DrawerProductController extends StatelessWidget {
                   ],
                 );
               } else if (state is LoadedState) {
-                return DrawerAddProduct(
+                return DrawerProduct(
                   product: state.product,
                   validation: state.validation,
-                  mode: state.mode,
+                  mode: mode,
+                  codeLoading: false,
                   finalValidation: state.finalValidation,
                   currentFocus: state.currentFocus,
                 );
               } else if (state is LoadingCodeState) {
-                return DrawerAddProduct(
+                return DrawerProduct(
                   product: state.product,
                   validation: state.validationCode,
-                  mode: state.mode,
+                  mode: mode,
+                  codeLoading: true,
                   finalValidation: false,
                   currentFocus: state.currentFocus,
                 );

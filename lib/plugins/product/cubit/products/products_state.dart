@@ -14,7 +14,8 @@ class InitialState extends ProductsState {
 
 class LoadingState extends ProductsState {
   final TextfieldModel finder;
-  const LoadingState({required this.finder});
+  final int mode;
+  const LoadingState({required this.finder, required this.mode});
   @override
   List<Object?> get props => [finder];
 }
@@ -22,9 +23,11 @@ class LoadingState extends ProductsState {
 class LoadedState extends ProductsState {
   final List<ProductModel> products;
   final TextfieldModel finder;
-  const LoadedState({required this.products, required this.finder});
+  final int mode;
+  const LoadedState(
+      {required this.products, required this.finder, required this.mode});
   @override
-  List<Object?> get props => [products, finder];
+  List<Object?> get props => [products, finder, mode];
 }
 
 class EditState extends ProductsState {
