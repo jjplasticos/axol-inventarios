@@ -16,6 +16,7 @@ class ButtonLogin extends StatelessWidget {
 
     return ElevatedButton(
       style: ElevatedButton.styleFrom(
+        backgroundColor: ColorPalette.primary,
         minimumSize: const Size(double.infinity, 58),
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
       ),

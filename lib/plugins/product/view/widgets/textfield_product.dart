@@ -172,6 +172,7 @@ class TextfieldProductString extends StatelessWidget {
                         offset: textController.selection.base.offset));
                 final currentProduct =
                     context.read<ListenProductCubit>().getProduct();
+                //print(currentProduct.properties);
                 context
                     .read<ListenProductCubit>()
                     .change(currentProduct, position, value);

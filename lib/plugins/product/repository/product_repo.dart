@@ -128,4 +128,8 @@ class ProductRepo {
       _properties: product.properties,
     }).eq(_code, product.code);
   }
+
+  Future<void> deleteProduct(ProductModel product) async {
+    await _supabase.from(_table).delete().eq(_code, product.code);
+  }
 }

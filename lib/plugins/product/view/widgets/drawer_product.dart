@@ -28,6 +28,13 @@ class DrawerProduct extends StatelessWidget {
   Widget build(BuildContext context) {
     List<TextEditingController> textController = [];
     List<bool> isFocus = [];
+    /*final List<String> propList = List.from(ProductModel.emptyValue().properties.keys);
+    final Map<String, dynamic> properties = {};
+    for (var element in propList) {
+      if (product.properties.containsKey(element)) {
+        properties[element] = product.properties[element];
+      }
+    }*/
     final List<dynamic> propertiesValues = List.from(product.properties.values);
     for (int i = 0; i < propertiesValues.length; i++) {
       textController.add(TextEditingController());
@@ -178,7 +185,7 @@ class DrawerProduct extends StatelessWidget {
                               if (value) {
                                 context
                                     .read<DrawerProductCubit>()
-                                    .updateProduct(product);
+                                    .updateProduct(currentProduct);
                                 Navigator.pop(context, true);
                               }
                             });

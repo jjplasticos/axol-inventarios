@@ -33,4 +33,8 @@ class ProductsCubit extends Cubit<ProductsState> {
       emit(ErrorState(error: e.toString()));
     }
   }
+
+  Future<void> deleteProduct(ProductModel product) async {
+    await ProductRepo().updateProduct(product);
+  }
 }

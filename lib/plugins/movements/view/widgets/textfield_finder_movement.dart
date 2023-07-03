@@ -36,7 +36,7 @@ class TextfieldFinderMovement extends StatelessWidget {
               child: TextFormField(
                 controller: textController,
                 autofocus: true,
-                enabled: !isLoading,
+                enabled: isLoading,
                 onFieldSubmitted: (value) {
                   context.read<MovementsCuibit>().filterMode(
                       filters,

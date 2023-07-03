@@ -10,14 +10,19 @@ class TextFieldUser extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      cursorColor: ColorPalette.primary,
       onChanged: (value) {
         context.read<UserTxtCubit>().change(value);
       },
       autofocus: false,
       decoration: InputDecoration(
+        focusedBorder: OutlineInputBorder(
+          borderSide: const BorderSide(color: ColorPalette.primary),
+          borderRadius: BorderRadius.circular(12),
+        ),
         hintText: 'Usuario',
         hintStyle: Typo.hintText,
-        border: UnderlineInputBorder(borderRadius: BorderRadius.circular(12)),
+        border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
         filled: true,
         fillColor: ColorPalette.secondaryBackground,
       ),

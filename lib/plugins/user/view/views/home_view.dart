@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 
 import '../../../../global_widgets/appbar/appbar_global.dart';
 import '../../../../global_widgets/plugins_bar.dart';
-import '../../../../global_widgets/toolbar.dart';
-import '../../../../global_widgets/views_bar.dart';
 import '../../../../models/elemnets_bar_model.dart';
 import '../../../../settings/theme.dart';
 import '../../../inventory/view/views/warehouse_menu_view.dart';

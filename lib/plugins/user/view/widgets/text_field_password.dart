@@ -17,11 +17,17 @@ class TextFieldPassword extends StatelessWidget {
     return BlocBuilder<PasswordVisibilityCubit, PasswordVisibilityState>(
       builder: (context, state) {
         return TextFormField(
+          cursorColor: ColorPalette.primary,
           obscureText: obs,
           onChanged: (value) {
             context.read<PasswordTxtCubit>().change(value);
           },
           decoration: InputDecoration(
+            focusedBorder: OutlineInputBorder(
+              borderSide: const BorderSide(color: ColorPalette.primary),
+              borderRadius: BorderRadius.circular(12),
+            ),
+            suffixIconColor: ColorPalette.primary,
             border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
             hintText: 'Contraseña',
             hintStyle: Typo.hintText,

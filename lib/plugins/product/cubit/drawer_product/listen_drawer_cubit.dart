@@ -13,7 +13,7 @@ class ListenProductCubit extends Cubit<ProductModel> {
     String productCode = product.code;
     String descriptionCode = product.description;
     final List<dynamic> propertiesKeys = List.from(product.properties.keys);
-    //print(product.properties);
+    //print(propertiesKeys.length);
     for (int i = 0; i < propertiesKeys.length; i++) {
       if (i == keyChange) {
         if (i == 0) {

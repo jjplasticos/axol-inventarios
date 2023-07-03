@@ -32,4 +32,21 @@ class ProductModel {
       propCapacity: '',
     });
   }
+
+  static ProductModel sortProduct(ProductModel product) {
+    ProductModel newProduct;
+    Map<String, dynamic> newMap = {};
+    final List<String> propList = List.from(ProductModel.emptyValue().properties.keys);
+    for (var element in propList) {
+      if (product.properties.containsKey(element)) {
+        newMap[element] = product.properties[element];
+      }
+    }
+    newProduct = ProductModel(
+      code: product.code,
+      description: product.description,
+      properties: newMap,
+    );
+    return newProduct;
+  }
 }

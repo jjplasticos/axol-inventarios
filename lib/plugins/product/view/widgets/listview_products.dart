@@ -7,6 +7,7 @@ import '../../cubit/products/products_cubit.dart';
 import '../../model/product_model.dart';
 import '../../../../models/textfield_model.dart';
 import '../../../../settings/theme.dart';
+import '../../repository/product_repo.dart';
 import '../controllers/drawer_product_controller.dart';
 import 'drawer_details_product.dart';
 import 'finder_products.dart';
@@ -117,11 +118,14 @@ class ListviewProducts extends StatelessWidget {
                                     create: (_) => DrawerProductCubit()),
                                 BlocProvider(
                                     create: (_) => ListenProductCubit(
-                                        initialProduct: productRow)),
+                                        initialProduct:
+                                            ProductModel.sortProduct(
+                                                productRow))),
                               ],
                               child: DrawerProductController(
                                 mode: mode,
-                                initialProduct: productRow,
+                                initialProduct:
+                                    ProductModel.sortProduct(productRow),
                               )),
                         ).then((value) {
                           if (value == true) {
@@ -133,7 +137,29 @@ class ListviewProducts extends StatelessWidget {
                     } else if (mode == 2) {
                       icon = const Icon(Icons.highlight_remove,
                           color: ColorPalette.primaryText);
-                      action = () {};
+                      action = () {
+                        showDialog(
+                          context: context,
+                          builder: (context) => AlertDialog(
+                            content:
+                                const Text('¿Desea elimnar este producto?'),
+                            actions: [
+                              TextButton(
+                                  onPressed: () {
+                                    Navigator.pop(context);
+                                  },
+                                  child: const Text('Cancelar')),
+                              TextButton(
+                                onPressed: () {
+                                  ProductRepo().deleteProduct(productRow);
+                                  Navigator.pop(context);
+                                },
+                                child: const Text('Aceptar'),
+                              )
+                            ],
+                          ),
+                        );
+                      };
                     }
                     return Container(
                       height: 30,

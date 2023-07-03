@@ -29,14 +29,15 @@ class LoginView extends StatelessWidget {
               mainAxisSize: MainAxisSize.max,
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               crossAxisAlignment: CrossAxisAlignment.center,
+              //shrinkWrap: true,
               children: [
-                const Logo(),
-                SizedBox(
-                  width: double.infinity,
-                  height: 210,
+                Visibility(visible: MediaQuery.of(context).size.height > 500, child: const Logo()),
+                const Center(child: SizedBox(
+                  width: 800,
+                  height: 220,
                   child: Column(
-                    mainAxisSize: MainAxisSize.max,
-                    children: const [
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
                       Padding(
                         padding: EdgeInsetsDirectional.fromSTEB(24, 8, 24, 8),
                         child: TextFieldUser(),
@@ -52,7 +53,8 @@ class LoginView extends StatelessWidget {
                       LoginController(),
                     ],
                   ),
-                )
+                ),)
+                
               ],
             )));
   }
