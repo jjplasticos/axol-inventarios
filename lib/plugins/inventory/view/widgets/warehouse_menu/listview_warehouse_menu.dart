@@ -39,69 +39,76 @@ class ListviewWarehouseMenu extends StatelessWidget {
       itemCount: listData.length,
       itemBuilder: ((context, index) {
         final elementList = listData[index];
-        return Padding(
-          padding: const EdgeInsetsDirectional.fromSTEB(8, 0, 8, 8),
-          child: SizedBox(
-            height: 50,
-            width: 300,
-            child: OutlinedButton(
-                onPressed: () {
-                  if (mode == 0) {
-                    //Navigate mode
-                    Navigator.pop(context);
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => WarehouseView(
-                                  warehouseName: elementList.name,
-                                  users: users,
-                                )));
-                  } else if (mode == 1) {
-                    //Edit mode
-                    showDialog(
+        return Container(
+          decoration: const BoxDecoration(
+            border: Border(
+              bottom: BorderSide(color: Colors.white12),
+            ),
+          ),
+          child: Padding(
+            padding: const EdgeInsetsDirectional.fromSTEB(8, 0, 8, 8),
+            child: SizedBox(
+              height: 50,
+              width: 300,
+              child: OutlinedButton(
+                  onPressed: () {
+                    if (mode == 0) {
+                      //Navigate mode
+                      Navigator.pop(context);
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => WarehouseView(
+                                    warehouseName: elementList.name,
+                                    users: users,
+                                  )));
+                    } else if (mode == 1) {
+                      //Edit mode
+                      showDialog(
+                          context: context,
+                          builder: (context) => BlocProvider(
+                              create: (_) => WarehouseSettingCubit(),
+                              child: Row(
+                                children: [
+                                  Expanded(
+                                      child: Container(
+                                    color: Colors.black26,
+                                  )),
+                                  DrawerWarehouseController(
+                                    settingMode: 1,
+                                    users: users,
+                                    widthDrawer: 500,
+                                    currentWarehouse: elementList,
+                                  ),
+                                ],
+                              ))).then((value) {
+                        context.read<WarehousesLoadCubit>().loadWarehouses(0);
+                      });
+                    } else if (mode == 2) {
+                      //Delete mode
+                      showDialog(
                         context: context,
                         builder: (context) => BlocProvider(
                             create: (_) => WarehouseSettingCubit(),
-                            child: Row(
-                              children: [
-                                Expanded(
-                                    child: Container(
-                                  color: Colors.black26,
-                                )),
-                                DrawerWarehouseController(
-                                  settingMode: 1,
-                                  users: users,
-                                  widthDrawer: 500,
-                                  currentWarehouse: elementList,
-                                ),
-                              ],
-                            ))).then((value) {
-                      context.read<WarehousesLoadCubit>().loadWarehouses(0);
-                    });
-                  } else if (mode == 2) {
-                    //Delete mode
-                    showDialog(
-                      context: context,
-                      builder: (context) => BlocProvider(
-                          create: (_) => WarehouseSettingCubit(),
-                          child: DrawerWarehouseController(
-                            settingMode: 3,
-                            users: users,
-                            widthDrawer: 0,
-                            currentWarehouse: elementList,
-                          )),
-                    ).then((value) {
-                      context.read<WarehousesLoadCubit>().loadWarehouses(0);
-                    });
-                  }
-                },
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(elementList.name, style: Typo.bodyText5),
-                    icon!,
-                  ],
-                )),
+                            child: DrawerWarehouseController(
+                              settingMode: 3,
+                              users: users,
+                              widthDrawer: 0,
+                              currentWarehouse: elementList,
+                            )),
+                      ).then((value) {
+                        context.read<WarehousesLoadCubit>().loadWarehouses(0);
+                      });
+                    }
+                  },
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(elementList.name, style: Typo.bodyText5),
+                      icon!,
+                    ],
+                  )),
+            ),
           ),
         );
       }),

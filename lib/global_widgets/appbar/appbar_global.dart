@@ -24,17 +24,20 @@ class AppBarGlobal extends StatelessWidget {
     } else {
       action0 = const IconButtonActions(data: EMPTY);
     }
-    return AppBar(
-      backgroundColor: ColorPalette.primaryBackground,
-      automaticallyImplyLeading: false,
-      leading: iconButton,
-      title: Text(
-        title,
-        style: Typo.title1,
+    return Container(
+      decoration: BoxDecoration(border: Border.all(color: Colors.white12)),
+      child: AppBar(
+        backgroundColor: ColorPalette.primaryBackground,
+        automaticallyImplyLeading: false,
+        leading: iconButton,
+        title: Text(
+          title,
+          style: Typo.title1,
+        ),
+        actions: [action0],
+        centerTitle: true,
+        elevation: 2,
       ),
-      actions: [action0],
-      centerTitle: true,
-      elevation: 2,
     );
   }
 }
