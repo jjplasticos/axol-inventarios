@@ -45,9 +45,7 @@ class ListviewWarehouseMenu extends StatelessWidget {
               bottom: BorderSide(color: Colors.white12),
             ),
           ),
-          child: Padding(
-            padding: const EdgeInsetsDirectional.fromSTEB(8, 0, 8, 8),
-            child: SizedBox(
+          child: SizedBox(
               height: 50,
               width: 300,
               child: OutlinedButton(
@@ -109,7 +107,6 @@ class ListviewWarehouseMenu extends StatelessWidget {
                     ],
                   )),
             ),
-          ),
         );
       }),
     );

@@ -31,7 +31,7 @@ class LoginView extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.center,
               //shrinkWrap: true,
               children: [
-                Visibility(visible: MediaQuery.of(context).size.height > 500, child: const Logo()),
+                Visibility(visible: MediaQuery.of(context).size.height > 570, child: const Logo()),
                 const Center(child: SizedBox(
                   width: 800,
                   height: 220,
