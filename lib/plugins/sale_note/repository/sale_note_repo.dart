@@ -14,11 +14,11 @@ class SaleNoteRepo {
     List<Map<String, dynamic>> saleNoteDB = [];
     Map<String, dynamic> filters = {};
 
-    if (filter.product != '') {
+    /*if (filter.product != '') {
       filters
     }
 
-    await _supabase.from(_table).select().filter(column, operator, value)
+    await _supabase.from(_table).select().filter(column, operator, value)*/
 
     return salesNotes;
   }

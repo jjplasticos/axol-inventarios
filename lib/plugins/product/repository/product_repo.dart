@@ -101,6 +101,13 @@ class ProductRepo {
         .from(_table)
         .select<List<Map<String, dynamic>>>()
         .or('$_code.ilike.%$finder%,$_description.ilike.%$finder%');
+        //funcionan con jsonb:
+        /*.match({
+          'attributes->>code':'B5067',
+          'attributes->>description':'100x150x.230 C/10kg',
+        });*/ 
+        //.or('attributes->>code.eq.B5067');
+        
     if (productsDB.isNotEmpty) {
       for (var element in productsDB) {
         product = ProductModel(

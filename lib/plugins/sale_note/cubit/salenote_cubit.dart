@@ -7,7 +7,7 @@ import 'salenote_state.dart';
 class SaleNoteCubit extends Cubit<SaleNoteState> {
   SaleNoteCubit() : super(InitialState());
 
-  Future<void> initialList() async {
+  /*Future<void> initialList() async {
     try {
       TextfieldModel initialFinder =
           const TextfieldModel(text: '', position: 0);
@@ -35,5 +35,5 @@ class SaleNoteCubit extends Cubit<SaleNoteState> {
 
   Future<void> deleteProduct(ProductModel product) async {
     await ProductRepo().updateProduct(product);
-  }
+  }*/
 }
