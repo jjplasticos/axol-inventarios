@@ -13,7 +13,7 @@ class MovementFilterModel {
   final List<UserModel> usersList;
   final TextfieldModel currentLimit;
   static const WarehouseModel initWarehouse =
-      WarehouseModel(id: 'all', name: 'TODOS', retailManager: '');
+      WarehouseModel(id: -1, name: 'TODOS', retailManager: '');
   static final Map<int, DateTime> initDate = {
     0: DateTime(0),
     1: DateTime(3000)

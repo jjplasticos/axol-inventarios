@@ -179,7 +179,7 @@ class ListviewSaleNote extends StatelessWidget {
                               flex: 1,
                               child: Center(
                                 child: Text(
-                                  saleNoteRow.warehouse.id,
+                                  saleNoteRow.warehouse.id.toString(),
                                   style: Typo.labelText1,
                                 ),
                               ),

@@ -36,7 +36,7 @@ class WarehousesRepo {
         .eq(_name, name);
     if (warehouses.length == 1) {
       warehouse = WarehouseModel(
-        id: warehouses.single[_id].toString(),
+        id: warehouses.single[_id],
         name: warehouses.single[_name].toString(),
         retailManager: warehouses.single[_retailManager].toString(),
       );
@@ -55,7 +55,7 @@ class WarehousesRepo {
     if (warehousesDB.isNotEmpty) {
       for (var element in warehousesDB) {
         warehouse = WarehouseModel(
-            id: element[_id].toString(),
+            id: element[_id],
             name: element[_name].toString(),
             retailManager: element[_retailManager].toString());
         warehouses.add(warehouse);
@@ -79,7 +79,7 @@ class WarehousesRepo {
     }).eq(_id, warehouse.id);
   }
 
-  Future<void> deleteWarehouse(String id) async {
+  Future<void> deleteWarehouse(int id) async {
     await _supabase.from(_table).delete().eq(_id, id);
   }
 }

@@ -28,7 +28,7 @@ class WarehousesLoadCubit extends Cubit<WarehousesLoadState> {
     emit(LoadedState(users: users, warehouses: warehouses, mode: mode));
   }
 
-  Future<void> remove(String id) async {
+  Future<void> remove(int id) async {
     try {
       emit(InitialState());
       emit(LoadingState());

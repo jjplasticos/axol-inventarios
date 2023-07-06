@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../../../models/textfield_model.dart';
 import '../../../../../models/user_mdoel.dart';
+import '../../../../../models/validation_form_model.dart';
 import '../../../../../models/warehouse_model.dart';
 import '../../../cubit/warehouse_setting/warehouse_setting_cubit.dart';
 
@@ -10,9 +12,10 @@ class DrawerWarehouse extends StatelessWidget {
   final int settingMode;
   final WarehouseModel? currentWarehouse;
   final String? userSelected;
-  final String currentName;
   final double widthDrawer;
-  final int txtPosition;
+  final TextfieldModel textfieldName;
+  final TextfieldModel textfieldId;
+  final List<ValidationFormModel> validation;
 
   const DrawerWarehouse(
       {super.key,
@@ -20,27 +23,24 @@ class DrawerWarehouse extends StatelessWidget {
       required this.settingMode,
       this.currentWarehouse,
       this.userSelected,
-      required this.currentName,
       required this.widthDrawer,
-      required this.txtPosition});
+      required this.textfieldName,
+      required this.textfieldId,
+      required this.validation});
 
   @override
   Widget build(BuildContext context) {
     WarehouseModel warehouseEdited;
     TextEditingController textController = TextEditingController();
+    TextEditingController textController2 = TextEditingController();
     textController.value = TextEditingValue(
-        text: currentName,
-        //selection: TextSelection.collapsed(offset: currentName.length));
-        selection: TextSelection.collapsed(offset: txtPosition));
-    /*if (settingMode == 0) {
-      //Add mode
-    } else if (settingMode == 1) {
-      //Edit mode
-      //textController.text = currentWarehouse!.name;
-      textController.value = TextEditingValue(
-          text: currentName,
-          selection: TextSelection.collapsed(offset: currentName.length));
-    }*/
+        text: textfieldName.text,
+        selection: TextSelection.collapsed(offset: textfieldName.position));
+    textController2.value = TextEditingValue(
+      text: textfieldId.text,
+      selection: TextSelection.collapsed(offset: textfieldId.position),
+    );
+    print(validation[0].isValid);
     return Drawer(
       width: widthDrawer,
       child: Padding(
@@ -55,19 +55,79 @@ class DrawerWarehouse extends StatelessWidget {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
+                    const Text('Número de almacén:'),
+                    SizedBox(
+                      width: 250,
+                      height: 40,
+                      child: TextField(
+                        decoration: InputDecoration(
+                          isDense: true,
+                          errorStyle: const TextStyle(height: 0.3),
+                          errorText: validation[0].isValid
+                              ? null
+                              : validation[0].errorMessage,
+                          errorBorder: const UnderlineInputBorder(
+                              borderSide: BorderSide(color: Colors.red)),
+                        ),
+                        controller: textController2,
+                        onChanged: (value) {},
+                        onSubmitted: (value) {
+                          context.read<WarehouseSettingCubit>().change(
+                                userSelected,
+                                TextfieldModel(
+                                  text: textController.text,
+                                  position:
+                                      textController.selection.base.offset,
+                                ),
+                                TextfieldModel(
+                                  text: value,
+                                  position:
+                                      textController2.selection.base.offset,
+                                ),
+                                validation,
+                                0,
+                              );
+                        },
+                      ),
+                    ),
+                  ],
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
                     const Text('Nombre de almacén'),
                     SizedBox(
                       width: 250,
                       height: 40,
                       child: TextField(
                         controller: textController,
-                        onChanged: (value) {
-                          final x = textController.selection.base.offset;
-                          context
-                              .read<WarehouseSettingCubit>()
-                              .change(userSelected, value, x);
+                        decoration: InputDecoration(
+                          isDense: true,
+                          errorStyle: const TextStyle(height: 0.3),
+                          errorText: validation[1].isValid
+                              ? null
+                              : validation[1].errorMessage,
+                          errorBorder: const UnderlineInputBorder(
+                              borderSide: BorderSide(color: Colors.red)),
+                        ),
+                        onChanged: (value) {},
+                        onSubmitted: (value) {
+                          context.read<WarehouseSettingCubit>().change(
+                                userSelected,
+                                TextfieldModel(
+                                  text: value,
+                                  position:
+                                      textController.selection.base.offset,
+                                ),
+                                TextfieldModel(
+                                  text: textController2.text,
+                                  position:
+                                      textController2.selection.base.offset,
+                                ),
+                                validation,
+                                1,
+                              );
                         },
-                        onSubmitted: (value) {},
                       ),
                     ),
                   ],
@@ -88,9 +148,19 @@ class DrawerWarehouse extends StatelessWidget {
                               value: element.name, child: Text(element.name));
                         }).toList(),
                         onChanged: (value) {
-                          context
-                              .read<WarehouseSettingCubit>()
-                              .change(value, currentName, txtPosition);
+                          context.read<WarehouseSettingCubit>().change(
+                                value,
+                                TextfieldModel(
+                                  text: textController.text,
+                                  position:
+                                      textController.selection.base.offset,
+                                ),
+                                TextfieldModel(
+                                  text: textController2.text,
+                                  position:
+                                      textController2.selection.base.offset,
+                                ),
+                              );
                         },
                       ),
                     )
@@ -110,15 +180,17 @@ class DrawerWarehouse extends StatelessWidget {
               ),
               OutlinedButton(
                 onPressed: () {
-                  if (settingMode == 0) {
+                  /*if (settingMode == 0) {
                     //add mode
-                    if (userSelected == null || currentName == '') {
+                    if (userSelected == null ||
+                        textfieldName.text == '' ||
+                        textfieldId.text == '') {
                       showDialog(
                         context: context,
                         builder: (context) => AlertDialog(
                           title: const Text('Alerta!'),
-                          content: const Text(
-                              'Seleccione un encargado de almacén y llene el campo de nombre'),
+                          content:
+                              const Text('Llene los campos correspondeintes'),
                           actions: [
                             TextButton(
                                 onPressed: () {
@@ -129,9 +201,10 @@ class DrawerWarehouse extends StatelessWidget {
                         ),
                       );
                     } else {
-                      context
-                          .read<WarehouseSettingCubit>()
-                          .add(currentName, userSelected!);
+                      context.read<WarehouseSettingCubit>().add(
+                          textfieldId,
+                          textfieldName,
+                          userSelected!,);
                     }
                   } else if (settingMode == 1) {
                     //edit mode
@@ -139,7 +212,7 @@ class DrawerWarehouse extends StatelessWidget {
                         id: currentWarehouse!.id,
                         name: textController.text,
                         retailManager: userSelected!);
-                    if (userSelected == null || currentName == '') {
+                    if (userSelected == null || textfieldName.text == '') {
                       showDialog(
                         context: context,
                         builder: (context) => AlertDialog(
@@ -160,7 +233,7 @@ class DrawerWarehouse extends StatelessWidget {
                           .read<WarehouseSettingCubit>()
                           .edit(warehouseEdited);
                     }
-                  }
+                  }*/
                 },
                 child: const Text('Guardar'),
               ),

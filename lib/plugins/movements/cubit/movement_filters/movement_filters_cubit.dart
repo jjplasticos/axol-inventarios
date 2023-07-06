@@ -41,9 +41,9 @@ class MovementFiltersCubit extends Cubit<MovementFiltersState> {
 
     emit(LoadingState());
     warehouses = await WarehousesRepo().fetchAllWarehouses();
-    if (warehouses.last.id != 'all') {
-      warehouses.add(
-          const WarehouseModel(id: 'all', name: 'TODOS', retailManager: ''));
+    if (warehouses.last.id > -1) {
+      warehouses
+          .add(const WarehouseModel(id: -1, name: 'TODOS', retailManager: ''));
     }
     concepts = await InventoryConceptsRepo().fetchAllConcepts();
     if (concepts.last.id != -1) {

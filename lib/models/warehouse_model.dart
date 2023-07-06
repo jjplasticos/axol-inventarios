@@ -1,7 +1,11 @@
 class WarehouseModel {
-  final String id;
+  final int id;
   final String name;
   final String retailManager;
+
+  static const String propId = 'id';
+  static const String propName = 'name';
+  static const String propManager = 'retail_manager';
 
   const WarehouseModel({
     required this.id,
