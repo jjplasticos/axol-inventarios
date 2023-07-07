@@ -18,14 +18,44 @@ class TransferCubit extends Cubit<WarehouseStreamModel> {
     emit(warehouseStream);
   }
 
-  Future<void> changeTextfield(TextfieldModel textfield, int elementForm) async {
+  Future<void> changeTextfield(
+      TextfieldModel textfield, int elementForm) async {
     WarehouseStreamModel warehouseStream = state;
-    
     if (elementForm == 0) {
+      warehouseStream.textfieldId.text = textfield.text;
+      warehouseStream.textfieldId.position = textfield.position;
       if (textfield.text == '') {
-        warehouseStream.textfieldId.text;
-        //seguir aqui
+        warehouseStream.textfieldId.validation =
+            ValidationFormModel(isValid: false, errorMessage: 'Dato no valido');
+      } else {
+        warehouseStream.textfieldId.validation =
+            ValidationFormModel.trueValid();
+      }
+    }
+    if (elementForm == 1) {
+      warehouseStream.textfieldName.text = textfield.text;
+      warehouseStream.textfieldName.position = textfield.position;
+      if (textfield.text == '') {
+        warehouseStream.textfieldName.validation =
+            ValidationFormModel(isValid: false, errorMessage: 'Dato no valido');
+      } else {
+        warehouseStream.textfieldName.validation =
+            ValidationFormModel.trueValid();
       }
     }
   }
+
+  Future<void> changeDropdown(String value) async {
+    WarehouseStreamModel warehouseStream = state;
+    warehouseStream.dropdownManager.value = value;
+    if (value == '') {
+      warehouseStream.dropdownManager.validation = ValidationFormModel(
+          isValid: false, errorMessage: 'Selecione a un encargado de almacén');
+    } else {
+      warehouseStream.dropdownManager.validation =
+          ValidationFormModel.trueValid();
+    }
+  }
+
+  Future<void> 
 }
