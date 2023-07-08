@@ -1,12 +1,47 @@
 import 'package:axol_inventarios/models/validation_form_model.dart';
-import 'package:axol_inventarios/models/warehouse_model.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../models/textfield_model.dart';
 import '../model/warehouse_stream_model.dart';
 
-class TransferCubit extends Cubit<WarehouseStreamModel> {
-  TransferCubit() : super(WarehouseStreamModel.initial());
+class WarehouseStreamCubit extends Cubit<WarehouseStreamModel> {
+  WarehouseStreamCubit() : super(WarehouseStreamModel.initial());
+
+  WarehouseStreamModel _validId(WarehouseStreamModel warehouseStream) {
+    WarehouseStreamModel newWarehouseStream = warehouseStream;
+    if (warehouseStream.textfieldId.text == '') {
+      newWarehouseStream.textfieldId.validation =
+          ValidationFormModel(isValid: false, errorMessage: 'Dato no valido');
+    } else {
+      newWarehouseStream.textfieldId.validation =
+          ValidationFormModel.trueValid();
+    }
+    return newWarehouseStream;
+  }
+
+  WarehouseStreamModel _validName(WarehouseStreamModel warehouseStream) {
+    WarehouseStreamModel newWarehouseStream = warehouseStream;
+    if (warehouseStream.textfieldName.text == '') {
+      newWarehouseStream.textfieldName.validation =
+          ValidationFormModel(isValid: false, errorMessage: 'Dato no valido');
+    } else {
+      newWarehouseStream.textfieldName.validation =
+          ValidationFormModel.trueValid();
+    }
+    return newWarehouseStream;
+  }
+
+  WarehouseStreamModel _validManager(WarehouseStreamModel warehouseStream) {
+    WarehouseStreamModel newWarehouseStream = warehouseStream;
+    if (warehouseStream.dropdownManager.value == '') {
+      newWarehouseStream.dropdownManager.validation = ValidationFormModel(
+          isValid: false, errorMessage: 'Selecione a un encargado de almacén');
+    } else {
+      newWarehouseStream.dropdownManager.validation =
+          ValidationFormModel.trueValid();
+    }
+    return newWarehouseStream;
+  }
 
   Future<void> initial() async {
     emit(WarehouseStreamModel.initial());
@@ -21,41 +56,35 @@ class TransferCubit extends Cubit<WarehouseStreamModel> {
   Future<void> changeTextfield(
       TextfieldModel textfield, int elementForm) async {
     WarehouseStreamModel warehouseStream = state;
+    print('Entro a changeTextfield');
     if (elementForm == 0) {
       warehouseStream.textfieldId.text = textfield.text;
       warehouseStream.textfieldId.position = textfield.position;
-      if (textfield.text == '') {
-        warehouseStream.textfieldId.validation =
-            ValidationFormModel(isValid: false, errorMessage: 'Dato no valido');
-      } else {
-        warehouseStream.textfieldId.validation =
-            ValidationFormModel.trueValid();
-      }
+      warehouseStream = _validId(warehouseStream);
     }
     if (elementForm == 1) {
       warehouseStream.textfieldName.text = textfield.text;
       warehouseStream.textfieldName.position = textfield.position;
-      if (textfield.text == '') {
-        warehouseStream.textfieldName.validation =
-            ValidationFormModel(isValid: false, errorMessage: 'Dato no valido');
-      } else {
-        warehouseStream.textfieldName.validation =
-            ValidationFormModel.trueValid();
-      }
+      warehouseStream = _validName(warehouseStream);
     }
+    emit(WarehouseStreamModel.initial());
+    emit(warehouseStream);
   }
 
   Future<void> changeDropdown(String value) async {
     WarehouseStreamModel warehouseStream = state;
     warehouseStream.dropdownManager.value = value;
-    if (value == '') {
-      warehouseStream.dropdownManager.validation = ValidationFormModel(
-          isValid: false, errorMessage: 'Selecione a un encargado de almacén');
-    } else {
-      warehouseStream.dropdownManager.validation =
-          ValidationFormModel.trueValid();
-    }
+    warehouseStream = _validManager(warehouseStream);
+    emit(WarehouseStreamModel.initial());
+    emit(warehouseStream);
   }
 
-  Future<void> 
+  Future<void> allValidate() async {
+    WarehouseStreamModel warehouseStream = state;
+    warehouseStream = _validId(warehouseStream);
+    warehouseStream = _validName(warehouseStream);
+    warehouseStream = _validManager(warehouseStream);
+    emit(WarehouseStreamModel.initial());
+    emit(warehouseStream);
+  }
 }

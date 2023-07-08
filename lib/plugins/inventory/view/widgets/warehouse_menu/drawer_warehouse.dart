@@ -6,6 +6,7 @@ import '../../../../../models/user_mdoel.dart';
 import '../../../../../models/validation_form_model.dart';
 import '../../../../../models/warehouse_model.dart';
 import '../../../cubit/warehouse_setting/warehouse_setting_cubit.dart';
+import '../../../cubit/warehouse_stream_cubit.dart';
 
 class DrawerWarehouse extends StatelessWidget {
   final List<UserModel> users;
@@ -70,7 +71,16 @@ class DrawerWarehouse extends StatelessWidget {
                               borderSide: BorderSide(color: Colors.red)),
                         ),
                         controller: textController2,
-                        onChanged: (value) {},
+                        onChanged: (value) {
+                          context.read<WarehouseStreamCubit>().changeTextfield(
+                                TextfieldModel(
+                                  text: value,
+                                  position:
+                                      textController2.selection.base.offset,
+                                ),
+                                0,
+                              );
+                        },
                         onSubmitted: (value) {
                           context.read<WarehouseSettingCubit>().change(
                                 userSelected,
@@ -148,7 +158,7 @@ class DrawerWarehouse extends StatelessWidget {
                               value: element.name, child: Text(element.name));
                         }).toList(),
                         onChanged: (value) {
-                          context.read<WarehouseSettingCubit>().change(
+                          /*context.read<WarehouseSettingCubit>().change(
                                 value,
                                 TextfieldModel(
                                   text: textController.text,
@@ -160,7 +170,7 @@ class DrawerWarehouse extends StatelessWidget {
                                   position:
                                       textController2.selection.base.offset,
                                 ),
-                              );
+                              );*/
                         },
                       ),
                     )
