@@ -1,5 +1,6 @@
 import 'package:axol_inventarios/models/validation_form_model.dart';
 import 'package:axol_inventarios/plugins/inventory/cubit/textfield_finder_invrow_cubit.dart';
+import 'package:axol_inventarios/plugins/inventory/model/warehouse_stream_model.dart';
 import 'package:equatable/equatable.dart';
 
 import '../../../../models/textfield_model.dart';
@@ -14,19 +15,9 @@ class InitialState extends WarehouseSettingState {
 }
 
 class EditState extends WarehouseSettingState {
-  final TextfieldModel textfieldId;
-  final String? userSelected;
-  final TextfieldModel textfieldName;
-  final List<ValidationFormModel> validation;
-  const EditState({
-    required this.userSelected,
-    required this.textfieldName,
-    required this.textfieldId,
-    required this.validation,
-  });
+  const EditState();
   @override
-  List<Object?> get props =>
-      [userSelected, textfieldName, textfieldId, validation];
+  List<Object?> get props => [];
 }
 
 class LoadingState extends WarehouseSettingState {

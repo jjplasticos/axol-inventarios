@@ -1,5 +1,6 @@
 import 'package:axol_inventarios/models/textfield_model.dart';
 import 'package:axol_inventarios/models/validation_form_model.dart';
+import 'package:axol_inventarios/plugins/inventory/model/warehouse_stream_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -7,6 +8,7 @@ import '../../../../models/user_mdoel.dart';
 import '../../../../models/warehouse_model.dart';
 import '../../cubit/warehouse_setting/warehouse_setting_cubit.dart';
 import '../../cubit/warehouse_setting/warehouse_setting_state.dart';
+import '../../cubit/warehouse_stream_cubit.dart';
 import '../widgets/warehouse_menu/drawer_warehouse.dart';
 
 class DrawerWarehouseController extends StatelessWidget {
@@ -65,15 +67,12 @@ class DrawerWarehouseController extends StatelessWidget {
           );
         } else if (state is EditState) {
           return DrawerWarehouse(
-            validation: state.validation,
-            textfieldId: state.textfieldId,
             users: users,
             settingMode: settingMode,
-            userSelected: state.userSelected,
             currentWarehouse: currentWarehouse,
-            textfieldName: state.textfieldName,
             widthDrawer: widthDrawer,
           );
+          
         } else if (state is RemoveAlertState) {
           return AlertDialog(
             content: const Text('¿Desea elimnar este almacén?'),
@@ -105,21 +104,6 @@ class DrawerWarehouseController extends StatelessWidget {
           Navigator.pop(context);
         }
         if (state is EditState) {
-          /*if (state.error == true) {
-            showDialog(
-              context: context,
-              builder: (context) => AlertDialog(
-                content: Text(state.message!),
-                actions: [
-                  TextButton(
-                      onPressed: () {
-                        Navigator.pop(context);
-                      },
-                      child: const Text('Aceptar'))
-                ],
-              ),
-            );
-          }*/
         }
         if (state is RemoveLoadedState) {
           Navigator.pop(context);

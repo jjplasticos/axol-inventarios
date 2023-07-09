@@ -1,6 +1,8 @@
 import 'package:axol_inventarios/models/warehouse_model.dart';
+import 'package:axol_inventarios/plugins/inventory/cubit/warehouse_stream_cubit.dart';
+import 'package:axol_inventarios/plugins/inventory/model/warehouse_stream_model.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:uuid/uuid.dart';
 
 import '../../../../models/textfield_model.dart';
 import '../../../../models/validation_form_model.dart';
@@ -10,7 +12,7 @@ import 'warehouse_setting_state.dart';
 class WarehouseSettingCubit extends Cubit<WarehouseSettingState> {
   WarehouseSettingCubit() : super(InitialState());
 
-  List<ValidationFormModel> validationChange(
+  /*List<ValidationFormModel> validationChange(
       TextfieldModel textfieldId,
       TextfieldModel textfieldName,
       String? userSelected,
@@ -53,7 +55,7 @@ class WarehouseSettingCubit extends Cubit<WarehouseSettingState> {
     }
 
     return validationList;
-  }
+  }*/
 
   Future<void> initialToAdd() async {
     try {
@@ -65,83 +67,81 @@ class WarehouseSettingCubit extends Cubit<WarehouseSettingState> {
             .add(ValidationFormModel(isValid: true, errorMessage: ''));
       }
       emit(InitialState());
-      emit(EditState(
-        userSelected: null,
-        textfieldName: initTextfield,
-        textfieldId: initTextfield,
-        validation: validationList,
-      ));
+      emit(const EditState());
     } catch (e) {
       emit(ErrorState(error: e.toString()));
     }
   }
 
-  Future<void> change(
-      String? userSelected,
-      TextfieldModel textfieldName,
-      TextfieldModel textfieldId,
-      List<ValidationFormModel> currentValidation,
-      int elementChange) async {
+  Future<void> change() async {
     try {
-      final List<ValidationFormModel> validationList;
       emit(InitialState());
-      validationList = validationChange(textfieldId, textfieldName,
-          userSelected, currentValidation, elementChange);
-      emit(EditState(
-          validation: validationList,
-          textfieldId: textfieldId,
-          userSelected: userSelected,
-          textfieldName: textfieldName));
+      emit(const EditState());
     } catch (e) {
-      emit(ErrorState(error: e.toString()));
+      emit(ErrorState(error: 'Error en WarehouseSettingCubit.change(): $e'));
     }
   }
 
-  Future<void> add(
-      TextfieldModel textfieldId,
-      TextfieldModel textfieldName,
-      String? retailManager,
-      List<ValidationFormModel> currentValidation) async {
+  Future<bool> add(WarehouseStreamModel warehouseStream) async {
     try {
       WarehouseModel? warehouseDB;
       WarehouseModel warehouse;
-      final List<ValidationFormModel> validationList = validationChange(
-          textfieldId, textfieldName, retailManager, currentValidation, -1);
-      bool finalValidation = true;
-      for (var element in validationList) {
-        if (element.isValid == false) {
-          finalValidation = false;
-        }
-      }
+      bool isExist = false;
+      final List<bool> validationList = [
+        warehouseStream.dropdownManager.validation.isValid,
+        warehouseStream.textfieldId.validation.isValid,
+        warehouseStream.textfieldName.validation.isValid,
+      ];
+      final bool finalValidation = !validationList.contains(false);
       emit(InitialState());
       emit(LoadingState());
-      warehouseDB = await WarehousesRepo().fetchWarehouse(textfieldName.text);
-      if (finalValidation == true) {
+      if (warehouseStream.textfieldId.text != '') {
+        warehouseDB = await WarehousesRepo()
+            .fetchWarehouse(int.parse(warehouseStream.textfieldId.text));
+      }
+      if (finalValidation && warehouseDB == null) {
+        //print('entro');
         warehouse = WarehouseModel(
-          id: int.parse(textfieldId.text),
-          name: textfieldName.text,
-          retailManager: retailManager!,
+          id: int.parse(warehouseStream.textfieldId.text),
+          name: warehouseStream.textfieldName.text,
+          retailManager: warehouseStream.dropdownManager.value,
         );
         await WarehousesRepo().insertWarehouse(warehouse);
         emit(LoadedState());
       } else {
-        emit(EditState(
-            textfieldId: textfieldId,
-            textfieldName: textfieldName,
-            userSelected: retailManager,
-            validation: validationList));
+        if (warehouseDB != null) {
+          isExist = true;
+        }
+        emit(const EditState());
       }
+      return isExist;
     } catch (e) {
-      emit(ErrorState(error: e.toString()));
+      emit(ErrorState(error: 'Error en WarehouseSettingCubit.add(): $e'));
+      return false;
     }
   }
 
-  Future<void> edit(WarehouseModel warehouse) async {
+  Future<void> edit(WarehouseStreamModel warehouseStream) async {
     try {
+      WarehouseModel warehouse = WarehouseModel(
+        id: int.parse(warehouseStream.textfieldId.text),
+        name: warehouseStream.textfieldName.text,
+        retailManager: warehouseStream.dropdownManager.value,
+      );
+      final List<bool> validationList = [
+        warehouseStream.dropdownManager.validation.isValid,
+        warehouseStream.textfieldId.validation.isValid,
+        warehouseStream.textfieldName.validation.isValid,
+      ];
+      final bool finalValidation = !validationList.contains(false);
       emit(InitialState());
       emit(LoadingState());
-      await WarehousesRepo().updateWarehouse(warehouse);
-      emit(LoadedState());
+      if (finalValidation) {
+        await WarehousesRepo().updateWarehouse(warehouse);
+        emit(LoadedState());
+      } else {
+        emit(const EditState());
+      }
     } catch (e) {
       emit(ErrorState(error: e.toString()));
     }

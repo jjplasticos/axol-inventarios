@@ -1,3 +1,5 @@
+import 'package:axol_inventarios/plugins/inventory/cubit/warehouse_stream_cubit.dart';
+import 'package:axol_inventarios/plugins/inventory/model/warehouse_stream_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -47,8 +49,11 @@ class ListviewWHMenuController extends StatelessWidget {
                       action: () {
                         showDialog(
                             context: context,
-                            builder: (context) => BlocProvider(
-                                create: (_) => WarehouseSettingCubit(),
+                            builder: (context) => MultiBlocProvider(
+                              providers: [
+                                BlocProvider(create: (_) => WarehouseSettingCubit()),
+                                BlocProvider(create: (_) => WarehouseStreamCubit()),
+                              ],
                                 child: Row(
                                   children: [
                                     Expanded(

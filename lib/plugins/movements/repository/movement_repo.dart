@@ -50,7 +50,7 @@ class MovementRepo {
     Map<String, dynamic> filters = {};
     List<Map<String, dynamic>> movementsDB = [];
 
-    if (moveFilter.warehouse.id != 'all') {
+    if (moveFilter.warehouse.id > -1) {
       filters[_warehouse] = moveFilter.warehouse.name;
       //print(filters[_warehouse].warehouse as MovementFilterModel);
     }

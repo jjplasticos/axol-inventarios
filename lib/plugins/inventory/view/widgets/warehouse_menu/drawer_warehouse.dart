@@ -1,9 +1,12 @@
+import 'package:axol_inventarios/models/validation_form_model.dart';
+import 'package:axol_inventarios/plugins/inventory/cubit/warehouse_setting/warehouse_setting_state.dart';
+import 'package:axol_inventarios/plugins/inventory/model/warehouse_stream_model.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../../models/textfield_model.dart';
 import '../../../../../models/user_mdoel.dart';
-import '../../../../../models/validation_form_model.dart';
 import '../../../../../models/warehouse_model.dart';
 import '../../../cubit/warehouse_setting/warehouse_setting_cubit.dart';
 import '../../../cubit/warehouse_stream_cubit.dart';
@@ -12,36 +15,31 @@ class DrawerWarehouse extends StatelessWidget {
   final List<UserModel> users;
   final int settingMode;
   final WarehouseModel? currentWarehouse;
-  final String? userSelected;
   final double widthDrawer;
-  final TextfieldModel textfieldName;
-  final TextfieldModel textfieldId;
-  final List<ValidationFormModel> validation;
 
-  const DrawerWarehouse(
-      {super.key,
-      required this.users,
-      required this.settingMode,
-      this.currentWarehouse,
-      this.userSelected,
-      required this.widthDrawer,
-      required this.textfieldName,
-      required this.textfieldId,
-      required this.validation});
+  const DrawerWarehouse({
+    super.key,
+    required this.users,
+    required this.settingMode,
+    this.currentWarehouse,
+    required this.widthDrawer,
+  });
 
   @override
   Widget build(BuildContext context) {
-    WarehouseModel warehouseEdited;
+    WarehouseStreamModel warehouseStream =
+        context.read<WarehouseStreamCubit>().state;
     TextEditingController textController = TextEditingController();
     TextEditingController textController2 = TextEditingController();
     textController.value = TextEditingValue(
-        text: textfieldName.text,
-        selection: TextSelection.collapsed(offset: textfieldName.position));
+        text: warehouseStream.textfieldName.text,
+        selection: TextSelection.collapsed(
+            offset: warehouseStream.textfieldName.position));
     textController2.value = TextEditingValue(
-      text: textfieldId.text,
-      selection: TextSelection.collapsed(offset: textfieldId.position),
+      text: warehouseStream.textfieldId.text,
+      selection:
+          TextSelection.collapsed(offset: warehouseStream.textfieldId.position),
     );
-    print(validation[0].isValid);
     return Drawer(
       width: widthDrawer,
       child: Padding(
@@ -61,12 +59,18 @@ class DrawerWarehouse extends StatelessWidget {
                       width: 250,
                       height: 40,
                       child: TextField(
+                        enabled: settingMode == 1 ? false : true,
+                        inputFormatters: [
+                          FilteringTextInputFormatter.allow(RegExp(r'^\d*$')),
+                        ],
                         decoration: InputDecoration(
                           isDense: true,
                           errorStyle: const TextStyle(height: 0.3),
-                          errorText: validation[0].isValid
-                              ? null
-                              : validation[0].errorMessage,
+                          errorText:
+                              warehouseStream.textfieldId.validation.isValid
+                                  ? null
+                                  : warehouseStream
+                                      .textfieldId.validation.errorMessage,
                           errorBorder: const UnderlineInputBorder(
                               borderSide: BorderSide(color: Colors.red)),
                         ),
@@ -82,21 +86,15 @@ class DrawerWarehouse extends StatelessWidget {
                               );
                         },
                         onSubmitted: (value) {
-                          context.read<WarehouseSettingCubit>().change(
-                                userSelected,
-                                TextfieldModel(
-                                  text: textController.text,
-                                  position:
-                                      textController.selection.base.offset,
-                                ),
+                          context.read<WarehouseStreamCubit>().changeTextfield(
                                 TextfieldModel(
                                   text: value,
                                   position:
                                       textController2.selection.base.offset,
                                 ),
-                                validation,
                                 0,
                               );
+                          context.read<WarehouseSettingCubit>().change();
                         },
                       ),
                     ),
@@ -114,29 +112,34 @@ class DrawerWarehouse extends StatelessWidget {
                         decoration: InputDecoration(
                           isDense: true,
                           errorStyle: const TextStyle(height: 0.3),
-                          errorText: validation[1].isValid
-                              ? null
-                              : validation[1].errorMessage,
+                          errorText:
+                              warehouseStream.textfieldName.validation.isValid
+                                  ? null
+                                  : warehouseStream
+                                      .textfieldName.validation.errorMessage,
                           errorBorder: const UnderlineInputBorder(
                               borderSide: BorderSide(color: Colors.red)),
                         ),
-                        onChanged: (value) {},
-                        onSubmitted: (value) {
-                          context.read<WarehouseSettingCubit>().change(
-                                userSelected,
+                        onChanged: (value) {
+                          context.read<WarehouseStreamCubit>().changeTextfield(
                                 TextfieldModel(
                                   text: value,
                                   position:
                                       textController.selection.base.offset,
                                 ),
-                                TextfieldModel(
-                                  text: textController2.text,
-                                  position:
-                                      textController2.selection.base.offset,
-                                ),
-                                validation,
                                 1,
                               );
+                        },
+                        onSubmitted: (value) {
+                          context.read<WarehouseStreamCubit>().changeTextfield(
+                                TextfieldModel(
+                                  text: value,
+                                  position:
+                                      textController.selection.base.offset,
+                                ),
+                                1,
+                              );
+                          context.read<WarehouseSettingCubit>().change();
                         },
                       ),
                     ),
@@ -151,26 +154,32 @@ class DrawerWarehouse extends StatelessWidget {
                       width: 250,
                       height: 40,
                       child: DropdownButton<String>(
+                        underline:
+                            warehouseStream.dropdownManager.validation.isValid
+                                ? null
+                                : Container(
+                                    height: 2,
+                                    color: Colors.red,
+                                  ),
+                        iconEnabledColor:
+                            warehouseStream.dropdownManager.validation.isValid
+                                ? null
+                                : Colors.red,
                         isExpanded: true,
-                        value: userSelected,
+                        value: warehouseStream.dropdownManager.value == ''
+                            ? null
+                            : warehouseStream.dropdownManager.value,
                         items: users.map((element) {
                           return DropdownMenuItem<String>(
                               value: element.name, child: Text(element.name));
                         }).toList(),
                         onChanged: (value) {
-                          /*context.read<WarehouseSettingCubit>().change(
-                                value,
-                                TextfieldModel(
-                                  text: textController.text,
-                                  position:
-                                      textController.selection.base.offset,
-                                ),
-                                TextfieldModel(
-                                  text: textController2.text,
-                                  position:
-                                      textController2.selection.base.offset,
-                                ),
-                              );*/
+                          if (value != null) {
+                            context
+                                .read<WarehouseStreamCubit>()
+                                .changeDropdown(value);
+                          }
+                          context.read<WarehouseSettingCubit>().change();
                         },
                       ),
                     )
@@ -189,61 +198,22 @@ class DrawerWarehouse extends StatelessWidget {
                 child: const Text('Cancelar'),
               ),
               OutlinedButton(
-                onPressed: () {
-                  /*if (settingMode == 0) {
-                    //add mode
-                    if (userSelected == null ||
-                        textfieldName.text == '' ||
-                        textfieldId.text == '') {
-                      showDialog(
-                        context: context,
-                        builder: (context) => AlertDialog(
-                          title: const Text('Alerta!'),
-                          content:
-                              const Text('Llene los campos correspondeintes'),
-                          actions: [
-                            TextButton(
-                                onPressed: () {
-                                  Navigator.pop(context);
-                                },
-                                child: const Text('Aceptar'))
-                          ],
-                        ),
-                      );
-                    } else {
-                      context.read<WarehouseSettingCubit>().add(
-                          textfieldId,
-                          textfieldName,
-                          userSelected!,);
+                onPressed: () async {
+                  context.read<WarehouseStreamCubit>().allValidate();
+                  final currentStream =
+                      context.read<WarehouseStreamCubit>().state;
+                  if (settingMode == 0) {
+                    final isExist = await context
+                        .read<WarehouseSettingCubit>()
+                        .add(currentStream);
+                    if (isExist == true) {
+                      warehouseStream.textfieldId.validation =
+                          ValidationFormModel(
+                              isValid: false, errorMessage: 'Clave existente');
                     }
                   } else if (settingMode == 1) {
-                    //edit mode
-                    warehouseEdited = WarehouseModel(
-                        id: currentWarehouse!.id,
-                        name: textController.text,
-                        retailManager: userSelected!);
-                    if (userSelected == null || textfieldName.text == '') {
-                      showDialog(
-                        context: context,
-                        builder: (context) => AlertDialog(
-                          title: const Text('Alerta!'),
-                          content: const Text(
-                              'Seleccione un encargado de almacén y llene el campo de nombre'),
-                          actions: [
-                            TextButton(
-                                onPressed: () {
-                                  Navigator.pop(context);
-                                },
-                                child: const Text('Aceptar'))
-                          ],
-                        ),
-                      );
-                    } else {
-                      context
-                          .read<WarehouseSettingCubit>()
-                          .edit(warehouseEdited);
-                    }
-                  }*/
+                    context.read<WarehouseSettingCubit>().edit(currentStream);
+                  }
                 },
                 child: const Text('Guardar'),
               ),

@@ -5,7 +5,9 @@ import '../../../models/textfield_model.dart';
 import '../model/warehouse_stream_model.dart';
 
 class WarehouseStreamCubit extends Cubit<WarehouseStreamModel> {
-  WarehouseStreamCubit() : super(WarehouseStreamModel.initial());
+  WarehouseStreamModel? warehouseStream;
+  WarehouseStreamCubit({this.warehouseStream})
+      : super(warehouseStream ?? WarehouseStreamModel.initial());
 
   WarehouseStreamModel _validId(WarehouseStreamModel warehouseStream) {
     WarehouseStreamModel newWarehouseStream = warehouseStream;
@@ -56,7 +58,6 @@ class WarehouseStreamCubit extends Cubit<WarehouseStreamModel> {
   Future<void> changeTextfield(
       TextfieldModel textfield, int elementForm) async {
     WarehouseStreamModel warehouseStream = state;
-    print('Entro a changeTextfield');
     if (elementForm == 0) {
       warehouseStream.textfieldId.text = textfield.text;
       warehouseStream.textfieldId.position = textfield.position;
@@ -86,5 +87,10 @@ class WarehouseStreamCubit extends Cubit<WarehouseStreamModel> {
     warehouseStream = _validManager(warehouseStream);
     emit(WarehouseStreamModel.initial());
     emit(warehouseStream);
+  }
+
+  Future<void> editStream(WarehouseStreamModel newWarehouseStream) async {
+    emit(WarehouseStreamModel.initial());
+    emit(newWarehouseStream);
   }
 }

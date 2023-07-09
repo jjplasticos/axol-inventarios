@@ -1,11 +1,13 @@
+import 'package:axol_inventarios/models/validation_form_model.dart';
 import 'package:axol_inventarios/models/warehouse_model.dart';
+import 'package:axol_inventarios/plugins/inventory/cubit/warehouse_stream_cubit.dart';
+import 'package:axol_inventarios/plugins/inventory/model/warehouse_stream_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../../models/user_mdoel.dart';
 import '../../../../../settings/theme.dart';
 import '../../../cubit/warehouse_setting/warehouse_setting_cubit.dart';
-import '../../../cubit/warehouse_stream_cubit.dart';
 import '../../../cubit/warehouses_load/warehouses_load_cubit.dart';
 import '../../controllers/drawer_warehouse_controller.dart';
 import '../../views/warehouse_view.dart';
@@ -65,27 +67,47 @@ class ListviewWarehouseMenu extends StatelessWidget {
                     //Edit mode
                     showDialog(
                         context: context,
-                        builder: (context) => MultiBlocProvider(
-                                providers: [
-                                  BlocProvider(
-                                      create: (_) => WarehouseSettingCubit()),
-                                  BlocProvider(
-                                      create: (_) => WarehouseStreamCubit()),
-                                ],
-                                child: Row(
-                                  children: [
-                                    Expanded(
-                                        child: Container(
-                                      color: Colors.black26,
+                        builder: (context) {
+                          WarehouseStreamModel warehouseStream =
+                              WarehouseStreamModel(
+                                  textfieldId: WHTextfieldModel(
+                                    position: 0,
+                                    text: elementList.id.toString(),
+                                    validation: ValidationFormModel.trueValid(),
+                                  ),
+                                  textfieldName: WHTextfieldModel(
+                                    position: 0,
+                                    text: elementList.name.toString(),
+                                    validation: ValidationFormModel.trueValid(),
+                                  ),
+                                  dropdownManager: WHDropdownModel(
+                                    value: elementList.retailManager,
+                                    validation: ValidationFormModel.trueValid(),
+                                  ));
+                          return MultiBlocProvider(
+                              providers: [
+                                BlocProvider(
+                                    create: (_) => WarehouseSettingCubit()),
+                                BlocProvider(
+                                    create: (_) => WarehouseStreamCubit(
+                                      warehouseStream: warehouseStream
                                     )),
-                                    DrawerWarehouseController(
-                                      settingMode: 1,
-                                      users: users,
-                                      widthDrawer: 500,
-                                      currentWarehouse: elementList,
-                                    ),
-                                  ],
-                                ))).then((value) {
+                              ],
+                              child: Row(
+                                children: [
+                                  Expanded(
+                                      child: Container(
+                                    color: Colors.black26,
+                                  )),
+                                  DrawerWarehouseController(
+                                    settingMode: 1,
+                                    users: users,
+                                    widthDrawer: 500,
+                                    currentWarehouse: elementList,
+                                  ),
+                                ],
+                              ));
+                        }).then((value) {
                       context.read<WarehousesLoadCubit>().loadWarehouses(0);
                     });
                   } else if (mode == 2) {

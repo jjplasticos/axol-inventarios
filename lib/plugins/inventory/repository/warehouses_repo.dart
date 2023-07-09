@@ -27,13 +27,13 @@ class WarehousesRepo {
     return names;
   }
 
-  Future<WarehouseModel?> fetchWarehouse(String name) async {
+  Future<WarehouseModel?> fetchWarehouse(int id) async {
     WarehouseModel? warehouse;
     List<Map<String, dynamic>> warehouses = [];
     warehouses = await _supabase
         .from(_table)
         .select<List<Map<String, dynamic>>>()
-        .eq(_name, name);
+        .eq(_id, id);
     if (warehouses.length == 1) {
       warehouse = WarehouseModel(
         id: warehouses.single[_id],
