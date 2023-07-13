@@ -41,8 +41,9 @@ class ToolbarProducts extends StatelessWidget {
                     )),
               ).then((value) {
                 if (value == true) {
-                  context.read<ProductsCubit>().reloadList(
-                      const TextfieldModel(text: '', position: 0), 0);
+                  context
+                      .read<ProductsCubit>()
+                      .reloadList(TextfieldModel(text: '', position: 0), 0);
                 }
               });
             }
@@ -57,11 +58,11 @@ class ToolbarProducts extends StatelessWidget {
               if (mode == 1) {
                 context
                     .read<ProductsCubit>()
-                    .reloadList(const TextfieldModel(text: '', position: 0), 0);
+                    .reloadList(TextfieldModel(text: '', position: 0), 0);
               } else {
                 context
                     .read<ProductsCubit>()
-                    .reloadList(const TextfieldModel(text: '', position: 0), 1);
+                    .reloadList(TextfieldModel(text: '', position: 0), 1);
               }
             }
           },
@@ -75,11 +76,11 @@ class ToolbarProducts extends StatelessWidget {
               if (mode == 2) {
                 context
                     .read<ProductsCubit>()
-                    .reloadList(const TextfieldModel(text: '', position: 0), 0);
+                    .reloadList(TextfieldModel(text: '', position: 0), 0);
               } else {
                 context
                     .read<ProductsCubit>()
-                    .reloadList(const TextfieldModel(text: '', position: 0), 2);
+                    .reloadList(TextfieldModel(text: '', position: 0), 2);
               }
             }
           },

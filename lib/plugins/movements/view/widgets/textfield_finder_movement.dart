@@ -78,8 +78,9 @@ class TextfieldFinderMovement extends StatelessWidget {
               Icons.cancel,
             ),
             onPressed: () {
-              context.read<MovementsCuibit>().filterMode(
-                  filters, const TextfieldModel(text: '', position: 0));
+              context
+                  .read<MovementsCuibit>()
+                  .filterMode(filters, TextfieldModel(text: '', position: 0));
             },
           ),
         ],

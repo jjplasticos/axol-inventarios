@@ -25,8 +25,7 @@ class MovementFilterModel {
   static const UserModel initUser =
       UserModel(name: 'TODOS', uid: 'all', rol: '//', password: '//');
   static const List<UserModel> initUsersList = [];
-  static const TextfieldModel initLimit =
-      TextfieldModel(text: '50', position: 0);
+  static TextfieldModel initLimit = TextfieldModel(text: '50', position: 0);
 
   const MovementFilterModel({
     required this.date,

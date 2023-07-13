@@ -16,13 +16,13 @@ class MovementsCuibit extends Cubit<MovementsState> {
       emit(InitialState());
       emit(LoadingState(
           filters: filters,
-          finder: const TextfieldModel(text: '', position: 0),
+          finder: TextfieldModel(text: '', position: 0),
           mode: 0));
       //Obtener lista de movimientos de base de datos
       movements = await MovementRepo().fetchMovements(filters, null, false, 0);
       emit(LoadedState(
         movements: movements,
-        finder: const TextfieldModel(text: '', position: 0),
+        finder: TextfieldModel(text: '', position: 0),
         filters: filters,
         mode: 0,
       ));

@@ -10,8 +10,7 @@ class ProductsCubit extends Cubit<ProductsState> {
 
   Future<void> initialList() async {
     try {
-      TextfieldModel initialFinder =
-          const TextfieldModel(text: '', position: 0);
+      TextfieldModel initialFinder = TextfieldModel(text: '', position: 0);
       List<ProductModel> products;
       emit(InitialState());
       emit(LoadingState(finder: initialFinder, mode: 0));

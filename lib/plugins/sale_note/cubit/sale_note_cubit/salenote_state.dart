@@ -1,7 +1,7 @@
 import 'package:equatable/equatable.dart';
 
-import '../../../models/textfield_model.dart';
-import '../model/sale_note_mdoel.dart';
+import '../../../../models/textfield_model.dart';
+import '../../model/sale_note_mdoel.dart';
 
 abstract class SaleNoteState extends Equatable {
   const SaleNoteState();

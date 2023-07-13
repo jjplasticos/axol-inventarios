@@ -130,7 +130,7 @@ class ListviewProducts extends StatelessWidget {
                         ).then((value) {
                           if (value == true) {
                             context.read<ProductsCubit>().reloadList(
-                                const TextfieldModel(text: '', position: 0), 0);
+                                TextfieldModel(text: '', position: 0), 0);
                           }
                         });
                       };

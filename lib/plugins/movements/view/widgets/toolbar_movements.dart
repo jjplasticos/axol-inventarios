@@ -48,8 +48,9 @@ class ToolbarMovements extends StatelessWidget {
                     )),
               ).then((value) {
                 if (value != null) {
-                  context.read<MovementsCuibit>().filterMode(
-                      value, const TextfieldModel(text: '', position: 0));
+                  context
+                      .read<MovementsCuibit>()
+                      .filterMode(value, TextfieldModel(text: '', position: 0));
                 }
                 //print(value);
               });
@@ -74,9 +75,11 @@ class ToolbarMovements extends StatelessWidget {
                   context,
                   MaterialPageRoute(
                       builder: (context) => PdfPreviewPage(
-                            makePdf: mode == 1 ? PdfMovementsFormats()
-                                .pdfHistory(movementsList) : PdfMovementsFormats()
-                                .pdfMovements(movementsList),
+                            makePdf: mode == 1
+                                ? PdfMovementsFormats()
+                                    .pdfHistory(movementsList)
+                                : PdfMovementsFormats()
+                                    .pdfMovements(movementsList),
                           )));
             }
           },
@@ -99,7 +102,7 @@ class ToolbarMovements extends StatelessWidget {
               ).then((value) {
                 if (value != null) {
                   context.read<MovementsCuibit>().historyMode(
-                      value, const TextfieldModel(text: '', position: 0));
+                      value, TextfieldModel(text: '', position: 0));
                 }
               });
             }

@@ -59,8 +59,7 @@ class WarehouseSettingCubit extends Cubit<WarehouseSettingState> {
 
   Future<void> initialToAdd() async {
     try {
-      const TextfieldModel initTextfield =
-          TextfieldModel(text: '', position: 0);
+      TextfieldModel initTextfield = TextfieldModel(text: '', position: 0);
       List<ValidationFormModel> validationList = [];
       for (int i = 0; i < 3; i++) {
         validationList

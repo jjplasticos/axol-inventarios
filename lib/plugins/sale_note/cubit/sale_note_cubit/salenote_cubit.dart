@@ -1,11 +1,11 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../models/textfield_model.dart';
-import '../model/sale_note_mdoel.dart';
+import '../../../../models/textfield_model.dart';
+import '../../model/sale_note_mdoel.dart';
 import 'salenote_state.dart';
 
-class SaleNoteCubit extends Cubit<SaleNoteState> {
-  SaleNoteCubit() : super(InitialState());
+class SalenoteCubit extends Cubit<SaleNoteState> {
+  SalenoteCubit() : super(InitialState());
 
   /*Future<void> initialList() async {
     try {
