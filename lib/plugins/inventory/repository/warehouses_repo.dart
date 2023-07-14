@@ -64,6 +64,46 @@ class WarehousesRepo {
     return warehouses;
   }
 
+  Future<List<WarehouseModel>> fetchWarehouseEq(String inText) async {
+    List<Map<String, dynamic>> warehousesDB = [];
+    List<WarehouseModel> warehouses = [];
+    WarehouseModel warehouse;
+    warehousesDB = await _supabase
+        .from(_table)
+        .select<List<Map<String, dynamic>>>()
+        .or('$_id.eq.$inText,$_name.eq.$inText');
+    if (warehousesDB.isNotEmpty) {
+      for (var element in warehousesDB) {
+        warehouse = WarehouseModel(
+            id: element[_id],
+            name: element[_name],
+            retailManager: element[_retailManager]);
+        warehouses.add(warehouse);
+      }
+    }
+    return warehouses;
+  }
+
+  Future<List<WarehouseModel>> fetchWarehouseIlike(String inText) async {
+    List<Map<String, dynamic>> warehousesDB = [];
+    List<WarehouseModel> warehouses = [];
+    WarehouseModel warehouse;
+    warehousesDB = await _supabase
+        .from(_table)
+        .select<List<Map<String, dynamic>>>()
+        .or('$_id.ilike.$inText,$_name.ilike.$inText');
+    if (warehousesDB.isNotEmpty) {
+      for (var element in warehousesDB) {
+        warehouse = WarehouseModel(
+            id: element[_id],
+            name: element[_name],
+            retailManager: element[_retailManager]);
+        warehouses.add(warehouse);
+      }
+    }
+    return warehouses;
+  }
+
   Future<void> insertWarehouse(WarehouseModel warehouse) async {
     await _supabase.from(_table).insert({
       _id: warehouse.id,

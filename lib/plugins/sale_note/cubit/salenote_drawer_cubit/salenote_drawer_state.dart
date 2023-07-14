@@ -16,9 +16,11 @@ class LoadingState extends SalenoteDrawerState {
 }
 
 class LoadedState extends SalenoteDrawerState {
-  const LoadedState();
+  final String response;
+  final Map<int, dynamic> modelMap;
+  const LoadedState({required this.response, required this.modelMap});
   @override
-  List<Object?> get props => [];
+  List<Object?> get props => [response, modelMap];
 }
 
 class ErrorState extends SalenoteDrawerState {
