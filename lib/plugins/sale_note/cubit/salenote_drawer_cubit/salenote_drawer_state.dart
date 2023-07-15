@@ -16,7 +16,7 @@ class LoadingState extends SalenoteDrawerState {
 }
 
 class LoadedState extends SalenoteDrawerState {
-  final String response;
+  final List<String> response;
   final Map<int, dynamic> modelMap;
   const LoadedState({required this.response, required this.modelMap});
   @override

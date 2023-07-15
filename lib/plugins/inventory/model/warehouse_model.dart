@@ -12,4 +12,7 @@ class WarehouseModel {
     required this.name,
     required this.retailManager,
   });
+
+  static WarehouseModel empty() =>
+      const WarehouseModel(id: -1, name: '', retailManager: '');
 }

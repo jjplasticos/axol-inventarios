@@ -4,18 +4,12 @@ import '../../../../models/textfield_model.dart';
 import '../../model/sale_note_mdoel.dart';
 import 'salenote_state.dart';
 
-class SalenoteCubit extends Cubit<SaleNoteState> {
+class SalenoteCubit extends Cubit<SalenoteState> {
   SalenoteCubit() : super(InitialState());
 
-  /*Future<void> initialList() async {
+  Future<void> loadList() async {
     try {
-      TextfieldModel initialFinder =
-          const TextfieldModel(text: '', position: 0);
-      List<SaleNoteModel> salesNotes;
-      emit(InitialState());
-      emit(LoadingState(finder: initialFinder));
-      salesNotes = await ProductRepo().fetchAllProducts();
-      emit(LoadedState(salesNotes: salesNotes, finder: initialFinder));
+      List<SaleNoteModel> notesDB;
     } catch (e) {
       emit(ErrorState(error: e.toString()));
     }
@@ -35,5 +29,5 @@ class SalenoteCubit extends Cubit<SaleNoteState> {
 
   Future<void> deleteProduct(ProductModel product) async {
     await ProductRepo().updateProduct(product);
-  }*/
+  }
 }

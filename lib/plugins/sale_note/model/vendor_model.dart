@@ -9,4 +9,6 @@ class VendorModel {
     required this.id,
     required this.name,
   });
+
+  static VendorModel empty() => VendorModel(id: -1, name: '');
 }

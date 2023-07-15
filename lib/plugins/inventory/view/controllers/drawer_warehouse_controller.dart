@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../models/user_mdoel.dart';
-import '../../../../models/warehouse_model.dart';
+import '../../model/warehouse_model.dart';
 import '../../cubit/warehouse_setting/warehouse_setting_cubit.dart';
 import '../../cubit/warehouse_setting/warehouse_setting_state.dart';
 import '../../cubit/warehouse_stream_cubit.dart';
@@ -72,7 +72,6 @@ class DrawerWarehouseController extends StatelessWidget {
             currentWarehouse: currentWarehouse,
             widthDrawer: widthDrawer,
           );
-          
         } else if (state is RemoveAlertState) {
           return AlertDialog(
             content: const Text('¿Desea elimnar este almacén?'),
@@ -103,8 +102,7 @@ class DrawerWarehouseController extends StatelessWidget {
         if (state is LoadedState) {
           Navigator.pop(context);
         }
-        if (state is EditState) {
-        }
+        if (state is EditState) {}
         if (state is RemoveLoadedState) {
           Navigator.pop(context);
         }

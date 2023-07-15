@@ -36,4 +36,9 @@ class CustomerModel {
     this.street,
     this.town,
   });
+
+  static CustomerModel empty() => const CustomerModel(
+        id: -1,
+        name: '',
+      );
 }

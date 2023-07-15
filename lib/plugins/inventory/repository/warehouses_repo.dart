@@ -1,7 +1,7 @@
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:uuid/uuid.dart';
 
-import '../../../models/warehouse_model.dart';
+import '../model/warehouse_model.dart';
 
 class WarehousesRepo {
   //Nombre de tabla

@@ -4,7 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../models/inventory_move_concept_model.dart';
 import '../../../../models/textfield_model.dart';
 import '../../../../models/user_mdoel.dart';
-import '../../../../models/warehouse_model.dart';
+import '../../../inventory/model/warehouse_model.dart';
 import '../../../inventory/repository/inventory_concepts_repo.dart';
 import '../../../user/repository/user_repo.dart';
 import '../../model/movement_filter_model.dart';

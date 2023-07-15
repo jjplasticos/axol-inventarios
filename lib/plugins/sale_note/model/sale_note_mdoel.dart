@@ -1,4 +1,4 @@
-import '../../../models/warehouse_model.dart';
+import '../../inventory/model/warehouse_model.dart';
 import 'customer_model.dart';
 import 'sale_product_model.dart';
 import 'vendor_model.dart';

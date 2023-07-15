@@ -1,33 +1,25 @@
 import 'package:equatable/equatable.dart';
 
-import '../../../../models/textfield_model.dart';
-import '../../model/sale_note_mdoel.dart';
-
-abstract class SaleNoteState extends Equatable {
-  const SaleNoteState();
+abstract class SalenoteState extends Equatable {
+  const SalenoteState();
 }
 
-class InitialState extends SaleNoteState {
+class InitialState extends SalenoteState {
   @override
   List<Object?> get props => [];
 }
 
-class LoadingState extends SaleNoteState {
-  final TextfieldModel finder;
-  const LoadingState({required this.finder});
+class LoadingState extends SalenoteState {
   @override
-  List<Object?> get props => [finder];
+  List<Object?> get props => [];
 }
 
-class LoadedState extends SaleNoteState {
-  final List<SaleNoteModel> salesNotes;
-  final TextfieldModel finder;
-  const LoadedState({required this.finder, required this.salesNotes});
+class LoadedState extends SalenoteState {
   @override
-  List<Object?> get props => [salesNotes, finder];
+  List<Object?> get props => [];
 }
 
-class ErrorState extends SaleNoteState {
+class ErrorState extends SalenoteState {
   final String error;
   const ErrorState({required this.error});
   @override

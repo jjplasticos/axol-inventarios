@@ -1,5 +1,5 @@
 import 'package:axol_inventarios/models/validation_form_model.dart';
-import 'package:axol_inventarios/models/warehouse_model.dart';
+import 'package:axol_inventarios/plugins/inventory/model/warehouse_model.dart';
 import 'package:axol_inventarios/plugins/inventory/cubit/warehouse_stream_cubit.dart';
 import 'package:axol_inventarios/plugins/inventory/model/warehouse_stream_model.dart';
 import 'package:flutter/material.dart';
@@ -90,8 +90,7 @@ class ListviewWarehouseMenu extends StatelessWidget {
                                     create: (_) => WarehouseSettingCubit()),
                                 BlocProvider(
                                     create: (_) => WarehouseStreamCubit(
-                                      warehouseStream: warehouseStream
-                                    )),
+                                        warehouseStream: warehouseStream)),
                               ],
                               child: Row(
                                 children: [

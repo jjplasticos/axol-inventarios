@@ -7,7 +7,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../../models/textfield_model.dart';
 import '../../../../../models/user_mdoel.dart';
-import '../../../../../models/warehouse_model.dart';
+import '../../../model/warehouse_model.dart';
 import '../../../cubit/warehouse_setting/warehouse_setting_cubit.dart';
 import '../../../cubit/warehouse_stream_cubit.dart';
 

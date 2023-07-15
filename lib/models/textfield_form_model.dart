@@ -16,4 +16,8 @@ class TextfieldFormModel {
         validation: ValidationFormModel.trueValid(),
         value: '',
       );
+
+  static const String pValue = 'value';
+  static const String pPosition = 'position';
+  static const String pValidation = 'validation';
 }
