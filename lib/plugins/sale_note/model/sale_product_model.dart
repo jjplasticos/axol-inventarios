@@ -17,4 +17,11 @@ class SaleProductModel {
     required this.price,
     required this.note,
   });
+
+  static SaleProductModel empty() => SaleProductModel(
+    note: '',
+    price: 0,
+    product: ProductModel.emptyValue(),
+    quantity: 0,
+  );
 }

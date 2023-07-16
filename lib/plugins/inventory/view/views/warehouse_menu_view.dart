@@ -8,6 +8,7 @@ import '../../../../models/elemnets_bar_model.dart';
 import '../../../../settings/theme.dart';
 import '../../../movements/view/views/movements_view.dart';
 import '../../../product/view/views/product_view.dart';
+import '../../../sale_note/view/views/sale_note_view.dart';
 import '../../../user/view/views/home_view.dart';
 import '../../cubit/warehouses_load/warehouses_load_cubit.dart';
 import '../controllers/listview_whmenu_controller.dart';
@@ -56,7 +57,13 @@ class WarehouseMenuView extends StatelessWidget {
                   ElementsBarModel(
                       text: null,
                       icon: const Icon(Icons.note, color: Colors.white70),
-                      action: () {})
+                      action: () {
+                        Navigator.pop(context);
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => const SaleNoteView()));
+                      })
                 ]),
                 ViewsBar(
                   listData: [

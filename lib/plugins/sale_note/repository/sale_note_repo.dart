@@ -1,4 +1,5 @@
 import 'package:axol_inventarios/plugins/sale_note/model/customer_model.dart';
+import 'package:axol_inventarios/plugins/sale_note/model/sale_product_model.dart';
 import 'package:axol_inventarios/plugins/sale_note/model/vendor_model.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
@@ -28,6 +29,8 @@ class SaleNoteRepo {
     SaleNoteModel saleNote;
     List<Map<String, dynamic>> saleNoteDB = [];
     Map<String, dynamic> filters = {};
+    int filterStartDate = 0;
+    int filterEndDate = 32503708800000;
 
     if (filter.customer > -1) {
       filters['${SaleNoteModel.propCustomer}->>${CustomerModel.propId}'] =
@@ -43,14 +46,27 @@ class SaleNoteRepo {
     }
 
     if (finder == '') {
-      saleNoteDB = await _supabase
-          .from(_table)
-          .select<List<Map<String, dynamic>>>()
-          .match(filters)
+      saleNoteDB =
+          await _supabase.from(_table).select<List<Map<String, dynamic>>>();
+      /*.match(filters)
           .lte(_time, filterEndDate)
-          .gte(_time, filterStartDate)
-          .order(_time, ascending: ascending)
-          .limit(filterLimit);
+          .gte(_time, filterStartDate);*/
+
+      for (var element in saleNoteDB) {
+        saleNote = SaleNoteModel(
+          id: element[_id],
+          customer: CustomerModel.empty(),
+          status: element[_status],
+          date: DateTime.fromMillisecondsSinceEpoch(element[_time]),
+          total: element[_total],
+          warehouse: WarehouseModel.empty(),
+          vendor: VendorModel.empty(),
+          type: element[_type],
+          note: element[_note],
+          saleProduct: SaleProductModel.empty(),
+        );
+        salesNotes.add(saleNote);
+      }
     } else {}
 
     return salesNotes;

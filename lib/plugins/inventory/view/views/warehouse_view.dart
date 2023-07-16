@@ -9,6 +9,7 @@ import '../../../../models/elemnets_bar_model.dart';
 import '../../../../models/user_mdoel.dart';
 import '../../../../settings/theme.dart';
 import '../../../movements/view/views/movements_view.dart';
+import '../../../sale_note/view/views/sale_note_view.dart';
 import '../../../user/view/views/home_view.dart';
 import '../../cubit/inventory_load/inventory_load_cubit.dart';
 import '../../cubit/textfield_finder_invrow_cubit.dart';
@@ -73,7 +74,13 @@ class WarehouseView extends StatelessWidget {
                               builder: (context) => const WarehouseMenuView()));
                     }),
                 ElementsBarModel(
-                    text: null, icon: const Icon(Icons.note), action: () {})
+                    text: null, icon: const Icon(Icons.note), action: () {
+                      Navigator.pop(context);
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => const SaleNoteView()));
+                    })
               ]),
               ViewsBar(
                 listData: [

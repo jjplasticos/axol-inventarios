@@ -1,4 +1,3 @@
-import 'package:axol_inventarios/models/textfield_model.dart';
 import 'package:axol_inventarios/plugins/sale_note/model/saelnote_form_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';

@@ -1,5 +1,7 @@
 import 'package:equatable/equatable.dart';
 
+import '../../model/sale_note_mdoel.dart';
+
 abstract class SalenoteState extends Equatable {
   const SalenoteState();
 }
@@ -15,8 +17,10 @@ class LoadingState extends SalenoteState {
 }
 
 class LoadedState extends SalenoteState {
+  final List<SaleNoteModel> salenoteList;
+  const LoadedState({required this.salenoteList});
   @override
-  List<Object?> get props => [];
+  List<Object?> get props => [salenoteList];
 }
 
 class ErrorState extends SalenoteState {

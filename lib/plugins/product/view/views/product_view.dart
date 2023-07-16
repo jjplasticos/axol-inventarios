@@ -8,6 +8,7 @@ import '../../../../models/elemnets_bar_model.dart';
 import '../../../../settings/theme.dart';
 import '../../../inventory/view/views/warehouse_menu_view.dart';
 import '../../../movements/view/views/movements_view.dart';
+import '../../../sale_note/view/views/sale_note_view.dart';
 import '../../../user/view/views/home_view.dart';
 import '../../cubit/products/products_cubit.dart';
 import '../controllers/listview_products_controller.dart';
@@ -61,7 +62,13 @@ class ProductView extends StatelessWidget {
                               builder: (context) => const WarehouseMenuView()));
                     }),
                 ElementsBarModel(
-                    text: null, icon: const Icon(Icons.note), action: () {})
+                    text: null, icon: const Icon(Icons.note), action: () {
+                      Navigator.pop(context);
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => const SaleNoteView()));
+                    })
               ]),
               ViewsBar(
                 listData: [

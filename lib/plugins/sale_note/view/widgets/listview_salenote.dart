@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../../../settings/theme.dart';
 import '../../model/sale_note_mdoel.dart';
+import 'finder_salenote.dart';
 import 'toolbar_salenote.dart';
 
 class ListviewSaleNote extends StatelessWidget {
@@ -16,11 +17,9 @@ class ListviewSaleNote extends StatelessWidget {
         Expanded(
           child: Column(
             children: [
-              /*FinderProducts(
-                currentFinder: finder,
+              const FinderSalenote(
                 isLoading: false,
-                mode: mode,
-              ),*/
+              ),
               const Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [

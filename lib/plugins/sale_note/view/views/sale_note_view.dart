@@ -7,16 +7,21 @@ import '../../../../global_widgets/views_bar.dart';
 import '../../../../models/elemnets_bar_model.dart';
 import '../../../../settings/theme.dart';
 import '../../../inventory/view/views/warehouse_menu_view.dart';
-import '../../../product/cubit/products/products_cubit.dart';
 import '../../../user/view/views/home_view.dart';
+import '../../cubit/finder_notes_cubit.dart';
+import '../../cubit/sale_note_cubit/salenote_cubit.dart';
+import '../controllers/listview_notes_controller.dart';
 
 class SaleNoteView extends StatelessWidget {
   const SaleNoteView({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (_) => ProductsCubit(),
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(create: (_) => SalenoteCubit()),
+        BlocProvider(create: (_) => FinderNotesCubit()),
+      ],
       child: Scaffold(
         backgroundColor: ColorPalette.primaryBackground,
         appBar: const PreferredSize(
@@ -92,7 +97,7 @@ class SaleNoteView extends StatelessWidget {
                       action: () {}),
                 ],
               ),
-              //const Expanded(child: ListviewProductsController()),
+              const Expanded(child: ListviewNotesController()),
             ],
           ),
         ),

@@ -1,3 +1,5 @@
+import 'package:axol_inventarios/plugins/sale_note/model/sale_note_mdoel.dart';
+
 class SaleNoteFilterModel {
   //final String product;
   //final int saleNote;
@@ -25,4 +27,13 @@ class SaleNoteFilterModel {
     required this.endTime,
     required this.limit,
   });
+
+  static SaleNoteFilterModel empty() => SaleNoteFilterModel(
+        customer: -1,
+        vendor: -1,
+        warehouse: -1,
+        limit: 0,
+        startTime: DateTime.fromMillisecondsSinceEpoch(0),
+        endTime: DateTime.fromMillisecondsSinceEpoch(32503708800000),
+      );
 }

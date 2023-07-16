@@ -5,6 +5,7 @@ import '../../../../global_widgets/plugins_bar.dart';
 import '../../../../models/elemnets_bar_model.dart';
 import '../../../../settings/theme.dart';
 import '../../../inventory/view/views/warehouse_menu_view.dart';
+import '../../../sale_note/view/views/sale_note_view.dart';
 
 class HomeView extends StatelessWidget {
   const HomeView({super.key});
@@ -44,7 +45,13 @@ class HomeView extends StatelessWidget {
                             builder: (context) => const WarehouseMenuView()));
                   }),
               ElementsBarModel(
-                  text: null, icon: const Icon(Icons.note), action: () {})
+                  text: null, icon: const Icon(Icons.note), action: () {
+                    Navigator.pop(context);
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => const SaleNoteView()));
+                  })
             ]),
             /*ViewsBar(
               listData: [
