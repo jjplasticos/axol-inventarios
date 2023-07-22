@@ -29,6 +29,7 @@ class SaleNoteRepo {
     SaleNoteModel saleNote;
     List<Map<String, dynamic>> saleNoteDB = [];
     Map<String, dynamic> filters = {};
+    String textOr;
     int filterStartDate = 0;
     int filterEndDate = 32503708800000;
 
@@ -51,23 +52,35 @@ class SaleNoteRepo {
       /*.match(filters)
           .lte(_time, filterEndDate)
           .gte(_time, filterStartDate);*/
-
-      for (var element in saleNoteDB) {
-        saleNote = SaleNoteModel(
-          id: element[_id],
-          customer: CustomerModel.empty(),
-          status: element[_status],
-          date: DateTime.fromMillisecondsSinceEpoch(element[_time]),
-          total: element[_total],
-          warehouse: WarehouseModel.empty(),
-          vendor: VendorModel.empty(),
-          type: element[_type],
-          note: element[_note],
-          saleProduct: SaleProductModel.empty(),
-        );
-        salesNotes.add(saleNote);
+    } else {
+      textOr =
+          '${SaleNoteModel.propCustomer}->>${CustomerModel.propName}.ilike.%$finder%,';
+      textOr =
+          '$textOr${SaleNoteModel.propVendor}->>${VendorModel.propName}.ilike.%$finder%';
+      if (double.tryParse(finder) != null) {
+        textOr = '$textOr,$_id.eq.$finder';
       }
-    } else {}
+      saleNoteDB = await _supabase
+          .from(_table)
+          .select<List<Map<String, dynamic>>>()
+          .or(textOr);
+    }
+    for (var element in saleNoteDB) {
+      print(element[_customer]);
+      saleNote = SaleNoteModel(
+        id: element[_id],
+        customer: CustomerModel.fillMap(element[_customer]),
+        status: element[_status],
+        date: DateTime.fromMillisecondsSinceEpoch(element[_time]),
+        total: element[_total],
+        warehouse: WarehouseModel.fillMap(element[_warehouse]),
+        vendor: VendorModel.fillMap(element[_vendor]),
+        type: element[_type],
+        note: element[_note],
+        saleProduct: SaleProductModel.empty(),
+      );
+      salesNotes.add(saleNote);
+    }
 
     return salesNotes;
   }

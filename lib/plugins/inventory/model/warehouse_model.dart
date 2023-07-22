@@ -15,4 +15,19 @@ class WarehouseModel {
 
   static WarehouseModel empty() =>
       const WarehouseModel(id: -1, name: '', retailManager: '');
+
+  static WarehouseModel fillMap(Map<String, dynamic> map) {
+    WarehouseModel warehouseModel;
+    if (map.containsKey(propId) &&
+        map.containsKey(propName) &&
+        map.containsKey(propManager)) {
+      warehouseModel = WarehouseModel(
+          id: map[propId],
+          name: map[propName],
+          retailManager: map[propManager]);
+    } else {
+      warehouseModel = WarehouseModel.empty();
+    }
+    return warehouseModel;
+  }
 }

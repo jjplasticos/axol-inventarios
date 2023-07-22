@@ -11,4 +11,14 @@ class VendorModel {
   });
 
   static VendorModel empty() => VendorModel(id: -1, name: '');
+
+  static VendorModel fillMap(Map<String, dynamic> map) {
+    VendorModel vendorModel;
+    if (map.keys.contains(propId) && map.keys.contains(propName)) {
+      vendorModel = VendorModel(id: map[propId], name: map[propName]);
+    } else {
+      vendorModel = VendorModel.empty();
+    }
+    return vendorModel;
+  }
 }

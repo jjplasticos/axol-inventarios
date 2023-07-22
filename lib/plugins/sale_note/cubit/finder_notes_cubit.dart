@@ -6,13 +6,19 @@ class FinderNotesCubit extends Cubit<TextfieldModel> {
   FinderNotesCubit() : super(TextfieldModel.initial());
 
   Future<void> change(String value, int position) async {
-    TextfieldModel newTextfield = TextfieldModel(text: value, position: position);
+    TextfieldModel newTextfield =
+        TextfieldModel(text: value, position: position);
     emit(TextfieldModel.initial());
     emit(newTextfield);
   }
 
-  Future<void> getState()async{
+  Future<void> getState() async {
     emit(TextfieldModel.initial());
     emit(state);
+  }
+
+  void setState(TextfieldModel textfield) {
+    emit(TextfieldModel.initial());
+    emit(textfield);
   }
 }

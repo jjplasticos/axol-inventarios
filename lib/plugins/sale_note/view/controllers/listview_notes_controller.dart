@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../../settings/theme.dart';
 import '../../cubit/sale_note_cubit/salenote_cubit.dart';
 import '../../cubit/sale_note_cubit/salenote_state.dart';
 import '../widgets/finder_salenote.dart';
@@ -36,6 +37,11 @@ class ListviewNotesController extends StatelessWidget {
         } else if (state is LoadedState) {
           return ListviewSaleNote(
             listData: state.salenoteList,
+          );
+        } else if (state is ErrorState) {
+          return Text(
+            state.error,
+            style: Typo.labelText1,
           );
         }
         return Container();

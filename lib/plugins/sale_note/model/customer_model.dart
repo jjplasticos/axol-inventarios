@@ -41,4 +41,26 @@ class CustomerModel {
         id: -1,
         name: '',
       );
+
+  static CustomerModel fillMap(Map<String, dynamic> map) {
+    CustomerModel customerModel;
+    if (map.keys.contains(propId) && map.keys.contains(propName)) {
+      customerModel = CustomerModel(
+        id: map[propId],
+        name: map[propName],
+        country: map[propCountry],
+        hood: map[propHood],
+        intNumber: map[propIntNumber],
+        outNumber: map[propOutNumber],
+        phoneNumber: map[propPhoneNumber],
+        postalCode: map[propPostalCode],
+        rfc: map[propPostalCode],
+        street: map[propStreet],
+        town: map[propTown],
+      );
+    } else {
+      customerModel = CustomerModel.empty();
+    }
+    return customerModel;
+  }
 }

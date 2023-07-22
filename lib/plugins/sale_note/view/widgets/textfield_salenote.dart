@@ -39,6 +39,7 @@ class TextfieldSalenote extends StatelessWidget {
       focusNode.requestFocus();
     }
     return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         Text(label),
         SizedBox(

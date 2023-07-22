@@ -4,17 +4,15 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../models/textfield_model.dart';
 import '../../../../settings/theme.dart';
 import '../../cubit/finder_notes_cubit.dart';
+import '../../cubit/sale_note_cubit/salenote_cubit.dart';
+import '../../model/salenote_filter_model.dart';
 
 class FinderSalenote extends StatelessWidget {
-  //final TextfieldModel currentFinder;
   final bool isLoading;
-  //final int mode;
 
   const FinderSalenote({
     super.key,
-    //required this.currentFinder,
     required this.isLoading,
-    //required this.mode,
   });
 
   @override
@@ -36,17 +34,19 @@ class FinderSalenote extends StatelessWidget {
               padding: const EdgeInsetsDirectional.fromSTEB(12, 0, 0, 0),
               child: TextFormField(
                 controller: textController,
-                //autofocus: true,
+                autofocus: true,
                 enabled: !isLoading,
                 onFieldSubmitted: (value) {
-                  final textFinder = TextfieldModel(
-                    text: value,
-                    position: textController.selection.base.offset,
-                  );
-                  //context.read<ProductsCubit>().reloadList(textFinder, mode);
+                  context
+                      .read<SalenoteCubit>()
+                      .reloadList(value, SaleNoteFilterModel.empty());
                 },
                 onChanged: (value) {
-                  text = value;
+                  //text = value;
+                  TextfieldModel textfield = TextfieldModel(
+                      text: value,
+                      position: textController.selection.base.offset);
+                  context.read<FinderNotesCubit>().setState(textfield);
                 },
                 decoration: InputDecoration(
                     hintText: 'Buscar',
@@ -65,11 +65,9 @@ class FinderSalenote extends StatelessWidget {
               Icons.search,
             ),
             onPressed: () {
-              final textFinder = TextfieldModel(
-                text: text,
-                position: textController.selection.base.offset,
-              );
-              //context.read<ProductsCubit>().reloadList(textFinder, mode);
+              context
+                  .read<SalenoteCubit>()
+                  .reloadList(textController.text, SaleNoteFilterModel.empty());
             },
           ),
           IconButton(
@@ -80,7 +78,10 @@ class FinderSalenote extends StatelessWidget {
             ),
             onPressed: () {
               if (text != '') {
-                //context.read<ProductsCubit>().initialList();
+                context.read<SalenoteCubit>().loadList();
+                context
+                    .read<FinderNotesCubit>()
+                    .setState(TextfieldModel.initial());
               }
             },
           ),

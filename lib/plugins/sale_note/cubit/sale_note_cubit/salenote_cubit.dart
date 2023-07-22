@@ -14,26 +14,23 @@ class SalenoteCubit extends Cubit<SalenoteState> {
       emit(InitialState());
       emit(LoadingState());
       List<SaleNoteModel> notesDB;
-      notesDB = await SaleNoteRepo().fetchNotes(SaleNoteFilterModel.empty(), '');
+      notesDB =
+          await SaleNoteRepo().fetchNotes(SaleNoteFilterModel.empty(), '');
       emit(LoadedState(salenoteList: notesDB));
     } catch (e) {
       emit(ErrorState(error: e.toString()));
     }
   }
 
-  /*Future<void> reloadList(TextfieldModel finder, int mode) async {
+  Future<void> reloadList(String finder, SaleNoteFilterModel filter) async {
     try {
-      List<ProductModel> products;
+      List<SaleNoteModel> notesDB;
       emit(InitialState());
-      emit(LoadingState(finder: finder, mode: mode));
-      products = await ProductRepo().fetchProductFinder(finder.text);
-      emit(LoadedState(products: products, finder: finder, mode: mode));
+      emit(LoadingState());
+      notesDB = await SaleNoteRepo().fetchNotes(filter, finder);
+      emit(LoadedState(salenoteList: notesDB));
     } catch (e) {
       emit(ErrorState(error: e.toString()));
     }
   }
-
-  Future<void> deleteProduct(ProductModel product) async {
-    await ProductRepo().updateProduct(product);
-  }*/
 }
