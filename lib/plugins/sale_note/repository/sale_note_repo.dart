@@ -66,7 +66,6 @@ class SaleNoteRepo {
           .or(textOr);
     }
     for (var element in saleNoteDB) {
-      print(element[_customer]);
       saleNote = SaleNoteModel(
         id: element[_id],
         customer: CustomerModel.fillMap(element[_customer]),

@@ -13,6 +13,16 @@ import '../../repository/vendor_repo.dart';
 class SalenoteDrawerCubit extends Cubit<SalenoteDrawerState> {
   SalenoteDrawerCubit() : super(InitialState());
 
+  Future<void> initial() async {
+    try {
+      emit(InitialState());
+      emit(LoadingState());
+      emit(LoadedState(modelMap: {}, response: []));
+    } catch (e) {
+      emit(ErrorState(error: e.toString()));
+    }
+  }
+
   Future<void> change(SalenoteFormModel salenoteForm, int keyElement) async {
     try {
       const String pCustomer = SalenoteFormModel.pCustomer;
@@ -32,7 +42,6 @@ class SalenoteDrawerCubit extends Cubit<SalenoteDrawerState> {
         1: VendorModel.empty(),
         2: WarehouseModel.empty(),
       };
-
       emit(const LoadingState());
       if (keyElement == -1) {
         //Validar todos
@@ -72,6 +81,7 @@ class SalenoteDrawerCubit extends Cubit<SalenoteDrawerState> {
           } else if (warehouseDB.length == 1) {
             response.add('$pWarehouse:$pValidation:true/');
             response.add(pWarehouseModel);
+            modelMap[2] = warehouseDB.first;
           }
         } else {
           response.add('$pWarehouse:$pValidation:false/Dato inexistente');
@@ -118,13 +128,14 @@ class SalenoteDrawerCubit extends Cubit<SalenoteDrawerState> {
           } else if (warehouseDB.length == 1) {
             response.add('$pWarehouse:$pValidation:true/');
             response.add(pWarehouseModel);
+            modelMap[2] = warehouseDB.first;
           }
         } else {
           response.add('$pWarehouse:$pValidation:false/Dato inexistente');
         }
       }
       emit(InitialState());
-      emit(LoadedState(response: response, modelMap: {}));
+      emit(LoadedState(response: response, modelMap: modelMap));
     } catch (e) {
       emit(ErrorState(error: e.toString()));
     }

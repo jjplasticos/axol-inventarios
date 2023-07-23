@@ -7,6 +7,8 @@ import '../../../../models/textfield_model.dart';
 import '../../cubit/finder_notes_cubit.dart';
 import '../../cubit/sale_note_cubit/salenote_cubit.dart';
 import '../../cubit/salenote_drawer_cubit/salenote_drawer_cubit.dart';
+import '../../cubit/salenote_form_cubit.dart';
+import '../controllers/drawer_notes_controller.dart';
 import 'drawer_sale_note.dart';
 
 class ToolbarSaleNote extends StatelessWidget {
@@ -27,7 +29,8 @@ class ToolbarSaleNote extends StatelessWidget {
                 context: context,
                 builder: (context) => MultiBlocProvider(providers: [
                   BlocProvider(create: (_) => SalenoteDrawerCubit()),
-                ], child: DrawerSalenote()),
+                  BlocProvider(create: (_) => SalenoteFormCubit()),
+                ], child: ListviewNotesController()),
               ).then((value) {});
               /*showDialog(
                 context: context,

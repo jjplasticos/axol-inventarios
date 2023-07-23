@@ -4,6 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../models/textfield_form_model.dart';
+import '../../cubit/salenote_drawer_cubit/salenote_drawer_cubit.dart';
 import '../../cubit/salenote_form_cubit.dart';
 
 class TextfieldSalenote extends StatelessWidget {
@@ -21,6 +22,7 @@ class TextfieldSalenote extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    SalenoteFormModel currentForm;
     TextEditingController textController = TextEditingController();
     FocusNode focusNode = FocusNode();
     SalenoteFormModel form = SalenoteFormCubit().state;
@@ -59,6 +61,8 @@ class TextfieldSalenote extends StatelessWidget {
                   borderSide: BorderSide(color: Colors.red)),
             ),
             onSubmitted: (value) {
+              currentForm = context.read<SalenoteFormCubit>().state;
+              context.read<SalenoteDrawerCubit>().change(currentForm, keyFormElement);
               /*final currentProduct =
                   context.read<ListenProductCubit>().getProduct();
               if (value == '') {
@@ -76,6 +80,7 @@ class TextfieldSalenote extends StatelessWidget {
                     textController.selection.base.offset,
                     keyFormElement,
                   );
+                //print(context.read<SalenoteFormCubit>().state.customer.value);
               /*textController.value = TextEditingValue(
                   text: value,
                   selection: TextSelection.collapsed(
