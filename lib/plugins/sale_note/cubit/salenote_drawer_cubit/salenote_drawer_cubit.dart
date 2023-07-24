@@ -1,6 +1,8 @@
 import 'package:axol_inventarios/models/textfield_form_model.dart';
+import 'package:axol_inventarios/models/validation_form_model.dart';
 import 'package:axol_inventarios/plugins/sale_note/cubit/salenote_drawer_cubit/salenote_drawer_state.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
 import '../../../inventory/model/warehouse_model.dart';
 import '../../../inventory/repository/warehouses_repo.dart';
@@ -12,6 +14,59 @@ import '../../repository/vendor_repo.dart';
 
 class SalenoteDrawerCubit extends Cubit<SalenoteDrawerState> {
   SalenoteDrawerCubit() : super(InitialState());
+
+  static const String _pCustomer = SalenoteFormModel.pCustomer;
+  static const String _pVendor = SalenoteFormModel.pVendor;
+  static const String _pWarehouse = SalenoteFormModel.pWarehouse;
+  static const String _pValidation = TextfieldFormModel.pValidation;
+  static const String _pCustomerModel = SalenoteFormModel.pCustomerModel;
+  static const String _pVendorModel = SalenoteFormModel.pVendorModel;
+  static const String _pWarehouseModel = SalenoteFormModel.pWarehouseModel;
+
+  SalenoteFormModel _changeSalenoteForm(List<String> response,
+      Map<int, dynamic> modelMap, SalenoteFormModel currentForm) {
+    SalenoteFormModel salenoteForm = currentForm;
+    List elementsList;
+    for (var element in response) {
+      elementsList = element.split(':');
+      if (elementsList.first == _pCustomer) {
+        salenoteForm.customer = _changeSalenoteTextfield(
+            elementsList.elementAt(1),
+            currentForm.customer,
+            elementsList.elementAt(2));
+      } else if (elementsList.first == _pVendor) {
+        salenoteForm.vendor = _changeSalenoteTextfield(
+            elementsList.elementAt(1),
+            currentForm.vendor,
+            elementsList.elementAt(2));
+      } else if (elementsList.first == _pWarehouse) {
+        salenoteForm.warehouse = _changeSalenoteTextfield(
+            elementsList.elementAt(1),
+            currentForm.warehouse,
+            elementsList.elementAt(2));
+      }
+    }
+    return salenoteForm;
+  }
+
+  TextfieldFormModel _changeSalenoteTextfield(String elementKey,
+      TextfieldFormModel currentTextField, String? response) {
+    TextfieldFormModel textfieldForm = currentTextField;
+    List<String> responseList = [];
+    if (response != null) {
+      responseList = response.split('/');
+    }
+    if (elementKey == TextfieldFormModel.pValidation) {
+      if (responseList.first == 'true') {
+        textfieldForm.validation =
+            ValidationFormModel(isValid: true, errorMessage: '');
+      } else if (responseList.first == 'false') {
+        textfieldForm.validation = ValidationFormModel(
+            isValid: false, errorMessage: responseList.last);
+      }
+    }
+    return textfieldForm;
+  }
 
   Future<void> initial() async {
     try {
@@ -25,14 +80,6 @@ class SalenoteDrawerCubit extends Cubit<SalenoteDrawerState> {
 
   Future<void> change(SalenoteFormModel salenoteForm, int keyElement) async {
     try {
-      const String pCustomer = SalenoteFormModel.pCustomer;
-      const String pVendor = SalenoteFormModel.pVendor;
-      const String pWarehouse = SalenoteFormModel.pWarehouse;
-      const String pValidation = TextfieldFormModel.pValidation;
-      const String pCustomerModel = SalenoteFormModel.pCustomerModel;
-      const String pVendorModel = SalenoteFormModel.pVendorModel;
-      const String pWarehouseModel = SalenoteFormModel.pWarehouseModel;
-
       List<CustomerModel> customersDB;
       List<VendorModel> vendorsDB;
       List<WarehouseModel> warehouseDB;
@@ -53,38 +100,38 @@ class SalenoteDrawerCubit extends Cubit<SalenoteDrawerState> {
         if (customersDB.isNotEmpty) {
           if (customersDB.length > 1) {
             response.add(
-                '$pCustomer:$pValidation:false/Hay más de un cliente con el mismo nombre');
+                '$_pCustomer:$_pValidation:false/Hay más de un cliente con el mismo nombre');
           } else if (customersDB.length == 1) {
-            response.add('$pCustomer:$pValidation:true/');
-            response.add(pCustomerModel);
+            response.add('$_pCustomer:$_pValidation:true/');
+            response.add(_pCustomerModel);
             modelMap[0] = customersDB.first;
           }
         } else {
-          response.add('$pCustomer:$pValidation:false/Dato inexistente');
+          response.add('$_pCustomer:$_pValidation:false/Dato inexistente');
         }
         if (vendorsDB.isNotEmpty) {
           if (vendorsDB.length > 1) {
             response.add(
-                '$pVendor:$pValidation:false/Hay más de un vendedor con el mismo nombre');
+                '$_pVendor:$_pValidation:false/Hay más de un vendedor con el mismo nombre');
           } else if (vendorsDB.length == 1) {
-            response.add('$pVendor:$pValidation:true/');
-            response.add(pVendorModel);
+            response.add('$_pVendor:$_pValidation:true/');
+            response.add(_pVendorModel);
             modelMap[1] = vendorsDB.first;
           }
         } else {
-          response.add('$pVendor:$pValidation:false/Dato inexistente');
+          response.add('$_pVendor:$_pValidation:false/Dato inexistente');
         }
         if (warehouseDB.isNotEmpty) {
           if (warehouseDB.length > 1) {
             response.add(
-                '$pWarehouse:$pValidation:false/Hay más de un almacén con el mismo nombre');
+                '$_pWarehouse:$_pValidation:false/Hay más de un almacén con el mismo nombre');
           } else if (warehouseDB.length == 1) {
-            response.add('$pWarehouse:$pValidation:true/');
-            response.add(pWarehouseModel);
+            response.add('$_pWarehouse:$_pValidation:true/');
+            response.add(_pWarehouseModel);
             modelMap[2] = warehouseDB.first;
           }
         } else {
-          response.add('$pWarehouse:$pValidation:false/Dato inexistente');
+          response.add('$_pWarehouse:$_pValidation:false/Dato inexistente');
         }
       } else if (keyElement == 0) {
         //validar Customer
@@ -93,14 +140,14 @@ class SalenoteDrawerCubit extends Cubit<SalenoteDrawerState> {
         if (customersDB.isNotEmpty) {
           if (customersDB.length > 1) {
             response.add(
-                '$pCustomer:$pValidation:false/Hay más de un cliente con el mismo nombre');
+                '$_pCustomer:$_pValidation:false/Hay más de un cliente con el mismo nombre');
           } else if (customersDB.length == 1) {
-            response.add('$pCustomer:$pValidation:true/');
-            response.add(pCustomerModel);
+            response.add('$_pCustomer:$_pValidation:true/');
+            response.add(_pCustomerModel);
             modelMap[0] = customersDB.first;
           }
         } else {
-          response.add('$pCustomer:$pValidation:false/Dato inexistente');
+          response.add('$_pCustomer:$_pValidation:false/Dato inexistente');
         }
       } else if (keyElement == 1) {
         //Validar Vendor
@@ -108,14 +155,14 @@ class SalenoteDrawerCubit extends Cubit<SalenoteDrawerState> {
         if (vendorsDB.isNotEmpty) {
           if (vendorsDB.length > 1) {
             response.add(
-                '$pVendor:$pValidation:false/Hay más de un vendedor con el mismo nombre');
+                '$_pVendor:$_pValidation:false/Hay más de un vendedor con el mismo nombre');
           } else if (vendorsDB.length == 1) {
-            response.add('$pVendor:$pValidation:true/');
-            response.add(pVendorModel);
+            response.add('$_pVendor:$_pValidation:true/');
+            response.add(_pVendorModel);
             modelMap[1] = vendorsDB.first;
           }
         } else {
-          response.add('$pVendor:$pValidation:false/Dato inexistente');
+          response.add('$_pVendor:$_pValidation:false/Dato inexistente');
         }
       } else if (keyElement == 2) {
         //valdiar Warehouse
@@ -124,14 +171,14 @@ class SalenoteDrawerCubit extends Cubit<SalenoteDrawerState> {
         if (warehouseDB.isNotEmpty) {
           if (warehouseDB.length > 1) {
             response.add(
-                '$pWarehouse:$pValidation:false/Hay más de un almacén con el mismo nombre');
+                '$_pWarehouse:$_pValidation:false/Hay más de un almacén con el mismo nombre');
           } else if (warehouseDB.length == 1) {
-            response.add('$pWarehouse:$pValidation:true/');
-            response.add(pWarehouseModel);
+            response.add('$_pWarehouse:$_pValidation:true/');
+            response.add(_pWarehouseModel);
             modelMap[2] = warehouseDB.first;
           }
         } else {
-          response.add('$pWarehouse:$pValidation:false/Dato inexistente');
+          response.add('$_pWarehouse:$_pValidation:false/Dato inexistente');
         }
       }
       emit(InitialState());
