@@ -9,7 +9,7 @@ import '../../cubit/sale_note_cubit/salenote_cubit.dart';
 import '../../cubit/salenote_drawer_cubit/salenote_drawer_cubit.dart';
 import '../../cubit/salenote_form_cubit.dart';
 import '../controllers/drawer_notes_controller.dart';
-import 'drawer_sale_note.dart';
+import 'drawer_sale_note/drawer_sale_note.dart';
 
 class ToolbarSaleNote extends StatelessWidget {
   final bool isLoading;
@@ -30,7 +30,7 @@ class ToolbarSaleNote extends StatelessWidget {
                 builder: (context) => MultiBlocProvider(providers: [
                   BlocProvider(create: (_) => SalenoteDrawerCubit()),
                   BlocProvider(create: (_) => SalenoteFormCubit()),
-                ], child: ListviewNotesController()),
+                ], child: DrawerNotesController()),
               ).then((value) {});
               /*showDialog(
                 context: context,

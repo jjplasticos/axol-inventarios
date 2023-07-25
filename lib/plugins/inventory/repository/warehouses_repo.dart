@@ -68,10 +68,16 @@ class WarehousesRepo {
     List<Map<String, dynamic>> warehousesDB = [];
     List<WarehouseModel> warehouses = [];
     WarehouseModel warehouse;
+    String textOr;
+    if (int.tryParse(inText) == null) {
+      textOr = '$_name.eq.$inText';
+    } else {
+      textOr = '$_id.eq.$inText';
+    }
     warehousesDB = await _supabase
         .from(_table)
         .select<List<Map<String, dynamic>>>()
-        .or('$_id.eq.$inText,$_name.eq.$inText');
+        .or(textOr);
     if (warehousesDB.isNotEmpty) {
       for (var element in warehousesDB) {
         warehouse = WarehouseModel(

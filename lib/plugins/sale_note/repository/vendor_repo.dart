@@ -12,10 +12,16 @@ class VendorRepo {
     List<Map<String, dynamic>> vendorsDB = [];
     List<VendorModel> vendors = [];
     VendorModel vendor;
+    String textOr;
+    if (int.tryParse(inText) == null) {
+      textOr = '$_name.eq.$inText';
+    } else {
+      textOr = '$_id.eq.$inText';
+    }
     vendorsDB = await _supabase
         .from(_table)
         .select<List<Map<String, dynamic>>>()
-        .or('$_id.eq.$inText,$_name.eq.$inText');
+        .or(textOr);
     if (vendorsDB.isNotEmpty) {
       for (var element in vendorsDB) {
         vendor = VendorModel(

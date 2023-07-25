@@ -68,4 +68,9 @@ class SalenoteFormCubit extends Cubit<SalenoteFormModel> {
     emit(SalenoteFormModel.initial());
     emit(salenoteForm);
   }
+
+  void setForm(SalenoteFormModel salenoteForm) {
+    emit(SalenoteFormModel.initial());
+    emit(salenoteForm);
+  }
 }

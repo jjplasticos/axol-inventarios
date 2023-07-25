@@ -23,51 +23,6 @@ class SalenoteDrawerCubit extends Cubit<SalenoteDrawerState> {
   static const String _pVendorModel = SalenoteFormModel.pVendorModel;
   static const String _pWarehouseModel = SalenoteFormModel.pWarehouseModel;
 
-  SalenoteFormModel _changeSalenoteForm(List<String> response,
-      Map<int, dynamic> modelMap, SalenoteFormModel currentForm) {
-    SalenoteFormModel salenoteForm = currentForm;
-    List elementsList;
-    for (var element in response) {
-      elementsList = element.split(':');
-      if (elementsList.first == _pCustomer) {
-        salenoteForm.customer = _changeSalenoteTextfield(
-            elementsList.elementAt(1),
-            currentForm.customer,
-            elementsList.elementAt(2));
-      } else if (elementsList.first == _pVendor) {
-        salenoteForm.vendor = _changeSalenoteTextfield(
-            elementsList.elementAt(1),
-            currentForm.vendor,
-            elementsList.elementAt(2));
-      } else if (elementsList.first == _pWarehouse) {
-        salenoteForm.warehouse = _changeSalenoteTextfield(
-            elementsList.elementAt(1),
-            currentForm.warehouse,
-            elementsList.elementAt(2));
-      }
-    }
-    return salenoteForm;
-  }
-
-  TextfieldFormModel _changeSalenoteTextfield(String elementKey,
-      TextfieldFormModel currentTextField, String? response) {
-    TextfieldFormModel textfieldForm = currentTextField;
-    List<String> responseList = [];
-    if (response != null) {
-      responseList = response.split('/');
-    }
-    if (elementKey == TextfieldFormModel.pValidation) {
-      if (responseList.first == 'true') {
-        textfieldForm.validation =
-            ValidationFormModel(isValid: true, errorMessage: '');
-      } else if (responseList.first == 'false') {
-        textfieldForm.validation = ValidationFormModel(
-            isValid: false, errorMessage: responseList.last);
-      }
-    }
-    return textfieldForm;
-  }
-
   Future<void> initial() async {
     try {
       emit(InitialState());
@@ -141,6 +96,8 @@ class SalenoteDrawerCubit extends Cubit<SalenoteDrawerState> {
           if (customersDB.length > 1) {
             response.add(
                 '$_pCustomer:$_pValidation:false/Hay más de un cliente con el mismo nombre');
+            response.add(_pCustomerModel);
+            modelMap[0] = CustomerModel.empty();
           } else if (customersDB.length == 1) {
             response.add('$_pCustomer:$_pValidation:true/');
             response.add(_pCustomerModel);
@@ -148,6 +105,8 @@ class SalenoteDrawerCubit extends Cubit<SalenoteDrawerState> {
           }
         } else {
           response.add('$_pCustomer:$_pValidation:false/Dato inexistente');
+          response.add(_pCustomerModel);
+          modelMap[0] = CustomerModel.empty();
         }
       } else if (keyElement == 1) {
         //Validar Vendor
@@ -156,6 +115,8 @@ class SalenoteDrawerCubit extends Cubit<SalenoteDrawerState> {
           if (vendorsDB.length > 1) {
             response.add(
                 '$_pVendor:$_pValidation:false/Hay más de un vendedor con el mismo nombre');
+            response.add(_pVendorModel);
+            modelMap[1] = VendorModel.empty();
           } else if (vendorsDB.length == 1) {
             response.add('$_pVendor:$_pValidation:true/');
             response.add(_pVendorModel);
@@ -163,6 +124,8 @@ class SalenoteDrawerCubit extends Cubit<SalenoteDrawerState> {
           }
         } else {
           response.add('$_pVendor:$_pValidation:false/Dato inexistente');
+          response.add(_pVendorModel);
+          modelMap[1] = VendorModel.empty();
         }
       } else if (keyElement == 2) {
         //valdiar Warehouse
@@ -172,6 +135,8 @@ class SalenoteDrawerCubit extends Cubit<SalenoteDrawerState> {
           if (warehouseDB.length > 1) {
             response.add(
                 '$_pWarehouse:$_pValidation:false/Hay más de un almacén con el mismo nombre');
+            response.add(_pWarehouseModel);
+            modelMap[2] = WarehouseModel.empty();
           } else if (warehouseDB.length == 1) {
             response.add('$_pWarehouse:$_pValidation:true/');
             response.add(_pWarehouseModel);
@@ -179,6 +144,8 @@ class SalenoteDrawerCubit extends Cubit<SalenoteDrawerState> {
           }
         } else {
           response.add('$_pWarehouse:$_pValidation:false/Dato inexistente');
+          response.add(_pWarehouseModel);
+          modelMap[2] = WarehouseModel.empty();
         }
       }
       emit(InitialState());
