@@ -1,7 +1,7 @@
-import 'package:axol_inventarios/plugins/movements/repository/movement_repo.dart';
+import 'package:axol_inventarios/plugins/inventory_/movements/repository/movement_repo.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../../models/textfield_model.dart';
+import '../../../../../models/textfield_model.dart';
 import '../../model/movement_filter_model.dart';
 import '../../model/movement_model.dart';
 import 'movements_state.dart';

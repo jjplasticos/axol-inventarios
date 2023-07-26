@@ -1,9 +1,9 @@
 import 'package:axol_inventarios/models/validation_form_model.dart';
-import 'package:axol_inventarios/plugins/inventory/cubit/textfield_finder_invrow_cubit.dart';
-import 'package:axol_inventarios/plugins/inventory/model/warehouse_stream_model.dart';
+import 'package:axol_inventarios/plugins/inventory_/inventory/cubit/textfield_finder_invrow_cubit.dart';
+import 'package:axol_inventarios/plugins/inventory_/inventory/model/warehouse_stream_model.dart';
 import 'package:equatable/equatable.dart';
 
-import '../../../../models/textfield_model.dart';
+import '../../../../../models/textfield_model.dart';
 
 abstract class WarehouseSettingState extends Equatable {
   const WarehouseSettingState();

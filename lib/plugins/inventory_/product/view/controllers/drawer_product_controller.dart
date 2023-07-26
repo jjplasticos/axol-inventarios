@@ -1,4 +1,4 @@
-import 'package:axol_inventarios/plugins/product/model/product_model.dart';
+import 'package:axol_inventarios/plugins/inventory_/product/model/product_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 

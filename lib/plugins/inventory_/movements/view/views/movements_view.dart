@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../../global_widgets/appbar/appbar_global.dart';
-import '../../../../global_widgets/plugins_bar.dart';
-import '../../../../global_widgets/views_bar.dart';
-import '../../../../models/elemnets_bar_model.dart';
-import '../../../../settings/theme.dart';
+import '../../../../../global_widgets/appbar/appbar_global.dart';
+import '../../../../../global_widgets/plugins_bar.dart';
+import '../../../../../global_widgets/views_bar.dart';
+import '../../../../../models/elemnets_bar_model.dart';
+import '../../../../../settings/theme.dart';
 import '../../../inventory/view/views/warehouse_menu_view.dart';
 import '../../../product/view/views/product_view.dart';
-import '../../../sale_note/view/views/sale_note_view.dart';
-import '../../../user/view/views/home_view.dart';
+import '../../../../sale_note/view/views/sale_note_view.dart';
+import '../../../../user/view/views/home_view.dart';
 import '../../cubit/movements_view/movements_cubit.dart';
 import '../controllers/listview_movements_controller.dart';
 

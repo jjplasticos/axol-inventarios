@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-import '../../../../../models/inventory_row_model.dart';
-import '../../../../../settings/theme.dart';
+import '../../../../../../models/inventory_row_model.dart';
+import '../../../../../../settings/theme.dart';
 
 class TableWarehouse extends StatelessWidget {
   final List<InventoryRowModel> listData;

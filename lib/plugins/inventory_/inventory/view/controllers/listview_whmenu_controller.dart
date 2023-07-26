@@ -1,10 +1,10 @@
-import 'package:axol_inventarios/plugins/inventory/cubit/warehouse_stream_cubit.dart';
-import 'package:axol_inventarios/plugins/inventory/model/warehouse_stream_model.dart';
+import 'package:axol_inventarios/plugins/inventory_/inventory/cubit/warehouse_stream_cubit.dart';
+import 'package:axol_inventarios/plugins/inventory_/inventory/model/warehouse_stream_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../../global_widgets/toolbar.dart';
-import '../../../../models/elemnets_bar_model.dart';
+import '../../../../../global_widgets/toolbar.dart';
+import '../../../../../models/elemnets_bar_model.dart';
 import '../../cubit/warehouse_setting/warehouse_setting_cubit.dart';
 import '../../cubit/warehouses_load/warehouses_load_cubit.dart';
 import '../../cubit/warehouses_load/wareshouses_load_state.dart';

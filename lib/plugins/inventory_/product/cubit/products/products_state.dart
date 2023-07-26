@@ -1,7 +1,7 @@
 import 'package:equatable/equatable.dart';
 
 import '../../model/product_model.dart';
-import '../../../../models/textfield_model.dart';
+import '../../../../../models/textfield_model.dart';
 
 abstract class ProductsState extends Equatable {
   const ProductsState();

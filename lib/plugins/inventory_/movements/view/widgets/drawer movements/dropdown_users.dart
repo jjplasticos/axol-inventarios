@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../../../models/user_mdoel.dart';
+import '../../../../../../models/user_mdoel.dart';
 import '../../../cubit/movement_filters/movement_filters_cubit.dart';
 import '../../../model/movement_filter_model.dart';
 

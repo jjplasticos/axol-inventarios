@@ -1,7 +1,7 @@
-import 'package:axol_inventarios/plugins/inventory/model/warehouse_model.dart';
+import 'package:axol_inventarios/plugins/inventory_/inventory/model/warehouse_model.dart';
 import 'package:equatable/equatable.dart';
 
-import '../../../../models/user_mdoel.dart';
+import '../../../../../models/user_mdoel.dart';
 
 abstract class WarehousesLoadState extends Equatable {
   const WarehousesLoadState();

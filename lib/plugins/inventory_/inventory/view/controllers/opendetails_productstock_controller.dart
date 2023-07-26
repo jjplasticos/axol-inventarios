@@ -1,4 +1,4 @@
-import 'package:axol_inventarios/plugins/inventory/cubit/show_details_product_stock/showdetails_productstock_state.dart';
+import 'package:axol_inventarios/plugins/inventory_/inventory/cubit/show_details_product_stock/showdetails_productstock_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 

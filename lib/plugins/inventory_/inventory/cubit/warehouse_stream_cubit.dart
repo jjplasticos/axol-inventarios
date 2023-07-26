@@ -1,7 +1,7 @@
 import 'package:axol_inventarios/models/validation_form_model.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../models/textfield_model.dart';
+import '../../../../models/textfield_model.dart';
 import '../model/warehouse_stream_model.dart';
 
 class WarehouseStreamCubit extends Cubit<WarehouseStreamModel> {

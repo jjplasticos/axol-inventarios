@@ -1,11 +1,11 @@
-import 'package:axol_inventarios/plugins/inventory/model/warehouse_model.dart';
-import 'package:axol_inventarios/plugins/inventory/cubit/warehouse_stream_cubit.dart';
-import 'package:axol_inventarios/plugins/inventory/model/warehouse_stream_model.dart';
+import 'package:axol_inventarios/plugins/inventory_/inventory/model/warehouse_model.dart';
+import 'package:axol_inventarios/plugins/inventory_/inventory/cubit/warehouse_stream_cubit.dart';
+import 'package:axol_inventarios/plugins/inventory_/inventory/model/warehouse_stream_model.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../../models/textfield_model.dart';
-import '../../../../models/validation_form_model.dart';
+import '../../../../../models/textfield_model.dart';
+import '../../../../../models/validation_form_model.dart';
 import '../../repository/warehouses_repo.dart';
 import 'warehouse_setting_state.dart';
 

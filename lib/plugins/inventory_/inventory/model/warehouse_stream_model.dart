@@ -1,4 +1,4 @@
-import '../../../models/validation_form_model.dart';
+import '../../../../models/validation_form_model.dart';
 
 class WarehouseStreamModel {
   WHTextfieldModel textfieldId;

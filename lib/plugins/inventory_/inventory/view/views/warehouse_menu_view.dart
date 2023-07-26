@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../../global_widgets/appbar/appbar_global.dart';
-import '../../../../global_widgets/plugins_bar.dart';
-import '../../../../global_widgets/views_bar.dart';
-import '../../../../models/elemnets_bar_model.dart';
-import '../../../../settings/theme.dart';
+import '../../../../../global_widgets/appbar/appbar_global.dart';
+import '../../../../../global_widgets/plugins_bar.dart';
+import '../../../../../global_widgets/views_bar.dart';
+import '../../../../../models/elemnets_bar_model.dart';
+import '../../../../../settings/theme.dart';
 import '../../../movements/view/views/movements_view.dart';
 import '../../../product/view/views/product_view.dart';
-import '../../../sale_note/view/views/sale_note_view.dart';
-import '../../../user/view/views/home_view.dart';
+import '../../../../sale_note/view/views/sale_note_view.dart';
+import '../../../../user/view/views/home_view.dart';
 import '../../cubit/warehouses_load/warehouses_load_cubit.dart';
 import '../controllers/listview_whmenu_controller.dart';
 
@@ -90,7 +90,17 @@ class WarehouseMenuView extends StatelessWidget {
                               context,
                               MaterialPageRoute(
                                   builder: (context) => const ProductView()));
-                        })
+                        }),
+                    ElementsBarModel(
+                        text: 'Clientes de ruta',
+                        icon: const Icon(Icons.people),
+                        action: () {
+                          /*Navigator.pop(context);
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => const ProductView()));*/
+                        }),
                   ],
                 ),
                 const Expanded(

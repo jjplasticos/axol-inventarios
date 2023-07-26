@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../../../../models/inventory_row_model.dart';
+import '../../../../../../models/inventory_row_model.dart';
 
 class ListviewDialogFinder extends StatelessWidget {
   final List<InventoryRowModel> listData;

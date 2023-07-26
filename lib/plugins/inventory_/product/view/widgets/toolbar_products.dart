@@ -1,10 +1,10 @@
 import 'package:axol_inventarios/models/textfield_model.dart';
-import 'package:axol_inventarios/plugins/product/model/product_model.dart';
+import 'package:axol_inventarios/plugins/inventory_/product/model/product_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../../global_widgets/toolbar.dart';
-import '../../../../models/elemnets_bar_model.dart';
+import '../../../../../global_widgets/toolbar.dart';
+import '../../../../../models/elemnets_bar_model.dart';
 import '../../cubit/drawer_product/drawer_product_cubit.dart';
 import '../../cubit/drawer_product/listen_drawer_cubit.dart';
 import '../../cubit/products/products_cubit.dart';

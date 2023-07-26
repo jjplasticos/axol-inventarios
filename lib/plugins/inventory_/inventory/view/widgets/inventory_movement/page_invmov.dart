@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../../../global_widgets/toolbar.dart';
-import '../../../../../global_widgets/views_bar.dart';
-import '../../../../../models/elemnets_bar_model.dart';
-import '../../../../../models/inventory_move_elements_model.dart';
+import '../../../../../../global_widgets/toolbar.dart';
+import '../../../../../../global_widgets/views_bar.dart';
+import '../../../../../../models/elemnets_bar_model.dart';
+import '../../../../../../models/inventory_move_elements_model.dart';
 import '../../../cubit/inventory_movements/inventory_moves_cubit.dart';
 import 'listview_inventory_movement.dart';
 

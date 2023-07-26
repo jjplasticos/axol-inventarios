@@ -1,6 +1,6 @@
 import 'package:equatable/equatable.dart';
 
-import '../../../../models/textfield_model.dart';
+import '../../../../../models/textfield_model.dart';
 import '../../model/movement_filter_model.dart';
 import '../../model/movement_model.dart';
 

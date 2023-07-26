@@ -1,8 +1,8 @@
-import 'package:axol_inventarios/plugins/movements/view/widgets/toolbar_movements.dart';
+import 'package:axol_inventarios/plugins/inventory_/movements/view/widgets/toolbar_movements.dart';
 import 'package:flutter/material.dart';
 
-import '../../../../models/textfield_model.dart';
-import '../../../../settings/theme.dart';
+import '../../../../../models/textfield_model.dart';
+import '../../../../../settings/theme.dart';
 import '../../model/movement_filter_model.dart';
 import '../../model/movement_model.dart';
 import 'drawer_details_movements.dart';

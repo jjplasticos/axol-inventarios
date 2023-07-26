@@ -1,7 +1,7 @@
 import 'package:axol_inventarios/plugins/sale_note/model/vendor_model.dart';
 
 import '../../../models/textfield_form_model.dart';
-import '../../inventory/model/warehouse_model.dart';
+import '../../inventory_/inventory/model/warehouse_model.dart';
 import 'customer_model.dart';
 
 class SalenoteFormModel {

@@ -1,12 +1,12 @@
 import 'package:axol_inventarios/models/validation_form_model.dart';
-import 'package:axol_inventarios/plugins/inventory/cubit/warehouse_setting/warehouse_setting_state.dart';
-import 'package:axol_inventarios/plugins/inventory/model/warehouse_stream_model.dart';
+import 'package:axol_inventarios/plugins/inventory_/inventory/cubit/warehouse_setting/warehouse_setting_state.dart';
+import 'package:axol_inventarios/plugins/inventory_/inventory/model/warehouse_stream_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../../../models/textfield_model.dart';
-import '../../../../../models/user_mdoel.dart';
+import '../../../../../../models/textfield_model.dart';
+import '../../../../../../models/user_mdoel.dart';
 import '../../../model/warehouse_model.dart';
 import '../../../cubit/warehouse_setting/warehouse_setting_cubit.dart';
 import '../../../cubit/warehouse_stream_cubit.dart';

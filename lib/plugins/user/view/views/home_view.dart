@@ -4,7 +4,7 @@ import '../../../../global_widgets/appbar/appbar_global.dart';
 import '../../../../global_widgets/plugins_bar.dart';
 import '../../../../models/elemnets_bar_model.dart';
 import '../../../../settings/theme.dart';
-import '../../../inventory/view/views/warehouse_menu_view.dart';
+import '../../../inventory_/inventory/view/views/warehouse_menu_view.dart';
 import '../../../sale_note/view/views/sale_note_view.dart';
 
 class HomeView extends StatelessWidget {

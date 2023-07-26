@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../../../models/inventory_row_model.dart';
+import '../../../../../models/inventory_row_model.dart';
 
 class DialogProductInfo extends StatelessWidget {
   final InventoryRowModel inventoryRow;

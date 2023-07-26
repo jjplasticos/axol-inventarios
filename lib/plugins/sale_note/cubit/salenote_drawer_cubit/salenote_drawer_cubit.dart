@@ -4,8 +4,8 @@ import 'package:axol_inventarios/plugins/sale_note/cubit/salenote_drawer_cubit/s
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
-import '../../../inventory/model/warehouse_model.dart';
-import '../../../inventory/repository/warehouses_repo.dart';
+import '../../../inventory_/inventory/model/warehouse_model.dart';
+import '../../../inventory_/inventory/repository/warehouses_repo.dart';
 import '../../model/customer_model.dart';
 import '../../model/saelnote_form_model.dart';
 import '../../model/vendor_model.dart';

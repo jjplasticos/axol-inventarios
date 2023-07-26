@@ -1,15 +1,20 @@
+import 'package:axol_inventarios/models/textfield_model.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../model/product_model.dart';
-import '../../../../../models/textfield_model.dart';
-import '../../repository/product_repo.dart';
-import 'products_state.dart';
+import 'routcustomer_state.dart';
 
-class ProductsCubit extends Cubit<ProductsState> {
-  ProductsCubit() : super(InitialState());
+class RoutcustomerCubit extends Cubit<RoutcustomerState> {
+  RoutcustomerCubit() : super(InitialState());
 
-  Future<void> initialList() async {
+  Future<void> load(TextfieldModel finder) async {
     try {
+      emit(LoadingState());
+      if (finder.text == '') {
+
+      } else {
+
+      }
+      emit(LoadedState());
       TextfieldModel initialFinder = TextfieldModel(text: '', position: 0);
       List<ProductModel> products;
       emit(InitialState());
