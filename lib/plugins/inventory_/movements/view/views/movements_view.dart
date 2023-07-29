@@ -10,6 +10,7 @@ import '../../../inventory/view/views/warehouse_menu_view.dart';
 import '../../../product/view/views/product_view.dart';
 import '../../../../sale_note/view/views/sale_note_view.dart';
 import '../../../../user/view/views/home_view.dart';
+import '../../../route_customers/view/views/routecustomers_view.dart';
 import '../../cubit/movements_view/movements_cubit.dart';
 import '../controllers/listview_movements_controller.dart';
 
@@ -64,12 +65,14 @@ class MovementsView extends StatelessWidget {
                               builder: (context) => const WarehouseMenuView()));
                     }),
                 ElementsBarModel(
-                    text: null, icon: const Icon(Icons.note), action: () {
+                    text: null,
+                    icon: const Icon(Icons.note),
+                    action: () {
                       Navigator.pop(context);
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => const SaleNoteView()));
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const SaleNoteView()));
                     })
               ]),
               ViewsBar(
@@ -98,7 +101,17 @@ class MovementsView extends StatelessWidget {
                             context,
                             MaterialPageRoute(
                                 builder: (context) => const ProductView()));
-                      })
+                      }),
+                  ElementsBarModel(
+                      text: 'Clientes de ruta',
+                      icon: const Icon(Icons.people),
+                      action: () {
+                        Navigator.pop(context);
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => const RoutCustomers()));
+                      }),
                 ],
               ),
               const Expanded(child: ListviewMovementsController()),

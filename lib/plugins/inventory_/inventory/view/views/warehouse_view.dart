@@ -11,6 +11,8 @@ import '../../../../../settings/theme.dart';
 import '../../../movements/view/views/movements_view.dart';
 import '../../../../sale_note/view/views/sale_note_view.dart';
 import '../../../../user/view/views/home_view.dart';
+import '../../../product/view/views/product_view.dart';
+import '../../../route_customers/view/views/routecustomers_view.dart';
 import '../../cubit/inventory_load/inventory_load_cubit.dart';
 import '../../cubit/textfield_finder_invrow_cubit.dart';
 import '../controllers/listview_warehouse_controller.dart';
@@ -74,12 +76,14 @@ class WarehouseView extends StatelessWidget {
                               builder: (context) => const WarehouseMenuView()));
                     }),
                 ElementsBarModel(
-                    text: null, icon: const Icon(Icons.note), action: () {
+                    text: null,
+                    icon: const Icon(Icons.note),
+                    action: () {
                       Navigator.pop(context);
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => const SaleNoteView()));
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const SaleNoteView()));
                     })
               ]),
               ViewsBar(
@@ -108,7 +112,23 @@ class WarehouseView extends StatelessWidget {
                   ElementsBarModel(
                       text: 'Productos',
                       icon: const Icon(Icons.grid_view_sharp),
-                      action: () {})
+                      action: () {
+                        Navigator.pop(context);
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => const ProductView()));
+                      }),
+                  ElementsBarModel(
+                      text: 'Clientes de ruta',
+                      icon: const Icon(Icons.people),
+                      action: () {
+                        Navigator.pop(context);
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => const RoutCustomers()));
+                      }),
                 ],
               ),
               Expanded(

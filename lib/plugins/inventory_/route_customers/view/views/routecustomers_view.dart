@@ -10,15 +10,18 @@ import '../../../../sale_note/view/views/sale_note_view.dart';
 import '../../../../user/view/views/home_view.dart';
 import '../../../inventory/view/views/warehouse_menu_view.dart';
 import '../../../movements/view/views/movements_view.dart';
+import '../../../product/view/views/product_view.dart';
+import '../../cubit/routcustomer cubit/routcustomer_cubit.dart';
+import '../controller/listview_rc_controller.dart';
 
 class RoutCustomers extends StatelessWidget {
   const RoutCustomers({super.key});
-  
+
   @override
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
-        //BlocProvider(create: (_) => ProductsCubit()),
+        BlocProvider(create: (_) => RoutcustomerCubit()),
       ],
       child: Scaffold(
         backgroundColor: ColorPalette.primaryBackground,
@@ -60,12 +63,14 @@ class RoutCustomers extends StatelessWidget {
                               builder: (context) => const WarehouseMenuView()));
                     }),
                 ElementsBarModel(
-                    text: null, icon: const Icon(Icons.note), action: () {
+                    text: null,
+                    icon: const Icon(Icons.note),
+                    action: () {
                       Navigator.pop(context);
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => const SaleNoteView()));
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const SaleNoteView()));
                     })
               ]),
               ViewsBar(
@@ -94,15 +99,24 @@ class RoutCustomers extends StatelessWidget {
                   ElementsBarModel(
                       text: 'Productos',
                       icon: const Icon(Icons.grid_view_sharp),
-                      action: () {})
+                      action: () {
+                        Navigator.pop(context);
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => const ProductView()));
+                      }),
+                  ElementsBarModel(
+                      text: 'Clientes de ruta',
+                      icon: const Icon(Icons.people),
+                      action: () {}),
                 ],
               ),
-              //const Expanded(child: ListviewProductsController()),
+              const Expanded(child: ListviewRcController()),
             ],
           ),
         ),
       ),
     );
   }
-
 }

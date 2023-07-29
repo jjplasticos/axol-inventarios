@@ -3,33 +3,26 @@ import 'package:flutter/material.dart';
 import '../../../../../models/textfield_model.dart';
 import '../../../../../settings/theme.dart';
 import '../../model/routcustomer_model.dart';
+import 'finder_rc.dart';
 import 'toolbar_rc.dart';
 
 class ListviewRc extends StatelessWidget {
-  final List<RoutcutomerModel> listData;
+  final List<RoutcustomerModel> listData;
   final TextfieldModel finder;
 
-  const ListviewRc(
-      {super.key,
-      required this.finder,
-      required this.listData});
+  const ListviewRc({super.key, required this.finder, required this.listData});
 
   @override
   Widget build(BuildContext context) {
-    Icon icon =
-        const Icon(Icons.error_outline, color: ColorPalette.primaryText);
-    Function()? action;
-
     return Row(
       children: [
         Expanded(
           child: Column(
             children: [
-              /*FinderProducts(
+              FinderRc(
                 currentFinder: finder,
                 isLoading: false,
-                mode: mode,
-              ),*/
+              ),
               const Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
@@ -62,6 +55,14 @@ class ListviewRc extends StatelessWidget {
                     child: Center(
                         child: Text(
                       'Direción',
+                      style: Typo.bodyText5,
+                    )),
+                  ),
+                  Expanded(
+                    flex: 1,
+                    child: Center(
+                        child: Text(
+                      'Estado',
                       style: Typo.bodyText5,
                     )),
                   ),
@@ -124,10 +125,21 @@ class ListviewRc extends StatelessWidget {
                               flex: 1,
                               child: Center(
                                 child: Text(
-                                  '${RoutcutomerModel.pAddress}, ${RoutcutomerModel.pHood}, ${RoutcutomerModel.pTown}, ${RoutcutomerModel.pCountry}',
+                                  '${rcRow.address[RoutcustomerModel.pAddress]}, ${rcRow.address[RoutcustomerModel.pHood]}, ${rcRow.address[RoutcustomerModel.pTown]}, ${rcRow.address[RoutcustomerModel.pCountry]}',
                                   style: Typo.labelText1,
                                 ),
                               ),
+                            ),
+                            Expanded(
+                              // 5) Estado
+                              flex: 1,
+                              child: Center(
+                                  child: rcRow.validation[
+                                              RoutcustomerModel.pStatus] ==
+                                          true
+                                      ? const Icon(Icons
+                                          .check_box_outline_blank_outlined)
+                                      : const Icon(Icons.check_box_outlined)),
                             ),
                           ],
                         ),
@@ -139,7 +151,7 @@ class ListviewRc extends StatelessWidget {
             ],
           ),
         ),
-        ToolbarRc(
+        const ToolbarRc(
           isLoading: false,
         ),
       ],

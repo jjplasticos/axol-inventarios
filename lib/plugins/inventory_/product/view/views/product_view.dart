@@ -10,6 +10,7 @@ import '../../../inventory/view/views/warehouse_menu_view.dart';
 import '../../../movements/view/views/movements_view.dart';
 import '../../../../sale_note/view/views/sale_note_view.dart';
 import '../../../../user/view/views/home_view.dart';
+import '../../../route_customers/view/views/routecustomers_view.dart';
 import '../../cubit/products/products_cubit.dart';
 import '../controllers/listview_products_controller.dart';
 
@@ -62,12 +63,14 @@ class ProductView extends StatelessWidget {
                               builder: (context) => const WarehouseMenuView()));
                     }),
                 ElementsBarModel(
-                    text: null, icon: const Icon(Icons.note), action: () {
+                    text: null,
+                    icon: const Icon(Icons.note),
+                    action: () {
                       Navigator.pop(context);
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => const SaleNoteView()));
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const SaleNoteView()));
                     })
               ]),
               ViewsBar(
@@ -96,7 +99,17 @@ class ProductView extends StatelessWidget {
                   ElementsBarModel(
                       text: 'Productos',
                       icon: const Icon(Icons.grid_view_sharp),
-                      action: () {})
+                      action: () {}),
+                  ElementsBarModel(
+                      text: 'Clientes de ruta',
+                      icon: const Icon(Icons.people),
+                      action: () {
+                        Navigator.pop(context);
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => const RoutCustomers()));
+                      }),
                 ],
               ),
               const Expanded(child: ListviewProductsController()),

@@ -1,32 +1,28 @@
 import 'package:axol_inventarios/models/textfield_model.dart';
+import 'package:axol_inventarios/plugins/inventory_/route_customers/repository/routecustomer_repo.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../model/routcustomer_model.dart';
 import 'routcustomer_state.dart';
 
 class RoutcustomerCubit extends Cubit<RoutcustomerState> {
   RoutcustomerCubit() : super(InitialState());
 
-  Future<void> load(TextfieldModel finder) async {
+  Future<void> load(
+    TextfieldModel finder,
+  ) async {
     try {
-      emit(LoadingState());
-      if (finder.text == '') {
-
-      } else {
-
-      }
-      emit(LoadedState());
-      TextfieldModel initialFinder = TextfieldModel(text: '', position: 0);
-      List<ProductModel> products;
+      List<RoutcustomerModel> customersDB;
       emit(InitialState());
-      emit(LoadingState(finder: initialFinder, mode: 0));
-      products = await ProductRepo().fetchAllProducts();
-      emit(LoadedState(products: products, finder: initialFinder, mode: 0));
+      emit(LoadingState(textfieldFinder: finder));
+      customersDB = await RoutcustomerRepo().fetchRcList(finder.text);
+      emit(LoadedState(rcList: customersDB, textfieldFinder: finder));
     } catch (e) {
       emit(ErrorState(error: e.toString()));
     }
   }
 
-  Future<void> reloadList(TextfieldModel finder, int mode) async {
+  /*Future<void> reloadList(TextfieldModel finder, int mode) async {
     try {
       List<ProductModel> products;
       emit(InitialState());
@@ -40,5 +36,5 @@ class RoutcustomerCubit extends Cubit<RoutcustomerState> {
 
   Future<void> deleteProduct(ProductModel product) async {
     await ProductRepo().updateProduct(product);
-  }
+  }*/
 }
