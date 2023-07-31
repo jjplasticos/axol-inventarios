@@ -1,3 +1,4 @@
+import 'package:axol_inventarios/plugins/inventory_/route_customers/model/rc_form_model.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 import '../model/routcustomer_model.dart';
@@ -37,5 +38,37 @@ class RoutcustomerRepo {
       }
     }
     return customers;
+  }
+
+  Future<bool> existId(String id) async {
+    List<Map<String, dynamic>> customersDB = [];
+    List<RoutcustomerModel> customers = [];
+    bool exist;
+    customersDB = await _supabase
+        .from(_table)
+        .select<List<Map<String, dynamic>>>()
+        .eq(_id, id);
+    if (customersDB.isEmpty) {
+      exist = false;
+    } else {
+      exist = true;
+    }
+    return exist;
+  }
+
+  Future<void> insertRc(RoutcustomerModel routcustomer) async {
+    await _supabase.from(_table).insert({
+      _id: routcustomer.id,
+      _name: routcustomer.name,
+      _location: routcustomer.location,
+      _address: routcustomer.address,
+      _validation: routcustomer.validation
+    });
+  }
+
+  Future<void> updateRcValidation(RoutcustomerModel rc) async {
+    await _supabase.from(_table).update({
+      _validation: rc.validation,
+    }).eq(_id, rc.id);
   }
 }

@@ -1,8 +1,12 @@
+import 'package:axol_inventarios/plugins/inventory_/route_customers/cubit/rc_details_cubit/rc_details_cubit.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../../models/textfield_model.dart';
 import '../../../../../settings/theme.dart';
+import '../../cubit/routcustomer cubit/routcustomer_cubit.dart';
 import '../../model/routcustomer_model.dart';
+import '../controller/drawer_details_rc_controller.dart';
 import 'finder_rc.dart';
 import 'toolbar_rc.dart';
 
@@ -82,11 +86,20 @@ class ListviewRc extends StatelessWidget {
                           border: Border.all(color: Colors.black45)),
                       child: OutlinedButton(
                         onPressed: () {
-                          /*showDialog(
+                          showDialog(
                             context: context,
-                            builder: (context) =>
-                                DrawerDetailsProduct(product: productRow),
-                          );*/
+                            builder: (context) => MultiBlocProvider(
+                                providers: [
+                                  BlocProvider(create: (_) => RcDetailsCubit()),
+                                ],
+                                child: DrawerDetailsRcController(
+                                  rc: rcRow,
+                                )),
+                          ).then((value) {
+                            if (value == true) {
+                              context.read<RoutcustomerCubit>().load(TextfieldModel.initial());
+                            }
+                          });
                         },
                         child: Row(
                           children: [
@@ -137,9 +150,15 @@ class ListviewRc extends StatelessWidget {
                                   child: rcRow.validation[
                                               RoutcustomerModel.pStatus] ==
                                           true
-                                      ? const Icon(Icons
-                                          .check_box_outline_blank_outlined)
-                                      : const Icon(Icons.check_box_outlined)),
+                                      ? const Icon(
+                                          Icons.check_box_outlined,
+                                          color: ColorPalette.primary,
+                                        )
+                                      : const Icon(
+                                          Icons
+                                              .check_box_outline_blank_outlined,
+                                          color: ColorPalette.primary,
+                                        )),
                             ),
                           ],
                         ),

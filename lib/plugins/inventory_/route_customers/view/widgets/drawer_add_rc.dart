@@ -1,4 +1,13 @@
+// ignore_for_file: prefer_const_constructors
+
+import 'package:axol_inventarios/plugins/inventory_/route_customers/cubit/rc_drawer_cubit/rc_drawer_cubit.dart';
+import 'package:axol_inventarios/plugins/inventory_/route_customers/cubit/rc_form_cubit.dart';
+import 'package:axol_inventarios/plugins/inventory_/route_customers/model/rc_form_model.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+
+import 'textfield_rc.dart';
 
 class DrawerAddRc extends StatelessWidget {
   final bool isLoading;
@@ -7,6 +16,8 @@ class DrawerAddRc extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    bool isValid = context.read<RcFormCubit>().state.status;
+    RcFormModel rcForm;
     return Row(
       children: [
         Expanded(
@@ -14,7 +25,7 @@ class DrawerAddRc extends StatelessWidget {
           color: Colors.black26,
         )),
         Drawer(
-          width: 600,
+          width: 500,
           child: Column(
             children: [
               Visibility(visible: isLoading, child: LinearProgressIndicator()),
@@ -24,32 +35,109 @@ class DrawerAddRc extends StatelessWidget {
                   child: Column(
                     children: [
                       const Center(
-                        child: Text('Nueva nota'),
+                        child: Text('Nuevo cliente de rtua'),
                       ),
                       Expanded(
                           child: ListView(
                         // ignore: prefer_const_literals_to_create_immutables
                         children: [
-                          // ignore: prefer_const_constructors
-                          /*TextfieldSalenote(
-                            label: 'Cliente',
+                          TextfieldRc(
+                            label: 'Id:',
                             keyFormElement: 0,
                             isFocus: false,
+                            inputFormatter: [
+                              FilteringTextInputFormatter.allow(
+                                  RegExp(r'^\d*$')),
+                            ],
                           ),
-                          // ignore: prefer_const_constructors
-                          TextfieldSalenote(
-                            label: 'Vendor',
+                          TextfieldRc(
+                            label: 'Nombre:',
                             keyFormElement: 1,
                             isFocus: false,
                           ),
-                          // ignore: prefer_const_constructors
-                          TextfieldSalenote(
-                            label: 'Warehouse',
+                          TextfieldRc(
+                            label: 'Ubicación:',
                             keyFormElement: 2,
                             isFocus: false,
-                          ),*/
+                          ),
+                          TextfieldRc(
+                            label: 'Dirección:',
+                            keyFormElement: 3,
+                            isFocus: false,
+                          ),
+                          TextfieldRc(
+                            label: 'Colonia:',
+                            keyFormElement: 4,
+                            isFocus: false,
+                          ),
+                          TextfieldRc(
+                            label: 'Municipio:',
+                            keyFormElement: 5,
+                            isFocus: false,
+                          ),
+                          TextfieldRc(
+                            label: 'Estado:',
+                            keyFormElement: 6,
+                            isFocus: false,
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text('Validado:'),
+                              Switch(
+                                  value: isValid,
+                                  onChanged: (value) {
+                                    context
+                                        .read<RcFormCubit>()
+                                        .changeStatus(!isValid);
+                                    context.read<RcDrawerCubit>().change();
+                                  })
+                            ],
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text('Usuario:'),
+                              Text(context.read<RcFormCubit>().state.user)
+                            ],
+                          )
                         ],
-                      ))
+                      )),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          OutlinedButton(
+                            onPressed: () async {
+                              if (isLoading == false) {
+                                context.read<RcFormCubit>().allValidate();
+                                rcForm = context.read<RcFormCubit>().state;
+                                if (rcForm.id.validation.isValid &&
+                                    rcForm.name.validation.isValid &&
+                                    rcForm.location.validation.isValid &&
+                                    rcForm.address.validation.isValid &&
+                                    rcForm.hood.validation.isValid &&
+                                    rcForm.town.validation.isValid &&
+                                    rcForm.country.validation.isValid) {
+                                  await context
+                                      .read<RcDrawerCubit>()
+                                      .insertRc(rcForm);
+                                  // ignore: use_build_context_synchronously
+                                  Navigator.pop(context, true);
+                                } else {
+                                  context.read<RcDrawerCubit>().change();
+                                }
+                              }
+                            },
+                            child: Text('Guardar'),
+                          ),
+                          OutlinedButton(
+                            onPressed: () {
+                              Navigator.pop(context, false);
+                            },
+                            child: Text('Cancelar'),
+                          ),
+                        ],
+                      )
                     ],
                   ),
                 ),

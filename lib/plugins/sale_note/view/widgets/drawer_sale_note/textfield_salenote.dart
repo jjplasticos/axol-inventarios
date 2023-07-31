@@ -1,4 +1,3 @@
-import 'package:axol_inventarios/plugins/sale_note/model/customer_model.dart';
 import 'package:axol_inventarios/plugins/sale_note/model/saelnote_form_model.dart';
 import 'package:axol_inventarios/plugins/sale_note/view/controllers/drawer_search_controller.dart';
 import 'package:flutter/material.dart';

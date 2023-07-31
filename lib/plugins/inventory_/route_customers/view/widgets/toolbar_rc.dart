@@ -1,13 +1,18 @@
+import 'package:axol_inventarios/plugins/inventory_/route_customers/cubit/rc_drawer_cubit/rc_drawer_cubit.dart';
+import 'package:axol_inventarios/plugins/inventory_/route_customers/cubit/rc_form_cubit.dart';
+import 'package:axol_inventarios/plugins/inventory_/route_customers/view/controller/drawer_add_rc_controller.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../../global_widgets/toolbar.dart';
 import '../../../../../models/elemnets_bar_model.dart';
+import '../../../../../models/textfield_model.dart';
+import '../../cubit/routcustomer cubit/routcustomer_cubit.dart';
 
 class ToolbarRc extends StatelessWidget {
   final bool isLoading;
 
-  const ToolbarRc(
-      {super.key, required this.isLoading});
+  const ToolbarRc({super.key, required this.isLoading});
 
   @override
   Widget build(BuildContext context) {
@@ -18,26 +23,19 @@ class ToolbarRc extends StatelessWidget {
           icon: const Icon(Icons.add),
           action: () {
             if (isLoading == false) {
-              /*showDialog(
+              showDialog(
                 context: context,
-                builder: (context) => MultiBlocProvider(
-                    providers: [
-                      BlocProvider(create: (_) => DrawerProductCubit()),
-                      BlocProvider(
-                          create: (_) => ListenProductCubit(
-                              initialProduct: ProductModel.emptyValue())),
-                    ],
-                    child: DrawerProductController(
-                      mode: mode,
-                      initialProduct: ProductModel.emptyValue(),
-                    )),
+                builder: (context) => MultiBlocProvider(providers: [
+                  BlocProvider(create: (_) => RcDrawerCubit()),
+                  BlocProvider(create: (_) => RcFormCubit()),
+                ], child: const DrawerAddRcController()),
               ).then((value) {
                 if (value == true) {
                   context
-                      .read<ProductsCubit>()
-                      .reloadList(TextfieldModel(text: '', position: 0), 0);
+                      .read<RoutcustomerCubit>()
+                      .load(TextfieldModel.initial());
                 }
-              });*/
+              });
             }
           },
         ),
@@ -46,7 +44,7 @@ class ToolbarRc extends StatelessWidget {
           icon: const Icon(Icons.restart_alt),
           action: () {
             if (isLoading == false) {
-              //context.read<ProductsCubit>().initialList();
+              context.read<RoutcustomerCubit>().load(TextfieldModel.initial());
             }
           },
         ),

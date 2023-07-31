@@ -1,5 +1,9 @@
+import 'package:axol_inventarios/plugins/inventory_/route_customers/cubit/rc_drawer_cubit/rc_drawer_cubit.dart';
+import 'package:axol_inventarios/plugins/inventory_/route_customers/cubit/rc_form_cubit.dart';
+import 'package:axol_inventarios/plugins/inventory_/route_customers/model/rc_form_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../../models/textfield_form_model.dart';
 
@@ -18,17 +22,25 @@ class TextfieldRc extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    //SalenoteFormModel currentForm;
+    RcFormModel currentForm;
     TextEditingController textController = TextEditingController();
     FocusNode focusNode = FocusNode();
-    SalenoteFormModel form = context.read<SalenoteFormCubit>().state;
+    RcFormModel form = context.read<RcFormCubit>().state;
     TextfieldFormModel formElement = TextfieldFormModel.initial();
     if (keyFormElement == 0) {
-      formElement = form.customer;
+      formElement = form.id;
     } else if (keyFormElement == 1) {
-      formElement = form.vendor;
+      formElement = form.name;
     } else if (keyFormElement == 2) {
-      formElement = form.warehouse;
+      formElement = form.location;
+    } else if (keyFormElement == 3) {
+      formElement = form.address;
+    } else if (keyFormElement == 4) {
+      formElement = form.hood;
+    } else if (keyFormElement == 5) {
+      formElement = form.town;
+    } else if (keyFormElement == 6) {
+      formElement = form.country;
     }
     textController.value = TextEditingValue(
         text: formElement.value,
@@ -57,17 +69,26 @@ class TextfieldRc extends StatelessWidget {
                     borderSide: BorderSide(color: Colors.red)),
               ),
               onSubmitted: (value) {
-                /*currentForm = context.read<SalenoteFormCubit>().state;
+                currentForm = context.read<RcFormCubit>().state;
+                if (keyFormElement == 0) {
                   context
-                      .read<SalenoteDrawerCubit>()
-                      .change(currentForm, keyFormElement);*/
+                      .read<RcDrawerCubit>()
+                      .changeCompareId(currentForm.id.value);
+                } else {
+                  context.read<RcFormCubit>().changeForm(
+                      value,
+                      textController.selection.base.offset,
+                      keyFormElement,
+                    );
+                  context.read<RcDrawerCubit>().change();
+                }
               },
               onChanged: (value) {
-                /*context.read<SalenoteFormCubit>().change(
-                        value,
-                        textController.selection.base.offset,
-                        keyFormElement,
-                      );*/
+                context.read<RcFormCubit>().changeForm(
+                      value,
+                      textController.selection.base.offset,
+                      keyFormElement,
+                    );
               },
             ))
       ],

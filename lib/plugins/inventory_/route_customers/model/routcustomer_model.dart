@@ -14,8 +14,8 @@ class RoutcustomerModel {
 
   static const String pId = 'id';
   static const String pName = 'name';
-  //-----Address-----
   static const String pLocation = 'location';
+  //-----Address-----
   static const String pAddress = 'address';
   static const String pHood = 'hood';
   static const String pTown = 'town';
