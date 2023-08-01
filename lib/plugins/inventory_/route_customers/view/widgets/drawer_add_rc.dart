@@ -81,6 +81,19 @@ class DrawerAddRc extends StatelessWidget {
                             isFocus: false,
                           ),
                           Row(
+                            children: [
+                              Expanded(
+                                  child: TextfieldRc(
+                                label: 'Vendedor:',
+                                keyFormElement: 7,
+                                isFocus: false,
+                                width: 260,
+                              )),
+                              IconButton(
+                                  onPressed: () {}, icon: Icon(Icons.search))
+                            ],
+                          ),
+                          Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               Text('Validado:'),
@@ -117,7 +130,8 @@ class DrawerAddRc extends StatelessWidget {
                                     rcForm.address.validation.isValid &&
                                     rcForm.hood.validation.isValid &&
                                     rcForm.town.validation.isValid &&
-                                    rcForm.country.validation.isValid) {
+                                    rcForm.country.validation.isValid &&
+                                    rcForm.vendor.validation.isValid) {
                                   await context
                                       .read<RcDrawerCubit>()
                                       .insertRc(rcForm);

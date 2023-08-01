@@ -68,12 +68,13 @@ class RcDrawerCubit extends Cubit<RcDrawerState> {
         RoutcustomerModel.pAdminUser: rcForm.user,
       };
       rc = RoutcustomerModel(
-        id: int.parse(rcForm.id.value),
-        name: rcForm.name.value,
-        location: rcForm.location.value,
-        address: address,
-        validation: validation,
-      );
+          id: int.parse(rcForm.id.value),
+          name: rcForm.name.value,
+          location: rcForm.location.value,
+          address: address,
+          validation: validation,
+          vendor: '' // cambiar
+          );
       await RoutcustomerRepo().insertRc(rc);
       emit(LoadedState(response: response));
     } catch (e) {

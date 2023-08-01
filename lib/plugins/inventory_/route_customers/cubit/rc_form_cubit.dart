@@ -4,7 +4,7 @@ import '../../../../models/validation_form_model.dart';
 import '../model/rc_form_model.dart';
 
 class RcFormCubit extends Cubit<RcFormModel> {
-  RcFormCubit() : super(RcFormModel.empty());  
+  RcFormCubit() : super(RcFormModel.empty());
 
   Future<void> changeForm(String text, int position, int elementForm) async {
     RcFormModel rcForm = state;
@@ -43,6 +43,11 @@ class RcFormCubit extends Cubit<RcFormModel> {
       rcForm.country.position = position;
       rcForm = _validCountry(rcForm);
     }
+    if (elementForm == 7) {
+      rcForm.vendor.value = text;
+      rcForm.vendor.position = position;
+      rcForm = _validVendor(rcForm);
+    }
   }
 
   Future<void> changeStatus(bool status) async {
@@ -64,6 +69,7 @@ class RcFormCubit extends Cubit<RcFormModel> {
     rcForm = _validHood(rcForm);
     rcForm = _validTown(rcForm);
     rcForm = _validCountry(rcForm);
+    rcForm = _validVendor(rcForm);
     emit(RcFormModel.empty());
     emit(rcForm);
   }
@@ -75,7 +81,7 @@ class RcFormCubit extends Cubit<RcFormModel> {
 
   // --------- Metodos privados ---------
 
-  RcFormModel  _validId(RcFormModel rcForm) {
+  RcFormModel _validId(RcFormModel rcForm) {
     RcFormModel newRcForm = rcForm;
     if (newRcForm.id.value == '') {
       newRcForm.id.validation =
@@ -148,6 +154,17 @@ class RcFormCubit extends Cubit<RcFormModel> {
           ValidationFormModel(isValid: false, errorMessage: 'Dato no valido');
     } else {
       newRcForm.country.validation = ValidationFormModel.trueValid();
+    }
+    return newRcForm;
+  }
+
+  RcFormModel _validVendor(RcFormModel rcForm) {
+    RcFormModel newRcForm = rcForm;
+    if (newRcForm.vendor.value == '') {
+      newRcForm.vendor.validation =
+          ValidationFormModel(isValid: false, errorMessage: 'Dato no valido');
+    } else {
+      newRcForm.vendor.validation = ValidationFormModel.trueValid();
     }
     return newRcForm;
   }

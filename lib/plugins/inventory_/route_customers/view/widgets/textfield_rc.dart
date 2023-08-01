@@ -12,13 +12,16 @@ class TextfieldRc extends StatelessWidget {
   final List<TextInputFormatter>? inputFormatter;
   final int keyFormElement;
   final bool isFocus;
+  final double? width;
 
-  const TextfieldRc(
-      {super.key,
-      required this.label,
-      this.inputFormatter,
-      required this.keyFormElement,
-      required this.isFocus});
+  const TextfieldRc({
+    super.key,
+    required this.label,
+    this.inputFormatter,
+    required this.keyFormElement,
+    required this.isFocus,
+    this.width,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -41,7 +44,10 @@ class TextfieldRc extends StatelessWidget {
       formElement = form.town;
     } else if (keyFormElement == 6) {
       formElement = form.country;
+    } else if (keyFormElement == 7) {
+      formElement = form.vendor;
     }
+
     textController.value = TextEditingValue(
         text: formElement.value,
         selection: TextSelection.collapsed(offset: formElement.position));
@@ -54,7 +60,7 @@ class TextfieldRc extends StatelessWidget {
         Text(label),
         SizedBox(
             height: 40,
-            width: 300,
+            width: width ?? 300,
             child: TextField(
               inputFormatters: inputFormatter,
               focusNode: focusNode,
@@ -76,10 +82,10 @@ class TextfieldRc extends StatelessWidget {
                       .changeCompareId(currentForm.id.value);
                 } else {
                   context.read<RcFormCubit>().changeForm(
-                      value,
-                      textController.selection.base.offset,
-                      keyFormElement,
-                    );
+                        value,
+                        textController.selection.base.offset,
+                        keyFormElement,
+                      );
                   context.read<RcDrawerCubit>().change();
                 }
               },

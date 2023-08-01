@@ -39,7 +39,7 @@ class ListviewRc extends StatelessWidget {
                     )),
                   ),
                   Expanded(
-                    flex: 1,
+                    flex: 2,
                     child: Center(
                         child: Text(
                       'Nombre',
@@ -47,7 +47,7 @@ class ListviewRc extends StatelessWidget {
                     )),
                   ),
                   Expanded(
-                    flex: 1,
+                    flex: 2,
                     child: Center(
                         child: Text(
                       'Ubicación',
@@ -55,10 +55,18 @@ class ListviewRc extends StatelessWidget {
                     )),
                   ),
                   Expanded(
-                    flex: 1,
+                    flex: 4,
                     child: Center(
                         child: Text(
                       'Direción',
+                      style: Typo.bodyText5,
+                    )),
+                  ),
+                  Expanded(
+                    flex: 2,
+                    child: Center(
+                        child: Text(
+                      'Vendedor',
                       style: Typo.bodyText5,
                     )),
                   ),
@@ -97,7 +105,9 @@ class ListviewRc extends StatelessWidget {
                                 )),
                           ).then((value) {
                             if (value == true) {
-                              context.read<RoutcustomerCubit>().load(TextfieldModel.initial());
+                              context
+                                  .read<RoutcustomerCubit>()
+                                  .load(TextfieldModel.initial());
                             }
                           });
                         },
@@ -115,7 +125,7 @@ class ListviewRc extends StatelessWidget {
                             ),
                             Expanded(
                               // 2) Nombre
-                              flex: 1,
+                              flex: 2,
                               child: Center(
                                 child: Text(
                                   rcRow.name,
@@ -125,7 +135,7 @@ class ListviewRc extends StatelessWidget {
                             ),
                             Expanded(
                               // 3) Ubicación
-                              flex: 1,
+                              flex: 2,
                               child: Center(
                                 child: Text(
                                   rcRow.location,
@@ -135,7 +145,7 @@ class ListviewRc extends StatelessWidget {
                             ),
                             Expanded(
                               // 4) Dirección
-                              flex: 1,
+                              flex: 4,
                               child: Center(
                                 child: Text(
                                   '${rcRow.address[RoutcustomerModel.pAddress]}, ${rcRow.address[RoutcustomerModel.pHood]}, ${rcRow.address[RoutcustomerModel.pTown]}, ${rcRow.address[RoutcustomerModel.pCountry]}',
@@ -144,7 +154,17 @@ class ListviewRc extends StatelessWidget {
                               ),
                             ),
                             Expanded(
-                              // 5) Estado
+                              // 5) Vendedor
+                              flex: 2,
+                              child: Center(
+                                child: Text(
+                                  rcRow.vendor.toString(),
+                                  style: Typo.labelText1,
+                                ),
+                              ),
+                            ),
+                            Expanded(
+                              // 6) Estado
                               flex: 1,
                               child: Center(
                                   child: rcRow.validation[

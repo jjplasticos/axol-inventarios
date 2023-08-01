@@ -8,6 +8,7 @@ class RcFormModel {
   TextfieldFormModel hood;
   TextfieldFormModel town;
   TextfieldFormModel country;
+  TextfieldFormModel vendor;
   bool status;
   String user;
 
@@ -20,7 +21,8 @@ class RcFormModel {
     required this.town,
     required this.country,
     required this.status,
-    required this.user
+    required this.user,
+    required this.vendor,
   });
 
   static RcFormModel empty() => RcFormModel(
@@ -31,6 +33,7 @@ class RcFormModel {
         hood: TextfieldFormModel.initial(),
         town: TextfieldFormModel.initial(),
         country: TextfieldFormModel.initial(),
+        vendor: TextfieldFormModel.initial(),
         status: true,
         user: '',
       );

@@ -10,6 +10,7 @@ class RoutcustomerRepo {
   static const String _location = 'location';
   static const String _validation = 'validation';
   static const String _address = 'address';
+  static const String _vendor = 'vendor';
   final _supabase = Supabase.instance.client;
 
   Future<List<RoutcustomerModel>> fetchRcList(String finder) async {
@@ -33,6 +34,7 @@ class RoutcustomerRepo {
           location: element[_location],
           address: element[_address],
           validation: element[_validation],
+          vendor: element[_vendor].toString(),
         );
         customers.add(routcustomer);
       }

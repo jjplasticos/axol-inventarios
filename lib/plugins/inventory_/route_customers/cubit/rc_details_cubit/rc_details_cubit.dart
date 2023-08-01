@@ -42,6 +42,7 @@ class RcDetailsCubit extends Cubit<RcDetailsState> {
           name: rc.name,
           location: rc.location,
           address: rc.address,
+          vendor: rc.vendor,
           validation: {
             RoutcustomerModel.pAdminUser: user,
             RoutcustomerModel.pStatus: valid
