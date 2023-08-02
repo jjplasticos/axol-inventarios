@@ -7,6 +7,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../cubit/vendor_select_cubit/vendor_select_cubit.dart';
+import '../controller/select_vendor_controller.dart';
 import 'textfield_rc.dart';
 
 class DrawerAddRc extends StatelessWidget {
@@ -90,7 +92,17 @@ class DrawerAddRc extends StatelessWidget {
                                 width: 260,
                               )),
                               IconButton(
-                                  onPressed: () {}, icon: Icon(Icons.search))
+                                  onPressed: () {
+                                    showDialog(
+                                      context: context,
+                                      builder: (context) =>
+                                          MultiBlocProvider(providers: [
+                                        BlocProvider(
+                                            create: (_) => VendorSelectCubit()),
+                                      ], child: const SelectVendorController()),
+                                    );
+                                  },
+                                  icon: Icon(Icons.search))
                             ],
                           ),
                           Row(

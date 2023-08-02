@@ -38,10 +38,22 @@ class VendorRepo {
     List<Map<String, dynamic>> vendorsDB = [];
     List<VendorModel> vendors = [];
     VendorModel vendor;
-    vendorsDB = await _supabase
-        .from(_table)
-        .select<List<Map<String, dynamic>>>()
-        .or('$_id.ilike.$inText,$_name.ilike.$inText');
+    String textOr;
+    if (inText == '') {
+      vendorsDB =
+          await _supabase.from(_table).select<List<Map<String, dynamic>>>();
+    } else {
+      if (int.tryParse(inText) == null) {
+        textOr = '$_name.ilike.$inText';
+      } else {
+        textOr = '$_id.ilike.$inText';
+      }
+      vendorsDB = await _supabase
+          .from(_table)
+          .select<List<Map<String, dynamic>>>()
+          .or(textOr);
+    }
+
     if (vendorsDB.isNotEmpty) {
       for (var element in vendorsDB) {
         vendor = VendorModel(
