@@ -100,7 +100,13 @@ class DrawerAddRc extends StatelessWidget {
                                         BlocProvider(
                                             create: (_) => VendorSelectCubit()),
                                       ], child: const SelectVendorController()),
-                                    );
+                                    ).then((value) {
+                                      context.read<RcFormCubit>().changeForm(
+                                          value.toString(),
+                                          value.toString().length,
+                                          7);
+                                      context.read<RcDrawerCubit>().change();
+                                    });
                                   },
                                   icon: Icon(Icons.search))
                             ],

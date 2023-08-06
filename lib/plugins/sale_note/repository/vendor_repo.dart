@@ -44,9 +44,9 @@ class VendorRepo {
           await _supabase.from(_table).select<List<Map<String, dynamic>>>();
     } else {
       if (int.tryParse(inText) == null) {
-        textOr = '$_name.ilike.$inText';
+        textOr = '$_name.ilike.%$inText%';
       } else {
-        textOr = '$_id.ilike.$inText';
+        textOr = '$_id.eq.$inText';
       }
       vendorsDB = await _supabase
           .from(_table)

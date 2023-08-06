@@ -94,6 +94,13 @@ class DrawerDetailsRc extends StatelessWidget {
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
+                              const Text('Vendedor:'),
+                              Text(rc.address[RoutcustomerModel.pVendor].toString())
+                            ],
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
                               const Text('Validación:'),
                               Switch(
                                 value: isValid,

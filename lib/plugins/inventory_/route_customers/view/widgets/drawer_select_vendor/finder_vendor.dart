@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../../../models/textfield_model.dart';
 import '../../../../../../settings/theme.dart';
+import '../../../cubit/vendor_select_cubit/vendor_select_cubit.dart';
 
 class FinderVendor extends StatelessWidget {
   final TextfieldModel currentFinder;
@@ -38,7 +40,7 @@ class FinderVendor extends StatelessWidget {
                     text: value,
                     position: textController.selection.base.offset,
                   );
-                  //context.read<RoutcustomerCubit>().load(textFinder);
+                  context.read<VendorSelectCubit>().load(textFinder);
                 },
                 onChanged: (value) {
                   text = value;
@@ -64,7 +66,7 @@ class FinderVendor extends StatelessWidget {
                 text: text,
                 position: textController.selection.base.offset,
               );
-              //context.read<RoutcustomerCubit>().load(textFinder);
+              context.read<VendorSelectCubit>().load(textFinder);
             },
           ),
           IconButton(
@@ -75,9 +77,9 @@ class FinderVendor extends StatelessWidget {
             ),
             onPressed: () {
               if (text != '') {
-                /*context
-                    .read<RoutcustomerCubit>()
-                    .load(TextfieldModel.initial());*/
+                context
+                    .read<VendorSelectCubit>()
+                    .load(TextfieldModel.initial());
               }
             },
           ),

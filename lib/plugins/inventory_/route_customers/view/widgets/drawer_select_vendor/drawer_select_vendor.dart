@@ -74,36 +74,40 @@ class DrawerSelectVendor extends StatelessWidget {
                           itemCount: listData.length,
                           itemBuilder: (context, index) {
                             final vendorRow = listData[index];
-
-                            return Container(
-                              height: 30,
-                              width: double.infinity,
-                              decoration: const BoxDecoration(
-                                border: Border(
-                                  bottom: BorderSide(color: Colors.black12),
+                            return OutlinedButton(
+                              onPressed: () {
+                                Navigator.pop(context, vendorRow.name);
+                              },
+                              child: Container(
+                                height: 30,
+                                width: double.infinity,
+                                decoration: const BoxDecoration(
+                                  border: Border(
+                                    bottom: BorderSide(color: Colors.black12),
+                                  ),
                                 ),
-                              ),
-                              child: Row(
-                                children: [
-                                  Expanded(
-                                    //1) ID
-                                    flex: 1,
-                                    child: Center(
-                                      child: Text(
-                                        vendorRow.id.toString(),
+                                child: Row(
+                                  children: [
+                                    Expanded(
+                                      //1) ID
+                                      flex: 1,
+                                      child: Center(
+                                        child: Text(
+                                          vendorRow.id.toString(),
+                                        ),
                                       ),
                                     ),
-                                  ),
-                                  Expanded(
-                                    // 2) Nombre
-                                    flex: 2,
-                                    child: Center(
-                                      child: Text(
-                                        vendorRow.name,
+                                    Expanded(
+                                      // 2) Nombre
+                                      flex: 2,
+                                      child: Center(
+                                        child: Text(
+                                          vendorRow.name,
+                                        ),
                                       ),
                                     ),
-                                  ),
-                                ],
+                                  ],
+                                ),
                               ),
                             );
                           },
@@ -112,23 +116,6 @@ class DrawerSelectVendor extends StatelessWidget {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.end,
                         children: [
-                          OutlinedButton(
-                            onPressed: () async {
-                              /*if (isLoading == false) {
-                                await context
-                                    .read<RcDetailsCubit>()
-                                    .updateRcValidation(
-                                      rc,
-                                      isValid,
-                                      rc.validation[
-                                          RoutcustomerModel.pAdminUser],
-                                    );
-                                // ignore: use_build_context_synchronously
-                                Navigator.pop(context, true);
-                              }*/
-                            },
-                            child: const Text('Guardar'),
-                          ),
                           OutlinedButton(
                             onPressed: () {
                               Navigator.pop(context, false);
