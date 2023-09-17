@@ -1,12 +1,12 @@
 class UserModel {
   final String name;
-  final String uid;
+  final int id;
   final String rol;
   final String password;
 
   const UserModel(
       {required this.name,
-      required this.uid,
+      required this.id,
       required this.rol,
       required this.password});
 }

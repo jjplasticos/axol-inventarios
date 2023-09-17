@@ -41,7 +41,8 @@ class DrawerProductCubit extends Cubit<DrawerProductState> {
       product = ProductModel(
           code: code,
           description: currentProduct.description,
-          properties: currentProduct.properties);
+          properties: currentProduct.properties,
+          class_: currentProduct.class_);
       product.properties['code'] = code;
       emit(LoadingCodeState(
           product: product,
@@ -147,7 +148,9 @@ class DrawerProductCubit extends Cubit<DrawerProductState> {
         product = ProductModel(
             code: currentProduct.code,
             description: value,
-            properties: currentProduct.properties);
+            properties: currentProduct.properties,
+            class_: currentProduct.class_
+            );
       } else {
         product = currentProduct;
       }

@@ -23,7 +23,7 @@ class DatabaseUser extends UserRepo {
     if (userData.isNotEmpty) {
       user = UserModel(
         name: userData.first[UserRepo._user],
-        uid: userData.first[UserRepo._id],
+        id: userData.first[UserRepo._id],
         rol: userData.first[UserRepo._rol],
         password: userData.first[UserRepo._password],
       );
@@ -44,7 +44,7 @@ class DatabaseUser extends UserRepo {
       for (var element in usersDB) {
         user = UserModel(
             name: element[UserRepo._user],
-            uid: element[UserRepo._id].toString(),
+            id: element[UserRepo._id],
             rol: UserRepo._rol,
             password: UserRepo._password);
         users.add(user);
@@ -61,9 +61,9 @@ class LocalUser extends UserRepo {
     final String? localUser = pref.getString(UserRepo._user);
     final String? localRol = pref.getString(UserRepo._rol);
     if (localUser != null && localRol != null) {
-      user = UserModel(name: localUser, uid: '', rol: localRol, password: '');
+      user = UserModel(name: localUser, id: -1, rol: localRol, password: '');
     } else {
-      user = UserModel(name: '', uid: '', rol: '', password: '');
+      user = UserModel(name: '', id: -1, rol: '', password: '');
     }
     return user;
   }

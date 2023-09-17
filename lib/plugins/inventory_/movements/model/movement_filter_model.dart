@@ -23,7 +23,7 @@ class MovementFilterModel {
       InventoryMoveConceptModel(concept: 'TODOS', id: -1, type: -1);
   static const List<InventoryMoveConceptModel> initConceptList = [];
   static const UserModel initUser =
-      UserModel(name: 'TODOS', uid: 'all', rol: '//', password: '//');
+      UserModel(name: 'TODOS', id: -1, rol: '//', password: '//');
   static const List<UserModel> initUsersList = [];
   static TextfieldModel initLimit = TextfieldModel(text: '50', position: 0);
 

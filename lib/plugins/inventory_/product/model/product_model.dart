@@ -1,6 +1,7 @@
 class ProductModel {
   final String code;
   final String description;
+  final int class_;
   final Map<String, dynamic> properties;
 
   static const String propCode = 'code';
@@ -17,26 +18,32 @@ class ProductModel {
     required this.code,
     required this.description,
     required this.properties,
+    required this.class_,
   });
 
   static ProductModel emptyValue() {
-    return ProductModel(code: '', description: '', properties: {
-      propCode: '',
-      propDescription: '',
-      propType: '',
-      propGauge: '',
-      propPieces: '',
-      propWeight: '',
-      propMeasure: '',
-      propPacking: '',
-      propCapacity: '',
-    });
+    return ProductModel(
+        code: '',
+        description: '',
+        properties: {
+          propCode: '',
+          propDescription: '',
+          propType: '',
+          propGauge: '',
+          propPieces: '',
+          propWeight: '',
+          propMeasure: '',
+          propPacking: '',
+          propCapacity: '',
+        },
+        class_: -1);
   }
 
   static ProductModel sortProduct(ProductModel product) {
     ProductModel newProduct;
     Map<String, dynamic> newMap = {};
-    final List<String> propList = List.from(ProductModel.emptyValue().properties.keys);
+    final List<String> propList =
+        List.from(ProductModel.emptyValue().properties.keys);
     for (var element in propList) {
       if (product.properties.containsKey(element)) {
         newMap[element] = product.properties[element];
@@ -46,6 +53,7 @@ class ProductModel {
       code: product.code,
       description: product.description,
       properties: newMap,
+      class_: product.class_,
     );
     return newProduct;
   }

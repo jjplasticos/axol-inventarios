@@ -1,3 +1,4 @@
+import 'package:axol_inventarios/settings/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -42,8 +43,11 @@ class ListviewProductsController extends StatelessWidget {
             finder: state.finder,
             listData: state.products,
           );
+        } else if (state is ErrorState) {
+          return Text(state.error, style: Typo.bodyText5,);
+        } else {
+          return Container();
         }
-        return Container();
       },
     );
   }

@@ -51,9 +51,9 @@ class MovementFiltersCubit extends Cubit<MovementFiltersState> {
           const InventoryMoveConceptModel(concept: 'TODOS', id: -1, type: -1));
     }
     users = await DatabaseUser().fetchAllUsers();
-    if (users.last.uid != 'all') {
+    if (users.last.id != -1) {
       users.add(const UserModel(
-          name: 'TODOS', uid: 'all', rol: '//', password: '//'));
+          name: 'TODOS', id: -1, rol: '//', password: '//'));
     }
     movementFilter = MovementFilterModel(
         warehousesList: warehouses,

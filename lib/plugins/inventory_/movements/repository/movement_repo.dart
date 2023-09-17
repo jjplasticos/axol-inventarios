@@ -61,7 +61,7 @@ class MovementRepo {
     if (moveFilter.concept.id != -1) {
       filters[_concept] = moveFilter.concept.id;
     }
-    if (moveFilter.user.uid != 'all') {
+    if (moveFilter.user.id != -1) {
       filters[_user] = moveFilter.user.name;
     }
     if (moveFilter.currentLimit.text != '50') {

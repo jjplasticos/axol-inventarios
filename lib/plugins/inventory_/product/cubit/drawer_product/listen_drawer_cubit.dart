@@ -12,6 +12,7 @@ class ListenProductCubit extends Cubit<ProductModel> {
     Map<String, dynamic> properties = {};
     String productCode = product.code;
     String descriptionCode = product.description;
+    int class_ = product.class_;
     final List<dynamic> propertiesKeys = List.from(product.properties.keys);
     //print(propertiesKeys.length);
     for (int i = 0; i < propertiesKeys.length; i++) {
@@ -29,7 +30,9 @@ class ListenProductCubit extends Cubit<ProductModel> {
     changedProduct = ProductModel(
         code: productCode,
         description: descriptionCode,
-        properties: properties);
+        properties: properties,
+        class_: class_
+        );
     //print(changedProduct.properties);
     emit(ProductModel.emptyValue());
     emit(changedProduct);

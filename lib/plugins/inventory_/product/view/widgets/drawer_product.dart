@@ -149,6 +149,19 @@ class DrawerProduct extends StatelessWidget {
                         tag: 'capacity',
                         validation: validation,
                       ),
+                      TextfieldProductString(
+                        currentText: textController[8].text,
+                        isFocus: isFocus[8],
+                        label: 'Clasificacion:',
+                        position: 8,
+                        product: product,
+                        tag: 'class',
+                        validation: validation,
+                        inputFormatter: [
+                          FilteringTextInputFormatter.allow(
+                              RegExp(r'^\d*\.?\d*$')),
+                        ],
+                      ),
                     ],
                   )),
                   Row(

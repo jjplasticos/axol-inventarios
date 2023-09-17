@@ -7,6 +7,7 @@ class ProductRepo {
   static const String _code = 'code';
   static const String _properties = 'attributes';
   static const String _description = 'description';
+  static const String _class = 'class';
   final _supabase = Supabase.instance.client;
 
   Future<List<ProductModel>> fetchProductList(List<String> codeList) async {
@@ -25,8 +26,9 @@ class ProductRepo {
       for (var element in productsDB) {
         product = ProductModel(
           code: element[_code],
-          description: element[_description],
+          description: element[_description] ?? '',
           properties: element[_properties],
+          class_: element[_class],
         );
         products.add(product);
       }
@@ -65,8 +67,10 @@ class ProductRepo {
     if (productsDB.length == 1) {
       product = ProductModel(
           code: productsDB.single[_code],
-          description: productsDB.single[_description],
-          properties: productsDB.single[_properties]);
+          description: productsDB.single[_description] ?? '',
+          properties: productsDB.single[_properties],
+          class_: productsDB.single[_class],
+          );
     } else {
       product = null;
     }
@@ -84,8 +88,9 @@ class ProductRepo {
       for (var element in productsDB) {
         product = ProductModel(
           code: element[_code],
-          description: element[_description],
-          properties: element[_properties],
+          description: element[_description] ?? '',
+          properties: element[_properties] ?? ProductModel.emptyValue().properties,
+          class_: element[_class],
         );
         products.add(product);
       }
@@ -101,19 +106,20 @@ class ProductRepo {
         .from(_table)
         .select<List<Map<String, dynamic>>>()
         .or('$_code.ilike.%$finder%,$_description.ilike.%$finder%');
-        //funcionan con jsonb:
-        /*.match({
+    //funcionan con jsonb:
+    /*.match({
           'attributes->>code':'B5067',
           'attributes->>description':'100x150x.230 C/10kg',
-        });*/ 
-        //.or('attributes->>code.eq.B5067');
-        
+        });*/
+    //.or('attributes->>code.eq.B5067');
+
     if (productsDB.isNotEmpty) {
       for (var element in productsDB) {
         product = ProductModel(
           code: element[_code],
-          description: element[_description],
+          description: element[_description] ?? '',
           properties: element[_properties],
+          class_: element[_class],
         );
         products.add(product);
       }
