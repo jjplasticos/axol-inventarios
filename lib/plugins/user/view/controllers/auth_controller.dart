@@ -19,9 +19,9 @@ class AuthController extends StatelessWidget {
           return const SplashView();
         } else if (state is AuthAuthenticatedState) {
           final rol = state.user.rol;
-          if (rol == 'admin') {
+          if (rol == 'vendor') {
             return Container();
-          } else if (rol == 'vendor') {
+          } else if (rol == 'admin') {
             return const HomeView();
           } else {
             return const Text('Error: no entro a ni una pagina.');

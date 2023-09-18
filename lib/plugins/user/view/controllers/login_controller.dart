@@ -18,14 +18,14 @@ class LoginController extends StatelessWidget {
               const SnackBar(content: Text('Usuario o contraseña invalida.')));
         } else if (state is LoginSuccessState) {
           final rol = state.user.rol;
-          if (rol == 'admin') {
+          if (rol == 'vendor') {
             /*Navigator.push(
                 context,
                 MaterialPageRoute(
                     builder: (context) => AdminPage(
                           user: state.user,
                         )));*/
-          } else if (rol == 'vendor') {
+          } else if (rol == 'admin') {
             Navigator.pushReplacement(context,
                 MaterialPageRoute(builder: (context) => const HomeView()));
           }
