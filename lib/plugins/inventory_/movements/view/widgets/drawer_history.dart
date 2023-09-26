@@ -62,7 +62,7 @@ class DrawerHistory extends StatelessWidget {
                               showDatePicker(
                                 context: context,
                                 initialDate: DateTime.now(),
-                                firstDate: DateTime(1900),
+                                firstDate: DateTime(2000),
                                 lastDate: DateTime.now(),
                               ).then((value) {
                                 if (value != null) {

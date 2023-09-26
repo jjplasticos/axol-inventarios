@@ -32,7 +32,8 @@ class ListviewWarehouse extends StatelessWidget {
             ),
           ],
         ),
-        ListView.builder(
+        Expanded(
+            child: ListView.builder(
           shrinkWrap: true,
           itemCount: listData.length,
           itemBuilder: ((context, index) {
@@ -65,7 +66,7 @@ class ListviewWarehouse extends StatelessWidget {
                   ),
                 ));
           }),
-        )
+        ))
       ],
     );
   }
