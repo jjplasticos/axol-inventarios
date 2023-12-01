@@ -30,6 +30,7 @@ class WarehouseView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     const String title = 'View de almacén';
+    final double screenWidth = MediaQuery.of(context).size.width;
 
     return MultiBlocProvider(
       providers: [
@@ -134,22 +135,27 @@ class WarehouseView extends StatelessWidget {
               Expanded(
                   child: Column(
                 children: [
-                  Row(
-                    children: [
-                      const Text(
-                        'Almacén: ',
-                        style: Typo.bodyText5,
-                      ),
-                      Text(
-                        warehouseName,
-                        style: Typo.bodyText5,
-                      ),
-                      const SizedBox(width: 20),
-                      Expanded(
-                        child: TextfieldFinderInventroyrow(
-                            inventoryName: warehouseName),
-                      )
-                    ],
+                  SizedBox(
+                    height: 50,
+                    child: ListView(
+                      scrollDirection: Axis.horizontal,
+                      children: [
+                        const Text(
+                          'Almacén: ',
+                          style: Typo.bodyText5,
+                        ),
+                        Text(
+                          warehouseName,
+                          style: Typo.bodyText5,
+                        ),
+                        const SizedBox(width: 20),
+                        SizedBox(
+                          width: screenWidth > 650 ? screenWidth - 460 : 190,
+                          child: TextfieldFinderInventroyrow(
+                              inventoryName: warehouseName),
+                        )
+                      ],
+                    ),
                   ),
                   ListviewWarehouseController(
                     warehouseName: warehouseName,
