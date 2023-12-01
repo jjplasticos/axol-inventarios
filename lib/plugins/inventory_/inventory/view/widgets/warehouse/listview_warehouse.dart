@@ -18,18 +18,27 @@ class ListviewWarehouse extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Text(
+            Expanded(
+              flex: 1,
+                child: Text(
               'Clave',
               style: Typo.bodyText5,
-            ),
-            Text(
+              textAlign: TextAlign.center,
+            )),
+            Expanded(
+              flex: 1,
+                child: Text(
               'Descripción',
               style: Typo.bodyText5,
-            ),
-            Text(
+              textAlign: TextAlign.center,
+            )),
+            Expanded(
+              flex: 1,
+                child: Text(
               'Stock',
               style: Typo.bodyText5,
-            ),
+              textAlign: TextAlign.center,
+            )),
           ],
         ),
         Expanded(
@@ -50,18 +59,27 @@ class ListviewWarehouse extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      Text(
-                        elementList.product.code,
-                        style: Typo.labelText1,
-                      ),
-                      Text(
-                        elementList.product.properties[descriptrion_],
-                        style: Typo.labelText1,
-                      ),
-                      Text(
-                        elementList.stock.toString(),
-                        style: Typo.labelText1,
-                      )
+                      Expanded(
+                          flex: 1,
+                          child: Text(
+                            elementList.product.code,
+                            style: Typo.labelText1,
+                            textAlign: TextAlign.center,
+                          )),
+                      Expanded(
+                          flex: 1,
+                          child: Text(
+                            elementList.product.properties[descriptrion_],
+                            style: Typo.labelText1,
+                            textAlign: TextAlign.center,
+                          )),
+                      Expanded(
+                          flex: 1,
+                          child: Text(
+                            elementList.stock.toString(),
+                            style: Typo.labelText1,
+                            textAlign: TextAlign.center,
+                          ))
                     ],
                   ),
                 ));
