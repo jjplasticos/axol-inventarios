@@ -16,7 +16,7 @@ class InventoryMovementView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    const String title = 'Menú de almacenes';
+    final String title = 'Movimientos en almacén: $inventoryName';
 
     return MultiBlocProvider(
         providers: [
@@ -27,12 +27,12 @@ class InventoryMovementView extends StatelessWidget {
         ],
         child: Scaffold(
           backgroundColor: ColorPalette.primaryBackground,
-          appBar: const PreferredSize(
-            preferredSize: Size.fromHeight(50),
+          appBar: PreferredSize(
+            preferredSize: const Size.fromHeight(50),
             child: AppBarGlobal(
               title: title,
               iconButton: null,
-              iconActions: [],
+              iconActions: const [],
             ),
           ),
           body: InventoryMovesController(inventoryName: inventoryName),
