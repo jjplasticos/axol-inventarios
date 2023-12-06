@@ -1,6 +1,6 @@
 import 'package:equatable/equatable.dart';
 
-import '../../../../../models/inventory_move_elements_model.dart';
+import '../../model/inventory_move/inventory_move_elements_model.dart';
 import '../../../../../models/user_mdoel.dart';
 
 abstract class InventoryMovesState extends Equatable {

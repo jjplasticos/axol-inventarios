@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../../../../models/inventory_move_elements_model.dart';
+import '../../../model/inventory_move/inventory_move_elements_model.dart';
 import '../../../../../../models/movement_transfer_model.dart';
 import '../../../../../../settings/theme.dart';
 import '../../../cubit/inventory_load/inventory_load_cubit.dart';

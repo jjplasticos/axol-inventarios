@@ -1,6 +1,6 @@
 import 'package:supabase_flutter/supabase_flutter.dart';
 
-import '../../../../models/inventory_move_concept_model.dart';
+import '../model/inventory_move/inventory_move_concept_model.dart';
 
 class InventoryConceptsRepo {
   static const String _table = 'inventory_concepts';

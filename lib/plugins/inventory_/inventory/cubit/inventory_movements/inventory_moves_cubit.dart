@@ -3,9 +3,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:uuid/uuid.dart';
 
 import '../../../../../models/inventory_model.dart';
-import '../../../../../models/inventory_move_concept_model.dart';
-import '../../../../../models/inventory_move_elements_model.dart';
-import '../../../../../models/inventory_move_row_model.dart';
+import '../../model/inventory_move/inventory_move_concept_model.dart';
+import '../../model/inventory_move/inventory_move_elements_model.dart';
+import '../../model/inventory_move/inventory_move_row_model.dart';
 import '../../../movements/model/movement_model.dart';
 import '../../../movements/repository/movement_repo.dart';
 import '../../../../user/repository/user_repo.dart';
