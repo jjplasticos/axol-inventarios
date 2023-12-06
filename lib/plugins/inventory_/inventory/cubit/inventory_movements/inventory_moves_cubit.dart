@@ -168,7 +168,12 @@ class InventoryMovesCubit extends Cubit<InventoryMovesState> {
     weight = list.elementAt(i).weightUnit;
     if (quantity != null) {
       if (productDB != null) {
-        if (quantity > productDB.stock) {
+        if (quantity > productDB.stock &&
+            current.concepts
+                    .where((x) => x.concept == current.concept)
+                    .first
+                    .type ==
+                1) {
           stockExist = true;
         } else {
           stockExist = false;
