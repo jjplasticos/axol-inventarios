@@ -8,4 +8,10 @@ class InventoryMoveConceptModel {
     required this.id,
     required this.type,
   });
+
+  static InventoryMoveConceptModel empty() => const InventoryMoveConceptModel(
+        concept: '',
+        id: -1,
+        type: -1,
+      );
 }

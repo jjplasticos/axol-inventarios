@@ -4,7 +4,7 @@ import 'package:uuid/uuid.dart';
 
 import '../../../../../models/inventory_model.dart';
 import '../../model/inventory_move/inventory_move_concept_model.dart';
-import '../../model/inventory_move/inventory_move_elements_model.dart';
+import '../../model/inventory_move/inventory_move_model.dart';
 import '../../model/inventory_move/inventory_move_row_model.dart';
 import '../../../movements/model/movement_model.dart';
 import '../../../movements/repository/movement_repo.dart';
@@ -24,7 +24,7 @@ class InventoryMovesCubit extends Cubit<InventoryMovesState> {
       weightUnit: 0,
       stockExist: false);
   static final DateTime _time = DateTime.now();
-  final InventoryMoveElementsModel _emptyElements = InventoryMoveElementsModel(
+  final InventoryMoveModel _emptyElements = InventoryMoveModel(
     products: [],
     concept: 'Concept',
     date: _time,
@@ -37,10 +37,10 @@ class InventoryMovesCubit extends Cubit<InventoryMovesState> {
 
   void initialState() {
     emit(EditInitialState());
-    InventoryMoveElementsModel elements;
+    InventoryMoveModel elements;
     List<InventoryMoveRowModel> list = [];
     list.add(_emptyRow);
-    elements = InventoryMoveElementsModel(
+    elements = InventoryMoveModel(
       products: list,
       concept: _emptyElements.concept,
       date: _emptyElements.date,
@@ -53,12 +53,12 @@ class InventoryMovesCubit extends Cubit<InventoryMovesState> {
     emit(EditState(inventoryMoveElements: elements));
   }
 
-  void addRow(InventoryMoveElementsModel current) {
-    InventoryMoveElementsModel elements;
+  void addRow(InventoryMoveModel current) {
+    InventoryMoveModel elements;
     List<InventoryMoveRowModel> list = current.products;
     emit(EditInitialState());
     list.add(_emptyRow);
-    elements = InventoryMoveElementsModel(
+    elements = InventoryMoveModel(
       products: list,
       concept: current.concept,
       date: current.date,
@@ -69,11 +69,11 @@ class InventoryMovesCubit extends Cubit<InventoryMovesState> {
     emit(EditState(inventoryMoveElements: elements));
   }
 
-  void removeRow(InventoryMoveElementsModel current, int index) {
-    InventoryMoveElementsModel elements;
+  void removeRow(InventoryMoveModel current, int index) {
+    InventoryMoveModel elements;
     List<InventoryMoveRowModel> list = current.products;
     list.removeAt(index);
-    elements = InventoryMoveElementsModel(
+    elements = InventoryMoveModel(
       products: list,
       concept: current.concept,
       date: current.date,
@@ -86,9 +86,9 @@ class InventoryMovesCubit extends Cubit<InventoryMovesState> {
   }
 
   Future<void> editCode(int i, String currentCode, String inventoryName,
-      InventoryMoveElementsModel current) async {
+      InventoryMoveModel current) async {
     List<InventoryMoveRowModel> list = current.products;
-    InventoryMoveElementsModel elements;
+    InventoryMoveModel elements;
     Map<String, dynamic> productDB;
     InventoryModel? productStock;
     InventoryMoveRowModel product;
@@ -134,7 +134,7 @@ class InventoryMovesCubit extends Cubit<InventoryMovesState> {
           stockExist: stockExist);
     }
     list[i] = product;
-    elements = InventoryMoveElementsModel(
+    elements = InventoryMoveModel(
       products: list,
       concept: current.concept,
       date: current.date,
@@ -147,9 +147,9 @@ class InventoryMovesCubit extends Cubit<InventoryMovesState> {
   }
 
   Future<void> editQuantity(int i, String currentQuantity, String inventoryName,
-      InventoryMoveElementsModel current) async {
+      InventoryMoveModel current) async {
     List<InventoryMoveRowModel> list = current.products;
-    InventoryMoveElementsModel elements;
+    InventoryMoveModel elements;
     InventoryMoveRowModel product;
     InventoryModel? productDB;
     double weight;
@@ -195,7 +195,7 @@ class InventoryMovesCubit extends Cubit<InventoryMovesState> {
           stockExist: stockExist);
       list[i] = product;
     }
-    elements = InventoryMoveElementsModel(
+    elements = InventoryMoveModel(
       products: list,
       concept: current.concept,
       date: current.date,
@@ -207,17 +207,17 @@ class InventoryMovesCubit extends Cubit<InventoryMovesState> {
     emit(EditState(inventoryMoveElements: elements));
   }
 
-  Future<void> showConcepts(InventoryMoveElementsModel current) async {
+  Future<void> showConcepts(InventoryMoveModel current) async {
     //Muestra los conceptos de inventario guardado en la base de datos.
     //List<String> concepts = [];
     List<InventoryMoveConceptModel> conceptsDB;
-    InventoryMoveElementsModel elements;
+    InventoryMoveModel elements;
 
     conceptsDB = await InventoryConceptsRepo().fetchAllConcepts();
     /*for (var element in conceptsDB) {
       concepts.add(element.concept.toString());
     }*/
-    elements = InventoryMoveElementsModel(
+    elements = InventoryMoveModel(
       products: current.products,
       concept: current.concept,
       date: current.date,
@@ -230,10 +230,10 @@ class InventoryMovesCubit extends Cubit<InventoryMovesState> {
   }
 
   Future<void> selectConcept(
-      String concept, InventoryMoveElementsModel current) async {
-    InventoryMoveElementsModel elements;
+      String concept, InventoryMoveModel current) async {
+    InventoryMoveModel elements;
 
-    elements = InventoryMoveElementsModel(
+    elements = InventoryMoveModel(
       products: current.products,
       concept: concept,
       date: current.date,
@@ -246,10 +246,10 @@ class InventoryMovesCubit extends Cubit<InventoryMovesState> {
   }
 
   Future<void> editDocument(
-      String document, InventoryMoveElementsModel current) async {
-    InventoryMoveElementsModel elements;
+      String document, InventoryMoveModel current) async {
+    InventoryMoveModel elements;
 
-    elements = InventoryMoveElementsModel(
+    elements = InventoryMoveModel(
       products: current.products,
       concept: current.concept,
       date: current.date,
@@ -262,9 +262,9 @@ class InventoryMovesCubit extends Cubit<InventoryMovesState> {
   }
 
   Future<void> saveMovements(
-      InventoryMoveElementsModel current, String inventory1) async {
+      InventoryMoveModel current, String inventory1) async {
     try {
-      InventoryMoveElementsModel currentRedux;
+      InventoryMoveModel currentRedux;
       List<InventoryMoveRowModel> productsRedux = [];
       MovementModel movement;
       List<MovementModel> movements = [];
@@ -308,7 +308,7 @@ class InventoryMovesCubit extends Cubit<InventoryMovesState> {
       }
 
       if (successValidatio == true) {
-        currentRedux = InventoryMoveElementsModel(
+        currentRedux = InventoryMoveModel(
             products: productsRedux,
             concept: current.concept,
             date: current.date,
@@ -387,8 +387,8 @@ class InventoryMovesCubit extends Cubit<InventoryMovesState> {
   }
 
   Future<void> invTransfer(
-      InventoryMoveElementsModel current, String inventory2) async {
-    InventoryMoveElementsModel newElement = InventoryMoveElementsModel(
+      InventoryMoveModel current, String inventory2) async {
+    InventoryMoveModel newElement = InventoryMoveModel(
         products: current.products,
         concept: current.concept,
         date: current.date,

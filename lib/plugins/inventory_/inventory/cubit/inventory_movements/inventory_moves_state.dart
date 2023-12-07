@@ -1,6 +1,6 @@
 import 'package:equatable/equatable.dart';
 
-import '../../model/inventory_move/inventory_move_elements_model.dart';
+import '../../model/inventory_move/inventory_move_model.dart';
 import '../../../../../models/user_mdoel.dart';
 
 abstract class InventoryMovesState extends Equatable {
@@ -13,7 +13,7 @@ class EditInitialState extends InventoryMovesState {
 }
 
 class EditState extends InventoryMovesState {
-  final InventoryMoveElementsModel inventoryMoveElements;
+  final InventoryMoveModel inventoryMoveElements;
   const EditState({required this.inventoryMoveElements});
   @override
   List<Object?> get props => [inventoryMoveElements];
@@ -25,7 +25,7 @@ class SaveInitialState extends InventoryMovesState {
 }
 
 class SaveLoadingState extends InventoryMovesState {
-  final InventoryMoveElementsModel inventoryMoveElements;
+  final InventoryMoveModel inventoryMoveElements;
   const SaveLoadingState({required this.inventoryMoveElements});
   @override
   List<Object?> get props => [inventoryMoveElements];
@@ -39,7 +39,7 @@ class SaveLoadedState extends InventoryMovesState {
 }
 
 class SaveErrorState extends InventoryMovesState {
-  final InventoryMoveElementsModel inventoryMoveElements;
+  final InventoryMoveModel inventoryMoveElements;
   final String errorMessage;
   const SaveErrorState(
       {required this.inventoryMoveElements, required this.errorMessage});

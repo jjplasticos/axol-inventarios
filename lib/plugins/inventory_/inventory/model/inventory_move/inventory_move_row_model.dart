@@ -15,4 +15,14 @@ class InventoryMoveRowModel {
       required this.weightTotal,
       required this.concept,
       required this.stockExist});
+
+  static InventoryMoveRowModel empty() => const InventoryMoveRowModel(
+        code: '',
+        description: '',
+        quantity: '',
+        weightUnit: 0,
+        weightTotal: 0,
+        concept: '',
+        stockExist: true,
+      );
 }
