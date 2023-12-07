@@ -18,12 +18,12 @@ class InventoryMoveElementsModel {
     required this.invTransfer,
   });
 
-  static InventoryMoveElementsModel empty() => InventoryMoveElementsModel(
+  /*static InventoryMoveElementsModel empty() => InventoryMoveElementsModel(
         products: products,
         concept: concept,
         date: date,
         document: document,
         concepts: concepts,
         invTransfer: invTransfer,
-      );
+      );*/
 }
