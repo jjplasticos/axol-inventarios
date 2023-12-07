@@ -13,7 +13,7 @@ class MovesFormCubit extends Cubit<InventoryMoveModel>{
     emit(form);
   }
 
-  void selectConcept(String concept) {
+  void setConcept(String concept) {
     InventoryMoveModel form = state;
     form.concept = concept;
     emit(form);
