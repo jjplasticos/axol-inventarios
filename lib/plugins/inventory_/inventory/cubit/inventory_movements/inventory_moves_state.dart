@@ -7,14 +7,14 @@ abstract class InventoryMovesState extends Equatable {
   const InventoryMovesState();
 }
 
-class EditInitialState extends InventoryMovesState {
+class InitialState extends InventoryMovesState {
   @override
   List<Object?> get props => [];
 }
 
-class EditState extends InventoryMovesState {
+class LoadedState extends InventoryMovesState {
   final InventoryMoveModel inventoryMoveElements;
-  const EditState({required this.inventoryMoveElements});
+  const LoadedState({required this.inventoryMoveElements});
   @override
   List<Object?> get props => [inventoryMoveElements];
 }

@@ -23,6 +23,6 @@ class InventoryMoveRowModel {
         weightUnit: 0,
         weightTotal: 0,
         concept: '',
-        stockExist: true,
+        stockExist: false,
       );
 }

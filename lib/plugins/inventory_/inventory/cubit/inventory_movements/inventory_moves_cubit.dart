@@ -36,7 +36,7 @@ class InventoryMovesCubit extends Cubit<InventoryMovesState> {
   InventoryMovesCubit() : super(SaveInitialState());
 
   void initialState() {
-    emit(EditInitialState());
+    emit(InitialState());
     InventoryMoveModel elements;
     List<InventoryMoveRowModel> list = [];
     list.add(_emptyRow);
@@ -48,15 +48,21 @@ class InventoryMovesCubit extends Cubit<InventoryMovesState> {
       concepts: _emptyElements.concepts,
       invTransfer: _emptyElements.invTransfer,
     );
-    emit(EditState(inventoryMoveElements: elements));
+    emit(LoadedState(inventoryMoveElements: elements));
     showConcepts(elements);
-    emit(EditState(inventoryMoveElements: elements));
+    emit(LoadedState(inventoryMoveElements: elements));
   }
 
-  void addRow(InventoryMoveModel current) {
+  void load(InventoryMoveModel form) {
+    emit(InitialState());
+    emit(LoadedState(inventoryMoveElements: form));
+  }
+
+  //Obsoleto
+  /*void addRow(InventoryMoveModel current) {
     InventoryMoveModel elements;
     List<InventoryMoveRowModel> list = current.products;
-    emit(EditInitialState());
+    emit(InitialState());
     list.add(_emptyRow);
     elements = InventoryMoveModel(
       products: list,
@@ -66,9 +72,9 @@ class InventoryMovesCubit extends Cubit<InventoryMovesState> {
       concepts: current.concepts,
       invTransfer: current.invTransfer,
     );
-    emit(EditState(inventoryMoveElements: elements));
-  }
-
+    emit(LoadedState(inventoryMoveElements: elements));
+  }*/
+  
   void removeRow(InventoryMoveModel current, int index) {
     InventoryMoveModel elements;
     List<InventoryMoveRowModel> list = current.products;
@@ -81,8 +87,8 @@ class InventoryMovesCubit extends Cubit<InventoryMovesState> {
       concepts: current.concepts,
       invTransfer: current.invTransfer,
     );
-    emit(EditInitialState());
-    emit(EditState(inventoryMoveElements: elements));
+    emit(InitialState());
+    emit(LoadedState(inventoryMoveElements: elements));
   }
 
   Future<void> editCode(int i, String currentCode, String inventoryName,
@@ -142,8 +148,8 @@ class InventoryMovesCubit extends Cubit<InventoryMovesState> {
       concepts: current.concepts,
       invTransfer: current.invTransfer,
     );
-    emit(EditInitialState());
-    emit(EditState(inventoryMoveElements: elements));
+    emit(InitialState());
+    emit(LoadedState(inventoryMoveElements: elements));
   }
 
   Future<void> editQuantity(int i, String currentQuantity, String inventoryName,
@@ -203,8 +209,8 @@ class InventoryMovesCubit extends Cubit<InventoryMovesState> {
       concepts: current.concepts,
       invTransfer: current.invTransfer,
     );
-    emit(EditInitialState());
-    emit(EditState(inventoryMoveElements: elements));
+    emit(InitialState());
+    emit(LoadedState(inventoryMoveElements: elements));
   }
 
   Future<void> showConcepts(InventoryMoveModel current) async {
@@ -225,8 +231,8 @@ class InventoryMovesCubit extends Cubit<InventoryMovesState> {
       concepts: conceptsDB,
       invTransfer: current.invTransfer,
     );
-    emit(EditInitialState());
-    emit(EditState(inventoryMoveElements: elements));
+    emit(InitialState());
+    emit(LoadedState(inventoryMoveElements: elements));
   }
 
   Future<void> selectConcept(
@@ -241,8 +247,8 @@ class InventoryMovesCubit extends Cubit<InventoryMovesState> {
       concepts: current.concepts,
       invTransfer: current.invTransfer,
     );
-    emit(EditInitialState());
-    emit(EditState(inventoryMoveElements: elements));
+    emit(InitialState());
+    emit(LoadedState(inventoryMoveElements: elements));
   }
 
   Future<void> editDocument(
@@ -257,8 +263,8 @@ class InventoryMovesCubit extends Cubit<InventoryMovesState> {
       concepts: current.concepts,
       invTransfer: current.invTransfer,
     );
-    emit(EditInitialState());
-    emit(EditState(inventoryMoveElements: elements));
+    emit(InitialState());
+    emit(LoadedState(inventoryMoveElements: elements));
   }
 
   Future<void> saveMovements(
@@ -395,7 +401,7 @@ class InventoryMovesCubit extends Cubit<InventoryMovesState> {
         document: current.document,
         concepts: current.concepts,
         invTransfer: inventory2);
-    emit(EditInitialState());
-    emit(EditState(inventoryMoveElements: newElement));
+    emit(InitialState());
+    emit(LoadedState(inventoryMoveElements: newElement));
   }
 }

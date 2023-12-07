@@ -45,7 +45,7 @@ class InventoryMovesController extends StatelessWidget {
         }
       },
       builder: (context, state) {
-        if (state is EditState) {
+        if (state is LoadedState) {
           return PageInvMov(
             inventoryName: inventoryName,
             inventoryMoveElements: state.inventoryMoveElements,

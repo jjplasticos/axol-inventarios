@@ -1,3 +1,4 @@
+import 'package:axol_inventarios/plugins/inventory_/inventory/cubit/inventory_movements/moves_form_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -24,6 +25,7 @@ class InventoryMovementView extends StatelessWidget {
           BlocProvider(create: (_) => InventoryLoadCubit()),
           BlocProvider(create: (_) => TextfieldFinderInvrowCubit()),
           BlocProvider(create: (_) => TransferCubit()),
+          BlocProvider(create: (_) => MovesFormCubit()),
         ],
         child: Scaffold(
           backgroundColor: ColorPalette.primaryBackground,
