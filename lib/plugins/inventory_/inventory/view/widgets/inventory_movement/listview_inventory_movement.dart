@@ -13,6 +13,7 @@ import '../../../cubit/transfer_cubit.dart';
 import '../../../cubit/textfield_finder_invrow_cubit.dart';
 import '../../controllers/opendetails_productstock_controller.dart';
 import 'dialog_serch_product.dart';
+import 'package:shimmer/shimmer.dart';
 
 typedef Inm = InventoryMoveModel;
 
@@ -79,14 +80,16 @@ class ListviewInventoryMovement extends StatelessWidget {
                                 },
                               );
                             } else {
-                              return const SizedBox(
-                                width: 100,
-                                child: Padding(
-                                  padding: EdgeInsets.symmetric(vertical: 8),
-                                  child: LinearProgressIndicator(), //seguir aquí
+                              return Shimmer.fromColors(
+                                baseColor: Colors.black12,
+                                highlightColor: Colors.black26,
+                                child: Container(
+                                  width: 200,
+                                  height: 10,
+                                  color: Colors.white,
                                 ),
                               );
-                            }
+                            } //seguir aquí
                           },
                         ),
                         const SizedBox(width: 8),
