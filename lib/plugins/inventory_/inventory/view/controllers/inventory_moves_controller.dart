@@ -9,7 +9,7 @@ import '../../model/inventory_move/inventory_move_model.dart';
 import '../views/warehouse_view.dart';
 import '../widgets/inventory_movement/page_invmov.dart';
 
-class InventoryMovesController extends StatelessWidget {
+/*class InventoryMovesController extends StatelessWidget {
   final String inventoryName;
 
   const InventoryMovesController({super.key, required this.inventoryName});
@@ -68,4 +68,4 @@ class InventoryMovesController extends StatelessWidget {
       },
     );
   }
-}
+}*/

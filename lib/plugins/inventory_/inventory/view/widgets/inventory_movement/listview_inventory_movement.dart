@@ -49,7 +49,7 @@ class ListviewInventoryMovement extends StatelessWidget {
                         //LinearProgressIndicator(),
                         Builder(
                           builder: (context) {
-                            if (form.states[Inm.tConcept] == Inm.sLoaded) {
+                            if (form.states[Inm.tConcepts] == Inm.sLoaded) {
                               return DropdownButton<String>(
                                 value: elementsData.concepts
                                         .map((element) {

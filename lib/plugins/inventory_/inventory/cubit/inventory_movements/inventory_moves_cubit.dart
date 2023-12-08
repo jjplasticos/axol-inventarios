@@ -17,13 +17,21 @@ import 'inventory_moves_state.dart';
 class InventoryMovesCubit extends Cubit<InventoryMovesState> {
   InventoryMovesCubit() : super(SaveInitialState());
 
-  void initLoad() {
+  Future<void> initLoad() async {
     emit(InitialState());
     InventoryMoveModel form = InventoryMoveModel.empty();
     List<InventoryMoveRowModel> list = [];
+
+    form.states[InventoryMoveModel.tConcepts] = InventoryMoveModel.sLoaded;
     list.add(InventoryMoveRowModel.empty());
     form.products = list;
     emit(LoadedState(inventoryMoveElements: form));
+    print('flag 1: ${form.states[InventoryMoveModel.tConcepts]}');
+    form.concepts = await InventoryConceptsRepo().fetchAllConcepts();
+    form.states[InventoryMoveModel.tConcepts] = InventoryMoveModel.sLoaded;
+    emit(InitialState());
+    emit(LoadedState(inventoryMoveElements: form));
+    print('flag 2: ${form.states[InventoryMoveModel.tConcepts]}');
   }
 
   void load(InventoryMoveModel form) {
