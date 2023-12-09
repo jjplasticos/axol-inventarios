@@ -1,4 +1,5 @@
 import 'package:axol_inventarios/models/user_mdoel.dart';
+import 'package:axol_inventarios/plugins/inventory_/inventory/cubit/inventory_movements/moves_form_cubit.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:uuid/uuid.dart';
 
@@ -22,21 +23,19 @@ class InventoryMovesCubit extends Cubit<InventoryMovesState> {
     InventoryMoveModel form = InventoryMoveModel.empty();
     List<InventoryMoveRowModel> list = [];
 
-    form.states[InventoryMoveModel.tConcepts] = InventoryMoveModel.sLoaded;
+    form.states[InventoryMoveModel.tConcepts] = InventoryMoveModel.sLoading;
     list.add(InventoryMoveRowModel.empty());
     form.products = list;
-    emit(LoadedState(inventoryMoveElements: form));
-    print('flag 1: ${form.states[InventoryMoveModel.tConcepts]}');
+    emit(LoadedState(form: form));
     form.concepts = await InventoryConceptsRepo().fetchAllConcepts();
     form.states[InventoryMoveModel.tConcepts] = InventoryMoveModel.sLoaded;
     emit(InitialState());
-    emit(LoadedState(inventoryMoveElements: form));
-    print('flag 2: ${form.states[InventoryMoveModel.tConcepts]}');
+    emit(LoadedState(form: form));
   }
 
   void load(InventoryMoveModel form) {
     emit(InitialState());
-    emit(LoadedState(inventoryMoveElements: form));
+    emit(LoadedState(form: form));
   }
 
   //Obsoleto
@@ -131,7 +130,7 @@ class InventoryMovesCubit extends Cubit<InventoryMovesState> {
       states: {}
     );
     emit(InitialState());
-    emit(LoadedState(inventoryMoveElements: elements));
+    emit(LoadedState(form: elements));
   }
 
   Future<void> editQuantity(int i, String currentQuantity, String inventoryName,
@@ -193,7 +192,7 @@ class InventoryMovesCubit extends Cubit<InventoryMovesState> {
       states: {}
     );
     emit(InitialState());
-    emit(LoadedState(inventoryMoveElements: elements));
+    emit(LoadedState(form: elements));
   }
 
   Future<void> showConcepts(InventoryMoveModel current) async {
@@ -216,10 +215,10 @@ class InventoryMovesCubit extends Cubit<InventoryMovesState> {
       states: {}
     );
     emit(InitialState());
-    emit(LoadedState(inventoryMoveElements: elements));
+    emit(LoadedState(form: elements));
   }
 
-  Future<void> selectConcept(
+  /*Future<void> selectConcept(
       String concept, InventoryMoveModel current) async {
     InventoryMoveModel elements;
 
@@ -233,8 +232,8 @@ class InventoryMovesCubit extends Cubit<InventoryMovesState> {
       states: {}
     );
     emit(InitialState());
-    emit(LoadedState(inventoryMoveElements: elements));
-  }
+    emit(LoadedState(form: elements));
+  }*/
 
   Future<void> editDocument(
       String document, InventoryMoveModel current) async {
@@ -250,7 +249,7 @@ class InventoryMovesCubit extends Cubit<InventoryMovesState> {
       states: {}
     );
     emit(InitialState());
-    emit(LoadedState(inventoryMoveElements: elements));
+    emit(LoadedState(form: elements));
   }
 
   Future<void> saveMovements(
@@ -392,6 +391,6 @@ class InventoryMovesCubit extends Cubit<InventoryMovesState> {
         states: {}
         );
     emit(InitialState());
-    emit(LoadedState(inventoryMoveElements: newElement));
+    emit(LoadedState(form: newElement));
   }
 }

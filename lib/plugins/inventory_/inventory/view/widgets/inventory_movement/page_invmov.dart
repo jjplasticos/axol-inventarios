@@ -11,13 +11,11 @@ import '../../../model/inventory_move/inventory_move_row_model.dart';
 import 'listview_inventory_movement.dart';
 
 class PageInvMov extends StatelessWidget {
-  final InventoryMoveModel inventoryMoveElements;
   final String inventoryName;
 
   const PageInvMov(
       {super.key,
-      required this.inventoryName,
-      required this.inventoryMoveElements});
+      required this.inventoryName});
 
   @override
   Widget build(BuildContext context) {
@@ -41,7 +39,6 @@ class PageInvMov extends StatelessWidget {
         Expanded(
           child: ListviewInventoryMovement(
             inventoryName: inventoryName,
-            elementsData: inventoryMoveElements,
           ),
         ),
         Toolbar(
@@ -63,7 +60,7 @@ class PageInvMov extends StatelessWidget {
               action: () {
                 context
                     .read<InventoryMovesCubit>()
-                    .saveMovements(inventoryMoveElements, inventoryName);
+                    .saveMovements(form, inventoryName);
               },
             )
           ],

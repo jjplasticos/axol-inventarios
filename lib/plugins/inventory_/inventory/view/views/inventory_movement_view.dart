@@ -1,4 +1,5 @@
 import 'package:axol_inventarios/plugins/inventory_/inventory/cubit/inventory_movements/moves_form_cubit.dart';
+import 'package:axol_inventarios/plugins/inventory_/inventory/model/inventory_move/inventory_move_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -73,16 +74,15 @@ class InventoryMovementView extends StatelessWidget {
               },
               builder: (context, state) {
                 if (state is LoadedState) {
+                  context.read<MovesFormCubit>().setForm(state.form);
                   return PageInvMov(
-                    inventoryName: inventoryName,
-                    inventoryMoveElements: state.inventoryMoveElements,
+                    inventoryName: inventoryName
                   );
                 } else if (state is SaveLoadingState) {
                   return const LinearProgressIndicator();
                 } else if (state is SaveErrorState) {
                   return PageInvMov(
-                    inventoryName: inventoryName,
-                    inventoryMoveElements: state.inventoryMoveElements,
+                    inventoryName: inventoryName
                   );
                 } else {
                   return Text(

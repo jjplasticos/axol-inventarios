@@ -18,11 +18,9 @@ import 'package:shimmer/shimmer.dart';
 typedef Inm = InventoryMoveModel;
 
 class ListviewInventoryMovement extends StatelessWidget {
-  final InventoryMoveModel elementsData;
   final String inventoryName;
 
-  const ListviewInventoryMovement(
-      {super.key, required this.elementsData, required this.inventoryName});
+  const ListviewInventoryMovement({super.key, required this.inventoryName});
 
   @override
   Widget build(BuildContext context) {
@@ -42,33 +40,72 @@ class ListviewInventoryMovement extends StatelessWidget {
                 height: 30,
                 child: BlocBuilder<TransferCubit, MovementTransferModel>(
                   builder: (context, state) {
-                    return ListView(
-                      padding: const EdgeInsets.symmetric(horizontal: 8),
-                      scrollDirection: Axis.horizontal,
-                      children: [
-                        //LinearProgressIndicator(),
-                        Builder(
+                    if (form.states[Inm.tConcepts] == Inm.sLoaded) {
+                      return ListView(
+                        padding: const EdgeInsets.symmetric(horizontal: 8),
+                        scrollDirection: Axis.horizontal,
+                        children: [
+                          //LinearProgressIndicator(),
+                          DropdownButton<String>(
+                            value: form.concepts
+                                    .map((element) {
+                                      return element.concept;
+                                    })
+                                    .toList()
+                                    .contains(form.concept)
+                                ? form.concept
+                                : null,
+                            items: form.concepts.map((element) {
+                              return DropdownMenuItem(
+                                  value: element.concept,
+                                  child: Text(element.concept));
+                            }).toList(),
+                            onChanged: (value) {
+                              context
+                                  .read<MovesFormCubit>()
+                                  .setConcept(value.toString());
+                              form = context.read<MovesFormCubit>().state;
+                              context.read<InventoryMovesCubit>().load(form);
+                              /*context
+                                      .read<InventoryMovesCubit>()
+                                      .selectConcept(
+                                          value.toString(), form);*/
+                              if (value == 'Salida por traspaso') {
+                                context.read<TransferCubit>().change(
+                                    true, inventoryName, state.inventory2, 1);
+                              } else {
+                                context
+                                    .read<TransferCubit>()
+                                    .change(false, '', '', 0);
+                              }
+                            },
+                          ),
+                          /*Builder(
                           builder: (context) {
+                            print('Flag 3: ${form.states[Inm.tConcepts]}');
                             if (form.states[Inm.tConcepts] == Inm.sLoaded) {
                               return DropdownButton<String>(
-                                value: elementsData.concepts
+                                value: form.concepts
                                         .map((element) {
                                           return element.concept;
                                         })
                                         .toList()
-                                        .contains(elementsData.concept)
-                                    ? elementsData.concept
+                                        .contains(form.concept)
+                                    ? form.concept
                                     : null,
-                                items: elementsData.concepts.map((element) {
+                                items: form.concepts.map((element) {
                                   return DropdownMenuItem(
                                       value: element.concept,
                                       child: Text(element.concept));
                                 }).toList(),
                                 onChanged: (value) {
-                                  context
+                                  context.read<MovesFormCubit>().setConcept(value.toString());
+                                  form = context.read<MovesFormCubit>().state;
+                                  context.read<InventoryMovesCubit>().load(form);
+                                  /*context
                                       .read<InventoryMovesCubit>()
                                       .selectConcept(
-                                          value.toString(), elementsData);
+                                          value.toString(), form);*/
                                   if (value == 'Salida por traspaso') {
                                     context.read<TransferCubit>().change(true,
                                         inventoryName, state.inventory2, 1);
@@ -89,59 +126,105 @@ class ListviewInventoryMovement extends StatelessWidget {
                                   color: Colors.white,
                                 ),
                               );
-                            } //seguir aquí
+                            }
                           },
-                        ),
-                        const SizedBox(width: 8),
-                        Visibility(
-                            visible: context
-                                .read<TransferCubit>()
-                                .state
-                                .inventories
-                                .isNotEmpty,
-                            child: DropdownButton(
-                              value: state.inventories
-                                      .map((e) {
-                                        return e;
-                                      })
-                                      .toList()
-                                      .contains(state.inventory2)
-                                  ? state.inventory2
-                                  : null,
-                              items: state.inventories.map((e) {
-                                return DropdownMenuItem(
-                                    value: e, child: Text(e));
-                              }).toList(),
+                        ),*/
+                          const SizedBox(width: 8),
+                          Visibility(
+                              visible: context
+                                  .read<TransferCubit>()
+                                  .state
+                                  .inventories
+                                  .isNotEmpty,
+                              child: DropdownButton(
+                                value: state.inventories
+                                        .map((e) {
+                                          return e;
+                                        })
+                                        .toList()
+                                        .contains(state.inventory2)
+                                    ? state.inventory2
+                                    : null,
+                                items: state.inventories.map((e) {
+                                  return DropdownMenuItem(
+                                      value: e, child: Text(e));
+                                }).toList(),
+                                onChanged: (value) {
+                                  context.read<TransferCubit>().change(true,
+                                      state.inventory1, value!, state.concept);
+                                  context
+                                      .read<InventoryMovesCubit>()
+                                      .invTransfer(form, value);
+                                },
+                              )),
+                          const SizedBox(width: 8),
+                          SizedBox(
+                            width: 200,
+                            child: TextField(
+                              textAlignVertical: TextAlignVertical.center,
+                              decoration: const InputDecoration(
+                                isDense: true,
+                                hintText: 'Documento',
+                              ),
                               onChanged: (value) {
-                                context.read<TransferCubit>().change(true,
-                                    state.inventory1, value!, state.concept);
                                 context
                                     .read<InventoryMovesCubit>()
-                                    .invTransfer(elementsData, value);
+                                    .editDocument(value, form);
                               },
-                            )),
-                        const SizedBox(width: 8),
-                        SizedBox(
-                          width: 200,
-                          child: TextField(
-                            textAlignVertical: TextAlignVertical.center,
-                            decoration: const InputDecoration(
-                              isDense: true,
-                              hintText: 'Documento',
                             ),
-                            onChanged: (value) {
-                              context
-                                  .read<InventoryMovesCubit>()
-                                  .editDocument(value, elementsData);
-                            },
                           ),
-                        ),
-                        const SizedBox(width: 8),
-                        Center(
-                            child: Text(
-                                '${elementsData.date.day}/${elementsData.date.month}/${elementsData.date.year}')),
-                      ],
-                    );
+                          const SizedBox(width: 8),
+                          Center(
+                              child: Text(
+                                  '${form.date.day}/${form.date.month}/${form.date.year}')),
+                        ],
+                      );
+                    } else {
+                      return ListView(
+                        scrollDirection: Axis.horizontal,
+                        children: [
+                          Shimmer.fromColors(
+                            baseColor: Colors.black12,
+                            highlightColor: Colors.black26,
+                            child: Container(
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(16),
+                                color: Colors.white,
+                              ),
+                              margin: const EdgeInsets.symmetric(
+                                  vertical: 8, horizontal: 4),
+                              width: 200,
+                            ),
+                          ),
+                          Shimmer.fromColors(
+                            baseColor: Colors.black12,
+                            highlightColor: Colors.black26,
+                            child: Container(
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(16),
+                                color: Colors.white,
+                              ),
+                              margin: const EdgeInsets.symmetric(
+                                  vertical: 8, horizontal: 4),
+                              width: 200,
+                            ),
+                          ),
+                          Shimmer.fromColors(
+                            baseColor: Colors.black12,
+                            highlightColor: Colors.black26,
+                            child: Container(
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(16),
+                                color: Colors.white,
+                              ),
+                              margin: const EdgeInsets.symmetric(
+                                  vertical: 8, horizontal: 4),
+                              width: 200,
+                            ),
+                          ),
+                        ],
+                      );
+                    }
                   },
                 ),
               ),
@@ -201,10 +284,10 @@ class ListviewInventoryMovement extends StatelessWidget {
               Expanded(
                   child: ListView.builder(
                 shrinkWrap: true,
-                itemCount: elementsData.products.length,
+                itemCount: form.products.length,
                 itemBuilder: ((context, index) {
                   TextEditingController txtCode = TextEditingController();
-                  final elementList = elementsData.products[index];
+                  final elementList = form.products[index];
                   return Container(
                     height: 30,
                     width: double.infinity,
@@ -234,7 +317,7 @@ class ListviewInventoryMovement extends StatelessWidget {
                                       context
                                           .read<InventoryMovesCubit>()
                                           .editCode(index, value, inventoryName,
-                                              elementsData);
+                                              form);
                                     },
                                     style: Typo.labelText1,
                                   ),
@@ -265,7 +348,7 @@ class ListviewInventoryMovement extends StatelessWidget {
                                         context
                                             .read<InventoryMovesCubit>()
                                             .editCode(index, value,
-                                                inventoryName, elementsData);
+                                                inventoryName, form);
                                         txtCode.text = value.toString();
                                       });
                                     },
@@ -307,7 +390,7 @@ class ListviewInventoryMovement extends StatelessWidget {
                           child: TextField(
                             onSubmitted: (value) {
                               context.read<InventoryMovesCubit>().editQuantity(
-                                  index, value, inventoryName, elementsData);
+                                  index, value, inventoryName, form);
                             },
                             textAlign: TextAlign.center,
                             textAlignVertical: TextAlignVertical.center,

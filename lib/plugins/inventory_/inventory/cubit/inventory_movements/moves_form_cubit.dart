@@ -42,4 +42,16 @@ class MovesFormCubit extends Cubit<InventoryMoveModel>{
     form.invTransfer = setInvTransfer;
     emit(form);
   }
+
+  void setStatus(Map<String, String> states) {
+    InventoryMoveModel form = state;
+    form.states = states;
+    emit(form);
+  }
+
+  void setForm(InventoryMoveModel form) {
+    InventoryMoveModel newForm = state;
+    newForm = form;
+    emit(newForm);
+  }
 }

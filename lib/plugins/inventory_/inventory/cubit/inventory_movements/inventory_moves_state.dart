@@ -13,10 +13,10 @@ class InitialState extends InventoryMovesState {
 }
 
 class LoadedState extends InventoryMovesState {
-  final InventoryMoveModel inventoryMoveElements;
-  const LoadedState({required this.inventoryMoveElements});
+  final InventoryMoveModel form;
+  const LoadedState({required this.form});
   @override
-  List<Object?> get props => [inventoryMoveElements];
+  List<Object?> get props => [form];
 }
 
 class SaveInitialState extends InventoryMovesState {
