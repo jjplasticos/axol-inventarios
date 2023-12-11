@@ -45,49 +45,49 @@ class DrawerDetailsProduct extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           const Text('Tipo:'),
-                          Text(product.properties[ProductModel.propType]),
+                          Text(product.properties![ProductModel.tType]),
                         ],
                       ),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           const Text('Calibre:'),
-                          Text(product.properties[ProductModel.propGauge]),
+                          Text(product.properties![ProductModel.tGauge]),
                         ],
                       ),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           const Text('Piezas:'),
-                          Text(product.properties[ProductModel.propPieces]),
+                          Text(product.properties![ProductModel.tPieces]),
                         ],
                       ),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           const Text('Peso:'),
-                          Text(product.properties[ProductModel.propWeight]),
+                          Text(product.properties![ProductModel.tWeight]),
                         ],
                       ),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           const Text('Medida:'),
-                          Text(product.properties[ProductModel.propMeasure]),
+                          Text(product.properties![ProductModel.tMeasure]),
                         ],
                       ),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           const Text('Empaque:'),
-                          Text(product.properties[ProductModel.propPacking]),
+                          Text(product.properties![ProductModel.tPacking]),
                         ],
                       ),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           const Text('Capacidad:'),
-                          Text(product.properties[ProductModel.propCapacity]),
+                          Text(product.properties![ProductModel.tCapacity]),
                         ],
                       ),
                     ],

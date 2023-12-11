@@ -32,21 +32,21 @@ class DialogProductInfo extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
                         const Text('Clave: '),
-                        Text(inventoryRow.product.properties[code_].toString())
+                        Text(inventoryRow.product.properties![code_].toString())
                       ],
                     ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
                         const Text('Tipo: '),
-                        Text(inventoryRow.product.properties[type_].toString())
+                        Text(inventoryRow.product.properties![type_].toString())
                       ],
                     ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
                         const Text('Calibre: '),
-                        Text(inventoryRow.product.properties[gauge_].toString())
+                        Text(inventoryRow.product.properties![gauge_].toString())
                       ],
                     ),
                     Row(
@@ -54,21 +54,21 @@ class DialogProductInfo extends StatelessWidget {
                       children: [
                         const Text('Piezas: '),
                         Text(
-                            inventoryRow.product.properties[pieces_].toString())
+                            inventoryRow.product.properties![pieces_].toString())
                       ],
                     ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
                         const Text('Peso: '),
-                        Text('${inventoryRow.product.properties[weight_]} KG')
+                        Text('${inventoryRow.product.properties![weight_]} KG')
                       ],
                     ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
                         const Text('Medida: '),
-                        Text(inventoryRow.product.properties[measure_]
+                        Text(inventoryRow.product.properties![measure_]
                             .toString())
                       ],
                     ),
@@ -76,7 +76,7 @@ class DialogProductInfo extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
                         const Text('Empaque: '),
-                        Text(inventoryRow.product.properties[packing_]
+                        Text(inventoryRow.product.properties![packing_]
                             .toString())
                       ],
                     ),
@@ -85,14 +85,14 @@ class DialogProductInfo extends StatelessWidget {
                       children: [
                         const Text('Capacidad: '),
                         Text(
-                            '${inventoryRow.product.properties[capacity_]} GAL')
+                            '${inventoryRow.product.properties![capacity_]} GAL')
                       ],
                     ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
                         const Text('Descripción: '),
-                        Text(inventoryRow.product.properties[descriptrion_]
+                        Text(inventoryRow.product.properties![descriptrion_]
                             .toString())
                       ],
                     ),

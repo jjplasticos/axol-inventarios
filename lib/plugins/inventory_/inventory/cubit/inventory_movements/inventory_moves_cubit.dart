@@ -1,9 +1,12 @@
+import 'package:axol_inventarios/models/inventory_row_model.dart';
 import 'package:axol_inventarios/models/user_mdoel.dart';
 import 'package:axol_inventarios/plugins/inventory_/inventory/cubit/inventory_movements/moves_form_cubit.dart';
+import 'package:axol_inventarios/plugins/inventory_/inventory/model/warehouse_model.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:uuid/uuid.dart';
 
 import '../../../../../models/inventory_model.dart';
+import '../../../product/model/product_model.dart';
 import '../../model/inventory_move/inventory_move_concept_model.dart';
 import '../../model/inventory_move/inventory_move_model.dart';
 import '../../model/inventory_move/inventory_move_row_model.dart';
@@ -54,7 +57,7 @@ class InventoryMovesCubit extends Cubit<InventoryMovesState> {
     );
     emit(LoadedState(inventoryMoveElements: elements));
   }*/
-  
+
   /*void removeRow(InventoryMoveModel current, int index) {
     InventoryMoveModel elements;
     List<InventoryMoveRowModel> list = current.products;
@@ -71,11 +74,72 @@ class InventoryMovesCubit extends Cubit<InventoryMovesState> {
     emit(LoadedState(inventoryMoveElements: elements));
   }*/
 
+  Future<void> enterCode(int index, InventoryMoveModel form, String inputCode,
+      WarehouseModel warehouse) async {
+    emit(InitialState());
+    final double quantity;
+    final ProductModel? productDB;
+    final InventoryModel? inventoryStock;
+    final bool stockExist;
+    InventoryMoveRowModel moveRow = InventoryMoveRowModel();
+    InventoryMoveModel updateForm = form;
+
+    moveRow.code = 'code';
+    
+
+    updateForm.products[index].states = {moveRow.tDescription:}
+    //Buscar currentCode en la base de datos y obtiene los datos ncesarios.
+    quantity = form.products.elementAt(index).quantity;
+    productDB = await ProductRepo().fetchProduct(inputCode);
+    inventoryStock =
+        await InventoryRepo().fetchRowByCode(inputCode, warehouse.name);
+    //Valida si hay stock suficiente.
+    if (inventoryStock != null && quantity > inventoryStock.stock) {
+      stockExist = true;
+    } else {
+      stockExist = false;
+    }
+
+    //Sí el producto existe, lo agrega a la lista de movimientos que está por
+    // emitir.
+    if (productDB != null && inventoryStock != null) {
+      moveRow = InventoryMoveRowModel(
+          code: form.products[index].code,
+          description: productDB.description,
+          quantity: inventoryStock.stock,
+          weightUnit: productDB.weight!,
+          weightTotal: productDB.weight! * quantity,
+          concept: form.concept,
+          stockExist: stockExist,
+          states: {});
+    } else {
+      moveRow = InventoryMoveRowModel(
+          code: inputCode, //productDB['code'].toString(),
+          description: 'Producto no existent',
+          quantity: form.products[index].quantity,
+          weightUnit: 0,
+          weightTotal: 0,
+          concept: form.concept,
+          stockExist: stockExist,
+          states: {});
+    }
+    list[i] = product;
+    elements = InventoryMoveModel(
+      products: list,
+      concept: current.concept,
+      date: current.date,
+      document: current.document,
+      concepts: current.concepts,
+      invTransfer: current.invTransfer,
+      states: {},
+    );
+  }
+
   Future<void> editCode(int i, String currentCode, String inventoryName,
       InventoryMoveModel current) async {
     List<InventoryMoveRowModel> list = current.products;
     InventoryMoveModel elements;
-    Map<String, dynamic> productDB;
+    Map<String, dynamic> productDB = {};
     InventoryModel? productStock;
     InventoryMoveRowModel product;
     double weight;
@@ -84,7 +148,7 @@ class InventoryMovesCubit extends Cubit<InventoryMovesState> {
     bool stockExist = false;
     //Buscar currentCode en la base de datos y obtiene los datos ncesarios.
     quantity = double.parse(list.elementAt(i).quantity);
-    productDB = await ProductRepo().fetchProduct(currentCode);
+    //productDB = await ProductRepo().fetchProduct(currentCode);
     productStock =
         await InventoryRepo().fetchRowByCode(currentCode, inventoryName);
     //Valida si hay stock suficiente.
@@ -107,7 +171,8 @@ class InventoryMovesCubit extends Cubit<InventoryMovesState> {
           weightUnit: weight,
           weightTotal: total,
           concept: list.elementAt(i).concept,
-          stockExist: stockExist);
+          stockExist: stockExist,
+          states: {});
     } else {
       total = quantity * 0;
       product = InventoryMoveRowModel(
@@ -117,18 +182,18 @@ class InventoryMovesCubit extends Cubit<InventoryMovesState> {
           weightUnit: 0,
           weightTotal: total,
           concept: list.elementAt(i).concept,
-          stockExist: stockExist);
+          stockExist: stockExist,
+          states: {});
     }
     list[i] = product;
     elements = InventoryMoveModel(
-      products: list,
-      concept: current.concept,
-      date: current.date,
-      document: current.document,
-      concepts: current.concepts,
-      invTransfer: current.invTransfer,
-      states: {}
-    );
+        products: list,
+        concept: current.concept,
+        date: current.date,
+        document: current.document,
+        concepts: current.concepts,
+        invTransfer: current.invTransfer,
+        states: {});
     emit(InitialState());
     emit(LoadedState(form: elements));
   }
@@ -179,18 +244,18 @@ class InventoryMovesCubit extends Cubit<InventoryMovesState> {
           weightUnit: weight,
           weightTotal: total,
           concept: list.elementAt(i).concept,
-          stockExist: stockExist);
+          stockExist: stockExist,
+          states: {});
       list[i] = product;
     }
     elements = InventoryMoveModel(
-      products: list,
-      concept: current.concept,
-      date: current.date,
-      document: current.document,
-      concepts: current.concepts,
-      invTransfer: current.invTransfer,
-      states: {}
-    );
+        products: list,
+        concept: current.concept,
+        date: current.date,
+        document: current.document,
+        concepts: current.concepts,
+        invTransfer: current.invTransfer,
+        states: {});
     emit(InitialState());
     emit(LoadedState(form: elements));
   }
@@ -206,14 +271,13 @@ class InventoryMovesCubit extends Cubit<InventoryMovesState> {
       concepts.add(element.concept.toString());
     }*/
     elements = InventoryMoveModel(
-      products: current.products,
-      concept: current.concept,
-      date: current.date,
-      document: current.document,
-      concepts: conceptsDB,
-      invTransfer: current.invTransfer,
-      states: {}
-    );
+        products: current.products,
+        concept: current.concept,
+        date: current.date,
+        document: current.document,
+        concepts: conceptsDB,
+        invTransfer: current.invTransfer,
+        states: {});
     emit(InitialState());
     emit(LoadedState(form: elements));
   }
@@ -235,19 +299,17 @@ class InventoryMovesCubit extends Cubit<InventoryMovesState> {
     emit(LoadedState(form: elements));
   }*/
 
-  Future<void> editDocument(
-      String document, InventoryMoveModel current) async {
+  Future<void> editDocument(String document, InventoryMoveModel current) async {
     InventoryMoveModel elements;
 
     elements = InventoryMoveModel(
-      products: current.products,
-      concept: current.concept,
-      date: current.date,
-      document: document,
-      concepts: current.concepts,
-      invTransfer: current.invTransfer,
-      states: {}
-    );
+        products: current.products,
+        concept: current.concept,
+        date: current.date,
+        document: document,
+        concepts: current.concepts,
+        invTransfer: current.invTransfer,
+        states: {});
     emit(InitialState());
     emit(LoadedState(form: elements));
   }
@@ -306,8 +368,7 @@ class InventoryMovesCubit extends Cubit<InventoryMovesState> {
             document: current.document,
             concepts: current.concepts,
             invTransfer: current.invTransfer,
-            states: {}
-            );
+            states: {});
 
         //Craa la lista de movimientos que agragara al historial, en base de
         // 'currentRedux'.
@@ -388,8 +449,7 @@ class InventoryMovesCubit extends Cubit<InventoryMovesState> {
         document: current.document,
         concepts: current.concepts,
         invTransfer: inventory2,
-        states: {}
-        );
+        states: {});
     emit(InitialState());
     emit(LoadedState(form: newElement));
   }

@@ -69,7 +69,7 @@ class ListviewWarehouse extends StatelessWidget {
                       Expanded(
                           flex: 1,
                           child: Text(
-                            elementList.product.properties[descriptrion_],
+                            elementList.product.properties![descriptrion_],
                             style: Typo.labelText1,
                             textAlign: TextAlign.center,
                           )),

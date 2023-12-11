@@ -8,6 +8,14 @@ class ProductRepo {
   static const String _properties = 'attributes';
   static const String _description = 'description';
   static const String _class = 'class';
+  static const String _type = 'type';
+  static const String _gauge = 'gauge';
+  static const String _pieces = 'pices';
+  static const String _weight = 'weight';
+  static const String _measure = 'measure';
+  static const String _packing = 'packing';
+  static const String _capacity = 'capacity';
+
   final _supabase = Supabase.instance.client;
 
   Future<List<ProductModel>> fetchProductList(List<String> codeList) async {
@@ -38,18 +46,32 @@ class ProductRepo {
     return products;
   }
 
-  Future<Map<String, dynamic>> fetchProduct(String code) async {
+  Future<ProductModel?> fetchProduct(String code) async {
     List<Map<String, dynamic>> products;
-    Map<String, dynamic> product;
+    Map<String, dynamic> productDB;
+    ProductModel? product;
 
     products = await _supabase
         .from(_table)
         .select<List<Map<String, dynamic>>>()
         .eq(_code, code);
     if (products.isNotEmpty) {
-      product = products.first;
+      productDB = products.first;
+      product = ProductModel(
+        code: productDB[_code],
+        description: productDB[_description],
+        class_: productDB[_class],
+        capacity: productDB[_capacity],
+        gauge: productDB[_gauge],
+        measure: productDB[_measure],
+        packing: productDB[_packing],
+        pieces: productDB[_pieces],
+        type: productDB[_type],
+        weight: productDB[_weight],
+      );
     } else {
-      product = {};
+      productDB = {};
+      product = null;
     }
 
     return product;
@@ -66,11 +88,11 @@ class ProductRepo {
 
     if (productsDB.length == 1) {
       product = ProductModel(
-          code: productsDB.single[_code],
-          description: productsDB.single[_description] ?? '',
-          properties: productsDB.single[_properties],
-          class_: productsDB.single[_class],
-          );
+        code: productsDB.single[_code],
+        description: productsDB.single[_description] ?? '',
+        properties: productsDB.single[_properties],
+        class_: productsDB.single[_class],
+      );
     } else {
       product = null;
     }
@@ -89,7 +111,8 @@ class ProductRepo {
         product = ProductModel(
           code: element[_code],
           description: element[_description] ?? '',
-          properties: element[_properties] ?? ProductModel.emptyValue().properties,
+          properties:
+              element[_properties] ?? ProductModel.emptyValue().properties,
           class_: element[_class],
         );
         products.add(product);

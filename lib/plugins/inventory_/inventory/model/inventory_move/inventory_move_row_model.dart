@@ -1,28 +1,40 @@
 class InventoryMoveRowModel {
-  final String code;
-  final String description;
-  final String quantity;
-  final double weightUnit;
-  final double weightTotal;
-  final String concept;
-  final bool stockExist;
+  String code;
+  String description;
+  double quantity;
+  double weightUnit;
+  double weightTotal;
+  String concept;
+  bool stockExist;
+  Map<String, String> states;
 
-  const InventoryMoveRowModel(
-      {required this.code,
-      required this.description,
-      required this.quantity,
-      required this.weightUnit,
-      required this.weightTotal,
-      required this.concept,
-      required this.stockExist});
+  static const String _tDescription = 'descriprion';
 
-  static InventoryMoveRowModel empty() => const InventoryMoveRowModel(
-        code: '',
-        description: '',
-        quantity: '',
-        weightUnit: 0,
-        weightTotal: 0,
-        concept: '',
-        stockExist: false,
-      );
+  String get tDescription => _tDescription;
+  String get sInitial => 'stateInitial';
+  String get sLoading => 'stateLoading';
+  String get sLoaded => 'stateLoaded';
+  String get sError => 'stateError';
+
+  InventoryMoveRowModel({
+    required this.code,
+    required this.description,
+    required this.quantity,
+    required this.weightUnit,
+    required this.weightTotal,
+    required this.concept,
+    required this.states,
+    required this.stockExist,
+  });
+
+  InventoryMoveRowModel.empty()
+      : code = '',
+        description = '',
+        quantity = 0,
+        weightUnit = 0,
+        weightTotal = 0,
+        concept = '',
+        stockExist = false,
+        states = {_tDescription:''};
 }
+

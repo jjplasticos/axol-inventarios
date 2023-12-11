@@ -201,7 +201,7 @@ class ListviewProducts extends StatelessWidget {
                               flex: 1,
                               child: Center(
                                 child: Text(
-                                  productRow.properties[_type],
+                                  productRow.properties![_type],
                                   style: Typo.labelText1,
                                 ),
                               ),
@@ -211,7 +211,7 @@ class ListviewProducts extends StatelessWidget {
                               flex: 1,
                               child: Center(
                                 child: Text(
-                                  '${productRow.properties[_weight]} KG',
+                                  '${productRow.properties![_weight]} KG',
                                   style: Typo.labelText1,
                                 ),
                               ),
@@ -221,7 +221,7 @@ class ListviewProducts extends StatelessWidget {
                               flex: 1,
                               child: Center(
                                 child: Text(
-                                  productRow.properties[_packing],
+                                  productRow.properties![_packing],
                                   style: Typo.labelText1,
                                 ),
                               ),

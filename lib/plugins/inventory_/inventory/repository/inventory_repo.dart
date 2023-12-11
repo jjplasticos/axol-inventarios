@@ -68,7 +68,7 @@ class InventoryRepo {
     if (filter != '') {
       for (var element in inventoryList) {
         if (element.product.code.contains(filter) ||
-            element.product.properties[_description]
+            element.product.properties![_description]
                 .toString()
                 .contains(filter)) {
           finalInventoryList.add(element);

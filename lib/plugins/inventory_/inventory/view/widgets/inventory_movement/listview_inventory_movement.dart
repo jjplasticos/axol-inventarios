@@ -45,7 +45,6 @@ class ListviewInventoryMovement extends StatelessWidget {
                         padding: const EdgeInsets.symmetric(horizontal: 8),
                         scrollDirection: Axis.horizontal,
                         children: [
-                          //LinearProgressIndicator(),
                           DropdownButton<String>(
                             value: form.concepts
                                     .map((element) {
@@ -66,10 +65,6 @@ class ListviewInventoryMovement extends StatelessWidget {
                                   .setConcept(value.toString());
                               form = context.read<MovesFormCubit>().state;
                               context.read<InventoryMovesCubit>().load(form);
-                              /*context
-                                      .read<InventoryMovesCubit>()
-                                      .selectConcept(
-                                          value.toString(), form);*/
                               if (value == 'Salida por traspaso') {
                                 context.read<TransferCubit>().change(
                                     true, inventoryName, state.inventory2, 1);
@@ -80,55 +75,6 @@ class ListviewInventoryMovement extends StatelessWidget {
                               }
                             },
                           ),
-                          /*Builder(
-                          builder: (context) {
-                            print('Flag 3: ${form.states[Inm.tConcepts]}');
-                            if (form.states[Inm.tConcepts] == Inm.sLoaded) {
-                              return DropdownButton<String>(
-                                value: form.concepts
-                                        .map((element) {
-                                          return element.concept;
-                                        })
-                                        .toList()
-                                        .contains(form.concept)
-                                    ? form.concept
-                                    : null,
-                                items: form.concepts.map((element) {
-                                  return DropdownMenuItem(
-                                      value: element.concept,
-                                      child: Text(element.concept));
-                                }).toList(),
-                                onChanged: (value) {
-                                  context.read<MovesFormCubit>().setConcept(value.toString());
-                                  form = context.read<MovesFormCubit>().state;
-                                  context.read<InventoryMovesCubit>().load(form);
-                                  /*context
-                                      .read<InventoryMovesCubit>()
-                                      .selectConcept(
-                                          value.toString(), form);*/
-                                  if (value == 'Salida por traspaso') {
-                                    context.read<TransferCubit>().change(true,
-                                        inventoryName, state.inventory2, 1);
-                                  } else {
-                                    context
-                                        .read<TransferCubit>()
-                                        .change(false, '', '', 0);
-                                  }
-                                },
-                              );
-                            } else {
-                              return Shimmer.fromColors(
-                                baseColor: Colors.black12,
-                                highlightColor: Colors.black26,
-                                child: Container(
-                                  width: 200,
-                                  height: 10,
-                                  color: Colors.white,
-                                ),
-                              );
-                            }
-                          },
-                        ),*/
                           const SizedBox(width: 8),
                           Visibility(
                               visible: context

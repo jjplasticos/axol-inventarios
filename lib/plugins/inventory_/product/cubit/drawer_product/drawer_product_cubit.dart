@@ -43,7 +43,7 @@ class DrawerProductCubit extends Cubit<DrawerProductState> {
           description: currentProduct.description,
           properties: currentProduct.properties,
           class_: currentProduct.class_);
-      product.properties['code'] = code;
+      product.properties!['code'] = code;
       emit(LoadingCodeState(
           product: product,
           validationCode: currentValidation,
@@ -80,7 +80,7 @@ class DrawerProductCubit extends Cubit<DrawerProductState> {
       int errors = 0;
       int i = 0;
       List<Map<int, dynamic>> validation = currentValidation;
-      List<dynamic> properties = List.from(currentProduct.properties.values);
+      List<dynamic> properties = List.from(currentProduct.properties!.values);
       if (mode == 1) {
         i = 1;
       }
@@ -154,7 +154,7 @@ class DrawerProductCubit extends Cubit<DrawerProductState> {
       } else {
         product = currentProduct;
       }
-      product.properties[nameField] = value;
+      product.properties![nameField] = value;
       emit(LoadedState(
           product: product,
           validation: validation,
