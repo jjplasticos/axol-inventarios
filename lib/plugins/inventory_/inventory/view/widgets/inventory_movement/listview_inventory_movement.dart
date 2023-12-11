@@ -1,5 +1,6 @@
 import 'package:axol_inventarios/plugins/inventory_/inventory/cubit/inventory_movements/moves_form_cubit.dart';
 import 'package:axol_inventarios/plugins/inventory_/inventory/model/inventory_move/inventory_move_row_model.dart';
+import 'package:axol_inventarios/plugins/inventory_/inventory/model/warehouse_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -18,9 +19,9 @@ import 'package:shimmer/shimmer.dart';
 typedef Inm = InventoryMoveModel;
 
 class ListviewInventoryMovement extends StatelessWidget {
-  final String inventoryName;
+  final WarehouseModel warehouse;
 
-  const ListviewInventoryMovement({super.key, required this.inventoryName});
+  const ListviewInventoryMovement({super.key, required this.warehouse});
 
   @override
   Widget build(BuildContext context) {
@@ -67,7 +68,7 @@ class ListviewInventoryMovement extends StatelessWidget {
                               context.read<InventoryMovesCubit>().load(form);
                               if (value == 'Salida por traspaso') {
                                 context.read<TransferCubit>().change(
-                                    true, inventoryName, state.inventory2, 1);
+                                    true, warehouse.name, state.inventory2, 1);
                               } else {
                                 context
                                     .read<TransferCubit>()
@@ -233,7 +234,7 @@ class ListviewInventoryMovement extends StatelessWidget {
                 itemCount: form.products.length,
                 itemBuilder: ((context, index) {
                   TextEditingController txtCode = TextEditingController();
-                  final elementList = form.products[index];
+                  final moveRow = form.products[index];
                   return Container(
                     height: 30,
                     width: double.infinity,
@@ -250,11 +251,10 @@ class ListviewInventoryMovement extends StatelessWidget {
                                   flex: 1,
                                   child: TextField(
                                     controller: txtCode
-                                      ..text = elementList.code.toString()
+                                      ..text = moveRow.code.toString()
                                       ..selection = TextSelection.collapsed(
-                                          offset: elementList.code
-                                              .toString()
-                                              .length),
+                                          offset:
+                                              moveRow.code.toString().length),
                                     textAlign: TextAlign.center,
                                     textAlignVertical: TextAlignVertical.center,
                                     decoration:
@@ -262,8 +262,14 @@ class ListviewInventoryMovement extends StatelessWidget {
                                     onSubmitted: (value) {
                                       context
                                           .read<InventoryMovesCubit>()
-                                          .editCode(index, value, inventoryName,
-                                              form);
+                                          .enterCode(
+                                              index, form, value, warehouse);
+                                    },
+                                    onChanged: (value) {
+                                      form.products[index].code = value;
+                                      context
+                                          .read<MovesFormCubit>()
+                                          .setForm(form);
                                     },
                                     style: Typo.labelText1,
                                   ),
@@ -287,14 +293,18 @@ class ListviewInventoryMovement extends StatelessWidget {
                                                       TextfieldFinderInvrowCubit()),
                                             ],
                                             child: DialogSearchProduct(
-                                                inventoryName: inventoryName),
+                                                inventoryName: warehouse.name),
                                           ),
                                         ),
                                       ).then((value) {
                                         context
                                             .read<InventoryMovesCubit>()
+                                            .enterCode(
+                                                index, form, value, warehouse);
+                                        /*context
+                                            .read<InventoryMovesCubit>()
                                             .editCode(index, value,
-                                                inventoryName, form);
+                                                warehouse, form);*/
                                         txtCode.text = value.toString();
                                       });
                                     },
@@ -310,25 +320,52 @@ class ListviewInventoryMovement extends StatelessWidget {
                         //2) Descripcion
                         Expanded(
                           flex: 2,
-                          child: Center(
-                              child: elementList.description != ''
-                                  ? TextButton(
-                                      onPressed: () => showDialog(
-                                          context: context,
-                                          builder: (BuildContext context) =>
-                                              BlocProvider(
-                                                create: (_) =>
-                                                    ShowDetailsProductStockCubit(),
-                                                child:
-                                                    OpenDetailsProductStockController(
-                                                  code: elementList.code,
-                                                  inventoryName: inventoryName,
-                                                ),
-                                              )),
-                                      child: Text(elementList.description,
-                                          style: Typo.labelText1),
-                                    )
-                                  : const Text('')),
+                          child: Center(child: Builder(
+                            builder: (context) { 
+                              if (moveRow.states[moveRow.tDescription] ==
+                                  moveRow.sLoading) {
+                                return Shimmer.fromColors(
+                                  baseColor: Colors.white12,
+                                  highlightColor: Colors.white24,
+                                  child: Container(
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(16),
+                                      color: Colors.white,
+                                    ),
+                                    margin: const EdgeInsets.symmetric(
+                                        vertical: 8, horizontal: 4),
+                                    width: 200,
+                                  ),
+                                );
+                               } else if (moveRow.states[moveRow.tDescription] == moveRow.sLoaded) {
+                                return TextButton(
+                                  onPressed: () => showDialog(
+                                      context: context,
+                                      builder: (BuildContext context) =>
+                                          BlocProvider(
+                                            create: (_) =>
+                                                ShowDetailsProductStockCubit(),
+                                            child:
+                                                OpenDetailsProductStockController(
+                                              code: moveRow.code,
+                                              inventoryName: warehouse.name,
+                                            ),
+                                          )),
+                                  child: Text(moveRow.description,
+                                      style: Typo.labelText1),
+                                );
+                              } else if (moveRow.states[moveRow.tDescription] == moveRow.sError) {
+                                if (moveRow.states[moveRow.tErrorMessage] == moveRow.erNotProduct) {
+                                  return const Text('Producto no existente',
+                                    style: Typo.labelText1);
+                                } else {
+                                  return const Text('');
+                                }
+                              } else {
+                                return const Text('');
+                              }
+                            },
+                          )),
                         ),
                         //3) Cantidad
                         Expanded(
@@ -336,24 +373,23 @@ class ListviewInventoryMovement extends StatelessWidget {
                           child: TextField(
                             onSubmitted: (value) {
                               context.read<InventoryMovesCubit>().editQuantity(
-                                  index, value, inventoryName, form);
+                                  index, value, warehouse.name, form);
                             },
                             textAlign: TextAlign.center,
                             textAlignVertical: TextAlignVertical.center,
                             decoration: InputDecoration(
                               isDense: true,
                               errorStyle: const TextStyle(height: 0.3),
-                              errorText: elementList.stockExist
+                              errorText: moveRow.stockExist
                                   ? 'Stock insuficiente'
                                   : null,
                               errorBorder: const UnderlineInputBorder(
                                   borderSide: BorderSide(color: Colors.red)),
                             ),
                             controller: TextEditingController()
-                              ..text = elementList.quantity.toString()
+                              ..text = moveRow.quantity.toString()
                               ..selection = TextSelection.collapsed(
-                                  offset:
-                                      elementList.quantity.toString().length),
+                                  offset: moveRow.quantity.toString().length),
                             style: Typo.labelText1,
                           ),
                         ),
@@ -362,7 +398,7 @@ class ListviewInventoryMovement extends StatelessWidget {
                           flex: 1,
                           child: Center(
                               child: Text(
-                            elementList.weightUnit.toString(),
+                            moveRow.weightUnit.toString(),
                             style: Typo.labelText1,
                           )),
                         ),
@@ -371,7 +407,7 @@ class ListviewInventoryMovement extends StatelessWidget {
                           flex: 1,
                           child: Center(
                             child: Text(
-                              elementList.weightTotal.toStringAsFixed(2),
+                              moveRow.weightTotal.toStringAsFixed(2),
                               style: Typo.labelText1,
                             ),
                           ),

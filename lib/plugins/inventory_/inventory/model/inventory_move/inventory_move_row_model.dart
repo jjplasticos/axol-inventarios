@@ -9,12 +9,20 @@ class InventoryMoveRowModel {
   Map<String, String> states;
 
   static const String _tDescription = 'descriprion';
+  static const String _tErrorMessage = 'errorMessage';
+  static const String _sInitial = 'stateInitial';
+  static const String _sLoading = 'stateLoading';
+  static const String _sLoaded = 'stateLoaded';
+  static const String _sError = 'stateError';
+  static const String _erNotProduct = 'errorNotProduct';
 
   String get tDescription => _tDescription;
-  String get sInitial => 'stateInitial';
-  String get sLoading => 'stateLoading';
-  String get sLoaded => 'stateLoaded';
-  String get sError => 'stateError';
+  String get tErrorMessage => _tErrorMessage;
+  String get sInitial => _sInitial;
+  String get sLoading => _sLoading;
+  String get sLoaded => _sLoaded;
+  String get sError => _sError;
+  String get erNotProduct => _erNotProduct;
 
   InventoryMoveRowModel({
     required this.code,
@@ -35,6 +43,6 @@ class InventoryMoveRowModel {
         weightTotal = 0,
         concept = '',
         stockExist = false,
-        states = {_tDescription:''};
+        states = {_tDescription: _sInitial};
 }
 

@@ -1,5 +1,5 @@
 import 'package:axol_inventarios/plugins/inventory_/inventory/cubit/inventory_movements/moves_form_cubit.dart';
-import 'package:axol_inventarios/plugins/inventory_/inventory/model/inventory_move/inventory_move_model.dart';
+import 'package:axol_inventarios/plugins/inventory_/inventory/model/warehouse_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -10,18 +10,17 @@ import '../../cubit/inventory_movements/inventory_moves_cubit.dart';
 import '../../cubit/inventory_movements/inventory_moves_state.dart';
 import '../../cubit/transfer_cubit.dart';
 import '../../cubit/textfield_finder_invrow_cubit.dart';
-import '../controllers/inventory_moves_controller.dart';
 import '../widgets/inventory_movement/page_invmov.dart';
 import 'warehouse_view.dart';
 
 class InventoryMovementView extends StatelessWidget {
-  final String inventoryName;
+  final WarehouseModel warehouse;
 
-  const InventoryMovementView({super.key, required this.inventoryName});
+  const InventoryMovementView({super.key, required this.warehouse});
 
   @override
   Widget build(BuildContext context) {
-    final String title = 'Movimientos en almacén: $inventoryName';
+    final String title = 'Movimientos en almacén: ${warehouse.name}';
 
     return MultiBlocProvider(
         providers: [
@@ -51,7 +50,7 @@ class InventoryMovementView extends StatelessWidget {
                       context,
                       MaterialPageRoute(
                           builder: (context) => WarehouseView(
-                                warehouseName: inventoryName,
+                                warehouse: warehouse,
                                 users: state.users,
                               )));
                 } else if (state is SaveErrorState) {
@@ -76,13 +75,13 @@ class InventoryMovementView extends StatelessWidget {
                 if (state is LoadedState) {
                   context.read<MovesFormCubit>().setForm(state.form);
                   return PageInvMov(
-                    inventoryName: inventoryName
+                    warehouse: warehouse
                   );
                 } else if (state is SaveLoadingState) {
                   return const LinearProgressIndicator();
                 } else if (state is SaveErrorState) {
                   return PageInvMov(
-                    inventoryName: inventoryName
+                    warehouse: warehouse
                   );
                 } else {
                   return Text(

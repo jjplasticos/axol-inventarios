@@ -1,3 +1,4 @@
+import 'package:axol_inventarios/plugins/inventory_/inventory/model/warehouse_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -11,11 +12,11 @@ import '../../../model/inventory_move/inventory_move_row_model.dart';
 import 'listview_inventory_movement.dart';
 
 class PageInvMov extends StatelessWidget {
-  final String inventoryName;
+  final WarehouseModel warehouse;
 
   const PageInvMov(
       {super.key,
-      required this.inventoryName});
+      required this.warehouse});
 
   @override
   Widget build(BuildContext context) {
@@ -38,7 +39,7 @@ class PageInvMov extends StatelessWidget {
         ),
         Expanded(
           child: ListviewInventoryMovement(
-            inventoryName: inventoryName,
+            warehouse: warehouse,
           ),
         ),
         Toolbar(
@@ -60,7 +61,7 @@ class PageInvMov extends StatelessWidget {
               action: () {
                 context
                     .read<InventoryMovesCubit>()
-                    .saveMovements(form, inventoryName);
+                    .saveMovements(form, warehouse.name);
               },
             )
           ],

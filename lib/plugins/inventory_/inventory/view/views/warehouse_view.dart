@@ -15,6 +15,7 @@ import '../../../product/view/views/product_view.dart';
 import '../../../route_customers/view/views/routecustomers_view.dart';
 import '../../cubit/inventory_load/inventory_load_cubit.dart';
 import '../../cubit/textfield_finder_invrow_cubit.dart';
+import '../../model/warehouse_model.dart';
 import '../controllers/listview_warehouse_controller.dart';
 
 import '../widgets/textfield_finder_inventoryrow.dart';
@@ -22,10 +23,10 @@ import 'inventory_movement_view.dart';
 import 'warehouse_menu_view.dart';
 
 class WarehouseView extends StatelessWidget {
-  final String warehouseName;
+  final WarehouseModel warehouse;
   final List<UserModel> users;
   const WarehouseView(
-      {super.key, required this.warehouseName, required this.users});
+      {super.key, required this.warehouse, required this.users});
 
   @override
   Widget build(BuildContext context) {
@@ -145,20 +146,20 @@ class WarehouseView extends StatelessWidget {
                           style: Typo.bodyText5,
                         ),
                         Text(
-                          warehouseName,
+                          warehouse.name,
                           style: Typo.bodyText5,
                         ),
                         const SizedBox(width: 20),
                         SizedBox(
                           width: screenWidth > 650 ? screenWidth - 460 : 190,
                           child: TextfieldFinderInventroyrow(
-                              inventoryName: warehouseName),
+                              inventoryName: warehouse.name),
                         )
                       ],
                     ),
                   ),
                   ListviewWarehouseController(
-                    warehouseName: warehouseName,
+                    warehouseName: warehouse.name,
                   ),
                 ],
               )),
@@ -172,7 +173,7 @@ class WarehouseView extends StatelessWidget {
                           context,
                           MaterialPageRoute(
                               builder: (context) => InventoryMovementView(
-                                    inventoryName: warehouseName,
+                                    warehouse: warehouse,
                                   )));
                     },
                   )

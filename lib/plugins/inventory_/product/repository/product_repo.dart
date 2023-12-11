@@ -61,13 +61,13 @@ class ProductRepo {
         code: productDB[_code],
         description: productDB[_description],
         class_: productDB[_class],
-        capacity: productDB[_capacity],
-        gauge: productDB[_gauge],
-        measure: productDB[_measure],
-        packing: productDB[_packing],
-        pieces: productDB[_pieces],
-        type: productDB[_type],
-        weight: productDB[_weight],
+        capacity: productDB[_properties][_capacity],
+        gauge: double.parse(productDB[_properties][_gauge]),
+        measure: productDB[_properties][_measure],
+        packing: productDB[_properties][_packing],
+        pieces: productDB[_properties][_pieces],
+        type: productDB[_properties][_type],
+        weight: double.parse(productDB[_properties][_weight]),
       );
     } else {
       productDB = {};

@@ -60,7 +60,7 @@ class ListviewWarehouseMenu extends StatelessWidget {
                         context,
                         MaterialPageRoute(
                             builder: (context) => WarehouseView(
-                                  warehouseName: elementList.name,
+                                  warehouse: elementList,
                                   users: users,
                                 )));
                   } else if (mode == 1) {
