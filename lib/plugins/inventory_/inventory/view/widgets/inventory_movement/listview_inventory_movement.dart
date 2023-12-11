@@ -321,7 +321,7 @@ class ListviewInventoryMovement extends StatelessWidget {
                         Expanded(
                           flex: 2,
                           child: Center(child: Builder(
-                            builder: (context) { 
+                            builder: (context) {
                               if (moveRow.states[moveRow.tDescription] ==
                                   moveRow.sLoading) {
                                 return Shimmer.fromColors(
@@ -337,7 +337,8 @@ class ListviewInventoryMovement extends StatelessWidget {
                                     width: 200,
                                   ),
                                 );
-                               } else if (moveRow.states[moveRow.tDescription] == moveRow.sLoaded) {
+                              } else if (moveRow.states[moveRow.tDescription] ==
+                                  moveRow.sLoaded) {
                                 return TextButton(
                                   onPressed: () => showDialog(
                                       context: context,
@@ -354,13 +355,12 @@ class ListviewInventoryMovement extends StatelessWidget {
                                   child: Text(moveRow.description,
                                       style: Typo.labelText1),
                                 );
-                              } else if (moveRow.states[moveRow.tDescription] == moveRow.sError) {
-                                if (moveRow.states[moveRow.tErrorMessage] == moveRow.erNotProduct) {
-                                  return const Text('Producto no existente',
-                                    style: Typo.labelText1);
-                                } else {
-                                  return const Text('');
-                                }
+                              } else if (moveRow.states[moveRow.tDescription] ==
+                                      moveRow.sError &&
+                                  moveRow.states[moveRow.tErrorMessage] ==
+                                      moveRow.erNotProduct) {
+                                return const Text('Producto no existente',
+                                    style: Typo.labelError);
                               } else {
                                 return const Text('');
                               }

@@ -43,6 +43,5 @@ class InventoryMoveRowModel {
         weightTotal = 0,
         concept = '',
         stockExist = false,
-        states = {_tDescription: _sInitial};
+        states = {_tDescription: _sInitial, _tErrorMessage: _erNotProduct};
 }
-

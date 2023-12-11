@@ -78,4 +78,9 @@ class Typo {
       fontWeight: FontWeight.w500,
       fontSize: 14,
       color: ColorPalette.secondaryText);
+  static const labelError = TextStyle(
+      fontFamily: 'Source Sans Pro',
+      fontWeight: FontWeight.w400,
+      fontSize: 14,
+      color: Colors.red);
 }

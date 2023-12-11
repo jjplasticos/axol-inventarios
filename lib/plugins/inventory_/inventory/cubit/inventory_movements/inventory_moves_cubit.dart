@@ -112,7 +112,7 @@ class InventoryMovesCubit extends Cubit<InventoryMovesState> {
           weightTotal: productDB.weight! * quantity,
           concept: form.concept,
           stockExist: stockExist,
-          states: {moveRow.tDescription: moveRow.sLoaded});
+          states: {moveRow.tDescription: moveRow.sLoaded, moveRow.tErrorMessage: ''});
     } else {
       moveRow = InventoryMoveRowModel(
           code: inputCode, //productDB['code'].toString(),
