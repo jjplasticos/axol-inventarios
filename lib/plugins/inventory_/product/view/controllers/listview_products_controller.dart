@@ -1,4 +1,4 @@
-import 'package:axol_inventarios/settings/theme.dart';
+import 'package:axol_inventarios/utilities/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 

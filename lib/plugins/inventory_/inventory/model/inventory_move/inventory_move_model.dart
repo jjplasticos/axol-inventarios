@@ -1,17 +1,18 @@
+import '../../../../../utilities/data_state.dart';
 import 'inventory_move_concept_model.dart';
 import 'inventory_move_row_model.dart';
 
 class InventoryMoveModel {
-  List<InventoryMoveRowModel> products;
+  List<InventoryMoveRowModel> moveList;
   List<InventoryMoveConceptModel> concepts;
   String concept;
   String document;
   DateTime date;
   String invTransfer;
-  Map<String, String> states;
+  Map<String, DataState> states;
 
   InventoryMoveModel({
-    required this.products,
+    required this.moveList,
     required this.concept,
     required this.date,
     required this.document,
@@ -20,34 +21,34 @@ class InventoryMoveModel {
     required this.states,
   });
 
-  static const String tProducts = 'products';
-  static const String tConcept = 'concept';
-  static const String tDate = 'date';
-  static const String tDocument = 'document';
-  static const String tConcepts = 'concepts';
-  static const String tInvTransfer = 'invTransfer';
-  static const String tStates = 'states';
+  static const String _moveList = 'moveList';
+  static const String _concept = 'concept';
+  static const String _date = 'date';
+  static const String _document = 'document';
+  static const String _concepts = 'concepts';
+  static const String _invTransfer = 'invTransfer';
 
-  static const String sInitial = 'stateInitial';
-  static const String sLoaded = 'stateLoaded';
-  static const String sLoading = 'stateLoading';
-  static const String sError = 'stateError';
+  String get tMoveList => _moveList;
+  String get tConcept => _concept;
+  String get tDate => _date;
+  String get tDocument => _document;
+  String get tConcepts => _concepts;
+  String get tInvTransfer => _invTransfer;
 
-  static InventoryMoveModel empty() => InventoryMoveModel(
-        products: [],
-        concept: '',
-        date: DateTime.now(),
-        document: '',
-        concepts: [],
-        invTransfer: '',
-        states: {
-          tProducts: sInitial,
-          tConcept: sInitial,
-          tDate: sInitial,
-          tDocument: sInitial,
-          tConcepts: sInitial,
-          tInvTransfer: sInitial,
-          tStates: sInitial,
+  InventoryMoveModel.empty() :
+        moveList = [],
+        concept = '',
+        date = DateTime.now(),
+        document = '',
+        concepts = [],
+        invTransfer = '',
+        states = {
+          _moveList: DataState(state: DataState.initial),
+          _concept: DataState(state: DataState.initial),
+          _date: DataState(state: DataState.initial),
+          _document: DataState(state: DataState.initial),
+          _concepts: DataState(state: DataState.initial),
+          _invTransfer: DataState(state: DataState.initial),
         }
-      );
+      ;
 }

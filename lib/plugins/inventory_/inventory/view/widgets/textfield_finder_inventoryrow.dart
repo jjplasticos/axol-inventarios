@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../../../settings/theme.dart';
+import '../../../../../utilities/theme.dart';
 import '../../cubit/inventory_load/inventory_load_cubit.dart';
 import '../../cubit/textfield_finder_invrow_cubit.dart';
 

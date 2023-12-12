@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../../../../../models/inventory_row_model.dart';
-import '../../../../../../settings/theme.dart';
+import '../../../../../../utilities/theme.dart';
 import '../dialog_productinfo.dart';
 
 class ListviewWarehouse extends StatelessWidget {

@@ -1,3 +1,5 @@
+import '../../../../../utilities/data_state.dart';
+
 class InventoryMoveRowModel {
   String code;
   String description;
@@ -6,23 +8,17 @@ class InventoryMoveRowModel {
   double weightTotal;
   String concept;
   bool stockExist;
-  Map<String, String> states;
+  Map<String, DataState> states;
 
-  static const String _tDescription = 'descriprion';
-  static const String _tErrorMessage = 'errorMessage';
-  static const String _sInitial = 'stateInitial';
-  static const String _sLoading = 'stateLoading';
-  static const String _sLoaded = 'stateLoaded';
-  static const String _sError = 'stateError';
-  static const String _erNotProduct = 'errorNotProduct';
+  static const String _description = 'description';
+  static const String _code = 'code';
+  static const String _quantity = 'quantity';
+  static const String _emNotProduct = 'Clave inexistente';
 
-  String get tDescription => _tDescription;
-  String get tErrorMessage => _tErrorMessage;
-  String get sInitial => _sInitial;
-  String get sLoading => _sLoading;
-  String get sLoaded => _sLoaded;
-  String get sError => _sError;
-  String get erNotProduct => _erNotProduct;
+  String get tDescription => _description;
+  String get tCode => _code;
+  String get tQuantity => _quantity;
+  String get emNotProduct => _emNotProduct;
 
   InventoryMoveRowModel({
     required this.code,
@@ -43,5 +39,8 @@ class InventoryMoveRowModel {
         weightTotal = 0,
         concept = '',
         stockExist = false,
-        states = {_tDescription: _sInitial, _tErrorMessage: _erNotProduct};
+        states = {
+          _code: DataState(state: DataState.initial),
+          _quantity: DataState(state: DataState.initial),
+        };
 }

@@ -1,5 +1,6 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../../../utilities/data_state.dart';
 import '../../model/inventory_move/inventory_move_concept_model.dart';
 import '../../model/inventory_move/inventory_move_model.dart';
 import '../../model/inventory_move/inventory_move_row_model.dart';
@@ -9,7 +10,7 @@ class MovesFormCubit extends Cubit<InventoryMoveModel>{
 
   void setProducts(List<InventoryMoveRowModel> products) {
     InventoryMoveModel form = state;
-    form.products = products;
+    form.moveList = products;
     emit(form);
   }
 
@@ -43,7 +44,7 @@ class MovesFormCubit extends Cubit<InventoryMoveModel>{
     emit(form);
   }
 
-  void setStatus(Map<String, String> states) {
+  void setStatus(Map<String, DataState> states) {
     InventoryMoveModel form = state;
     form.states = states;
     emit(form);
@@ -53,5 +54,17 @@ class MovesFormCubit extends Cubit<InventoryMoveModel>{
     InventoryMoveModel newForm = state;
     newForm = form;
     emit(newForm);
+  }
+
+  void setQuantityMovRow(double quantity, int index) {
+    InventoryMoveModel form = state;
+    form.moveList[index].quantity = quantity;
+    emit(form);
+  }
+
+  void setCodeMoveRow(String code, int index) {
+    InventoryMoveModel form = state;
+    form.moveList[index].code = code;
+    emit(form);
   }
 }

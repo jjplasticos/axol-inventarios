@@ -2,11 +2,13 @@ import 'package:axol_inventarios/plugins/inventory_/inventory/cubit/inventory_mo
 import 'package:axol_inventarios/plugins/inventory_/inventory/model/inventory_move/inventory_move_row_model.dart';
 import 'package:axol_inventarios/plugins/inventory_/inventory/model/warehouse_model.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../../../../utilities/data_state.dart';
 import '../../../model/inventory_move/inventory_move_model.dart';
 import '../../../../../../models/movement_transfer_model.dart';
-import '../../../../../../settings/theme.dart';
+import '../../../../../../utilities/theme.dart';
 import '../../../cubit/inventory_load/inventory_load_cubit.dart';
 import '../../../cubit/inventory_movements/inventory_moves_cubit.dart';
 import '../../../cubit/show_details_product_stock/showdetails_productstock_cubit.dart';
@@ -15,8 +17,6 @@ import '../../../cubit/textfield_finder_invrow_cubit.dart';
 import '../../controllers/opendetails_productstock_controller.dart';
 import 'dialog_serch_product.dart';
 import 'package:shimmer/shimmer.dart';
-
-typedef Inm = InventoryMoveModel;
 
 class ListviewInventoryMovement extends StatelessWidget {
   final WarehouseModel warehouse;
@@ -41,7 +41,8 @@ class ListviewInventoryMovement extends StatelessWidget {
                 height: 30,
                 child: BlocBuilder<TransferCubit, MovementTransferModel>(
                   builder: (context, state) {
-                    if (form.states[Inm.tConcepts] == Inm.sLoaded) {
+                    if (form.states[form.tConcepts]!.state ==
+                        DataState.loaded) {
                       return ListView(
                         padding: const EdgeInsets.symmetric(horizontal: 8),
                         scrollDirection: Axis.horizontal,
@@ -231,10 +232,10 @@ class ListviewInventoryMovement extends StatelessWidget {
               Expanded(
                   child: ListView.builder(
                 shrinkWrap: true,
-                itemCount: form.products.length,
+                itemCount: form.moveList.length,
                 itemBuilder: ((context, index) {
                   TextEditingController txtCode = TextEditingController();
-                  final moveRow = form.products[index];
+                  final moveRow = form.moveList[index];
                   return Container(
                     height: 30,
                     width: double.infinity,
@@ -257,8 +258,19 @@ class ListviewInventoryMovement extends StatelessWidget {
                                               moveRow.code.toString().length),
                                     textAlign: TextAlign.center,
                                     textAlignVertical: TextAlignVertical.center,
-                                    decoration:
-                                        const InputDecoration(isDense: true),
+                                    decoration: InputDecoration(
+                                      isDense: true,
+                                      errorStyle: const TextStyle(height: 0.3),
+                                      errorText: moveRow.states[moveRow.tCode]!
+                                                  .state ==
+                                              DataState.error
+                                          ? moveRow
+                                              .states[moveRow.tCode]!.message
+                                          : null,
+                                      errorBorder: const UnderlineInputBorder(
+                                          borderSide:
+                                              BorderSide(color: Colors.red)),
+                                    ),
                                     onSubmitted: (value) {
                                       context
                                           .read<InventoryMovesCubit>()
@@ -266,7 +278,7 @@ class ListviewInventoryMovement extends StatelessWidget {
                                               index, form, value, warehouse);
                                     },
                                     onChanged: (value) {
-                                      form.products[index].code = value;
+                                      form.moveList[index].code = value;
                                       context
                                           .read<MovesFormCubit>()
                                           .setForm(form);
@@ -322,8 +334,8 @@ class ListviewInventoryMovement extends StatelessWidget {
                           flex: 2,
                           child: Center(child: Builder(
                             builder: (context) {
-                              if (moveRow.states[moveRow.tDescription] ==
-                                  moveRow.sLoading) {
+                              if (moveRow.states[moveRow.tCode]!.state ==
+                                  DataState.loading) {
                                 return Shimmer.fromColors(
                                   baseColor: Colors.white12,
                                   highlightColor: Colors.white24,
@@ -337,8 +349,8 @@ class ListviewInventoryMovement extends StatelessWidget {
                                     width: 200,
                                   ),
                                 );
-                              } else if (moveRow.states[moveRow.tDescription] ==
-                                  moveRow.sLoaded) {
+                              } else if (moveRow.states[moveRow.tCode]!.state ==
+                                  DataState.loaded) {
                                 return TextButton(
                                   onPressed: () => showDialog(
                                       context: context,
@@ -355,10 +367,10 @@ class ListviewInventoryMovement extends StatelessWidget {
                                   child: Text(moveRow.description,
                                       style: Typo.labelText1),
                                 );
-                              } else if (moveRow.states[moveRow.tDescription] ==
-                                      moveRow.sError &&
-                                  moveRow.states[moveRow.tErrorMessage] ==
-                                      moveRow.erNotProduct) {
+                              } else if (moveRow.states[moveRow.tCode]!.state ==
+                                      DataState.error &&
+                                  moveRow.states[moveRow.tCode]!.message ==
+                                      moveRow.emNotProduct) {
                                 return const Text('Producto no existente',
                                     style: Typo.labelError);
                               } else {
@@ -372,9 +384,18 @@ class ListviewInventoryMovement extends StatelessWidget {
                           flex: 1,
                           child: TextField(
                             onSubmitted: (value) {
-                              context.read<InventoryMovesCubit>().editQuantity(
-                                  index, value, warehouse.name, form);
+                              final double? quantity = double.tryParse(value);
+                              context
+                                  .read<MovesFormCubit>()
+                                  .setQuantityMovRow(quantity ?? 0, index);
+                              context
+                                  .read<InventoryMovesCubit>()
+                                  .enterQuantity(index, warehouse, form);
                             },
+                            inputFormatters: [
+                              FilteringTextInputFormatter.allow(
+                                  RegExp(r'^\d*\.?\d*$'))
+                            ],
                             textAlign: TextAlign.center,
                             textAlignVertical: TextAlignVertical.center,
                             decoration: InputDecoration(
@@ -415,24 +436,43 @@ class ListviewInventoryMovement extends StatelessWidget {
                         //6) Eliminar fila
                         Expanded(
                           flex: 1,
-                          child: Center(
-                            child: IconButton(
-                              onPressed: () {
-                                products = form.products;
-                                products.removeAt(index);
-                                form.products = products;
-                                context
-                                    .read<MovesFormCubit>()
-                                    .setProducts(products);
-                                context.read<InventoryMovesCubit>().load(form);
-                              },
-                              icon: const Icon(
-                                Icons.delete,
-                                size: 15,
-                                color: Colors.white,
-                              ),
-                            ),
-                          ),
+                          child: Center(child: Builder(
+                            builder: (context) {
+                              if (moveRow.states[moveRow.tCode]!.state ==
+                                      DataState.loading ||
+                                  moveRow.states[moveRow.tQuantity]!.state ==
+                                      DataState.loading) {
+                                return const SizedBox(
+                                  height: 8,
+                                  width: 8,
+                                  child: CircularProgressIndicator(
+                                    backgroundColor: Colors.white,
+                                    color: Colors.grey,
+                                    strokeWidth: 4,
+                                  ),
+                                );
+                              } else {
+                                return IconButton(
+                                  onPressed: () {
+                                    products = form.moveList;
+                                    products.removeAt(index);
+                                    form.moveList = products;
+                                    context
+                                        .read<MovesFormCubit>()
+                                        .setProducts(products);
+                                    context
+                                        .read<InventoryMovesCubit>()
+                                        .load(form);
+                                  },
+                                  icon: const Icon(
+                                    Icons.delete,
+                                    size: 15,
+                                    color: Colors.white,
+                                  ),
+                                );
+                              }
+                            },
+                          )),
                         ),
                       ],
                     ),
