@@ -43,10 +43,10 @@ class InventoryMovesCubit extends Cubit<InventoryMovesState> {
   Future<void> enterCode(final int index, final InventoryMoveModel form,
       final String inputCode, WarehouseModel warehouse) async {
     emit(InitialState());
-    final double quantity;
+    //final double quantity;
     final ProductModel? productDB;
     final InventoryModel? inventoryRow;
-    final bool stockExist;
+    //final bool stockExist;
     final InventoryMoveRowModel moveRow = form.moveList[index];
     InventoryMoveModel upForm = form;
     InventoryMoveRowModel upMoveRow = moveRow;
@@ -55,52 +55,29 @@ class InventoryMovesCubit extends Cubit<InventoryMovesState> {
         DataState(state: DataState.loading);
     emit(LoadedState(form: upForm));
     //Buscar currentCode en la base de datos y obtiene los datos ncesarios.
-    quantity = form.moveList.elementAt(index).quantity;
+    //quantity = form.moveList.elementAt(index).quantity;
     productDB = await ProductRepo().fetchProduct(inputCode);
     inventoryRow =
         await InventoryRepo().fetchRowByCode(inputCode, warehouse.name);
 
     //Valida si hay stock suficiente.
-    if (inventoryRow != null && quantity > inventoryRow.stock) {
+    /*if (inventoryRow != null && quantity > inventoryRow.stock) {
       stockExist = true;
     } else {
       stockExist = false;
-    }
+    }*/
 
     //Sí el producto existe, lo agrega a la lista de movimientos que está por
     // emitir.
     if (productDB != null && inventoryRow != null) {
       upMoveRow.description = productDB.description;
+      upMoveRow.weightUnit = productDB.weight!;
+      upMoveRow.weightTotal = moveRow.quantity * moveRow.weightUnit;
       upMoveRow.states[moveRow.tCode] = DataState(state: DataState.loaded);
-      /*upMoveRow = InventoryMoveRowModel(
-          code: form.moveList[index].code,
-          description: productDB.description,
-          quantity: quantity,
-          weightUnit: productDB.weight!,
-          weightTotal: productDB.weight! * quantity,
-          concept: form.concept,
-          stockExist: stockExist,
-          states: {
-            moveRow.tCode: DataState(state: DataState.loaded),
-            moveRow.tQuantity: moveRow.states[moveRow.tQuantity]!,
-          });*/
     } else {
       upMoveRow.states[moveRow.tCode] =
           DataState(state: DataState.error, message: moveRow.emNotProduct);
-      /*upMoveRow = InventoryMoveRowModel(
-          code: inputCode,
-          description: '',
-          quantity: quantity,
-          weightUnit: 0,
-          weightTotal: 0,
-          concept: form.concept,
-          stockExist: stockExist,
-          states: {
-            moveRow.tCode: DataState(state: DataState.error, message: moveRow.emNotProduct),
-            moveRow.tQuantity: moveRow.
-          });*/
     }
-
     upForm.moveList[index] = upMoveRow;
     emit(InitialState());
     emit(LoadedState(form: upForm));
@@ -121,12 +98,6 @@ class InventoryMovesCubit extends Cubit<InventoryMovesState> {
     inventoryRow =
         await InventoryRepo().fetchRowByCode(moveRow.code, warehouse.name);
 
-    /*if (moveRow.quantity == '') {
-      currentQuantity = '0';
-    }*/
-    //quantity = double.tryParse(currentQuantity);
-    //weight = list.elementAt(index).weightUnit;
-    //if (quantity != null) {
     if (inventoryRow != null) {
       if (moveRow.quantity > inventoryRow.stock &&
           form.concepts.where((x) => x.concept == form.concept).first.type ==
@@ -135,100 +106,32 @@ class InventoryMovesCubit extends Cubit<InventoryMovesState> {
       } else {
         stockExist = false;
       }
-    }
-    /*if (currentQuantity.endsWith('.')) {
-      quantityTxt = currentQuantity;
     } else {
-      quantityTxt = quantity.toString();
-    }*/
+      upMoveRow.states[moveRow.tCode] =
+          DataState(state: DataState.error, message: moveRow.emNotProduct);
+    }
+
     upMoveRow.weightTotal = moveRow.quantity * moveRow.weightUnit;
     upMoveRow.stockExist = stockExist;
+    upMoveRow.states[moveRow.tQuantity] = DataState(state: DataState.loaded);
     upForm.moveList[index] = upMoveRow;
-    /*total = moveRow.quantity * moveRow.weightUnit;
-    moveRow.moveRow = InventoryMoveRowModel(
-        code: list.elementAt(index).code,
-        description: list.elementAt(index).description,
-        quantity: double.parse(quantityTxt),
-        weightUnit: weight,
-        weightTotal: total,
-        concept: list.elementAt(index).concept,
-        stockExist: stockExist,
-        states: {});
-    list[index] = moveRow;*/
-    //}
-    /*elements = InventoryMoveModel(
-        products: list,
-        concept: current.concept,
-        date: current.date,
-        document: current.document,
-        concepts: current.concepts,
-        invTransfer: current.invTransfer,
-        states: {});*/
+
     emit(InitialState());
     emit(LoadedState(form: upForm));
   }
 
-  /*Future<void> editQuantity(int i, String currentQuantity, String inventoryName,
-      InventoryMoveModel current) async {
-    List<InventoryMoveRowModel> list = current.products;
-    InventoryMoveModel elements;
-    InventoryMoveRowModel product;
-    InventoryModel? productDB;
-    double weight;
-    double total;
-    double? quantity;
-    String quantityTxt;
-    bool stockExist = false;
-
-    productDB = await InventoryRepo()
-        .fetchRowByCode(list.elementAt(i).code, inventoryName);
-
-    if (currentQuantity == '') {
-      currentQuantity = '0';
-    }
-    quantity = double.tryParse(currentQuantity);
-    weight = list.elementAt(i).weightUnit;
-    if (quantity != null) {
-      if (productDB != null) {
-        if (quantity > productDB.stock &&
-            current.concepts
-                    .where((x) => x.concept == current.concept)
-                    .first
-                    .type ==
-                1) {
-          stockExist = true;
-        } else {
-          stockExist = false;
-        }
+  Future<void> checkErrorsMoveList(final InventoryMoveModel form, WarehouseModel warehouse) async {
+    InventoryMoveRowModel moveRow;
+    for (int i = 0; i < form.moveList.length; i++) {
+      moveRow = form.moveList[i];
+      if (moveRow.states[moveRow.tCode]!.state == DataState.error) {
+        enterCode(i, form, moveRow.code, warehouse);
       }
-      if (currentQuantity.endsWith('.')) {
-        quantityTxt = currentQuantity;
-      } else {
-        quantityTxt = quantity.toString();
+      if (moveRow.states[moveRow.tQuantity]!.state == DataState.error) {
+        enterQuantity(i, warehouse, form);
       }
-      total = quantity * weight;
-      product = InventoryMoveRowModel(
-          code: list.elementAt(i).code,
-          description: list.elementAt(i).description,
-          quantity: double.parse(quantityTxt),
-          weightUnit: weight,
-          weightTotal: total,
-          concept: list.elementAt(i).concept,
-          stockExist: stockExist,
-          states: {});
-      list[i] = product;
     }
-    elements = InventoryMoveModel(
-        products: list,
-        concept: current.concept,
-        date: current.date,
-        document: current.document,
-        concepts: current.concepts,
-        invTransfer: current.invTransfer,
-        states: {});
-    emit(InitialState());
-    emit(LoadedState(form: elements));
-  }*/
+  }
 
   Future<void> showConcepts(InventoryMoveModel current) async {
     //Muestra los conceptos de inventario guardado en la base de datos.

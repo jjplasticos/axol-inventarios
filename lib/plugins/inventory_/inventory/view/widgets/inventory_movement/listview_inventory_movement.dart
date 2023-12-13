@@ -63,6 +63,9 @@ class ListviewInventoryMovement extends StatelessWidget {
                             }).toList(),
                             onChanged: (value) {
                               context
+                                  .read<InventoryMovesCubit>()
+                                  .checkErrorsMoveList(form, warehouse);
+                              context
                                   .read<MovesFormCubit>()
                                   .setConcept(value.toString());
                               form = context.read<MovesFormCubit>().state;
@@ -260,12 +263,13 @@ class ListviewInventoryMovement extends StatelessWidget {
                                     textAlignVertical: TextAlignVertical.center,
                                     decoration: InputDecoration(
                                       isDense: true,
-                                      errorStyle: const TextStyle(height: 0.3),
+                                      errorStyle: const TextStyle(
+                                        height: 0.3,
+                                      ),
                                       errorText: moveRow.states[moveRow.tCode]!
                                                   .state ==
                                               DataState.error
-                                          ? moveRow
-                                              .states[moveRow.tCode]!.message
+                                          ? 'Error'
                                           : null,
                                       errorBorder: const UnderlineInputBorder(
                                           borderSide:
@@ -383,15 +387,6 @@ class ListviewInventoryMovement extends StatelessWidget {
                         Expanded(
                           flex: 1,
                           child: TextField(
-                            onSubmitted: (value) {
-                              final double? quantity = double.tryParse(value);
-                              context
-                                  .read<MovesFormCubit>()
-                                  .setQuantityMovRow(quantity ?? 0, index);
-                              context
-                                  .read<InventoryMovesCubit>()
-                                  .enterQuantity(index, warehouse, form);
-                            },
                             inputFormatters: [
                               FilteringTextInputFormatter.allow(
                                   RegExp(r'^\d*\.?\d*$'))
@@ -412,6 +407,45 @@ class ListviewInventoryMovement extends StatelessWidget {
                               ..selection = TextSelection.collapsed(
                                   offset: moveRow.quantity.toString().length),
                             style: Typo.labelText1,
+                            onSubmitted: (value) {
+                              if (form.concept != '') {
+                                form = context.read<MovesFormCubit>().state;
+                                context
+                                    .read<InventoryMovesCubit>()
+                                    .enterQuantity(index, warehouse, form);
+                              } else {
+                                showDialog(
+                                  context: context,
+                                  builder: (context) => AlertDialog(
+                                    title: const Text('Alerta!'),
+                                    content:
+                                        const Text('Seleccione un concepto.'),
+                                    actions: [
+                                      TextButton(
+                                        onPressed: () {
+                                          Navigator.pop(context);
+                                        },
+                                        child: const Text('Aceptar'),
+                                      )
+                                    ],
+                                  ),
+                                ).then(
+                                  (value) {
+                                    context
+                                        .read<MovesFormCubit>()
+                                        .setQuantityMovRow(0, index);
+                                    form = context.read<MovesFormCubit>().state;
+                                    context
+                                        .read<InventoryMovesCubit>()
+                                        .load(form);
+                                  },
+                                );
+                              }
+                            },
+                            onChanged: (value) {
+                              context.read<MovesFormCubit>().setQuantityMovRow(
+                                  double.tryParse(value) ?? 0, index);
+                            },
                           ),
                         ),
                         //4) Peso unitario
