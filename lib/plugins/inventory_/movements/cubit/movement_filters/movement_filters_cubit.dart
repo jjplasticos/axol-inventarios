@@ -1,7 +1,7 @@
 import 'package:axol_inventarios/plugins/inventory_/inventory/repository/warehouses_repo.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../inventory/model/inventory_move/inventory_move_concept_model.dart';
+import '../../../inventory/model/inventory_move/concept_move_model.dart';
 import '../../../../../models/textfield_model.dart';
 import '../../../../../models/user_mdoel.dart';
 import '../../../inventory/model/warehouse_model.dart';
@@ -35,7 +35,7 @@ class MovementFiltersCubit extends Cubit<MovementFiltersState> {
 
   Future<void> getInitialValues(MovementFilterModel currentFilter) async {
     List<WarehouseModel> warehouses = [];
-    List<InventoryMoveConceptModel> concepts = [];
+    List<ConceptMoveModel> concepts = [];
     List<UserModel> users = [];
     MovementFilterModel movementFilter;
 
@@ -48,7 +48,7 @@ class MovementFiltersCubit extends Cubit<MovementFiltersState> {
     concepts = await InventoryConceptsRepo().fetchAllConcepts();
     if (concepts.last.id != -1) {
       concepts.add(
-          const InventoryMoveConceptModel(concept: 'TODOS', id: -1, type: -1));
+          const ConceptMoveModel(text: 'TODOS', id: -1, type: -1));
     }
     users = await DatabaseUser().fetchAllUsers();
     if (users.last.id != -1) {
@@ -84,7 +84,7 @@ class MovementFiltersCubit extends Cubit<MovementFiltersState> {
   }
 
   void changeConcept(
-      MovementFilterModel currentFilter, InventoryMoveConceptModel concept) {
+      MovementFilterModel currentFilter, ConceptMoveModel concept) {
     try {
       MovementFilterModel movementFilter;
       emit(LoadingState());

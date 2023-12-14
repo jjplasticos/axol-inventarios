@@ -1,6 +1,6 @@
 import 'package:supabase_flutter/supabase_flutter.dart';
 
-import '../model/inventory_move/inventory_move_concept_model.dart';
+import '../model/inventory_move/concept_move_model.dart';
 
 class InventoryConceptsRepo {
   static const String _table = 'inventory_concepts';
@@ -9,16 +9,16 @@ class InventoryConceptsRepo {
   static const String _concept = 'concept';
   static final _supabase = Supabase.instance.client;
 
-  Future<List<InventoryMoveConceptModel>> fetchAllConcepts() async {
+  Future<List<ConceptMoveModel>> fetchAllConcepts() async {
     List<Map<String, dynamic>> conceptsDB = [];
-    List<InventoryMoveConceptModel> concepts = [];
-    InventoryMoveConceptModel concept;
+    List<ConceptMoveModel> concepts = [];
+    ConceptMoveModel concept;
 
     conceptsDB =
         await _supabase.from(_table).select<List<Map<String, dynamic>>>();
     for (var element in conceptsDB) {
-      concept = InventoryMoveConceptModel(
-        concept: element[_concept].toString(),
+      concept = ConceptMoveModel(
+        text: element[_concept].toString(),
         id: int.parse(element[_id].toString()),
         type: int.parse(element[_type].toString()),
       );

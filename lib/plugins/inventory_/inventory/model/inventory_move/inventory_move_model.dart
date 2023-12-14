@@ -1,11 +1,11 @@
 import '../../../../../utilities/data_state.dart';
-import 'inventory_move_concept_model.dart';
+import 'concept_move_model.dart';
 import 'inventory_move_row_model.dart';
 
 class InventoryMoveModel {
   List<InventoryMoveRowModel> moveList;
-  List<InventoryMoveConceptModel> concepts;
-  String concept;
+  List<ConceptMoveModel> concepts;
+  ConceptMoveModel concept;
   String document;
   DateTime date;
   String invTransfer;
@@ -27,6 +27,10 @@ class InventoryMoveModel {
   static const String _document = 'document';
   static const String _concepts = 'concepts';
   static const String _invTransfer = 'invTransfer';
+  static const String _save = 'save';
+  static const String _emSelectConcept = 'Seleccione un concept';
+  static const String _emNotStock =  'Stock insuficiente en alguno de los productos';
+  static const String _emNotProduct = 'Clave no valida en alguno de los productos';
 
   String get tMoveList => _moveList;
   String get tConcept => _concept;
@@ -34,10 +38,14 @@ class InventoryMoveModel {
   String get tDocument => _document;
   String get tConcepts => _concepts;
   String get tInvTransfer => _invTransfer;
+  String get tSave => _save;
+  String get emSelectConcept => _emSelectConcept;
+  String get emNotStock => _emNotStock;
+  String get emNotProduct => _emNotProduct;
 
-  InventoryMoveModel.empty() :
-        moveList = [],
-        concept = '',
+  InventoryMoveModel.empty()
+      : moveList = [],
+        concept = ConceptMoveModel.empty(),
         date = DateTime.now(),
         document = '',
         concepts = [],
@@ -49,6 +57,6 @@ class InventoryMoveModel {
           _document: DataState(state: DataState.initial),
           _concepts: DataState(state: DataState.initial),
           _invTransfer: DataState(state: DataState.initial),
-        }
-      ;
+          _save: DataState(state: DataState.initial),
+        };
 }

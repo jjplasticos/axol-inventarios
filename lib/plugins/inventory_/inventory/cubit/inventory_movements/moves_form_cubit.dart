@@ -1,7 +1,7 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../../utilities/data_state.dart';
-import '../../model/inventory_move/inventory_move_concept_model.dart';
+import '../../model/inventory_move/concept_move_model.dart';
 import '../../model/inventory_move/inventory_move_model.dart';
 import '../../model/inventory_move/inventory_move_row_model.dart';
 
@@ -14,13 +14,13 @@ class MovesFormCubit extends Cubit<InventoryMoveModel>{
     emit(form);
   }
 
-  void setConcept(String concept) {
+  void setConcept(ConceptMoveModel concept) {
     InventoryMoveModel form = state;
     form.concept = concept;
     emit(form);
   }
 
-  void setConcepts(List<InventoryMoveConceptModel> concepts) {
+  void setConcepts(List<ConceptMoveModel> concepts) {
     InventoryMoveModel form = state;
     form.concepts = concepts;
     emit(form);

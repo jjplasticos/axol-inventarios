@@ -14,11 +14,13 @@ class InventoryMoveRowModel {
   static const String _code = 'code';
   static const String _quantity = 'quantity';
   static const String _emNotProduct = 'Clave inexistente';
+  static const String _emNotStock = 'Stock insuficiente';
 
   String get tDescription => _description;
   String get tCode => _code;
   String get tQuantity => _quantity;
   String get emNotProduct => _emNotProduct;
+  String get emNotStock => _emNotStock;
 
   InventoryMoveRowModel({
     required this.code,

@@ -50,16 +50,16 @@ class ListviewInventoryMovement extends StatelessWidget {
                           DropdownButton<String>(
                             value: form.concepts
                                     .map((element) {
-                                      return element.concept;
+                                      return element.text;
                                     })
                                     .toList()
-                                    .contains(form.concept)
-                                ? form.concept
+                                    .contains(form.concept.text)
+                                ? form.concept.text
                                 : null,
                             items: form.concepts.map((element) {
                               return DropdownMenuItem(
-                                  value: element.concept,
-                                  child: Text(element.concept));
+                                  value: element.text,
+                                  child: Text(element.text));
                             }).toList(),
                             onChanged: (value) {
                               context
@@ -67,7 +67,7 @@ class ListviewInventoryMovement extends StatelessWidget {
                                   .checkErrorsMoveList(form, warehouse);
                               context
                                   .read<MovesFormCubit>()
-                                  .setConcept(value.toString());
+                                  .setConcept(form.concepts.where((x) => x.text == value).first);
                               form = context.read<MovesFormCubit>().state;
                               context.read<InventoryMovesCubit>().load(form);
                               if (value == 'Salida por traspaso') {
@@ -119,8 +119,8 @@ class ListviewInventoryMovement extends StatelessWidget {
                               ),
                               onChanged: (value) {
                                 context
-                                    .read<InventoryMovesCubit>()
-                                    .editDocument(value, form);
+                                    .read<MovesFormCubit>().setDocument(value);
+                                context.read<InventoryMovesCubit>().load(form);
                               },
                             ),
                           ),
@@ -396,8 +396,8 @@ class ListviewInventoryMovement extends StatelessWidget {
                             decoration: InputDecoration(
                               isDense: true,
                               errorStyle: const TextStyle(height: 0.3),
-                              errorText: moveRow.stockExist
-                                  ? 'Stock insuficiente'
+                              errorText: moveRow.states[moveRow.tQuantity]!.state == DataState.error
+                                  ? moveRow.states[moveRow.tQuantity]!.message
                                   : null,
                               errorBorder: const UnderlineInputBorder(
                                   borderSide: BorderSide(color: Colors.red)),

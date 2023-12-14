@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../../inventory/model/inventory_move/inventory_move_concept_model.dart';
+import '../../../../inventory/model/inventory_move/concept_move_model.dart';
 import '../../../cubit/movement_filters/movement_filters_cubit.dart';
 import '../../../model/movement_filter_model.dart';
 
@@ -12,7 +12,7 @@ class DropdownConcepts extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final InventoryMoveConceptModel conceptValue;
+    final ConceptMoveModel conceptValue;
     final int i;
     if (filters.conceptsList.contains(filters.concept)) {
       conceptValue = filters.concept;
@@ -32,7 +32,7 @@ class DropdownConcepts extends StatelessWidget {
         isExpanded: true,
         value: conceptValue,
         items: filters.conceptsList.map((e) {
-          return DropdownMenuItem(value: e, child: Text(e.concept));
+          return DropdownMenuItem(value: e, child: Text(e.text));
         }).toList(),
         onChanged: (value) {
           if (value != null) {
