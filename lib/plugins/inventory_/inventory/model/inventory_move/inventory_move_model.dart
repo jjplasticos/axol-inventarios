@@ -31,6 +31,7 @@ class InventoryMoveModel {
   static const String _emSelectConcept = 'Seleccione un concept';
   static const String _emNotStock =  'Stock insuficiente en alguno de los productos';
   static const String _emNotProduct = 'Clave no valida en alguno de los productos';
+  static const String _emNotRow = 'Agregue al menos un movimiento';
 
   String get tMoveList => _moveList;
   String get tConcept => _concept;
@@ -42,6 +43,7 @@ class InventoryMoveModel {
   String get emSelectConcept => _emSelectConcept;
   String get emNotStock => _emNotStock;
   String get emNotProduct => _emNotProduct;
+  String get emNotRow => _emNotRow;
 
   InventoryMoveModel.empty()
       : moveList = [],
