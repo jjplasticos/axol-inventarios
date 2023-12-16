@@ -130,7 +130,8 @@ class InventoryRepo {
     return inventoryRow;
   }
 
-  Future<void> updateInventoryWithMovemets(List<MovementModel> movements) async {
+  Future<void> updateInventoryWithMovemets(
+      List<MovementModel> movements) async {
     double currentStock = -1;
     double newStock = -1;
     InventoryModel? inventoryModel;
@@ -169,20 +170,28 @@ class InventoryRepo {
     }
   }
 
-  //Falta terminar!!
+  //Falta probar!!
   Future<void> updateInventory(List<InventoryModel> inventoryList) async {
     InventoryModel? invRowDB;
     for (var row in inventoryList) {
       invRowDB = await fetchRowByCode(row.code, row.name);
-      if (invRowDB != null && row.stock > 0) { //Sí existe
-        await _supabase
+      if (invRowDB != null) {
+        if (row.stock > 0) {
+          //Actualiza fila de base de datos
+          await _supabase
               .from(_table)
               .update({_stock: row.stock})
               .eq(_code, row.code)
               .eq(_name, row.name);
-      } else if (row.stock == 0) {
-        
-      } else {
+        } else {
+          //Elimina fila de base de datos
+          await _supabase
+              .from(_table)
+              .delete()
+              .eq(_code, row.code)
+              .eq(_name, row.name);
+        }
+      } else if (row.stock > 0) {
         await insertInventoryRow(row);
       }
     }

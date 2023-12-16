@@ -258,12 +258,12 @@ class InventoryMovesCubit extends Cubit<InventoryMovesState> {
         }
       } finally {
         //Guarda los registros en caso de no existir errores.
-        //Tengo:
         //Lista con movimientos a registrar: regMoveList
-        await InventoryRepo().updateInventoryWithMovemets(reg);
         await MovementRepo().insertMovemets(regMoveList);
         //Lista con registros de inventario nuevos: inventoryList
+        await InventoryRepo().updateInventory(inventoryList);
         //Lista con registros de inventario destino: inventoryListDestiny
+        await InventoryRepo().updateInventory(inventoryListDestiny);
       }
 
       /*if (form.states[form.tSave]!.state != DataState.error) {
