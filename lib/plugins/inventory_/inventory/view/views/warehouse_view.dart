@@ -24,9 +24,9 @@ import 'warehouse_menu_view.dart';
 
 class WarehouseView extends StatelessWidget {
   final WarehouseModel warehouse;
-  final List<UserModel> users;
+  //final List<UserModel> users;
   const WarehouseView(
-      {super.key, required this.warehouse, required this.users});
+      {super.key, required this.warehouse});
 
   @override
   Widget build(BuildContext context) {

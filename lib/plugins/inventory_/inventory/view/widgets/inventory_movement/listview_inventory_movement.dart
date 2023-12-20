@@ -408,7 +408,7 @@ class ListviewInventoryMovement extends StatelessWidget {
                                   offset: moveRow.quantity.toString().length),
                             style: Typo.labelText1,
                             onSubmitted: (value) {
-                              if (form.concept != '') {
+                              if (form.concept.text != '') {
                                 form = context.read<MovesFormCubit>().state;
                                 context
                                     .read<InventoryMovesCubit>()

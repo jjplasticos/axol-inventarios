@@ -90,7 +90,8 @@ class InventoryMovesCubit extends Cubit<InventoryMovesState> {
 
     if (inventoryRow != null) {
       if (moveRow.quantity > inventoryRow.stock &&
-          form.concepts.where((x) => x.text == form.concept).first.type == 1) {
+          form.concepts.where((x) => x.text == form.concept.text).first.type ==
+              1) {
         upMoveRow.states[moveRow.tQuantity] =
             DataState(state: DataState.error, message: moveRow.emNotStock);
       } else {
@@ -136,77 +137,108 @@ class InventoryMovesCubit extends Cubit<InventoryMovesState> {
 
   Future<void> saveMovements(
       final InventoryMoveModel form, final WarehouseModel warehouse) async {
-    try {
-      InventoryMoveModel currentRedux;
-      InventoryMoveModel upForm = form;
-      List<InventoryMoveRowModel> movesRedux = [];
-      MovementModel regMove;
-      List<MovementModel> regMoveList = [];
-      ConceptMoveModel conceptModel;
-      bool successValidatio = true;
-      String errorMessage = '';
-      int conceptType = -1;
-      UserModel userModel;
-      InventoryModel? inventoryModel;
-      double stock = 0;
-      bool hasQuantityError = false;
-      bool hasCodeError = false;
-      List<InventoryMoveRowModel> upMoveList;
-      Map<String, InventoryMoveRowModel> mapMoveList = {};
-      UserModel user;
-      Map<String, InventoryModel> inventoryMap = {};
-      InventoryModel? inventoryRow;
-      List<InventoryModel> inventoryList = [];
-      List<InventoryModel> inventoryListDestiny = [];
+    InventoryMoveModel upForm = form;
+    MovementModel regMove;
+    List<MovementModel> regMoveList = [];
+    double stock = 0;
+    List<InventoryMoveRowModel> upMoveList;
+    Map<String, InventoryMoveRowModel> mapMoveList = {};
+    UserModel user;
+    Map<String, InventoryModel> inventoryMap = {};
+    InventoryModel? inventoryRow;
+    List<InventoryModel> inventoryList = [];
+    List<InventoryModel> inventoryListDestiny = [];
 
-      try {
-        //Valida si se seleccionó un concepto.
-        if (form.concept.text == '') {
+    try {
+      emit(InitialState());
+      emit(SaveLoadingState());
+      //Valida si se seleccionó un concepto.
+      if (form.concept.text == '') {
+        form.states[form.tSave]!.state = DataState.error;
+        form.states[form.tSave]!.message = form.emSelectConcept;
+        emit(ErrorState(error: form.emSelectConcept));
+        return;
+      }
+
+      //Valida si se hay al menos una fila en la lista de movimientos.
+      if (form.moveList.isEmpty) {
+        form.states[form.tSave]!.state = DataState.error;
+        form.states[form.tSave]!.message = form.emNotRow;
+        emit(ErrorState(error: form.emNotRow));
+        return;
+      }
+
+      //Valida si hay algún error en las filas de la lista.
+      for (var moveRow in form.moveList) {
+        if (moveRow.states[moveRow.tCode]!.state == DataState.error) {
           form.states[form.tSave]!.state = DataState.error;
-          form.states[form.tSave]!.message = form.emSelectConcept;
+          form.states[form.tSave]!.message = form.emNotProduct;
+          emit(ErrorState(error: form.emNotProduct));
+          return;
+        }
+        if (moveRow.states[moveRow.tQuantity]!.state == DataState.error) {
+          form.states[form.tSave]!.state = DataState.error;
+          form.states[form.tSave]!.message = form.emNotStock;
+          emit(ErrorState(error: form.emNotStock));
+          return;
+        }
+      }
+
+      //Reduce las filas sumando los que tienene la misma clave.
+      for (var moveRow in form.moveList) {
+        if (mapMoveList.keys.contains(moveRow.code)) {
+          var row = mapMoveList[moveRow.code]!;
+          row.quantity = row.quantity + moveRow.quantity;
+          row.weightTotal = row.quantity * row.weightUnit;
+          mapMoveList[moveRow.code] = row;
+        } else {
+          mapMoveList[moveRow.code] = moveRow;
+        }
+      }
+      upMoveList = mapMoveList.values.toList();
+
+      //Obtiene los registros de inventario actuales de la lista reducida
+      for (var row in upForm.moveList) {
+        inventoryRow =
+            await InventoryRepo().fetchRowByCode(row.code, warehouse.name);
+        if (inventoryRow != null) {
+          inventoryMap[row.code] = inventoryRow;
+        } else {
+          inventoryMap[row.code] =
+              InventoryModel.stockZero(row.code, warehouse);
+        }
+      }
+
+      //Crea un registro de movimiento por cada fila de la lista actualizada.
+      upForm.moveList = upMoveList;
+      user = await LocalUser().getLocalUser();
+      for (var row in upForm.moveList) {
+        if (upForm.concept.type == 0) {
+          stock = inventoryMap[row.code]!.stock + row.quantity;
+        } else {
+          stock = inventoryMap[row.code]!.stock - row.quantity;
+        }
+        if (stock < 0) {
+          form.states[form.tSave]!.state = DataState.error;
+          form.states[form.tSave]!.message = form.emNotStock;
+          emit(ErrorState(error: form.emNotStock));
           return;
         } else {
-          conceptType = form.concept.type;
+          inventoryMap[row.code]!.stock = stock;
         }
+        regMove = MovementModel.fromRowOfDoc(
+            upForm, row, warehouse.name, user.name, stock);
+        regMoveList.add(regMove);
+        inventoryList = inventoryMap.values.toList();
+      }
 
-        //Valida si se hay al menos una fila en la lista de movimientos.
-        if (form.moveList.isEmpty) {
-          form.states[form.tSave]!.state = DataState.error;
-          form.states[form.tSave]!.message = form.emNotRow;
-          return;
-        }
-
-        //Valida si hay algún error en las filas de la lista.
-        for (var moveRow in form.moveList) {
-          if (moveRow.states[moveRow.tCode]!.state == DataState.error) {
-            form.states[form.tSave]!.state = DataState.error;
-            form.states[form.tSave]!.message = form.emNotProduct;
-            return;
-          }
-          if (moveRow.states[moveRow.tQuantity]!.state == DataState.error) {
-            form.states[form.tSave]!.state = DataState.error;
-            form.states[form.tSave]!.message = form.emNotStock;
-            return;
-          }
-        }
-
-        //Reduce las filas sumando los que tienene la misma clave.
-        for (var moveRow in form.moveList) {
-          if (mapMoveList.keys.contains(moveRow.code)) {
-            var row = mapMoveList[moveRow.code]!;
-            row.quantity = row.quantity + moveRow.quantity;
-            row.weightTotal = row.quantity * row.weightUnit;
-            mapMoveList[moveRow.code] = row;
-          } else {
-            mapMoveList[moveRow.code] = moveRow;
-          }
-        }
-        upMoveList = mapMoveList.values.toList();
-
-        //Obtiene los registros de inventario actuales de la lista reducida
+      //Si el concepto es una salida de traspaso, obtiene los registors de
+      //inventario y crea los registros extra de entrada para el inventario destino.
+      if (upForm.concept.id == 58) {
+        inventoryMap = {};
         for (var row in upForm.moveList) {
-          inventoryRow =
-              await InventoryRepo().fetchRowByCode(row.code, warehouse.name);
+          inventoryRow = await InventoryRepo()
+              .fetchRowByCode(row.code, upForm.invTransfer);
           if (inventoryRow != null) {
             inventoryMap[row.code] = inventoryRow;
           } else {
@@ -214,49 +246,18 @@ class InventoryMovesCubit extends Cubit<InventoryMovesState> {
                 InventoryModel.stockZero(row.code, warehouse);
           }
         }
-
-        //Crea un registro de movimiento por cada fila de la lista actualizada.
-        upForm.moveList = upMoveList;
-        user = await LocalUser().getLocalUser();
         for (var row in upForm.moveList) {
-          if (upForm.concept.type == 0) {
-            stock = inventoryMap[row.code]!.stock + row.quantity;
-          } else {
-            stock = inventoryMap[row.code]!.stock - row.quantity;
-          }
-          if (stock < 0) {
-            form.states[form.tSave]!.state = DataState.error;
-            form.states[form.tSave]!.message = form.emNotStock;
-            return;
-          }
-          regMove = MovementModel.fromRowOfDoc(
-              upForm, row, warehouse.name, user.name, stock);
+          stock = inventoryMap[row.code]!.stock + row.quantity;
+          regMove = MovementModel.transferDestiny(
+              upForm, row, upForm.invTransfer, user.name, stock);
           regMoveList.add(regMove);
-          inventoryList = inventoryMap.values.toList();
+          inventoryListDestiny = inventoryMap.values.toList();
         }
-
-        //Si el concepto es una salida de traspaso, obtiene los registors de 
-        //inventario y crea los registros extra de entrada para el inventario destino.
-        if (upForm.concept.id == 58) {
-          inventoryMap = {};
-          for (var row in upForm.moveList) {
-            inventoryRow = await InventoryRepo()
-                .fetchRowByCode(row.code, upForm.invTransfer);
-            if (inventoryRow != null) {
-              inventoryMap[row.code] = inventoryRow;
-            } else {
-              inventoryMap[row.code] =
-                  InventoryModel.stockZero(row.code, warehouse);
-            }
-          }
-          for (var row in upForm.moveList) {
-            stock = inventoryMap[row.code]!.stock + row.quantity;
-            regMove = MovementModel.transferDestiny(upForm, row, upForm.invTransfer, user.name, stock);
-            regMoveList.add(regMove);
-            inventoryListDestiny = inventoryMap.values.toList();
-          }
-        }
-      } finally {
+      }
+    } catch (e) {
+      emit(ErrorState(error: e.toString()));
+    } finally {
+      if (state is SaveLoadingState) {
         //Guarda los registros en caso de no existir errores.
         //Lista con movimientos a registrar: regMoveList
         await MovementRepo().insertMovemets(regMoveList);
@@ -264,85 +265,8 @@ class InventoryMovesCubit extends Cubit<InventoryMovesState> {
         await InventoryRepo().updateInventory(inventoryList);
         //Lista con registros de inventario destino: inventoryListDestiny
         await InventoryRepo().updateInventory(inventoryListDestiny);
+        emit(SaveLoadedState());
       }
-
-      /*if (form.states[form.tSave]!.state != DataState.error) {
-        /*currentRedux = InventoryMoveModel(
-            moveList: movesRedux,
-            concept: form.concept,
-            date: form.date,
-            document: form.document,
-            concepts: form.concepts,
-            invTransfer: form.invTransfer,
-            states: {});*/
-
-        //Craa la lista de movimientos que agragara al historial, en base de
-        // 'currentRedux'.
-        conceptModel = currentRedux.concepts.elementAt(currentRedux.concepts
-            .indexWhere((value) => value.text == form.concept.text));
-        userModel = await LocalUser().getLocalUser();
-        for (var element in currentRedux.moveList) {
-          inventoryModel = await InventoryRepo()
-              .fetchRowByCode(element.code, warehouse.name);
-          if (inventoryModel != null) {
-            if (conceptModel.type == 0) {
-              stock = inventoryModel.stock + element.quantity;
-            } else if (conceptModel.type == 1) {
-              stock = inventoryModel.stock - element.quantity;
-            }
-          } else {
-            stock = 0;
-          }
-          movement = MovementModel(
-            id: const Uuid().v4(),
-            code: element.code,
-            concept: conceptModel.id,
-            conceptType: conceptModel.type,
-            description: element.description,
-            document: currentRedux.document,
-            quantity: element.quantity,
-            time: DateTime.now(),
-            warehouse: inventory1,
-            user: userModel.name,
-            stock: stock,
-          );
-          movements.add(movement);
-          if (conceptModel.id == 58) {
-            inventoryModel = await InventoryRepo()
-                .fetchRowByCode(element.code, form.invTransfer);
-            if (inventoryModel != null) {
-              stock = inventoryModel.stock + element.quantity;
-            } else {
-              stock = element.quantity;
-            }
-            movement = MovementModel(
-                id: const Uuid().v4(),
-                code: element.code,
-                concept: 7,
-                conceptType: 0,
-                description: element.description,
-                document: currentRedux.document,
-                quantity: element.quantity,
-                time: DateTime.now(),
-                warehouse: currentRedux.invTransfer,
-                user: userModel.name,
-                stock: stock);
-            movements.add(movement);
-          }
-        }
-        emit(SaveInitialState());
-        emit(SaveLoadingState(inventoryMoveElements: current));
-        await InventoryRepo().updateInventory(movements);
-        await MovementRepo().insertMovemets(movements);
-        final List<UserModel> users = await DatabaseUser().fetchAllUsers();
-        emit(SaveLoadedState(users: users));
-      } else {
-        emit(SaveInitialState());
-        emit(SaveErrorState(
-            inventoryMoveElements: current, errorMessage: errorMessage));
-      }*/
-    } catch (e) {
-      emit(ErrorState(error: e.toString()));
     }
   }
 

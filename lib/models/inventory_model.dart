@@ -3,13 +3,13 @@ import 'package:uuid/uuid.dart';
 import '../plugins/inventory_/inventory/model/warehouse_model.dart';
 
 class InventoryModel {
-  final String id;
-  final double stock;
-  final String retailManager;
-  final String name;
-  final String code;
+  String id;
+  double stock;
+  String retailManager;
+  String name;
+  String code;
 
-  const InventoryModel({
+  InventoryModel({
     required this.code,
     required this.id,
     required this.name,

@@ -25,17 +25,17 @@ class SaveInitialState extends InventoryMovesState {
 }
 
 class SaveLoadingState extends InventoryMovesState {
-  final InventoryMoveModel inventoryMoveElements;
-  const SaveLoadingState({required this.inventoryMoveElements});
+  //final InventoryMoveModel inventoryMoveElements;
+  //const SaveLoadingState({required this.inventoryMoveElements});
   @override
-  List<Object?> get props => [inventoryMoveElements];
+  List<Object?> get props => [];
 }
 
 class SaveLoadedState extends InventoryMovesState {
-  final List<UserModel> users;
-  const SaveLoadedState({required this.users});
+  //final List<UserModel> users;
+  //const SaveLoadedState({required this.users});
   @override
-  List<Object?> get props => [users];
+  List<Object?> get props => [];
 }
 
 class SaveErrorState extends InventoryMovesState {
