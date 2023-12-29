@@ -2,23 +2,37 @@ class ProductModel {
   final String code;
   final String description;
   final int class_;
-  final Map<String, dynamic> properties;
+  final Map<String, dynamic>? properties;
+  final String? type;
+  final double? gauge;
+  final String? pieces;
+  final double? weight;
+  final String? measure;
+  final String? packing;
+  final String? capacity;
 
-  static const String propCode = 'code';
-  static const String propDescription = 'description';
-  static const String propType = 'type';
-  static const String propGauge = 'gauge';
-  static const String propPieces = 'pices';
-  static const String propWeight = 'weight';
-  static const String propMeasure = 'measure';
-  static const String propPacking = 'packing';
-  static const String propCapacity = 'capacity';
+  static const String tCode = 'code';
+  static const String tDescription = 'description';
+  static const String tType = 'type';
+  static const String tGauge = 'gauge';
+  static const String tPieces = 'pices';
+  static const String tWeight = 'weight';
+  static const String tMeasure = 'measure';
+  static const String tPacking = 'packing';
+  static const String tCapacity = 'capacity';
 
   ProductModel({
     required this.code,
     required this.description,
-    required this.properties,
     required this.class_,
+    this.properties,
+    this.type,
+    this.gauge,
+    this.pieces,
+    this.weight,
+    this.measure,
+    this.packing,
+    this.capacity,
   });
 
   static ProductModel emptyValue() {
@@ -26,15 +40,15 @@ class ProductModel {
         code: '',
         description: '',
         properties: {
-          propCode: '',
-          propDescription: '',
-          propType: '',
-          propGauge: '',
-          propPieces: '',
-          propWeight: '',
-          propMeasure: '',
-          propPacking: '',
-          propCapacity: '',
+          tCode: '',
+          tDescription: '',
+          tType: '',
+          tGauge: '',
+          tPieces: '',
+          tWeight: '',
+          tMeasure: '',
+          tPacking: '',
+          tCapacity: '',
         },
         class_: -1);
   }
@@ -43,10 +57,10 @@ class ProductModel {
     ProductModel newProduct;
     Map<String, dynamic> newMap = {};
     final List<String> propList =
-        List.from(ProductModel.emptyValue().properties.keys);
+        List.from(ProductModel.emptyValue().properties!.keys);
     for (var element in propList) {
-      if (product.properties.containsKey(element)) {
-        newMap[element] = product.properties[element];
+      if (product.properties!.containsKey(element)) {
+        newMap[element] = product.properties![element];
       }
     }
     newProduct = ProductModel(

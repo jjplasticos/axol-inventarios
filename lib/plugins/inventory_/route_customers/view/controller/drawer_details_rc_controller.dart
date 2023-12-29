@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../../../settings/theme.dart';
+import '../../../../../utilities/theme.dart';
 import '../../cubit/rc_details_cubit/rc_details_cubit.dart';
 import '../../cubit/rc_details_cubit/rc_details_state.dart';
 import '../../model/routcustomer_model.dart';

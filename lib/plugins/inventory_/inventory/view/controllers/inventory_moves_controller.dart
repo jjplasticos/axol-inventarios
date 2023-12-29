@@ -1,13 +1,15 @@
+import 'package:axol_inventarios/plugins/inventory_/inventory/cubit/inventory_movements/moves_form_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../../../settings/theme.dart';
+import '../../../../../utilities/theme.dart';
 import '../../cubit/inventory_movements/inventory_moves_cubit.dart';
 import '../../cubit/inventory_movements/inventory_moves_state.dart';
+import '../../model/inventory_move/inventory_move_model.dart';
 import '../views/warehouse_view.dart';
 import '../widgets/inventory_movement/page_invmov.dart';
 
-class InventoryMovesController extends StatelessWidget {
+/*class InventoryMovesController extends StatelessWidget {
   final String inventoryName;
 
   const InventoryMovesController({super.key, required this.inventoryName});
@@ -15,7 +17,7 @@ class InventoryMovesController extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<InventoryMovesCubit, InventoryMovesState>(
-      bloc: context.read<InventoryMovesCubit>()..initialState(),
+      bloc: context.read<InventoryMovesCubit>()..initLoad(),
       listener: (context, state) {
         if (state is SaveLoadedState) {
           Navigator.pop(context);
@@ -45,7 +47,7 @@ class InventoryMovesController extends StatelessWidget {
         }
       },
       builder: (context, state) {
-        if (state is EditState) {
+        if (state is LoadedState) {
           return PageInvMov(
             inventoryName: inventoryName,
             inventoryMoveElements: state.inventoryMoveElements,
@@ -66,4 +68,4 @@ class InventoryMovesController extends StatelessWidget {
       },
     );
   }
-}
+}*/

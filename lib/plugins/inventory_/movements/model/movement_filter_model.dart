@@ -1,4 +1,4 @@
-import '../../inventory/model/inventory_move/inventory_move_concept_model.dart';
+import '../../inventory/model/inventory_move/concept_move_model.dart';
 import '../../../../models/textfield_model.dart';
 import '../../../../models/user_mdoel.dart';
 import '../../inventory/model/warehouse_model.dart';
@@ -7,8 +7,8 @@ class MovementFilterModel {
   final WarehouseModel warehouse;
   final Map<int, DateTime> date;
   final List<WarehouseModel> warehousesList;
-  final InventoryMoveConceptModel concept;
-  final List<InventoryMoveConceptModel> conceptsList;
+  final ConceptMoveModel concept;
+  final List<ConceptMoveModel> conceptsList;
   final UserModel user;
   final List<UserModel> usersList;
   final TextfieldModel currentLimit;
@@ -19,9 +19,9 @@ class MovementFilterModel {
     1: DateTime(3000)
   };
   static const List<WarehouseModel> initWarehouseList = [];
-  static const InventoryMoveConceptModel initConcept =
-      InventoryMoveConceptModel(concept: 'TODOS', id: -1, type: -1);
-  static const List<InventoryMoveConceptModel> initConceptList = [];
+  static const ConceptMoveModel initConcept =
+      ConceptMoveModel(text: 'TODOS', id: -1, type: -1);
+  static const List<ConceptMoveModel> initConceptList = [];
   static const UserModel initUser =
       UserModel(name: 'TODOS', id: -1, rol: '//', password: '//');
   static const List<UserModel> initUsersList = [];

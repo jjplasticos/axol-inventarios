@@ -35,7 +35,7 @@ class DrawerProduct extends StatelessWidget {
         properties[element] = product.properties[element];
       }
     }*/
-    final List<dynamic> propertiesValues = List.from(product.properties.values);
+    final List<dynamic> propertiesValues = List.from(product.properties!.values);
     for (int i = 0; i < propertiesValues.length; i++) {
       textController.add(TextEditingController());
       textController[i].text = propertiesValues[i].toString();

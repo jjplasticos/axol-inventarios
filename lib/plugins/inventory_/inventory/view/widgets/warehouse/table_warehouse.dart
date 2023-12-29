@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../../../../../models/inventory_row_model.dart';
-import '../../../../../../settings/theme.dart';
+import '../../../../../../utilities/theme.dart';
 
 class TableWarehouse extends StatelessWidget {
   final List<InventoryRowModel> listData;
@@ -58,9 +58,9 @@ class TableWarehouse extends StatelessWidget {
               DataCell(Text(element0.product.code, style: Typo.bodyText6));
           cells.add(dataCell);
         } else {
-          if (element0.product.properties.containsKey(elementDecoded)) {
+          if (element0.product.properties!.containsKey(elementDecoded)) {
             dataCell = DataCell(Text(
-                element0.product.properties[elementDecoded],
+                element0.product.properties![elementDecoded],
                 style: Typo.bodyText6));
             cells.add(dataCell);
           }

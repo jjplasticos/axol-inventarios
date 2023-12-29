@@ -6,7 +6,7 @@ import '../../cubit/drawer_product/listen_drawer_cubit.dart';
 import '../../cubit/products/products_cubit.dart';
 import '../../model/product_model.dart';
 import '../../../../../models/textfield_model.dart';
-import '../../../../../settings/theme.dart';
+import '../../../../../utilities/theme.dart';
 import '../../repository/product_repo.dart';
 import '../controllers/drawer_product_controller.dart';
 import 'drawer_details_product.dart';
@@ -201,7 +201,7 @@ class ListviewProducts extends StatelessWidget {
                               flex: 1,
                               child: Center(
                                 child: Text(
-                                  productRow.properties[_type],
+                                  productRow.properties![_type],
                                   style: Typo.labelText1,
                                 ),
                               ),
@@ -211,7 +211,7 @@ class ListviewProducts extends StatelessWidget {
                               flex: 1,
                               child: Center(
                                 child: Text(
-                                  '${productRow.properties[_weight]} KG',
+                                  '${productRow.properties![_weight]} KG',
                                   style: Typo.labelText1,
                                 ),
                               ),
@@ -221,7 +221,7 @@ class ListviewProducts extends StatelessWidget {
                               flex: 1,
                               child: Center(
                                 child: Text(
-                                  productRow.properties[_packing],
+                                  productRow.properties![_packing],
                                   style: Typo.labelText1,
                                 ),
                               ),

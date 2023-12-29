@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../../settings/theme.dart';
+import '../../../../utilities/theme.dart';
 import '../../cubit/sale_note_cubit/salenote_cubit.dart';
 import '../../cubit/sale_note_cubit/salenote_state.dart';
 import '../widgets/finder_salenote.dart';

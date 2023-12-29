@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../../../settings/theme.dart';
+import '../../../../utilities/theme.dart';
 import '../../model/sale_note_mdoel.dart';
 import 'finder_salenote.dart';
 import 'toolbar_salenote.dart';

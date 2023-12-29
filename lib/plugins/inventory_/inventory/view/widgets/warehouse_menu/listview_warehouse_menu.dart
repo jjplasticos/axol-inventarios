@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../../../models/user_mdoel.dart';
-import '../../../../../../settings/theme.dart';
+import '../../../../../../utilities/theme.dart';
 import '../../../cubit/warehouse_setting/warehouse_setting_cubit.dart';
 import '../../../cubit/warehouses_load/warehouses_load_cubit.dart';
 import '../../controllers/drawer_warehouse_controller.dart';
@@ -60,8 +60,7 @@ class ListviewWarehouseMenu extends StatelessWidget {
                         context,
                         MaterialPageRoute(
                             builder: (context) => WarehouseView(
-                                  warehouseName: elementList.name,
-                                  users: users,
+                                  warehouse: elementList,
                                 )));
                   } else if (mode == 1) {
                     //Edit mode

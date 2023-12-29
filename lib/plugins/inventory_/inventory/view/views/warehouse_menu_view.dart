@@ -5,7 +5,7 @@ import '../../../../../global_widgets/appbar/appbar_global.dart';
 import '../../../../../global_widgets/plugins_bar.dart';
 import '../../../../../global_widgets/views_bar.dart';
 import '../../../../../models/elemnets_bar_model.dart';
-import '../../../../../settings/theme.dart';
+import '../../../../../utilities/theme.dart';
 import '../../../movements/view/views/movements_view.dart';
 import '../../../product/view/views/product_view.dart';
 import '../../../../sale_note/view/views/sale_note_view.dart';

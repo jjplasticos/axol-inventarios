@@ -1,24 +1,27 @@
+import 'package:axol_inventarios/plugins/inventory_/inventory/model/warehouse_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../../../global_widgets/toolbar.dart';
 import '../../../../../../global_widgets/views_bar.dart';
 import '../../../../../../models/elemnets_bar_model.dart';
-import '../../../model/inventory_move/inventory_move_elements_model.dart';
+import '../../../cubit/inventory_movements/moves_form_cubit.dart';
+import '../../../model/inventory_move/inventory_move_model.dart';
 import '../../../cubit/inventory_movements/inventory_moves_cubit.dart';
+import '../../../model/inventory_move/inventory_move_row_model.dart';
 import 'listview_inventory_movement.dart';
 
 class PageInvMov extends StatelessWidget {
-  final InventoryMoveElementsModel inventoryMoveElements;
-  final String inventoryName;
+  final WarehouseModel warehouse;
 
   const PageInvMov(
       {super.key,
-      required this.inventoryName,
-      required this.inventoryMoveElements});
+      required this.warehouse});
 
   @override
   Widget build(BuildContext context) {
+    InventoryMoveModel form = context.read<MovesFormCubit>().state;
+    List<InventoryMoveRowModel> products = [];
     return Row(
       mainAxisAlignment: MainAxisAlignment.start,
       mainAxisSize: MainAxisSize.max,
@@ -36,8 +39,7 @@ class PageInvMov extends StatelessWidget {
         ),
         Expanded(
           child: ListviewInventoryMovement(
-            inventoryName: inventoryName,
-            elementsData: inventoryMoveElements,
+            warehouse: warehouse,
           ),
         ),
         Toolbar(
@@ -46,9 +48,11 @@ class PageInvMov extends StatelessWidget {
               text: null,
               icon: const Icon(Icons.add),
               action: () {
-                context
-                    .read<InventoryMovesCubit>()
-                    .addRow(inventoryMoveElements);
+                products = form.moveList;
+                products.add(InventoryMoveRowModel.empty());
+                form.moveList = products;
+                context.read<MovesFormCubit>().setProducts(products);
+                context.read<InventoryMovesCubit>().load(form);
               },
             ),
             ElementsBarModel(
@@ -57,7 +61,7 @@ class PageInvMov extends StatelessWidget {
               action: () {
                 context
                     .read<InventoryMovesCubit>()
-                    .saveMovements(inventoryMoveElements, inventoryName);
+                    .saveMovements(form, warehouse);
               },
             )
           ],

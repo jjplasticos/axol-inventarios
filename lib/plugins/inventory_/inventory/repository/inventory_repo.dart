@@ -68,7 +68,7 @@ class InventoryRepo {
     if (filter != '') {
       for (var element in inventoryList) {
         if (element.product.code.contains(filter) ||
-            element.product.properties[_description]
+            element.product.properties![_description]
                 .toString()
                 .contains(filter)) {
           finalInventoryList.add(element);
@@ -130,7 +130,8 @@ class InventoryRepo {
     return inventoryRow;
   }
 
-  Future<void> updateInventory(List<MovementModel> movements) async {
+  Future<void> updateInventoryWithMovemets(
+      List<MovementModel> movements) async {
     double currentStock = -1;
     double newStock = -1;
     InventoryModel? inventoryModel;
@@ -165,6 +166,33 @@ class InventoryRepo {
               stock: element.quantity);
           await insertInventoryRow(newInventoryRow);
         }
+      }
+    }
+  }
+
+  //Falta probar!!
+  Future<void> updateInventory(List<InventoryModel> inventoryList) async {
+    InventoryModel? invRowDB;
+    for (var row in inventoryList) {
+      invRowDB = await fetchRowByCode(row.code, row.name);
+      if (invRowDB != null) {
+        if (row.stock > 0) {
+          //Actualiza fila de base de datos
+          await _supabase
+              .from(_table)
+              .update({_stock: row.stock})
+              .eq(_code, row.code)
+              .eq(_name, row.name);
+        } else {
+          //Elimina fila de base de datos
+          await _supabase
+              .from(_table)
+              .delete()
+              .eq(_code, row.code)
+              .eq(_name, row.name);
+        }
+      } else if (row.stock > 0) {
+        await insertInventoryRow(row);
       }
     }
   }
