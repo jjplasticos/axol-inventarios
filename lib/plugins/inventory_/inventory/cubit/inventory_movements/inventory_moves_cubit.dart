@@ -6,7 +6,6 @@ import 'package:uuid/uuid.dart';
 import '../../../../../models/inventory_model.dart';
 import '../../../../../utilities/data_state.dart';
 import '../../../product/model/product_model.dart';
-import '../../model/inventory_move/concept_move_model.dart';
 import '../../model/inventory_move/inventory_move_model.dart';
 import '../../model/inventory_move/inventory_move_row_model.dart';
 import '../../../movements/model/movement_model.dart';
@@ -53,7 +52,7 @@ class InventoryMovesCubit extends Cubit<InventoryMovesState> {
         DataState(state: DataState.loading);
     emit(LoadedState(form: upForm));
 
-    //Buscar currentCode en la base de datos y obtiene los datos ncesarios.
+    //Buscar currentCode en la base de datos y obtiene los datos necesarios.
     productDB = await ProductRepo().fetchProduct(inputCode);
     inventoryRow =
         await InventoryRepo().fetchRowByCode(inputCode, warehouse.name);
@@ -120,21 +119,6 @@ class InventoryMovesCubit extends Cubit<InventoryMovesState> {
     }
   }
 
-  /*Future<void> editDocument(String document, InventoryMoveModel current) async {
-    InventoryMoveModel elements;
-
-    elements = InventoryMoveModel(
-        moveList: current.moveList,
-        concept: current.concept,
-        date: current.date,
-        document: document,
-        concepts: current.concepts,
-        invTransfer: current.invTransfer,
-        states: {});
-    emit(InitialState());
-    emit(LoadedState(form: elements));
-  }*/
-
   Future<void> saveMovements(
       final InventoryMoveModel form, final WarehouseModel warehouse) async {
     InventoryMoveModel upForm = form;
@@ -166,6 +150,15 @@ class InventoryMovesCubit extends Cubit<InventoryMovesState> {
         form.states[form.tSave]!.message = form.emNotRow;
         emit(ErrorState(error: form.emNotRow));
         return;
+      } else {
+        for (var element in form.moveList) {
+          if (element.code == '' || element.quantity <= 1) {
+            form.states[form.tSave]!.state = DataState.error;
+            form.states[form.tSave]!.message = form.emRowMissing;
+            emit(ErrorState(error: form.emRowMissing));
+            return;
+          }
+        }
       }
 
       //Valida si hay algún error en las filas de la lista.
@@ -269,132 +262,6 @@ class InventoryMovesCubit extends Cubit<InventoryMovesState> {
       }
     }
   }
-
-  /*Future<void> saveMovements(
-      InventoryMoveModel current, String inventory1) async {
-    try {
-      InventoryMoveModel currentRedux;
-      List<InventoryMoveRowModel> productsRedux = [];
-      MovementModel movement;
-      List<MovementModel> movements = [];
-      InventoryMoveConceptModel conceptModel;
-      bool successValidatio = true;
-      String errorMessage = '';
-      int conceptType = -1;
-      UserModel userModel;
-      InventoryModel? inventoryModel;
-      double stock = 0;
-
-      if (current.concepts
-              .indexWhere((value) => value.concept == current.concept) <
-          0) {
-        successValidatio = false;
-        errorMessage = 'Seleccione un concepto.';
-      } else {
-        conceptType = current.concepts
-            .elementAt(current.concepts
-                .indexWhere((value) => value.concept == current.concept))
-            .type;
-      }
-      //Reduce la lista de productos eliminando las filas que no contengan
-      // descripción y valida el estock.
-      for (var element in current.moveList) {
-        //si es concepto de salida...
-        if (conceptType == 1) {
-          if (element.stockExist == true) {
-            successValidatio = false;
-            errorMessage = 'La cantidad supera el stock disponible.';
-          }
-        }
-        if (element.description != '' && element.quantity > 0) {
-          productsRedux.add(element);
-        }
-      }
-      if (productsRedux.isEmpty) {
-        successValidatio = false;
-        errorMessage =
-            'Agrege al menos un producto a la lista con cantidad mayor a 0';
-      }
-
-      if (successValidatio == true) {
-        currentRedux = InventoryMoveModel(
-            moveList: productsRedux,
-            concept: current.concept,
-            date: current.date,
-            document: current.document,
-            concepts: current.concepts,
-            invTransfer: current.invTransfer,
-            states: {});
-
-        //Craa la lista de movimientos que agragara al historial, en base de
-        // 'currentRedux'.
-        conceptModel = currentRedux.concepts.elementAt(currentRedux.concepts
-            .indexWhere((value) => value.concept == current.concept));
-        userModel = await LocalUser().getLocalUser();
-        for (var element in currentRedux.moveList) {
-          inventoryModel =
-              await InventoryRepo().fetchRowByCode(element.code, inventory1);
-          if (inventoryModel != null) {
-            if (conceptModel.type == 0) {
-              stock = inventoryModel.stock + element.quantity;
-            } else if (conceptModel.type == 1) {
-              stock = inventoryModel.stock - element.quantity;
-            }
-          } else {
-            stock = 0;
-          }
-          movement = MovementModel(
-            id: const Uuid().v4(),
-            code: element.code,
-            concept: conceptModel.id,
-            conceptType: conceptModel.type,
-            description: element.description,
-            document: currentRedux.document,
-            quantity: element.quantity,
-            time: DateTime.now(),
-            warehouse: inventory1,
-            user: userModel.name,
-            stock: stock,
-          );
-          movements.add(movement);
-          if (conceptModel.id == 58) {
-            inventoryModel = await InventoryRepo()
-                .fetchRowByCode(element.code, currentRedux.invTransfer);
-            if (inventoryModel != null) {
-              stock = inventoryModel.stock + element.quantity;
-            } else {
-              stock = element.quantity;
-            }
-            movement = MovementModel(
-                id: const Uuid().v4(),
-                code: element.code,
-                concept: 7,
-                conceptType: 0,
-                description: element.description,
-                document: currentRedux.document,
-                quantity: element.quantity,
-                time: DateTime.now(),
-                warehouse: currentRedux.invTransfer,
-                user: userModel.name,
-                stock: stock);
-            movements.add(movement);
-          }
-        }
-        emit(SaveInitialState());
-        emit(SaveLoadingState(inventoryMoveElements: current));
-        await InventoryRepo().updateInventory(movements);
-        await MovementRepo().insertMovemets(movements);
-        final List<UserModel> users = await DatabaseUser().fetchAllUsers();
-        emit(SaveLoadedState(users: users));
-      } else {
-        emit(SaveInitialState());
-        emit(SaveErrorState(
-            inventoryMoveElements: current, errorMessage: errorMessage));
-      }
-    } catch (e) {
-      emit(ErrorState(error: e.toString()));
-    }
-  }*/
 
   Future<void> invTransfer(
       InventoryMoveModel current, String inventory2) async {

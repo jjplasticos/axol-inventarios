@@ -62,7 +62,6 @@ class PageInvMov extends StatelessWidget {
                 context
                     .read<InventoryMovesCubit>()
                     .saveMovements(form, warehouse);
-                print('Guardado');
               },
             )
           ],

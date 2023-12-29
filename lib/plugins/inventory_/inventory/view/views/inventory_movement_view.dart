@@ -69,24 +69,36 @@ class InventoryMovementView extends StatelessWidget {
                     ),
                   );
                 }
+                if (state is ErrorState) {
+                  showDialog(
+                    context: context,
+                    builder: (BuildContext context) => AlertDialog(
+                      title: const Text('Alerta!'),
+                      content: Text(
+                        'Error: $state',
+                      ),
+                      actions: [
+                        TextButton(
+                          onPressed: () {
+                            Navigator.pop(context);
+                          },
+                          child: const Text('Aceptar'),
+                        )
+                      ],
+                    ),
+                  );
+                }
               },
               builder: (context, state) {
                 if (state is LoadedState) {
                   context.read<MovesFormCubit>().setForm(state.form);
-                  return PageInvMov(
-                    warehouse: warehouse
-                  );
+                  return PageInvMov(warehouse: warehouse);
                 } else if (state is SaveLoadingState) {
                   return const LinearProgressIndicator();
                 } else if (state is SaveErrorState) {
-                  return PageInvMov(
-                    warehouse: warehouse
-                  );
+                  return PageInvMov(warehouse: warehouse);
                 } else {
-                  return Text(
-                    'Estado recibido: $state',
-                    style: Typo.labelText1,
-                  );
+                  return PageInvMov(warehouse: warehouse);
                 }
               },
             ),
