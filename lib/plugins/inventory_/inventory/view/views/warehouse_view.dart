@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../../global_widgets/appbar/appbar_global.dart';
+import '../../../../../global_widgets/navigation_utilities.dart';
 import '../../../../../global_widgets/plugins_bar.dart';
 import '../../../../../global_widgets/toolbar.dart';
 import '../../../../../global_widgets/views_bar.dart';
@@ -25,8 +26,7 @@ import 'warehouse_menu_view.dart';
 class WarehouseView extends StatelessWidget {
   final WarehouseModel warehouse;
   //final List<UserModel> users;
-  const WarehouseView(
-      {super.key, required this.warehouse});
+  const WarehouseView({super.key, required this.warehouse});
 
   @override
   Widget build(BuildContext context) {
@@ -56,7 +56,30 @@ class WarehouseView extends StatelessWidget {
             mainAxisSize: MainAxisSize.max,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              PluginsBar(listData: [
+              NavigationRail(
+                destinations: NavigationUtilities.navRail,
+                selectedIndex: 1,
+                backgroundColor: ColorPalette.primaryBackground,
+                indicatorColor: ColorPalette.primary,
+                useIndicator: true,
+                onDestinationSelected: (value) {
+                  if (value == 0) {
+                    Navigator.pop(context);
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const HomeView()));
+                  }
+                  if (value == 2) {
+                    Navigator.pop(context);
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const SaleNoteView()));
+                  }
+                },
+              ),
+              /*PluginsBar(listData: [
                 ElementsBarModel(
                     text: null,
                     icon: const Icon(Icons.home),
@@ -87,7 +110,7 @@ class WarehouseView extends StatelessWidget {
                           MaterialPageRoute(
                               builder: (context) => const SaleNoteView()));
                     })
-              ]),
+              ]),*/
               ViewsBar(
                 listData: [
                   ElementsBarModel(

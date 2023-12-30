@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../global_widgets/appbar/appbar_global.dart';
+import '../../../../global_widgets/navigation_utilities.dart';
 import '../../../../global_widgets/plugins_bar.dart';
 import '../../../../global_widgets/views_bar.dart';
 import '../../../../models/elemnets_bar_model.dart';
@@ -40,7 +41,30 @@ class SaleNoteView extends StatelessWidget {
             mainAxisSize: MainAxisSize.max,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              PluginsBar(listData: [
+              NavigationRail(
+                destinations: NavigationUtilities.navRail,
+                selectedIndex: 2,
+                backgroundColor: ColorPalette.primaryBackground,
+                indicatorColor: ColorPalette.primary,
+                useIndicator: true,
+                onDestinationSelected: (value) {
+                  if (value == 0) {
+                    Navigator.pop(context);
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const HomeView()));
+                  }
+                  if (value == 1) {
+                    Navigator.pop(context);
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const WarehouseMenuView()));
+                  }
+                },
+              ),
+              /*PluginsBar(listData: [
                 ElementsBarModel(
                     text: null,
                     icon: const Icon(Icons.home),
@@ -63,7 +87,7 @@ class SaleNoteView extends StatelessWidget {
                     }),
                 ElementsBarModel(
                     text: null, icon: const Icon(Icons.note), action: () {})
-              ]),
+              ]),*/
               ViewsBar(
                 listData: [
                   ElementsBarModel(

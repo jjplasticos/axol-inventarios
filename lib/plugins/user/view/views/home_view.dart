@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../../../global_widgets/appbar/appbar_global.dart';
+import '../../../../global_widgets/navigation_utilities.dart';
 import '../../../../global_widgets/plugins_bar.dart';
 import '../../../../models/elemnets_bar_model.dart';
 import '../../../../utilities/theme.dart';
@@ -31,7 +32,30 @@ class HomeView extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.start,
           mainAxisSize: MainAxisSize.max,
           children: [
-            PluginsBar(listData: [
+            NavigationRail(
+              destinations: NavigationUtilities.navRail,
+              selectedIndex: 0,
+              backgroundColor: ColorPalette.primaryBackground,
+              indicatorColor: ColorPalette.primary,
+              useIndicator: true,
+              onDestinationSelected: (value) {
+                if (value == 1) {
+                  Navigator.pop(context);
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const WarehouseMenuView()));
+                }
+                if (value == 2) {
+                  Navigator.pop(context);
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const SaleNoteView()));
+                }
+              },
+            )
+            /*PluginsBar(listData: [
               ElementsBarModel(
                   text: null, icon: const Icon(Icons.home), action: () {}),
               ElementsBarModel(
@@ -52,7 +76,7 @@ class HomeView extends StatelessWidget {
                             MaterialPageRoute(
                                 builder: (context) => const SaleNoteView()));
                   })
-            ]),
+            ]),*/
             /*ViewsBar(
               listData: [
                 ElementsBarModel(

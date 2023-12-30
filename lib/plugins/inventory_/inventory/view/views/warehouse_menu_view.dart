@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../../global_widgets/appbar/appbar_global.dart';
+import '../../../../../global_widgets/navigation_utilities.dart';
 import '../../../../../global_widgets/plugins_bar.dart';
 import '../../../../../global_widgets/views_bar.dart';
 import '../../../../../models/elemnets_bar_model.dart';
@@ -40,32 +41,29 @@ class WarehouseMenuView extends StatelessWidget {
               mainAxisSize: MainAxisSize.max,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                PluginsBar(listData: [
-                  ElementsBarModel(
-                      text: null,
-                      icon: const Icon(Icons.home, color: Colors.white70),
-                      action: () {
-                        Navigator.pop(context);
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => const HomeView()));
-                      }),
-                  ElementsBarModel(
-                      text: null,
-                      icon: const Icon(Icons.inventory, color: Colors.white70),
-                      action: () {}),
-                  ElementsBarModel(
-                      text: null,
-                      icon: const Icon(Icons.note, color: Colors.white70),
-                      action: () {
-                        Navigator.pop(context);
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => const SaleNoteView()));
-                      })
-                ]),
+                NavigationRail(
+                destinations: NavigationUtilities.navRail,
+                selectedIndex: 1,
+                backgroundColor: ColorPalette.primaryBackground,
+                indicatorColor: ColorPalette.primary,
+                useIndicator: true,
+                onDestinationSelected: (value) {
+                  if (value == 0) {
+                    Navigator.pop(context);
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const HomeView()));
+                  }
+                  if (value == 2) {
+                    Navigator.pop(context);
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const SaleNoteView()));
+                  }
+                },
+              ),
                 ViewsBar(
                   listData: [
                     ElementsBarModel(
