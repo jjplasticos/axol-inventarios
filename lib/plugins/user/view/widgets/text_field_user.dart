@@ -24,7 +24,7 @@ class TextFieldUser extends StatelessWidget {
         hintStyle: Typo.hintText,
         border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
         filled: true,
-        fillColor: ColorPalette.secondaryBackground,
+        fillColor: ColorPalette.lightBackground,
       ),
     );
   }

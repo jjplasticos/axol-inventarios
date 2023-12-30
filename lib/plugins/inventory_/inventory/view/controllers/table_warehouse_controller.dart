@@ -15,7 +15,7 @@ class TableWarehouseController extends StatelessWidget {
       builder: (context, state) {
         if (state is LoadingState) {
           return const LinearProgressIndicator();
-        } else if (state is LoadedState) {
+        } else if (state is LoadedInventory) {
           return TableWarehouse(listData: state.inventoryList);
         } else if (state is ErrorState) {
           return Text(

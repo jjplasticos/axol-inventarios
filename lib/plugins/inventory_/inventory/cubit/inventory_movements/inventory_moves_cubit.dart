@@ -43,7 +43,6 @@ class InventoryMovesCubit extends Cubit<InventoryMovesState> {
       final String inputCode, WarehouseModel warehouse) async {
     emit(InitialState());
     final ProductModel? productDB;
-    final InventoryModel? inventoryRow;
     final InventoryMoveRowModel moveRow = form.moveList[index];
     InventoryMoveModel upForm = form;
     InventoryMoveRowModel upMoveRow = moveRow;
@@ -54,12 +53,10 @@ class InventoryMovesCubit extends Cubit<InventoryMovesState> {
 
     //Buscar currentCode en la base de datos y obtiene los datos necesarios.
     productDB = await ProductRepo().fetchProduct(inputCode);
-    inventoryRow =
-        await InventoryRepo().fetchRowByCode(inputCode, warehouse.name);
 
     //Sí el producto existe, lo agrega a la lista de movimientos que está por
     // emitir.
-    if (productDB != null && inventoryRow != null) {
+    if (productDB != null){
       upMoveRow.description = productDB.description;
       upMoveRow.weightUnit = productDB.weight!;
       upMoveRow.weightTotal = moveRow.quantity * moveRow.weightUnit;
@@ -79,6 +76,7 @@ class InventoryMovesCubit extends Cubit<InventoryMovesState> {
     InventoryMoveModel upForm = form;
     InventoryMoveRowModel upMoveRow = moveRow;
     InventoryModel? inventoryRow;
+    final ProductModel? productDB;
 
     emit(InitialState());
     upMoveRow.states[moveRow.tQuantity] = DataState(state: DataState.loading);
@@ -86,8 +84,8 @@ class InventoryMovesCubit extends Cubit<InventoryMovesState> {
     emit(LoadedState(form: upForm));
     inventoryRow =
         await InventoryRepo().fetchRowByCode(moveRow.code, warehouse.name);
-
-    if (inventoryRow != null) {
+    productDB = await ProductRepo().fetchProduct(moveRow.code);
+    if (form.concept.type == 1 && inventoryRow != null) {
       if (moveRow.quantity > inventoryRow.stock &&
           form.concepts.where((x) => x.text == form.concept.text).first.type ==
               1) {
@@ -98,9 +96,12 @@ class InventoryMovesCubit extends Cubit<InventoryMovesState> {
         upMoveRow.states[moveRow.tQuantity] =
             DataState(state: DataState.loaded);
       }
+    } else if (form.concept.type == 0 && productDB != null) {
+      upMoveRow.weightTotal = moveRow.quantity * moveRow.weightUnit;
+      upMoveRow.states[moveRow.tQuantity] = DataState(state: DataState.loaded);
     } else {
-      upMoveRow.states[moveRow.tCode] =
-          DataState(state: DataState.error, message: moveRow.emNotProduct);
+      upMoveRow.states[moveRow.tQuantity] =
+          DataState(state: DataState.error, message: moveRow.emNotStock);
     }
     upForm.moveList[index] = upMoveRow;
 

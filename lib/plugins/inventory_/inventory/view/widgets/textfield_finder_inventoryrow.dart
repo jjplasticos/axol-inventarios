@@ -7,8 +7,10 @@ import '../../cubit/textfield_finder_invrow_cubit.dart';
 
 class TextfieldFinderInventroyrow extends StatelessWidget {
   final String inventoryName;
+  final bool? isWithStock;
 
-  const TextfieldFinderInventroyrow({super.key, required this.inventoryName});
+  const TextfieldFinderInventroyrow(
+      {super.key, required this.inventoryName, this.isWithStock});
 
   @override
   Widget build(BuildContext context) {
@@ -18,7 +20,7 @@ class TextfieldFinderInventroyrow extends StatelessWidget {
       ..selection = TextSelection.collapsed(offset: txtValue.length);
 
     return Container(
-      color: ColorPalette.secondaryBackground,
+      color: ColorPalette.lightBackground,
       child: Row(
         mainAxisSize: MainAxisSize.max,
         children: [
@@ -31,15 +33,19 @@ class TextfieldFinderInventroyrow extends StatelessWidget {
                 obscureText: false,
                 onChanged: (value) {
                   context.read<TextfieldFinderInvrowCubit>().change(value);
-                  context
-                      .read<InventoryLoadCubit>()
-                      .loadInventory(inventoryName, value);
+                  if (isWithStock == null || isWithStock == true) {
+                    context
+                        .read<InventoryLoadCubit>()
+                        .loadInventory(inventoryName, value);
+                  } else {
+                    context.read<InventoryLoadCubit>().findProducts(value);
+                  }
                 },
                 decoration: InputDecoration(
                     hintText: 'Buscar',
                     hintStyle: Typo.hintText,
                     filled: true,
-                    fillColor: ColorPalette.secondaryBackground,
+                    fillColor: ColorPalette.lightBackground,
                     border: InputBorder.none),
                 style: Typo.textField1,
               ),
@@ -47,15 +53,19 @@ class TextfieldFinderInventroyrow extends StatelessWidget {
           ),
           IconButton(
             iconSize: 30,
-            color: ColorPalette.secondaryText,
+            color: ColorPalette.darkText,
             icon: const Icon(
-              Icons.cancel,
+              Icons.close,
             ),
             onPressed: () {
               context.read<TextfieldFinderInvrowCubit>().clear();
-              context
-                  .read<InventoryLoadCubit>()
-                  .loadInventory(inventoryName, '');
+              if (isWithStock == null || isWithStock == true) {
+                context
+                    .read<InventoryLoadCubit>()
+                    .loadInventory(inventoryName, '');
+              } else {
+                context.read<InventoryLoadCubit>().loadProducts();
+              }
             },
           )
         ],

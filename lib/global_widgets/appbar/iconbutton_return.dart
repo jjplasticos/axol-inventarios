@@ -16,7 +16,7 @@ class IconButtonReturn extends StatelessWidget {
           },
           icon: const Icon(
             Icons.arrow_back_ios,
-            color: ColorPalette.primaryText,
+            color: ColorPalette.lightText,
             size: 30,
           ));
     } else if (iconName == 'menu') {
@@ -27,7 +27,7 @@ class IconButtonReturn extends StatelessWidget {
           },
           icon: const Icon(
             Icons.menu,
-            color: ColorPalette.primaryText,
+            color: ColorPalette.lightText,
             size: 30,
           ));
     } else {
@@ -37,7 +37,7 @@ class IconButtonReturn extends StatelessWidget {
           },
           icon: const Icon(
             Icons.error,
-            color: ColorPalette.primaryText,
+            color: ColorPalette.lightText,
             size: 30,
           ));
     }

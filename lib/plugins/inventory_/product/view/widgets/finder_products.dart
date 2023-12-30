@@ -26,7 +26,7 @@ class FinderProducts extends StatelessWidget {
         selection: TextSelection.collapsed(offset: currentFinder.position));
 
     return Container(
-      color: ColorPalette.secondaryBackground,
+      color: ColorPalette.lightBackground,
       child: Row(
         mainAxisSize: MainAxisSize.max,
         children: [
@@ -51,7 +51,7 @@ class FinderProducts extends StatelessWidget {
                     hintText: 'Buscar',
                     hintStyle: Typo.hintText,
                     filled: true,
-                    fillColor: ColorPalette.secondaryBackground,
+                    fillColor: ColorPalette.lightBackground,
                     border: InputBorder.none),
                 style: Typo.textField1,
               ),
@@ -59,7 +59,7 @@ class FinderProducts extends StatelessWidget {
           ),
           IconButton(
             iconSize: 30,
-            color: ColorPalette.secondaryText,
+            color: ColorPalette.darkText,
             icon: const Icon(
               Icons.search,
             ),
@@ -73,7 +73,7 @@ class FinderProducts extends StatelessWidget {
           ),
           IconButton(
             iconSize: 30,
-            color: ColorPalette.secondaryText,
+            color: ColorPalette.darkText,
             icon: const Icon(
               Icons.cancel,
             ),

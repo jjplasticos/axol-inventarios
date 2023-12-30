@@ -25,7 +25,7 @@ class FinderSalenote extends StatelessWidget {
         selection: TextSelection.collapsed(offset: tfFinder.position));
 
     return Container(
-      color: ColorPalette.secondaryBackground,
+      color: ColorPalette.lightBackground,
       child: Row(
         mainAxisSize: MainAxisSize.max,
         children: [
@@ -52,7 +52,7 @@ class FinderSalenote extends StatelessWidget {
                     hintText: 'Buscar',
                     hintStyle: Typo.hintText,
                     filled: true,
-                    fillColor: ColorPalette.secondaryBackground,
+                    fillColor: ColorPalette.lightBackground,
                     border: InputBorder.none),
                 style: Typo.textField1,
               ),
@@ -60,7 +60,7 @@ class FinderSalenote extends StatelessWidget {
           ),
           IconButton(
             iconSize: 30,
-            color: ColorPalette.secondaryText,
+            color: ColorPalette.darkText,
             icon: const Icon(
               Icons.search,
             ),
@@ -72,7 +72,7 @@ class FinderSalenote extends StatelessWidget {
           ),
           IconButton(
             iconSize: 30,
-            color: ColorPalette.secondaryText,
+            color: ColorPalette.darkText,
             icon: const Icon(
               Icons.cancel,
             ),

@@ -15,7 +15,7 @@ import '../../../cubit/show_details_product_stock/showdetails_productstock_cubit
 import '../../../cubit/transfer_cubit.dart';
 import '../../../cubit/textfield_finder_invrow_cubit.dart';
 import '../../controllers/opendetails_productstock_controller.dart';
-import 'dialog_serch_product.dart';
+import 'drawer_find_product.dart';
 import 'package:shimmer/shimmer.dart';
 
 class ListviewInventoryMovement extends StatelessWidget {
@@ -65,9 +65,10 @@ class ListviewInventoryMovement extends StatelessWidget {
                               context
                                   .read<InventoryMovesCubit>()
                                   .checkErrorsMoveList(form, warehouse);
-                              context
-                                  .read<MovesFormCubit>()
-                                  .setConcept(form.concepts.where((x) => x.text == value).first);
+                              context.read<MovesFormCubit>().setConcept(form
+                                  .concepts
+                                  .where((x) => x.text == value)
+                                  .first);
                               form = context.read<MovesFormCubit>().state;
                               context.read<InventoryMovesCubit>().load(form);
                               if (value == 'Salida por traspaso') {
@@ -119,7 +120,8 @@ class ListviewInventoryMovement extends StatelessWidget {
                               ),
                               onChanged: (value) {
                                 context
-                                    .read<MovesFormCubit>().setDocument(value);
+                                    .read<MovesFormCubit>()
+                                    .setDocument(value);
                                 context.read<InventoryMovesCubit>().load(form);
                               },
                             ),
@@ -262,18 +264,24 @@ class ListviewInventoryMovement extends StatelessWidget {
                                     textAlign: TextAlign.center,
                                     textAlignVertical: TextAlignVertical.center,
                                     decoration: InputDecoration(
+                                      focusedBorder: UnderlineInputBorder(
+                                          borderSide: BorderSide(
+                                              color:
+                                                  moveRow.states[moveRow.tCode]!
+                                                              .state ==
+                                                          DataState.error
+                                                      ? ColorPalette.error
+                                                      : ColorPalette.primary)),
+                                      enabledBorder: UnderlineInputBorder(
+                                          borderSide: BorderSide(
+                                              color:
+                                                  moveRow.states[moveRow.tCode]!
+                                                              .state ==
+                                                          DataState.error
+                                                      ? ColorPalette.error
+                                                      : ColorPalette
+                                                          .secondary)),
                                       isDense: true,
-                                      errorStyle: const TextStyle(
-                                        height: 0.3,
-                                      ),
-                                      errorText: moveRow.states[moveRow.tCode]!
-                                                  .state ==
-                                              DataState.error
-                                          ? 'Error'
-                                          : null,
-                                      errorBorder: const UnderlineInputBorder(
-                                          borderSide:
-                                              BorderSide(color: Colors.red)),
                                     ),
                                     onSubmitted: (value) {
                                       context
@@ -286,6 +294,10 @@ class ListviewInventoryMovement extends StatelessWidget {
                                       context
                                           .read<MovesFormCubit>()
                                           .setForm(form);
+                                      context
+                                          .read<InventoryMovesCubit>()
+                                          .enterCode(
+                                              index, form, value, warehouse);
                                     },
                                     style: Typo.labelText1,
                                   ),
@@ -295,11 +307,11 @@ class ListviewInventoryMovement extends StatelessWidget {
                                   height: 30,
                                   child: IconButton(
                                     onPressed: () {
-                                      showDialog(
-                                        context: context,
-                                        builder: (BuildContext context) =>
-                                            Dialog(
-                                          child: MultiBlocProvider(
+                                      if (form.concept.type > -1) {
+                                        showDialog(
+                                          context: context,
+                                          builder: (BuildContext context) =>
+                                              MultiBlocProvider(
                                             providers: [
                                               BlocProvider(
                                                   create: (_) =>
@@ -308,21 +320,42 @@ class ListviewInventoryMovement extends StatelessWidget {
                                                   create: (_) =>
                                                       TextfieldFinderInvrowCubit()),
                                             ],
-                                            child: DialogSearchProduct(
-                                                inventoryName: warehouse.name),
+                                            child: DrawerFindProduct(
+                                              inventoryName: warehouse.name,
+                                              concept: form.concept,
+                                            ),
                                           ),
-                                        ),
-                                      ).then((value) {
-                                        context
-                                            .read<InventoryMovesCubit>()
-                                            .enterCode(
-                                                index, form, value, warehouse);
-                                        /*context
-                                            .read<InventoryMovesCubit>()
-                                            .editCode(index, value,
-                                                warehouse, form);*/
-                                        txtCode.text = value.toString();
-                                      });
+                                        ).then((value) {
+                                          if (value is String) {
+                                            context
+                                                .read<MovesFormCubit>()
+                                                .setCodeMoveRow(value, index);
+                                            context
+                                                .read<InventoryMovesCubit>()
+                                                .enterCode(index, form, value,
+                                                    warehouse);
+                                          }
+                                          //txtCode.text = value.toString();
+                                        });
+                                      } else {
+                                        showDialog(
+                                          context: context,
+                                          builder: (context) => AlertDialog(
+                                            title: const Text('Alerta!'),
+                                            content: const Text(
+                                              'Seleccione un concepto',
+                                            ),
+                                            actions: [
+                                              TextButton(
+                                                onPressed: () {
+                                                  Navigator.pop(context);
+                                                },
+                                                child: const Text('Aceptar'),
+                                              )
+                                            ],
+                                          ),
+                                        );
+                                      }
                                     },
                                     icon: const Icon(
                                       Icons.search,
@@ -394,13 +427,21 @@ class ListviewInventoryMovement extends StatelessWidget {
                             textAlign: TextAlign.center,
                             textAlignVertical: TextAlignVertical.center,
                             decoration: InputDecoration(
+                              focusedBorder: UnderlineInputBorder(
+                                  borderSide: BorderSide(
+                                      color: moveRow.states[moveRow.tQuantity]!
+                                                  .state ==
+                                              DataState.error
+                                          ? ColorPalette.error
+                                          : ColorPalette.primary)),
+                              enabledBorder: UnderlineInputBorder(
+                                  borderSide: BorderSide(
+                                      color: moveRow.states[moveRow.tQuantity]!
+                                                  .state ==
+                                              DataState.error
+                                          ? ColorPalette.error
+                                          : ColorPalette.secondary)),
                               isDense: true,
-                              errorStyle: const TextStyle(height: 0.3),
-                              errorText: moveRow.states[moveRow.tQuantity]!.state == DataState.error
-                                  ? moveRow.states[moveRow.tQuantity]!.message
-                                  : null,
-                              errorBorder: const UnderlineInputBorder(
-                                  borderSide: BorderSide(color: Colors.red)),
                             ),
                             controller: TextEditingController()
                               ..text = moveRow.quantity.toString()
@@ -445,6 +486,39 @@ class ListviewInventoryMovement extends StatelessWidget {
                             onChanged: (value) {
                               context.read<MovesFormCubit>().setQuantityMovRow(
                                   double.tryParse(value) ?? 0, index);
+                              if (form.concept.text != '') {
+                                form = context.read<MovesFormCubit>().state;
+                                context
+                                    .read<InventoryMovesCubit>()
+                                    .enterQuantity(index, warehouse, form);
+                              } else {
+                                showDialog(
+                                  context: context,
+                                  builder: (context) => AlertDialog(
+                                    title: const Text('Alerta!'),
+                                    content:
+                                        const Text('Seleccione un concepto.'),
+                                    actions: [
+                                      TextButton(
+                                        onPressed: () {
+                                          Navigator.pop(context);
+                                        },
+                                        child: const Text('Aceptar'),
+                                      )
+                                    ],
+                                  ),
+                                ).then(
+                                  (value) {
+                                    context
+                                        .read<MovesFormCubit>()
+                                        .setQuantityMovRow(0, index);
+                                    form = context.read<MovesFormCubit>().state;
+                                    context
+                                        .read<InventoryMovesCubit>()
+                                        .load(form);
+                                  },
+                                );
+                              }
                             },
                           ),
                         ),
@@ -461,10 +535,16 @@ class ListviewInventoryMovement extends StatelessWidget {
                         Expanded(
                           flex: 1,
                           child: Center(
-                            child: Text(
-                              moveRow.weightTotal.toStringAsFixed(2),
-                              style: Typo.labelText1,
-                            ),
+                            child: moveRow.states[moveRow.tQuantity]!.state ==
+                                    DataState.error
+                                ? Text(
+                                    moveRow.states[moveRow.tQuantity]!.message!,
+                                    style: Typo.labelError,
+                                  )
+                                : Text(
+                                    moveRow.weightTotal.toStringAsFixed(2),
+                                    style: Typo.labelText1,
+                                  ),
                           ),
                         ),
                         //6) Eliminar fila

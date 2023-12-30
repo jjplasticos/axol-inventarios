@@ -39,7 +39,7 @@ class TextFieldPassword extends StatelessWidget {
               },
             ),
             filled: true,
-            fillColor: ColorPalette.secondaryBackground,
+            fillColor: ColorPalette.lightBackground,
           ),
         );
       },

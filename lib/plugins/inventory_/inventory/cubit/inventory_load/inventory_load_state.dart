@@ -1,6 +1,7 @@
 import 'package:equatable/equatable.dart';
 
 import '../../../../../models/inventory_row_model.dart';
+import '../../../product/model/product_model.dart';
 
 abstract class InventoryLoadState extends Equatable {
   const InventoryLoadState();
@@ -16,13 +17,22 @@ class LoadingState extends InventoryLoadState {
   List<Object?> get props => [];
 }
 
-class LoadedState extends InventoryLoadState {
+class LoadedInventory extends InventoryLoadState {
   final List<InventoryRowModel> inventoryList;
 
-  const LoadedState({required this.inventoryList});
+  const LoadedInventory({required this.inventoryList});
 
   @override
   List<Object?> get props => [inventoryList];
+}
+
+class LoadedProducts extends InventoryLoadState {
+  final List<ProductModel> productList;
+
+  const LoadedProducts({required this.productList});
+
+  @override
+  List<Object?> get props => [productList];
 }
 
 class ErrorState extends InventoryLoadState {

@@ -18,7 +18,7 @@ class ListviewWarehouseController extends StatelessWidget {
       builder: (context, state) {
         if (state is LoadingState) {
           return const LinearProgressIndicator();
-        } else if (state is LoadedState) {
+        } else if (state is LoadedInventory) {
           return Expanded(
               child: ListviewWarehouse(
             listData: state.inventoryList,

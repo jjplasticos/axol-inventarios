@@ -21,7 +21,7 @@ class NavigationBarGlobal extends StatelessWidget {
           backgroundColor: ColorPalette.primary,
         )
       ],
-      backgroundColor: ColorPalette.secondaryBackground,
+      backgroundColor: ColorPalette.lightBackground,
       currentIndex: currentIndex,
       onTap: (value) {
         switch (value) {

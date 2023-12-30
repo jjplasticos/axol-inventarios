@@ -28,14 +28,14 @@ class ListviewWarehouseMenu extends StatelessWidget {
     Icon? icon;
     if (mode == 0) {
       //Navigate mode
-      icon = const Icon(Icons.navigate_next, color: ColorPalette.primaryText);
+      icon = const Icon(Icons.navigate_next, color: ColorPalette.lightText);
     } else if (mode == 1) {
       //Edit mode
-      icon = const Icon(Icons.edit, color: ColorPalette.primaryText);
+      icon = const Icon(Icons.edit, color: ColorPalette.lightText);
     } else if (mode == 2) {
       //Delete mode
       icon =
-          const Icon(Icons.highlight_remove, color: ColorPalette.primaryText);
+          const Icon(Icons.highlight_remove, color: ColorPalette.lightText);
     }
     return ListView.builder(
       shrinkWrap: true,

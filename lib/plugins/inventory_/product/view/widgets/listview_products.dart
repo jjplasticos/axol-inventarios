@@ -30,7 +30,7 @@ class ListviewProducts extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Icon icon =
-        const Icon(Icons.error_outline, color: ColorPalette.primaryText);
+        const Icon(Icons.error_outline, color: ColorPalette.lightText);
     Function()? action;
 
     return Row(
@@ -108,7 +108,7 @@ class ListviewProducts extends StatelessWidget {
 
                     if (mode == 1) {
                       icon = const Icon(Icons.edit,
-                          color: ColorPalette.primaryText);
+                          color: ColorPalette.lightText);
                       action = () {
                         showDialog(
                           context: context,
@@ -136,7 +136,7 @@ class ListviewProducts extends StatelessWidget {
                       };
                     } else if (mode == 2) {
                       icon = const Icon(Icons.highlight_remove,
-                          color: ColorPalette.primaryText);
+                          color: ColorPalette.lightText);
                       action = () {
                         showDialog(
                           context: context,
