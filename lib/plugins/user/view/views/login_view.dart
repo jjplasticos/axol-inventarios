@@ -24,7 +24,7 @@ class LoginView extends StatelessWidget {
           BlocProvider(create: (_) => UserTxtCubit()),
         ],
         child: Scaffold(
-            backgroundColor: ColorPalette.primaryBackground,
+            backgroundColor: ColorPalette.darkBackground,
             body: Column(
               mainAxisSize: MainAxisSize.max,
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,

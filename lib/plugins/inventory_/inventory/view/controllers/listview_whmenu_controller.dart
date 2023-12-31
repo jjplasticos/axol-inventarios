@@ -20,7 +20,13 @@ class ListviewWHMenuController extends StatelessWidget {
       bloc: BlocProvider.of<WarehousesLoadCubit>(context)..loadWarehouses(0),
       builder: (context, state) {
         if (state is LoadingState) {
-          return const LinearProgressIndicator();
+          return const Column(
+            children: [
+              SizedBox(height: 4,),
+              LinearProgressIndicator(),
+              Expanded(child: SizedBox())
+            ],
+          );
         } else if (state is LoadedState) {
           Color? colorEdit;
           Color? colorDelete;

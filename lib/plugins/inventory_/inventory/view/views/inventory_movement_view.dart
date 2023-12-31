@@ -32,7 +32,7 @@ class InventoryMovementView extends StatelessWidget {
         ],
         child: Builder(
           builder: (context) => Scaffold(
-            backgroundColor: ColorPalette.primaryBackground,
+            backgroundColor: ColorPalette.darkBackground,
             appBar: PreferredSize(
               preferredSize: const Size.fromHeight(50),
               child: AppBarGlobal(

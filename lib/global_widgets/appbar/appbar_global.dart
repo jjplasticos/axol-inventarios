@@ -27,7 +27,7 @@ class AppBarGlobal extends StatelessWidget {
     return Container(
       decoration: BoxDecoration(border: Border.all(color: Colors.white12)),
       child: AppBar(
-        backgroundColor: ColorPalette.primaryBackground,
+        backgroundColor: ColorPalette.darkBackground,
         automaticallyImplyLeading: false,
         leading: iconButton,
         title: Text(

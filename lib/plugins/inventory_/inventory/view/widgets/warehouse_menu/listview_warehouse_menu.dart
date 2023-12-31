@@ -55,7 +55,6 @@ class ListviewWarehouseMenu extends StatelessWidget {
                 onPressed: () {
                   if (mode == 0) {
                     //Navigate mode
-                    Navigator.pop(context);
                     Navigator.push(
                         context,
                         MaterialPageRoute(

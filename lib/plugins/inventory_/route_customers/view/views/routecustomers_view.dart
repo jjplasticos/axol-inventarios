@@ -9,9 +9,7 @@ import '../../../../../models/elemnets_bar_model.dart';
 import '../../../../../utilities/theme.dart';
 import '../../../../sale_note/view/views/sale_note_view.dart';
 import '../../../../user/view/views/home_view.dart';
-import '../../../inventory/view/views/warehouse_menu_view.dart';
-import '../../../movements/view/views/movements_view.dart';
-import '../../../product/view/views/product_view.dart';
+import '../../../inventory/view/views/inventory_view.dart';
 import '../../cubit/routcustomer cubit/routcustomer_cubit.dart';
 import '../controller/listview_rc_controller.dart';
 
@@ -25,7 +23,7 @@ class RoutCustomers extends StatelessWidget {
         BlocProvider(create: (_) => RoutcustomerCubit()),
       ],
       child: Scaffold(
-        backgroundColor: ColorPalette.primaryBackground,
+        backgroundColor: ColorPalette.darkBackground,
         appBar: const PreferredSize(
           preferredSize: Size.fromHeight(50),
           child: AppBarGlobal(
@@ -45,7 +43,7 @@ class RoutCustomers extends StatelessWidget {
               NavigationRail(
                 destinations: NavigationUtilities.navRail,
                 selectedIndex: 1,
-                backgroundColor: ColorPalette.primaryBackground,
+                backgroundColor: ColorPalette.darkBackground,
                 indicatorColor: ColorPalette.primary,
                 useIndicator: true,
                 onDestinationSelected: (value) {
@@ -65,7 +63,7 @@ class RoutCustomers extends StatelessWidget {
                   }
                 },
               ),
-              ViewsBar(
+              /*ViewsBar(
                 listData: [
                   ElementsBarModel(
                       icon: const Icon(Icons.house_siding),
@@ -103,7 +101,7 @@ class RoutCustomers extends StatelessWidget {
                       icon: const Icon(Icons.people),
                       action: () {}),
                 ],
-              ),
+              ),*/
               const Expanded(child: ListviewRcController()),
             ],
           ),

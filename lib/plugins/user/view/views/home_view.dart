@@ -5,7 +5,7 @@ import '../../../../global_widgets/navigation_utilities.dart';
 import '../../../../global_widgets/plugins_bar.dart';
 import '../../../../models/elemnets_bar_model.dart';
 import '../../../../utilities/theme.dart';
-import '../../../inventory_/inventory/view/views/warehouse_menu_view.dart';
+import '../../../inventory_/inventory/view/views/inventory_view.dart';
 import '../../../sale_note/view/views/sale_note_view.dart';
 
 class HomeView extends StatelessWidget {
@@ -16,7 +16,7 @@ class HomeView extends StatelessWidget {
     const String title = 'Inicio';
 
     return Scaffold(
-      backgroundColor: ColorPalette.primaryBackground,
+      backgroundColor: ColorPalette.darkBackground,
       appBar: const PreferredSize(
         preferredSize: Size.fromHeight(50),
         child: AppBarGlobal(
@@ -35,20 +35,18 @@ class HomeView extends StatelessWidget {
             NavigationRail(
               destinations: NavigationUtilities.navRail,
               selectedIndex: 0,
-              backgroundColor: ColorPalette.primaryBackground,
+              backgroundColor: ColorPalette.darkBackground,
               indicatorColor: ColorPalette.primary,
               useIndicator: true,
               onDestinationSelected: (value) {
                 if (value == 1) {
-                  Navigator.pop(context);
-                  Navigator.push(
+                  Navigator.pushReplacement(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => const WarehouseMenuView()));
+                          builder: (context) => const InventoryView()));
                 }
                 if (value == 2) {
-                  Navigator.pop(context);
-                  Navigator.push(
+                  Navigator.pushReplacement(
                       context,
                       MaterialPageRoute(
                           builder: (context) => const SaleNoteView()));

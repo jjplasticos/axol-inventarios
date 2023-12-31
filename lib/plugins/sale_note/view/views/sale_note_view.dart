@@ -3,11 +3,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../global_widgets/appbar/appbar_global.dart';
 import '../../../../global_widgets/navigation_utilities.dart';
-import '../../../../global_widgets/plugins_bar.dart';
 import '../../../../global_widgets/views_bar.dart';
 import '../../../../models/elemnets_bar_model.dart';
 import '../../../../utilities/theme.dart';
-import '../../../inventory_/inventory/view/views/warehouse_menu_view.dart';
+import '../../../inventory_/inventory/view/views/inventory_view.dart';
 import '../../../user/view/views/home_view.dart';
 import '../../cubit/finder_notes_cubit.dart';
 import '../../cubit/sale_note_cubit/salenote_cubit.dart';
@@ -24,7 +23,7 @@ class SaleNoteView extends StatelessWidget {
         BlocProvider(create: (_) => FinderNotesCubit()),
       ],
       child: Scaffold(
-        backgroundColor: ColorPalette.primaryBackground,
+        backgroundColor: ColorPalette.darkBackground,
         appBar: const PreferredSize(
           preferredSize: Size.fromHeight(50),
           child: AppBarGlobal(
@@ -44,50 +43,24 @@ class SaleNoteView extends StatelessWidget {
               NavigationRail(
                 destinations: NavigationUtilities.navRail,
                 selectedIndex: 2,
-                backgroundColor: ColorPalette.primaryBackground,
+                backgroundColor: ColorPalette.darkBackground,
                 indicatorColor: ColorPalette.primary,
                 useIndicator: true,
                 onDestinationSelected: (value) {
                   if (value == 0) {
-                    Navigator.pop(context);
-                    Navigator.push(
+                    Navigator.pushReplacement(
                         context,
                         MaterialPageRoute(
                             builder: (context) => const HomeView()));
                   }
                   if (value == 1) {
-                    Navigator.pop(context);
-                    Navigator.push(
+                    Navigator.pushReplacement(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => const WarehouseMenuView()));
+                            builder: (context) => const InventoryView()));
                   }
                 },
               ),
-              /*PluginsBar(listData: [
-                ElementsBarModel(
-                    text: null,
-                    icon: const Icon(Icons.home),
-                    action: () {
-                      Navigator.pop(context);
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => const HomeView()));
-                    }),
-                ElementsBarModel(
-                    text: null,
-                    icon: const Icon(Icons.inventory),
-                    action: () {
-                      Navigator.pop(context);
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => const WarehouseMenuView()));
-                    }),
-                ElementsBarModel(
-                    text: null, icon: const Icon(Icons.note), action: () {})
-              ]),*/
               ViewsBar(
                 listData: [
                   ElementsBarModel(
