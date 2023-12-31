@@ -1,9 +1,9 @@
-import 'package:axol_inventarios/plugins/sale_note/model/customer_model.dart';
-import 'package:axol_inventarios/plugins/sale_note/model/sale_product_model.dart';
-import 'package:axol_inventarios/plugins/sale_note/model/vendor_model.dart';
+import 'package:axol_inventarios/plugins/sale/sale_note/model/customer_model.dart';
+import 'package:axol_inventarios/plugins/sale/sale_note/model/sale_product_model.dart';
+import 'package:axol_inventarios/plugins/sale/sale_note/model/vendor_model.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
-import '../../inventory_/inventory/model/warehouse_model.dart';
+import '../../../inventory_/inventory/model/warehouse_model.dart';
 import '../model/sale_note_model.dart';
 import '../model/salenote_filter_model.dart';
 

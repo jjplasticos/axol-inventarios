@@ -1,4 +1,4 @@
-import '../../inventory_/product/model/product_model.dart';
+import '../../../inventory_/product/model/product_model.dart';
 
 class SaleProductModel {
   final ProductModel product;

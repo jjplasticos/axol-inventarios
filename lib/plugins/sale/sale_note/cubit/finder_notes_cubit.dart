@@ -1,6 +1,6 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../models/textfield_model.dart';
+import '../../../../models/textfield_model.dart';
 
 class FinderNotesCubit extends Cubit<TextfieldModel> {
   FinderNotesCubit() : super(TextfieldModel.initial());

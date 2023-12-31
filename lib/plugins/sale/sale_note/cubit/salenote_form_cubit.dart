@@ -1,6 +1,6 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../models/validation_form_model.dart';
+import '../../../../models/validation_form_model.dart';
 import '../model/saelnote_form_model.dart';
 
 class SalenoteFormCubit extends Cubit<SalenoteFormModel> {

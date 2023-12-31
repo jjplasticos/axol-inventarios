@@ -1,4 +1,4 @@
-import 'package:axol_inventarios/plugins/sale_note/model/sale_note_model.dart';
+import 'package:axol_inventarios/plugins/sale/sale_note/model/sale_note_model.dart';
 
 class SaleNoteFilterModel {
   //final String product;

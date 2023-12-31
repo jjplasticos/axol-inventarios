@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../../global_widgets/appbar/appbar_global.dart';
-import '../../../../global_widgets/navigation_utilities.dart';
-import '../../../../utilities/theme.dart';
-import '../../../inventory_/inventory/view/views/inventory_view.dart';
-import '../../../user/view/views/home_view.dart';
+import '../../../../../global_widgets/appbar/appbar_global.dart';
+import '../../../../../global_widgets/navigation_utilities.dart';
+import '../../../../../utilities/theme.dart';
+import '../../../../inventory_/inventory/view/views/inventory_view.dart';
+import '../../../../user/view/views/home_view.dart';
 import '../../cubit/finder_notes_cubit.dart';
 import '../../cubit/sale_note_cubit/salenote_cubit.dart';
 import '../../cubit/sale_note_cubit/salenote_state.dart';

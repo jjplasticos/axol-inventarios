@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../../global_widgets/toolbar.dart';
-import '../../../../models/elemnets_bar_model.dart';
-import '../../../../models/textfield_model.dart';
+import '../../../../../global_widgets/toolbar.dart';
+import '../../../../../models/elemnets_bar_model.dart';
+import '../../../../../models/textfield_model.dart';
 import '../../cubit/finder_notes_cubit.dart';
 import '../../cubit/sale_note_cubit/salenote_cubit.dart';
 import '../../cubit/salenote_drawer_cubit/salenote_drawer_cubit.dart';

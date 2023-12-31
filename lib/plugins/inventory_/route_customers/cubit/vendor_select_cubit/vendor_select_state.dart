@@ -1,7 +1,7 @@
 import 'package:equatable/equatable.dart';
 
 import '../../../../../models/textfield_model.dart';
-import '../../../../sale_note/model/vendor_model.dart';
+import '../../../../sale/sale_note/model/vendor_model.dart';
 
 abstract class VendorSelectState extends Equatable {
   const VendorSelectState();

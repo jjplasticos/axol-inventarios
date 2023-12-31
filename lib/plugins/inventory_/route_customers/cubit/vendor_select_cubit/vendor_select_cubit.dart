@@ -1,8 +1,8 @@
-import 'package:axol_inventarios/plugins/sale_note/repository/vendor_repo.dart';
+import 'package:axol_inventarios/plugins/sale/sale_note/repository/vendor_repo.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../../models/textfield_model.dart';
-import '../../../../sale_note/model/vendor_model.dart';
+import '../../../../sale/sale_note/model/vendor_model.dart';
 import 'vendor_select_state.dart';
 
 class VendorSelectCubit extends Cubit<VendorSelectState> {

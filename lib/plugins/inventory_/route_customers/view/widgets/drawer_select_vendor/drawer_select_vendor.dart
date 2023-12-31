@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../../../../../models/textfield_model.dart';
 import '../../../../../../utilities/theme.dart';
-import '../../../../../sale_note/model/vendor_model.dart';
+import '../../../../../sale/sale_note/model/vendor_model.dart';
 import 'finder_vendor.dart';
 
 class DrawerSelectVendor extends StatelessWidget {

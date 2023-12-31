@@ -1,7 +1,7 @@
-import 'package:axol_inventarios/plugins/sale_note/model/salenote_filter_model.dart';
+import 'package:axol_inventarios/plugins/sale/sale_note/model/salenote_filter_model.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../../models/textfield_model.dart';
+import '../../../../../models/textfield_model.dart';
 import '../../model/sale_note_model.dart';
 import '../../repository/sale_note_repo.dart';
 import 'salenote_state.dart';

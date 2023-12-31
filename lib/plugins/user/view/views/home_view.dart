@@ -5,9 +5,9 @@ import '../../../../global_widgets/appbar/appbar_global.dart';
 import '../../../../global_widgets/navigation_utilities.dart';
 import '../../../../utilities/theme.dart';
 import '../../../inventory_/inventory/view/views/inventory_view.dart';
-import '../../../sale_note/cubit/finder_notes_cubit.dart';
-import '../../../sale_note/cubit/sale_note_cubit/salenote_cubit.dart';
-import '../../../sale_note/view/views/sale_view.dart';
+import '../../../sale/sale_note/cubit/finder_notes_cubit.dart';
+import '../../../sale/sale_note/cubit/sale_note_cubit/salenote_cubit.dart';
+import '../../../sale/sale_note/view/views/sale_view.dart';
 
 class HomeView extends StatelessWidget {
   const HomeView({super.key});

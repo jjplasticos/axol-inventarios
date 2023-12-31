@@ -1,4 +1,4 @@
-import 'package:axol_inventarios/plugins/sale_note/model/customer_model.dart';
+import 'package:axol_inventarios/plugins/sale/sale_note/model/customer_model.dart';
 import 'package:equatable/equatable.dart';
 
 abstract class DrawerSearchState extends Equatable {

@@ -1,10 +1,10 @@
-import 'package:axol_inventarios/plugins/sale_note/cubit/drawer_search_cubit/drawer_search_cubit.dart';
-import 'package:axol_inventarios/plugins/sale_note/cubit/drawer_search_cubit/drawer_search_state.dart';
-import 'package:axol_inventarios/plugins/sale_note/view/widgets/drawer_search/drawer_search.dart';
+import 'package:axol_inventarios/plugins/sale/sale_note/cubit/drawer_search_cubit/drawer_search_cubit.dart';
+import 'package:axol_inventarios/plugins/sale/sale_note/cubit/drawer_search_cubit/drawer_search_state.dart';
+import 'package:axol_inventarios/plugins/sale/sale_note/view/widgets/drawer_search/drawer_search.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../../utilities/theme.dart';
+import '../../../../../utilities/theme.dart';
 
 class DrawerSearchController extends StatelessWidget {
   const DrawerSearchController({super.key});
