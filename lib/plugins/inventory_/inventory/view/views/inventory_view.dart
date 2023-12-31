@@ -4,11 +4,13 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../../global_widgets/appbar/appbar_global.dart';
 import '../../../../../global_widgets/navigation_utilities.dart';
 import '../../../../../utilities/theme.dart';
+import '../../../../sale_note/cubit/finder_notes_cubit.dart';
+import '../../../../sale_note/cubit/sale_note_cubit/salenote_cubit.dart';
 import '../../../movements/cubit/movements_view/movements_cubit.dart';
 import '../../../movements/view/controllers/listview_movements_controller.dart';
 import '../../../product/cubit/products/products_cubit.dart';
 import '../../../product/view/controllers/listview_products_controller.dart';
-import '../../../../sale_note/view/views/sale_note_view.dart';
+import '../../../../sale_note/view/views/sale_view.dart';
 import '../../../../user/view/views/home_view.dart';
 import '../../cubit/warehouses_load/warehouses_load_cubit.dart';
 import '../controllers/listview_whmenu_controller.dart';
@@ -62,10 +64,18 @@ class InventoryView extends StatelessWidget {
                           Navigator.pushReplacement(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => const SaleNoteView()));
+                                  builder: (context) =>
+                                      MultiBlocProvider(providers: [
+                                        BlocProvider(
+                                            create: (_) => SalenoteCubit()),
+                                        BlocProvider(
+                                            create: (_) => FinderNotesCubit()),
+                                      ], child: const SaleView())));
                         }
                       },
                     ),
+                    const VerticalDivider(
+                        thickness: 1, width: 1, color: ColorPalette.darkItems),
                     const Expanded(
                         child: Column(
                       children: [

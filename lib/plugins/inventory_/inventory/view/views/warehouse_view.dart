@@ -3,16 +3,14 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../../global_widgets/appbar/appbar_global.dart';
 import '../../../../../global_widgets/navigation_utilities.dart';
-import '../../../../../global_widgets/plugins_bar.dart';
 import '../../../../../global_widgets/toolbar.dart';
-import '../../../../../global_widgets/views_bar.dart';
 import '../../../../../models/elemnets_bar_model.dart';
-import '../../../../../models/user_mdoel.dart';
 import '../../../../../utilities/theme.dart';
-import '../../../../sale_note/view/views/sale_note_view.dart';
+import '../../../../sale_note/cubit/finder_notes_cubit.dart';
+import '../../../../sale_note/cubit/sale_note_cubit/salenote_cubit.dart';
+import '../../../../sale_note/view/views/sale_view.dart';
 import '../../../../user/view/views/home_view.dart';
 import '../../../product/cubit/products/products_cubit.dart';
-import '../../../route_customers/view/views/routecustomers_view.dart';
 import '../../cubit/inventory_load/inventory_load_cubit.dart';
 import '../../cubit/textfield_finder_invrow_cubit.dart';
 import '../../model/warehouse_model.dart';
@@ -20,7 +18,6 @@ import '../controllers/listview_warehouse_controller.dart';
 
 import '../widgets/textfield_finder_inventoryrow.dart';
 import 'inventory_movement_view.dart';
-import 'inventory_view.dart';
 
 class WarehouseView extends StatelessWidget {
   final WarehouseModel warehouse;
@@ -65,7 +62,8 @@ class WarehouseView extends StatelessWidget {
                     },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: ColorPalette.primary,
-                      shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(8))),
+                      shape: const RoundedRectangleBorder(
+                          borderRadius: BorderRadius.all(Radius.circular(8))),
                       minimumSize: const Size(60, 60),
                     ),
                     child: const Icon(
@@ -91,10 +89,18 @@ class WarehouseView extends StatelessWidget {
                       Navigator.pushReplacement(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => const SaleNoteView()));
+                              builder: (context) =>
+                                  MultiBlocProvider(providers: [
+                                    BlocProvider(
+                                        create: (_) => SalenoteCubit()),
+                                    BlocProvider(
+                                        create: (_) => FinderNotesCubit()),
+                                  ], child: const SaleView())));
                     }
                   },
                 ),
+                const VerticalDivider(
+                    thickness: 1, width: 1, color: ColorPalette.darkItems),
                 Expanded(
                   child: TabBarView(children: [
                     Column(

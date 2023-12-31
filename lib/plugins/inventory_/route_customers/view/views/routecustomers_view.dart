@@ -7,7 +7,9 @@ import '../../../../../global_widgets/plugins_bar.dart';
 import '../../../../../global_widgets/views_bar.dart';
 import '../../../../../models/elemnets_bar_model.dart';
 import '../../../../../utilities/theme.dart';
-import '../../../../sale_note/view/views/sale_note_view.dart';
+import '../../../../sale_note/cubit/finder_notes_cubit.dart';
+import '../../../../sale_note/cubit/sale_note_cubit/salenote_cubit.dart';
+import '../../../../sale_note/view/views/sale_view.dart';
 import '../../../../user/view/views/home_view.dart';
 import '../../../inventory/view/views/inventory_view.dart';
 import '../../cubit/routcustomer cubit/routcustomer_cubit.dart';
@@ -56,10 +58,14 @@ class RoutCustomers extends StatelessWidget {
                   }
                   if (value == 2) {
                     Navigator.pop(context);
-                    Navigator.push(
+                    Navigator.pushReplacement(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => const SaleNoteView()));
+                            builder: (context) => MultiBlocProvider(providers: [
+                                  BlocProvider(create: (_) => SalenoteCubit()),
+                                  BlocProvider(
+                                      create: (_) => FinderNotesCubit()),
+                                ], child: const SaleView())));
                   }
                 },
               ),

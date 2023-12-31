@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../global_widgets/appbar/appbar_global.dart';
 import '../../../../global_widgets/navigation_utilities.dart';
-import '../../../../global_widgets/plugins_bar.dart';
-import '../../../../models/elemnets_bar_model.dart';
 import '../../../../utilities/theme.dart';
 import '../../../inventory_/inventory/view/views/inventory_view.dart';
-import '../../../sale_note/view/views/sale_note_view.dart';
+import '../../../sale_note/cubit/finder_notes_cubit.dart';
+import '../../../sale_note/cubit/sale_note_cubit/salenote_cubit.dart';
+import '../../../sale_note/view/views/sale_view.dart';
 
 class HomeView extends StatelessWidget {
   const HomeView({super.key});
@@ -49,55 +50,15 @@ class HomeView extends StatelessWidget {
                   Navigator.pushReplacement(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => const SaleNoteView()));
+                          builder: (context) => MultiBlocProvider(providers: [
+                                BlocProvider(create: (_) => SalenoteCubit()),
+                                BlocProvider(create: (_) => FinderNotesCubit()),
+                              ], child: const SaleView())));
                 }
               },
-            )
-            /*PluginsBar(listData: [
-              ElementsBarModel(
-                  text: null, icon: const Icon(Icons.home), action: () {}),
-              ElementsBarModel(
-                  text: null,
-                  icon: const Icon(Icons.inventory),
-                  action: () {
-                    Navigator.pop(context);
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => const WarehouseMenuView()));
-                  }),
-              ElementsBarModel(
-                  text: null, icon: const Icon(Icons.note), action: () {
-                    Navigator.pop(context);
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => const SaleNoteView()));
-                  })
-            ]),*/
-            /*ViewsBar(
-              listData: [
-                ElementsBarModel(
-                    icon: const Icon(Icons.house_siding),
-                    text: 'Multialmacen',
-                    action: () {}),
-                ElementsBarModel(
-                    icon: Icon(Icons.move_down),
-                    text: 'Movimientos',
-                    action: () {}),
-                ElementsBarModel(
-                    text: 'Productos',
-                    icon: Icon(Icons.grid_view_sharp),
-                    action: () {})
-              ],
             ),
-            Expanded(
-                child: Container(
-              color: Colors.black38,
-            )),
-            Toolbar(
-              listData: [],
-            )*/
+            const VerticalDivider(
+                thickness: 1, width: 1, color: ColorPalette.darkItems),
           ],
         ),
       ),

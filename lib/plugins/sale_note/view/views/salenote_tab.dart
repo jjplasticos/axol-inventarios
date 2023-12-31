@@ -2,13 +2,13 @@ import 'package:flutter/material.dart';
 
 import '../../../../utilities/theme.dart';
 import '../../model/sale_note_mdoel.dart';
-import 'finder_salenote.dart';
-import 'toolbar_salenote.dart';
+import '../widgets/finder_salenote.dart';
+import '../widgets/toolbar_salenote.dart';
 
-class ListviewSaleNote extends StatelessWidget {
+class SaleNoteTab extends StatelessWidget {
   final List<SaleNoteModel> listData;
 
-  const ListviewSaleNote({super.key, required this.listData});
+  const SaleNoteTab({super.key, required this.listData});
 
   @override
   Widget build(BuildContext context) {

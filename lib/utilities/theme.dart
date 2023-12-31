@@ -12,6 +12,7 @@ class ColorPalette {
   static final secondaryText2 = const Color(0xFF282828).withOpacity(0.5);
   static const overlayButton =  Color.fromARGB(28, 131, 114, 242);
   static const error = Colors.red;
+  static const darkItems = Color.fromARGB(255, 78, 78, 78);
 }
 
 class Typo {
