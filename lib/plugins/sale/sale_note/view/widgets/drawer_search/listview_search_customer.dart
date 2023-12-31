@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../../model/customer_model.dart';
+import '../../../../customer/model/customer_model.dart';
 
 class ListviewSearchCustomer extends StatelessWidget {
   final List<CustomerModel> listData;

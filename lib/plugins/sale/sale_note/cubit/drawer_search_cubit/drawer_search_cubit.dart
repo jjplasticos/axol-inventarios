@@ -1,10 +1,10 @@
 import 'package:axol_inventarios/plugins/inventory_/inventory/model/warehouse_model.dart';
 import 'package:axol_inventarios/plugins/sale/sale_note/model/vendor_model.dart';
-import 'package:axol_inventarios/plugins/sale/sale_note/repository/customer_repo.dart';
+import 'package:axol_inventarios/plugins/sale/customer/repository/customer_repo.dart';
 import 'package:axol_inventarios/plugins/sale/sale_note/repository/vendor_repo.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../model/customer_model.dart';
+import '../../../customer/model/customer_model.dart';
 import 'drawer_search_state.dart';
 
 class DrawerSearchCubit extends Cubit<DrawerSearchState> {

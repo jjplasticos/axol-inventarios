@@ -1,4 +1,4 @@
-import 'package:axol_inventarios/plugins/sale/sale_note/model/customer_model.dart';
+import 'package:axol_inventarios/plugins/sale/customer/model/customer_model.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 class CustomerRepo {

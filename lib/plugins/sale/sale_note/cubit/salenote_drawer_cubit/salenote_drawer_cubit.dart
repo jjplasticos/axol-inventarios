@@ -6,10 +6,10 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 
 import '../../../../inventory_/inventory/model/warehouse_model.dart';
 import '../../../../inventory_/inventory/repository/warehouses_repo.dart';
-import '../../model/customer_model.dart';
+import '../../../customer/model/customer_model.dart';
 import '../../model/saelnote_form_model.dart';
 import '../../model/vendor_model.dart';
-import '../../repository/customer_repo.dart';
+import '../../../customer/repository/customer_repo.dart';
 import '../../repository/vendor_repo.dart';
 
 class SalenoteDrawerCubit extends Cubit<SalenoteDrawerState> {
