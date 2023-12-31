@@ -11,8 +11,8 @@ class CustomerRepo {
   Future<List<CustomerModel>> fetchCustomersEq(String inText) async {
     List<Map<String, dynamic>> customersDB = [];
     List<CustomerModel> customers = [];
-    CustomerModel customer;
-    Map<String, dynamic> mapProp;
+    CustomerModel customer = CustomerModel.empty();
+    //Map<String, dynamic> mapProp;
     String textOr;
     if (int.tryParse(inText) == null) {
       textOr = '$_name.eq.$inText';
@@ -26,37 +26,19 @@ class CustomerRepo {
     //.or('$_id.eq.$inText,$_name.eq.$inText');
     if (customersDB.isNotEmpty) {
       for (var element in customersDB) {
-        mapProp = element[_properties] ?? {};
+        //mapProp = element[_properties] ?? {};
         customer = CustomerModel(
-          id: element[_id],
-          name: element[_name],
-          country: mapProp.containsKey(CustomerModel.propCountry)
-              ? element[_properties][CustomerModel.propCountry]
-              : null,
-          hood: mapProp.containsKey(CustomerModel.propHood)
-              ? element[_properties][CustomerModel.propHood]
-              : null,
-          intNumber: mapProp.containsKey(CustomerModel.propIntNumber)
-              ? element[_properties][CustomerModel.propIntNumber]
-              : null,
-          outNumber: mapProp.containsKey(CustomerModel.propOutNumber)
-              ? element[_properties][CustomerModel.propOutNumber]
-              : null,
-          phoneNumber: mapProp.containsKey(CustomerModel.propPhoneNumber)
-              ? element[_properties][CustomerModel.propPhoneNumber]
-              : null,
-          postalCode: mapProp.containsKey(CustomerModel.propPostalCode)
-              ? element[_properties][CustomerModel.propPostalCode]
-              : null,
-          rfc: mapProp.containsKey(CustomerModel.propRfc)
-              ? element[_properties][CustomerModel.propRfc]
-              : null,
-          street: mapProp.containsKey(CustomerModel.propStreet)
-              ? element[_properties][CustomerModel.propStreet]
-              : null,
-          town: mapProp.containsKey(CustomerModel.propTown)
-              ? element[_properties][CustomerModel.propTown]
-              : null,
+          id: element[customer.tId],
+          name: element[customer.tName],
+          country: element[customer.tCountry],
+          hood: element[customer.tHood],
+          intNumber: element[customer.tIntNumber],
+          outNumber: element[customer.tOutNumbre],
+          phoneNumber: element[customer.tPhoneNumber],
+          postalCode: element[customer.tPostalCode],
+          rfc: element[customer.tRfc],
+          street: element[customer.tStreet],
+          town: element[customer.tTown],
         );
         customers.add(customer);
       }
@@ -67,8 +49,8 @@ class CustomerRepo {
   Future<List<CustomerModel>> fetchCustomersIlike(String inText) async {
     List<Map<String, dynamic>> customersDB = [];
     List<CustomerModel> customers = [];
-    CustomerModel customer;
-    Map<String, dynamic> mapProp;
+    CustomerModel customer = CustomerModel.empty();
+    //Map<String, dynamic> mapProp;
     String textOr;
     if (int.tryParse(inText) == null) {
       textOr = '$_name.ilike.$inText';
@@ -84,41 +66,22 @@ class CustomerRepo {
           .select<List<Map<String, dynamic>>>()
           .or(textOr);
     }
-    print(customersDB.length);
     //.or('$_id.eq.$inText,$_name.eq.$inText');
     if (customersDB.isNotEmpty) {
       for (var element in customersDB) {
-        mapProp = element[_properties] ?? {};
+        //mapProp = element[_properties] ?? {};
         customer = CustomerModel(
-          id: element[_id],
-          name: element[_name],
-          country: mapProp.containsKey(CustomerModel.propCountry)
-              ? element[_properties][CustomerModel.propCountry]
-              : null,
-          hood: mapProp.containsKey(CustomerModel.propHood)
-              ? element[_properties][CustomerModel.propHood]
-              : null,
-          intNumber: mapProp.containsKey(CustomerModel.propIntNumber)
-              ? element[_properties][CustomerModel.propIntNumber]
-              : null,
-          outNumber: mapProp.containsKey(CustomerModel.propOutNumber)
-              ? element[_properties][CustomerModel.propOutNumber]
-              : null,
-          phoneNumber: mapProp.containsKey(CustomerModel.propPhoneNumber)
-              ? element[_properties][CustomerModel.propPhoneNumber]
-              : null,
-          postalCode: mapProp.containsKey(CustomerModel.propPostalCode)
-              ? element[_properties][CustomerModel.propPostalCode]
-              : null,
-          rfc: mapProp.containsKey(CustomerModel.propRfc)
-              ? element[_properties][CustomerModel.propRfc]
-              : null,
-          street: mapProp.containsKey(CustomerModel.propStreet)
-              ? element[_properties][CustomerModel.propStreet]
-              : null,
-          town: mapProp.containsKey(CustomerModel.propTown)
-              ? element[_properties][CustomerModel.propTown]
-              : null,
+          id: element[customer.tId],
+          name: element[customer.tName],
+          country: element[customer.tCountry],
+          hood: element[customer.tHood],
+          intNumber: element[customer.tIntNumber],
+          outNumber: element[customer.tOutNumbre],
+          phoneNumber: element[customer.tPhoneNumber],
+          postalCode: element[customer.tPostalCode],
+          rfc: element[customer.tRfc],
+          street: element[customer.tStreet],
+          town: element[customer.tTown],
         );
         customers.add(customer);
       }

@@ -1,6 +1,6 @@
 import 'package:equatable/equatable.dart';
 
-import '../../model/sale_note_mdoel.dart';
+import '../../model/sale_note_model.dart';
 
 abstract class SalenoteState extends Equatable {
   const SalenoteState();

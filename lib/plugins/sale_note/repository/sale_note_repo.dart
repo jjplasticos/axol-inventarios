@@ -4,7 +4,7 @@ import 'package:axol_inventarios/plugins/sale_note/model/vendor_model.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 import '../../inventory_/inventory/model/warehouse_model.dart';
-import '../model/sale_note_mdoel.dart';
+import '../model/sale_note_model.dart';
 import '../model/salenote_filter_model.dart';
 
 class SaleNoteRepo {
@@ -25,6 +25,7 @@ class SaleNoteRepo {
 
   Future<List<SaleNoteModel>> fetchNotes(
       SaleNoteFilterModel filter, String finder) async {
+    CustomerModel customer = CustomerModel.empty();
     List<SaleNoteModel> salesNotes = [];
     SaleNoteModel saleNote;
     List<Map<String, dynamic>> saleNoteDB = [];
@@ -34,7 +35,7 @@ class SaleNoteRepo {
     int filterEndDate = 32503708800000;
 
     if (filter.customer > -1) {
-      filters['${SaleNoteModel.propCustomer}->>${CustomerModel.propId}'] =
+      filters['${SaleNoteModel.propCustomer}->>${customer.tId}'] =
           filter.customer;
     }
     if (filter.vendor > -1) {
@@ -54,7 +55,7 @@ class SaleNoteRepo {
           .gte(_time, filterStartDate);*/
     } else {
       textOr =
-          '${SaleNoteModel.propCustomer}->>${CustomerModel.propName}.ilike.%$finder%,';
+          '${SaleNoteModel.propCustomer}->>${customer.tName}.ilike.%$finder%,';
       textOr =
           '$textOr${SaleNoteModel.propVendor}->>${VendorModel.propName}.ilike.%$finder%';
       if (double.tryParse(finder) != null) {
@@ -68,7 +69,7 @@ class SaleNoteRepo {
     for (var element in saleNoteDB) {
       saleNote = SaleNoteModel(
         id: element[_id],
-        customer: CustomerModel.fillMap(element[_customer]),
+        customer: CustomerModel.fill(element[_customer]),
         status: element[_status],
         date: DateTime.fromMillisecondsSinceEpoch(element[_time]),
         total: element[_total],
