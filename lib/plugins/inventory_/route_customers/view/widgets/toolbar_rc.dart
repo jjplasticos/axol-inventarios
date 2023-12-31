@@ -33,7 +33,7 @@ class ToolbarRc extends StatelessWidget {
                 if (value == true) {
                   context
                       .read<RoutcustomerCubit>()
-                      .load(TextfieldModel.initial());
+                      .load(TextfieldModel.empty());
                 }
               });
             }
@@ -44,7 +44,7 @@ class ToolbarRc extends StatelessWidget {
           icon: const Icon(Icons.restart_alt),
           action: () {
             if (isLoading == false) {
-              context.read<RoutcustomerCubit>().load(TextfieldModel.initial());
+              context.read<RoutcustomerCubit>().load(TextfieldModel.empty());
             }
           },
         ),

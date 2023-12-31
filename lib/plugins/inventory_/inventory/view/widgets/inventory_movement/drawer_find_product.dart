@@ -5,7 +5,7 @@ import '../../../../../../utilities/theme.dart';
 import '../../../cubit/inventory_load/inventory_load_cubit.dart';
 import '../../../cubit/inventory_load/inventory_load_state.dart';
 import '../../../model/inventory_move/concept_move_model.dart';
-import '../drawer_box.dart';
+import '../../../../../../global_widgets/drawer_box.dart';
 import '../textfield_finder_inventoryrow.dart';
 import 'listview_dialog_finder.dart';
 

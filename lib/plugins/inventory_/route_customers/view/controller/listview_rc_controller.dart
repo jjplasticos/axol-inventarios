@@ -15,7 +15,7 @@ class ListviewRcController extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<RoutcustomerCubit, RoutcustomerState>(
-      bloc: context.read<RoutcustomerCubit>()..load(TextfieldModel.initial()),
+      bloc: context.read<RoutcustomerCubit>()..load(TextfieldModel.empty()),
       builder: (context, state) {
         if (state is LoadingState) {
           return Row(

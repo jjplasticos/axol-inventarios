@@ -4,6 +4,7 @@ class TextfieldModel {
 
   const TextfieldModel({required this.text, required this.position});
 
-  static TextfieldModel initial() =>
-      const TextfieldModel(text: '', position: 0);
+  TextfieldModel.empty()
+    : text = '',
+      position = 0;
 }

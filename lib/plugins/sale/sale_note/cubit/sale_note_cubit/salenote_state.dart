@@ -6,26 +6,26 @@ abstract class SalenoteState extends Equatable {
   const SalenoteState();
 }
 
-class InitialState extends SalenoteState {
+class InitialSaleNoteState extends SalenoteState {
   @override
   List<Object?> get props => [];
 }
 
-class LoadingState extends SalenoteState {
+class LoadingSaleNoteState extends SalenoteState {
   @override
   List<Object?> get props => [];
 }
 
-class LoadedState extends SalenoteState {
+class LoadedSaleNoteState extends SalenoteState {
   final List<SaleNoteModel> salenoteList;
-  const LoadedState({required this.salenoteList});
+  const LoadedSaleNoteState({required this.salenoteList});
   @override
   List<Object?> get props => [salenoteList];
 }
 
-class ErrorState extends SalenoteState {
+class ErrorSalenoteState extends SalenoteState {
   final String error;
-  const ErrorState({required this.error});
+  const ErrorSalenoteState({required this.error});
   @override
   String toString() => 'Error: $error';
   @override

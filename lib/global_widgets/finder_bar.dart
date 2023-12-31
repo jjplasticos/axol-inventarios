@@ -1,0 +1,90 @@
+import 'package:axol_inventarios/utilities/theme.dart';
+import 'package:flutter/material.dart';
+
+import '../models/textfield_model.dart';
+import '../utilities/textfield_decoration.dart';
+
+class FinderBar extends StatelessWidget {
+  final TextfieldModel txtForm;
+  final double? width;
+  final double? height;
+  final bool? isTxtExpand;
+  final Color? backgroundColor;
+  final bool? autoFocus;
+  final bool? enabled;
+  final Function(String)? onSubmitted;
+  final Function(String)? onChanged;
+  final Function()? onPressed;
+  final InputDecoration? inputDecoration;
+  final TextStyle? textStyle;
+  final TextEditingController? textController;
+
+  const FinderBar({
+    super.key,
+    required this.txtForm,
+    this.height,
+    this.width,
+    this.isTxtExpand,
+    this.backgroundColor,
+    this.autoFocus,
+    this.enabled,
+    this.onSubmitted,
+    this.onChanged,
+    this.onPressed,
+    this.inputDecoration,
+    this.textStyle,
+    this.textController,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final double widthBar = width ?? 200;
+    final double heightBar = height ?? 30;
+    final bool isEsxpand = isTxtExpand ?? false;
+    final bool autoFocusBar = autoFocus ?? false;
+    final Color backColor = backgroundColor ?? ColorPalette.lightBackground;
+    final InputDecoration decoration =
+        inputDecoration ?? TextFieldDecoration.decorationFinder();
+    //TextEditingController textController = TextEditingController();
+    /*textController.value = TextEditingValue(
+        text: txtForm.text,
+        selection: TextSelection.collapsed(offset: txtForm.position));*/
+    TextField textField = TextField(
+      controller: textController,
+      autofocus: autoFocusBar,
+      enabled: enabled,
+      onSubmitted: onSubmitted,
+      onChanged: onChanged,
+      decoration: decoration,
+      style: textStyle,
+      cursorColor: ColorPalette.primary,
+    );
+
+    return Container(
+        color: backColor,
+        child: Padding(
+          padding: const EdgeInsetsDirectional.symmetric(horizontal: 12),
+          child: Row(
+            children: [
+              isEsxpand == true
+                  ? Expanded(
+                      child: textField,
+                    )
+                  : SizedBox(
+                      height: heightBar,
+                      width: widthBar - heightBar,
+                      child: textField,
+                    ),
+              IconButton(
+                onPressed: onPressed,
+                iconSize: heightBar,
+                icon: const Icon(
+                  Icons.close,
+                  color: ColorPalette.darkItems,
+                ),
+              )
+            ],
+          ),
+        ));
+  }
+}

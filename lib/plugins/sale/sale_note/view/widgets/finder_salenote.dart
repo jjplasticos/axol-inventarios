@@ -32,11 +32,11 @@ class FinderSalenote extends StatelessWidget {
           Expanded(
             child: Padding(
               padding: const EdgeInsetsDirectional.fromSTEB(12, 0, 0, 0),
-              child: TextFormField(
+              child: TextField(
                 controller: textController,
                 autofocus: true,
                 enabled: !isLoading,
-                onFieldSubmitted: (value) {
+                onSubmitted: (value) {
                   context
                       .read<SalenoteCubit>()
                       .reloadList(value, SaleNoteFilterModel.empty());
@@ -81,7 +81,7 @@ class FinderSalenote extends StatelessWidget {
                 context.read<SalenoteCubit>().loadList();
                 context
                     .read<FinderNotesCubit>()
-                    .setState(TextfieldModel.initial());
+                    .setState(TextfieldModel.empty());
               }
             },
           ),

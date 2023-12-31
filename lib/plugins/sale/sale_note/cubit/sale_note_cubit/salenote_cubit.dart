@@ -7,30 +7,30 @@ import '../../repository/sale_note_repo.dart';
 import 'salenote_state.dart';
 
 class SalenoteCubit extends Cubit<SalenoteState> {
-  SalenoteCubit() : super(InitialState());
+  SalenoteCubit() : super(InitialSaleNoteState());
 
   Future<void> loadList() async {
     try {
-      emit(InitialState());
-      emit(LoadingState());
+      emit(InitialSaleNoteState());
+      emit(LoadingSaleNoteState());
       List<SaleNoteModel> notesDB;
       notesDB =
           await SaleNoteRepo().fetchNotes(SaleNoteFilterModel.empty(), '');
-      emit(LoadedState(salenoteList: notesDB));
+      emit(LoadedSaleNoteState(salenoteList: notesDB));
     } catch (e) {
-      emit(ErrorState(error: e.toString()));
+      emit(ErrorSalenoteState(error: e.toString()));
     }
   }
 
   Future<void> reloadList(String finder, SaleNoteFilterModel filter) async {
     try {
       List<SaleNoteModel> notesDB;
-      emit(InitialState());
-      emit(LoadingState());
+      emit(InitialSaleNoteState());
+      emit(LoadingSaleNoteState());
       notesDB = await SaleNoteRepo().fetchNotes(filter, finder);
-      emit(LoadedState(salenoteList: notesDB));
+      emit(LoadedSaleNoteState(salenoteList: notesDB));
     } catch (e) {
-      emit(ErrorState(error: e.toString()));
+      emit(ErrorSalenoteState(error: e.toString()));
     }
   }
 }

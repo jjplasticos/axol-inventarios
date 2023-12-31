@@ -1,0 +1,26 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+
+import '../plugins/sale/customer/cubit/customer_tab_cubit.dart';
+import '../plugins/sale/customer/cubit/customer_tab_form.dart';
+import '../plugins/sale/sale_note/cubit/finder_notes_cubit.dart';
+import '../plugins/sale/sale_note/cubit/sale_note_cubit/salenote_cubit.dart';
+import '../plugins/sale/sale_note/view/views/sale_view.dart';
+
+abstract class Providers extends StatelessWidget {
+  const Providers({super.key});
+}
+
+class ProviderSaleView extends Providers {
+  const ProviderSaleView({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return MultiBlocProvider(providers: [
+      BlocProvider(create: (_) => SalenoteCubit()),
+      BlocProvider(create: (_) => FinderNotesCubit()),
+      BlocProvider(create: (_) => CustomerTabForm()),
+      BlocProvider(create: (_) => CustomerTabCubit()),
+    ], child: const SaleView());
+  }
+}

@@ -79,7 +79,7 @@ class FinderRc extends StatelessWidget {
               if (text != '') {
                 context
                     .read<RoutcustomerCubit>()
-                    .load(TextfieldModel.initial());
+                    .load(TextfieldModel.empty());
               }
             },
           ),

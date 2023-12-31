@@ -10,7 +10,7 @@ class ColorPalette {
   static const lightText = Color(0xFFf7fefe);
   static const darkText = Color(0xFF282828);
   static final secondaryText2 = const Color(0xFF282828).withOpacity(0.5);
-  static const overlayButton =  Color.fromARGB(28, 131, 114, 242);
+  static const overlayButton = Color.fromARGB(28, 131, 114, 242);
   static const error = Colors.red;
   static const darkItems = Color.fromARGB(255, 78, 78, 78);
 }
@@ -97,6 +97,11 @@ class Typo {
       fontWeight: FontWeight.w600,
       fontSize: 16,
       color: ColorPalette.darkText);
+  static const subtitleLight = TextStyle(
+      fontFamily: 'Source Sans Pro',
+      fontWeight: FontWeight.w600,
+      fontSize: 16,
+      color: ColorPalette.lightText);
   static const bodyDark = TextStyle(
       fontFamily: 'Source Sans Pro',
       fontWeight: FontWeight.w400,

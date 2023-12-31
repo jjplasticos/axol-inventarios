@@ -5,7 +5,7 @@ class CustomerRepo {
   static const String _table = 'customers';
   static const String _id = 'id';
   static const String _name = 'name';
-  static const String _properties = 'properties';
+  //static const String _properties = 'properties';
   final _supabase = Supabase.instance.client;
 
   Future<List<CustomerModel>> fetchCustomersEq(String inText) async {

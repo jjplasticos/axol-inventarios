@@ -62,7 +62,7 @@ class ToolbarSaleNote extends StatelessWidget {
               context.read<SalenoteCubit>().loadList();
               context
                   .read<FinderNotesCubit>()
-                  .setState(TextfieldModel.initial());
+                  .setState(TextfieldModel.empty());
             }
           },
         ),

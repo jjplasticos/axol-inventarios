@@ -13,7 +13,7 @@ class SelectVendorController extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<VendorSelectCubit, VendorSelectState>(
-      bloc: context.read<VendorSelectCubit>()..load(TextfieldModel.initial()),
+      bloc: context.read<VendorSelectCubit>()..load(TextfieldModel.empty()),
       builder: (context, state) {
         if (state is LoadingState) {
           return DrawerSelectVendor(

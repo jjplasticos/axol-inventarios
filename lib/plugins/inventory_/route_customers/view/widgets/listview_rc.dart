@@ -107,7 +107,7 @@ class ListviewRc extends StatelessWidget {
                             if (value == true) {
                               context
                                   .read<RoutcustomerCubit>()
-                                  .load(TextfieldModel.initial());
+                                  .load(TextfieldModel.empty());
                             }
                           });
                         },

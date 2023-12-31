@@ -79,7 +79,7 @@ class FinderVendor extends StatelessWidget {
               if (text != '') {
                 context
                     .read<VendorSelectCubit>()
-                    .load(TextfieldModel.initial());
+                    .load(TextfieldModel.empty());
               }
             },
           ),
