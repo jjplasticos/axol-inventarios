@@ -26,14 +26,14 @@ class RcFormModel {
   });
 
   static RcFormModel empty() => RcFormModel(
-        id: TextfieldFormModel.initial(),
-        name: TextfieldFormModel.initial(),
-        location: TextfieldFormModel.initial(),
-        address: TextfieldFormModel.initial(),
-        hood: TextfieldFormModel.initial(),
-        town: TextfieldFormModel.initial(),
-        country: TextfieldFormModel.initial(),
-        vendor: TextfieldFormModel.initial(),
+        id: TextfieldFormModel.empty(),
+        name: TextfieldFormModel.empty(),
+        location: TextfieldFormModel.empty(),
+        address: TextfieldFormModel.empty(),
+        hood: TextfieldFormModel.empty(),
+        town: TextfieldFormModel.empty(),
+        country: TextfieldFormModel.empty(),
+        vendor: TextfieldFormModel.empty(),
         status: true,
         user: '',
       );

@@ -22,9 +22,9 @@ class SalenoteFormModel {
   });
 
   static SalenoteFormModel initial() => SalenoteFormModel(
-        customer: TextfieldFormModel.initial(),
-        vendor: TextfieldFormModel.initial(),
-        warehouse: TextfieldFormModel.initial(),
+        customer: TextfieldFormModel.empty(),
+        vendor: TextfieldFormModel.empty(),
+        warehouse: TextfieldFormModel.empty(),
         customerModel: CustomerModel.empty(),
         vendorModel: VendorModel.empty(),
         warehouseModel: WarehouseModel.empty(),

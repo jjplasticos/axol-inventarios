@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../plugins/sale/customer/cubit/customer_tab_cubit.dart';
-import '../plugins/sale/customer/cubit/customer_tab_form.dart';
+import '../plugins/sale/customer/cubit/customer_add/customer_add_form.dart';
+import '../plugins/sale/customer/cubit/customer_tab/customer_tab_cubit.dart';
+import '../plugins/sale/customer/cubit/customer_tab/customer_tab_form.dart';
+import '../plugins/sale/customer/view/customer_drawer_add.dart';
 import '../plugins/sale/sale_note/cubit/finder_notes_cubit.dart';
 import '../plugins/sale/sale_note/cubit/sale_note_cubit/salenote_cubit.dart';
 import '../plugins/sale/sale_note/view/views/sale_view.dart';
@@ -22,5 +24,16 @@ class ProviderSaleView extends Providers {
       BlocProvider(create: (_) => CustomerTabForm()),
       BlocProvider(create: (_) => CustomerTabCubit()),
     ], child: const SaleView());
+  }
+}
+
+class ProviderCustomerAdd extends Providers {
+  const ProviderCustomerAdd({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return MultiBlocProvider(providers: [
+      BlocProvider(create: (_) => CustomerAddForm()),
+    ], child: const CustomerDrawerAdd());
   }
 }

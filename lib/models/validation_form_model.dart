@@ -4,6 +4,7 @@ class ValidationFormModel {
 
   ValidationFormModel({required this.isValid, required this.errorMessage});
 
-  static ValidationFormModel trueValid() =>
-      ValidationFormModel(isValid: true, errorMessage: '');
+  ValidationFormModel.trueValid()
+      : isValid = true,
+        errorMessage = '';
 }

@@ -1,12 +1,14 @@
-import 'package:axol_inventarios/plugins/sale/customer/cubit/customer_tab_form.dart';
+import 'package:axol_inventarios/plugins/sale/customer/cubit/customer_tab/customer_tab_form.dart';
 import 'package:axol_inventarios/plugins/sale/customer/view/customer_drawer.dart';
+import 'package:axol_inventarios/plugins/sale/customer/view/customer_drawer_add.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../global_widgets/finder_bar.dart';
+import '../../../../global_widgets/providers.dart';
 import '../../../../models/textfield_model.dart';
 import '../../../../utilities/theme.dart';
-import '../cubit/customer_tab_cubit.dart';
+import '../cubit/customer_tab/customer_tab_cubit.dart';
 import '../model/customer_model.dart';
 
 class CustomerTab extends StatelessWidget {
@@ -71,12 +73,16 @@ class CustomerTab extends StatelessWidget {
               ),
               IconButton(
                 padding: EdgeInsets.zero,
-                onPressed: () {},
+                onPressed: () {
+                  showDialog(
+                    context: context,
+                    builder: (context) => const ProviderCustomerAdd(),
+                  );
+                },
                 icon: const Icon(
                   Icons.add_outlined,
                   color: ColorPalette.darkItems,
                   size: 30,
-
                 ),
               ),
             ],

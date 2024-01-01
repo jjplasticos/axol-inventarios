@@ -29,7 +29,7 @@ class TextfieldRc extends StatelessWidget {
     TextEditingController textController = TextEditingController();
     FocusNode focusNode = FocusNode();
     RcFormModel form = context.read<RcFormCubit>().state;
-    TextfieldFormModel formElement = TextfieldFormModel.initial();
+    TextfieldFormModel formElement = TextfieldFormModel.empty();
     if (keyFormElement == 0) {
       formElement = form.id;
     } else if (keyFormElement == 1) {

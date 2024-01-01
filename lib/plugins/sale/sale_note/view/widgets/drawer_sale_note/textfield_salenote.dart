@@ -28,7 +28,7 @@ class TextfieldSalenote extends StatelessWidget {
     TextEditingController textController = TextEditingController();
     FocusNode focusNode = FocusNode();
     SalenoteFormModel form = context.read<SalenoteFormCubit>().state;
-    TextfieldFormModel formElement = TextfieldFormModel.initial();
+    TextfieldFormModel formElement = TextfieldFormModel.empty();
     if (keyFormElement == 0) {
       formElement = form.customer;
     } else if (keyFormElement == 1) {

@@ -1,6 +1,6 @@
 import 'package:equatable/equatable.dart';
 
-import '../model/customer_model.dart';
+import '../../model/customer_model.dart';
 
 abstract class CustomerTabState extends Equatable {
   const CustomerTabState();
