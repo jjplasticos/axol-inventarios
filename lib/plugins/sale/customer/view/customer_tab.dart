@@ -1,4 +1,5 @@
 import 'package:axol_inventarios/plugins/sale/customer/cubit/customer_tab_form.dart';
+import 'package:axol_inventarios/plugins/sale/customer/view/customer_drawer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -112,7 +113,13 @@ class CustomerTab extends StatelessWidget {
                             ),
                           ],
                         ),
-                        onPressed: () {},
+                        onPressed: () {
+                          showDialog(
+                            context: context,
+                            builder: (context) =>
+                                CustomerDrawer(customer: customer),
+                          );
+                        },
                       ),
                     );
                   },

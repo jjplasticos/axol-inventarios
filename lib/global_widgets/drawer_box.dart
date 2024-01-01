@@ -7,44 +7,33 @@ class DrawerBox extends StatelessWidget {
   final List<Widget>? actions;
   final Widget? header;
   final Widget? child;
+  final EdgeInsetsGeometry? padding;
 
-  const DrawerBox(
-      {super.key,
-      this.width,
-      this.children,
-      this.header,
-      this.actions,
-      this.child});
+  const DrawerBox({
+    super.key,
+    this.width,
+    this.children,
+    this.header,
+    this.actions,
+    this.child,
+    this.padding,
+  });
 
   @override
   Widget build(BuildContext context) {
     final double screenHeight = MediaQuery.of(context).size.height;
     final double screenWidth = MediaQuery.of(context).size.width;
     final double drawerWidth;
-    final List<Widget> drawerContent;
-    final List<Widget> drawerActions;
-    final Widget drawerHead;
+    final List<Widget> drawerContent = children ?? [];
+    final List<Widget> drawerActions = actions ?? [];
+    final Widget drawerHead = header ?? const Text('');
+    final EdgeInsetsGeometry paddingDrawer = padding ?? const EdgeInsets.all(0);
     if (width == null) {
       drawerWidth = screenWidth * 0.5;
     } else if (width! <= 1 && width! > 0) {
       drawerWidth = screenWidth * width!;
     } else {
       drawerWidth = screenWidth * 0.5;
-    }
-    if (children == null) {
-      drawerContent = [];
-    } else {
-      drawerContent = children!;
-    }
-    if (header == null) {
-      drawerHead = const Text('');
-    } else {
-      drawerHead = header!;
-    }
-    if (actions != null) {
-      drawerActions = actions!;
-    } else {
-      drawerActions = [];
     }
     if (child == null) {
       return Row(
@@ -54,15 +43,18 @@ class DrawerBox extends StatelessWidget {
             color: ColorPalette.lightBackground,
             width: drawerWidth,
             height: screenHeight,
-            child: Column(
-              children: [
-                drawerHead,
-                Expanded(child: ListView(children: drawerContent)),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: drawerActions,
-                ),
-              ],
+            child: Padding(
+              padding: paddingDrawer,
+              child: Column(
+                children: [
+                  drawerHead,
+                  Expanded(child: ListView(children: drawerContent)),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: drawerActions,
+                  ),
+                ],
+              ),
             ),
           )
         ],
@@ -75,15 +67,18 @@ class DrawerBox extends StatelessWidget {
             color: ColorPalette.lightBackground,
             width: drawerWidth,
             height: screenHeight,
-            child: Column(
-              children: [
-                drawerHead,
-                child!,
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: drawerActions,
-                ),
-              ],
+            child: Padding(
+              padding: paddingDrawer,
+              child: Column(
+                children: [
+                  drawerHead,
+                  child!,
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: drawerActions,
+                  ),
+                ],
+              ),
             ),
           )
         ],

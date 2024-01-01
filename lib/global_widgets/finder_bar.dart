@@ -45,10 +45,6 @@ class FinderBar extends StatelessWidget {
     final Color backColor = backgroundColor ?? ColorPalette.lightBackground;
     final InputDecoration decoration =
         inputDecoration ?? TextFieldDecoration.decorationFinder();
-    //TextEditingController textController = TextEditingController();
-    /*textController.value = TextEditingValue(
-        text: txtForm.text,
-        selection: TextSelection.collapsed(offset: txtForm.position));*/
     TextField textField = TextField(
       controller: textController,
       autofocus: autoFocusBar,
