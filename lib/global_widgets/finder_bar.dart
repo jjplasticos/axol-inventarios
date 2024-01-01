@@ -18,6 +18,7 @@ class FinderBar extends StatelessWidget {
   final InputDecoration? inputDecoration;
   final TextStyle? textStyle;
   final TextEditingController? textController;
+  final EdgeInsetsGeometry? padding;
 
   const FinderBar({
     super.key,
@@ -34,6 +35,7 @@ class FinderBar extends StatelessWidget {
     this.inputDecoration,
     this.textStyle,
     this.textController,
+    this.padding,
   });
 
   @override
@@ -45,6 +47,8 @@ class FinderBar extends StatelessWidget {
     final Color backColor = backgroundColor ?? ColorPalette.lightBackground;
     final InputDecoration decoration =
         inputDecoration ?? TextFieldDecoration.decorationFinder();
+    final EdgeInsetsGeometry paddingBar =
+        padding ?? const EdgeInsets.symmetric(horizontal: 12);
     TextField textField = TextField(
       controller: textController,
       autofocus: autoFocusBar,
@@ -59,7 +63,7 @@ class FinderBar extends StatelessWidget {
     return Container(
         color: backColor,
         child: Padding(
-          padding: const EdgeInsetsDirectional.symmetric(horizontal: 12),
+          padding: paddingBar,
           child: Row(
             children: [
               isEsxpand == true

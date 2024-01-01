@@ -13,6 +13,7 @@ class ColorPalette {
   static const overlayButton = Color.fromARGB(28, 131, 114, 242);
   static const error = Colors.red;
   static const darkItems = Color.fromARGB(255, 78, 78, 78);
+  static const lightItems = Color.fromARGB(255, 167, 167, 167);
 }
 
 class Typo {

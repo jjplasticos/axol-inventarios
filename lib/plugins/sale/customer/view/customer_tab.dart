@@ -29,26 +29,58 @@ class CustomerTab extends StatelessWidget {
         selection: TextSelection.collapsed(offset: form.position));
     return Column(
       children: [
-        FinderBar(
-          textController: textController,
-          txtForm: form,
-          enabled: !isLoading,
-          autoFocus: true,
-          isTxtExpand: true,
-          onSubmitted: (value) {
-            context.read<CustomerTabCubit>().load(value);
-          },
-          onChanged: (value) {
-            upForm = TextfieldModel(
-                text: value, position: textController.selection.base.offset);
-            context.read<CustomerTabForm>().setForm(upForm);
-          },
-          onPressed: () {
-            if (isLoading == false) {
-              context.read<CustomerTabForm>().setForm(TextfieldModel.empty());
-              context.read<CustomerTabCubit>().load('');
-            }
-          },
+        Container(
+          height: 50,
+          color: ColorPalette.lightBackground,
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Expanded(
+                child: FinderBar(
+                  padding: const EdgeInsets.only(left: 12),
+                  textController: textController,
+                  txtForm: form,
+                  enabled: !isLoading,
+                  autoFocus: true,
+                  isTxtExpand: true,
+                  onSubmitted: (value) {
+                    context.read<CustomerTabCubit>().load(value);
+                  },
+                  onChanged: (value) {
+                    upForm = TextfieldModel(
+                        text: value,
+                        position: textController.selection.base.offset);
+                    context.read<CustomerTabForm>().setForm(upForm);
+                  },
+                  onPressed: () {
+                    if (isLoading == false) {
+                      context
+                          .read<CustomerTabForm>()
+                          .setForm(TextfieldModel.empty());
+                      context.read<CustomerTabCubit>().load('');
+                    }
+                  },
+                ),
+              ),
+              const VerticalDivider(
+                thickness: 1,
+                width: 1,
+                color: ColorPalette.lightItems,
+                indent: 4,
+                endIndent: 4,
+              ),
+              IconButton(
+                padding: EdgeInsets.zero,
+                onPressed: () {},
+                icon: const Icon(
+                  Icons.add_outlined,
+                  color: ColorPalette.darkItems,
+                  size: 30,
+
+                ),
+              ),
+            ],
+          ),
         ),
         const Padding(
           padding: EdgeInsets.fromLTRB(8, 8, 8, 0),
