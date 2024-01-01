@@ -24,7 +24,6 @@ class DrawerAddRcController extends StatelessWidget {
           // ignore: prefer_const_constructors
           return DrawerAddRc(
             isLoading: true,
-
           );
         } else if (state is LoadedState) {
           response = state.response;
@@ -35,12 +34,16 @@ class DrawerAddRcController extends StatelessWidget {
               if (list.first == 'validation') {
                 if (list.last.split('/').first == 'false') {
                   rcForm.id = TextfieldFormModel(
-                      position: rcForm.id.position,
-                      validation: ValidationFormModel(
-                        isValid: false,
-                        errorMessage: list.last.split('/').last,
-                      ),
-                      value: rcForm.id.value);
+                    position: rcForm.id.position,
+                    validation: ValidationFormModel(
+                      isValid: false,
+                      errorMessage: list.last.split('/').last,
+                    ),
+                    value: rcForm.id.value,
+                    key: '',
+                    controller: TextEditingController(),
+                    isLoading: false,
+                  );
                 }
               } else if (list.first == 'user') {
                 rcForm.user = list.last;

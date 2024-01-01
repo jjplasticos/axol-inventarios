@@ -62,6 +62,20 @@ class CustomerModel {
       street = '',
       town = '';
 
+  CustomerModel.all({
+    required this.id,
+    required this.name,
+    required this.country,
+    required this.hood,
+    required this.intNumber,
+    required this.outNumber,
+    required this.phoneNumber,
+    required this.postalCode,
+    required this.rfc,
+    required this.street,
+    required this.town,
+  });
+
   CustomerModel.fill(Map<String, dynamic> map)
     : id = map[_id],
       name = map[_name],
@@ -74,26 +88,4 @@ class CustomerModel {
       rfc = map[_rfc],
       street = map[_street],
       town = map[_town];
-      
-  /*static CustomerModel fillMap(Map<String, dynamic> map) {
-    CustomerModel customerModel;
-    if (map.keys.contains(propId) && map.keys.contains(propName)) {
-      customerModel = CustomerModel(
-        id: map[propId],
-        name: map[propName],
-        country: map[propCountry],
-        hood: map[propHood],
-        intNumber: map[propIntNumber],
-        outNumber: map[propOutNumber],
-        phoneNumber: map[propPhoneNumber],
-        postalCode: map[propPostalCode],
-        rfc: map[propPostalCode],
-        street: map[propStreet],
-        town: map[propTown],
-      );
-    } else {
-      customerModel = CustomerModel.empty();
-    }
-    return customerModel;
-  }*/
 }

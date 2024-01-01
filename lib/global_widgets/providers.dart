@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../plugins/sale/customer/cubit/customer_add/customer_add_cubit.dart';
 import '../plugins/sale/customer/cubit/customer_add/customer_add_form.dart';
 import '../plugins/sale/customer/cubit/customer_tab/customer_tab_cubit.dart';
 import '../plugins/sale/customer/cubit/customer_tab/customer_tab_form.dart';
@@ -34,6 +35,7 @@ class ProviderCustomerAdd extends Providers {
   Widget build(BuildContext context) {
     return MultiBlocProvider(providers: [
       BlocProvider(create: (_) => CustomerAddForm()),
+      BlocProvider(create: (_) => CustomerAddCubit()),
     ], child: const CustomerDrawerAdd());
   }
 }
