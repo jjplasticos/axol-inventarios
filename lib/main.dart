@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
-import 'plugins/user/view/views/auth_page.dart';
+import 'entities/user/view/views/auth_page.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
