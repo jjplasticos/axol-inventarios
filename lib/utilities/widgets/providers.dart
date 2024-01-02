@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../entities/sale/customer/cubit/customer_add/customer_add_cubit.dart';
-import '../../entities/sale/customer/cubit/customer_add/customer_add_form.dart';
-import '../../entities/sale/customer/cubit/customer_tab/customer_tab_cubit.dart';
-import '../../entities/sale/customer/cubit/customer_tab/customer_tab_form.dart';
-import '../../entities/sale/customer/view/customer_drawer_add.dart';
-import '../../entities/sale/sale_note/cubit/finder_notes_cubit.dart';
-import '../../entities/sale/sale_note/cubit/sale_note_cubit/salenote_cubit.dart';
-import '../../entities/sale/sale_note/view/views/sale_view.dart';
+import '../../modules/sale/customer/cubit/customer_add/customer_add_cubit.dart';
+import '../../modules/sale/customer/cubit/customer_add/customer_add_form.dart';
+import '../../modules/sale/customer/cubit/customer_tab/customer_tab_cubit.dart';
+import '../../modules/sale/customer/cubit/customer_tab/customer_tab_form.dart';
+import '../../modules/sale/customer/view/customer_drawer_add.dart';
+import '../../modules/sale/sale_note/cubit/finder_notes_cubit.dart';
+import '../../modules/sale/sale_note/cubit/sale_note_cubit/salenote_cubit.dart';
+import '../../modules/sale/sale_note/view/views/sale_view.dart';
 
 abstract class Providers extends StatelessWidget {
   const Providers({super.key});
