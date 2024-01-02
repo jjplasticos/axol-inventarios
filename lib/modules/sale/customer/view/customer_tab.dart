@@ -1,6 +1,5 @@
 import 'package:axol_inventarios/modules/sale/customer/cubit/customer_tab/customer_tab_form.dart';
 import 'package:axol_inventarios/modules/sale/customer/view/customer_drawer.dart';
-import 'package:axol_inventarios/modules/sale/customer/view/customer_drawer_add.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 

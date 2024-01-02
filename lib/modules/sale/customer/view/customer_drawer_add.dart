@@ -1,11 +1,9 @@
-import 'dart:js';
-
 import 'package:axol_inventarios/utilities/widgets/drawer_box.dart';
-import 'package:axol_inventarios/modules/sale/customer/model/customer_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../utilities/widgets/alert_dialog_axol.dart';
+import '../../../../utilities/widgets/progress_indicator.dart';
 import '../../../../utilities/widgets/textfield_input_form.dart';
 import '../../../../models/textfield_form_model.dart';
 import '../../../../utilities/theme.dart';
@@ -47,7 +45,8 @@ class CustomerDrawerAdd extends StatelessWidget {
     );
   }
 
-  DrawerBox loadDrawerBox(CustomerAddFormModel form, BuildContext context, bool isLoading) {
+  DrawerBox loadDrawerBox(
+      CustomerAddFormModel form, BuildContext context, bool isLoading) {
     CustomerAddFormModel upForm = form;
     List<TextfieldFormModel> listForm = CustomerAddFormModel.formToList(form);
     List<Widget> listWidget = [];
@@ -86,7 +85,7 @@ class CustomerDrawerAdd extends StatelessWidget {
       listWidget.add(widget);
     }
     drawerBox = DrawerBox(
-      padding: const EdgeInsets.symmetric(horizontal: 16),
+      padding: const EdgeInsets.fromLTRB(16, 0, 16, 4),
       header: Column(
         children: [
           const Text(
@@ -94,17 +93,41 @@ class CustomerDrawerAdd extends StatelessWidget {
             style: Typo.subtitleDark,
           ),
           Visibility(
-            visible: isLoading,
-            replacement: const SizedBox(
-              height: 4,
-            ),
-            child: const LinearProgressIndicator(
-              backgroundColor: ColorPalette.primary,
-              color: ColorPalette.secondary,
-            ),
-          )
+              visible: isLoading,
+              replacement: const SizedBox(
+                height: 4,
+              ),
+              child: const LinearProgressIndicatorAxol())
         ],
       ),
+      actions: [
+        OutlinedButton(
+            onPressed: () {},
+            style: OutlinedButton.styleFrom(
+              backgroundColor: ColorPalette.lightBackground,
+              side: const BorderSide(
+                color: ColorPalette.primary,
+                width: 2,
+              ),
+            ),
+            child: const Text(
+              'Regresar',
+              style: Typo.bodyDark,
+            )),
+        const SizedBox(
+          width: 16,
+        ),
+        OutlinedButton(
+            onPressed: () {},
+            style: OutlinedButton.styleFrom(
+              backgroundColor: ColorPalette.primary,
+              side: BorderSide.none,
+            ),
+            child: const Text(
+              'Guardar',
+              style: Typo.bodyLight,
+            )),
+      ],
       children: listWidget,
     );
     return drawerBox;

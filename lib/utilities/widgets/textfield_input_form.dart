@@ -56,17 +56,6 @@ class TextFieldInputForm extends StatelessWidget {
             cursorColor: ColorPalette.primary,
           ),
         ),
-        /*SizedBox(
-          height: 12,
-          width: 12,
-          child: Visibility(
-            visible: isLoadingTf,
-            child: const CircularProgressIndicator(
-              backgroundColor: ColorPalette.lightBackground,
-              color: ColorPalette.primary,
-            ),
-          ),
-        ),*/
       ],
     );
   }
