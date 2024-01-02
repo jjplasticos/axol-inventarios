@@ -64,9 +64,56 @@ class CustomerAddCubit extends Cubit<CustomerAddState> {
     }
   }
 
+  Future<void> loadSingleValidation(
+      CustomerAddFormModel form, String key) async {
+    CustomerAddFormModel upForm = form;
+    bool idExist = true;
+    List<TextfieldFormModel> listForm = CustomerAddFormModel.formToList(form);
+    int id;
+    try {
+      emit(InitialCustomerAddState());
+      emit(LoadingCustomerAddState());
+      for (var element in listForm) {
+        if (element.key == key && key == CustomerModel.empty().tId) {
+          id = int.tryParse(form.id.value) ?? -1;
+          idExist = await CustomerRepo().existId(id);
+          if (idExist) {
+            upForm.id.validation = ValidationFormModel(
+              isValid: false,
+              errorMessage: form.emIdInvalid,
+            );
+          } else {
+            upForm.id.validation = ValidationFormModel(
+              isValid: true,
+              errorMessage: '',
+            );
+          }
+        } else if (element.key == key && key == CustomerModel.empty().tName) {
+          if (form.name.value == '') {
+            upForm.name.validation = ValidationFormModel(
+              isValid: false,
+              errorMessage: form.emNameInvalid,
+            );
+          } else {
+            upForm.name.validation = ValidationFormModel(
+              isValid: true,
+              errorMessage: '',
+            );
+          }
+        }
+      }
+      upForm = CustomerAddFormModel.allFalseLoading(upForm);
+      emit(LoadedCustomerAddState(form: upForm));
+    } catch (e) {
+      emit(InitialCustomerAddState());
+      emit(ErrorCustomerAddState(error: e.toString()));
+    }
+  }
+
   Future<void> save(form) async {
     bool isValid = true;
-    final List<TextfieldFormModel> listForm = CustomerAddFormModel.formToList(form);
+    final List<TextfieldFormModel> listForm =
+        CustomerAddFormModel.formToList(form);
     final CustomerModel customer = CustomerAddFormModel.formToCustomer(form);
     try {
       emit(InitialCustomerAddState());

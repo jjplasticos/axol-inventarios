@@ -13,6 +13,7 @@ class TextFieldInputForm extends StatelessWidget {
   final TextStyle? style;
   final Function(String)? onSubmitted;
   final Function(String)? onChanged;
+  final bool? isLoading;
 
   const TextFieldInputForm({
     super.key,
@@ -25,6 +26,7 @@ class TextFieldInputForm extends StatelessWidget {
     this.style,
     this.onChanged,
     this.onSubmitted,
+    this.isLoading,
   });
 
   @override
@@ -33,6 +35,7 @@ class TextFieldInputForm extends StatelessWidget {
     final labelStyleTf = labelStyle ?? Typo.bodyDark;
     final spaceTf = space ?? 8;
     final decorationTf = decoration ?? TextFieldDecoration.inputForm(errorText);
+    final bool isLoadingTf = isLoading ?? false;
     return Row(
       children: [
         Text(
@@ -50,6 +53,17 @@ class TextFieldInputForm extends StatelessWidget {
             onSubmitted: onSubmitted,
             onChanged: onChanged,
             cursorColor: ColorPalette.primary,
+          ),
+        ),
+        SizedBox(
+          height: 12,
+          width: 12,
+          child: Visibility(
+            visible: isLoadingTf,
+            child: const CircularProgressIndicator(
+              backgroundColor: ColorPalette.lightBackground,
+              color: ColorPalette.primary,
+            ),
           ),
         ),
       ],

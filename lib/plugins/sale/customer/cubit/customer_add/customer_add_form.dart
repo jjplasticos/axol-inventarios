@@ -5,6 +5,11 @@ import '../../model/customer_add_form_model.dart';
 
 class CustomerAddForm extends Cubit<CustomerAddFormModel>{
   CustomerAddForm() : super(CustomerAddFormModel.empty());
+
+  void setForm(CustomerAddFormModel form) {
+    emit(CustomerAddFormModel.empty());
+    emit(form);
+  }
   
   void setName(TextfieldFormModel name) {
     CustomerAddFormModel form = state;

@@ -27,7 +27,7 @@ class CustomerAddFormModel {
   static const String _lblTown = 'Ciudad: ';
   static const String _lblCountry = 'Estado: ';
 
-  final Map<String,String> _mapLbl = {
+  final Map<String, String> _mapLbl = {
     CustomerModel.empty().tCountry: _lblCountry,
     CustomerModel.empty().tHood: _lblHood,
     CustomerModel.empty().tId: _lblId,
@@ -44,6 +44,9 @@ class CustomerAddFormModel {
   final String _emIdInvalid = 'Id invalido';
   final String _emNameInvalid = 'Nombre invalido';
 
+  static const tagQuery = '#query';
+  static const tagSimple = '#simple';
+
   String get lblId => _lblId;
   String get lblName => _lblName;
   String get lblPhoneNumber => _lblPhoneNumber;
@@ -56,7 +59,7 @@ class CustomerAddFormModel {
   String get lblTown => _lblTown;
   String get lblCountry => _lblCountry;
 
-  Map<String,String> get mapLbl => _mapLbl;
+  Map<String, String> get mapLbl => _mapLbl;
 
   String get emIdInvalid => _emIdInvalid;
   String get emNameInvalid => _emNameInvalid;
@@ -76,21 +79,50 @@ class CustomerAddFormModel {
   });
 
   CustomerAddFormModel.empty()
-      : id = TextfieldFormModel.initKey(CustomerModel.empty().tId),
-        name = TextfieldFormModel.initKey(CustomerModel.empty().tName),
-        phoneNumber =
-            TextfieldFormModel.initKey(CustomerModel.empty().tPhoneNumber),
-        rfc = TextfieldFormModel.initKey(CustomerModel.empty().tRfc),
-        postalCode =
-            TextfieldFormModel.initKey(CustomerModel.empty().tPostalCode),
-        intNumber =
-            TextfieldFormModel.initKey(CustomerModel.empty().tIntNumber),
-        outNumber =
-            TextfieldFormModel.initKey(CustomerModel.empty().tOutNumbre),
-        street = TextfieldFormModel.initKey(CustomerModel.empty().tStreet),
-        hood = TextfieldFormModel.initKey(CustomerModel.empty().tHood),
-        town = TextfieldFormModel.initKey(CustomerModel.empty().tTown),
-        country = TextfieldFormModel.initKey(CustomerModel.empty().tCountry);
+      : id = TextfieldFormModel.initKey(
+          key: CustomerModel.empty().tId,
+          tag: tagQuery,
+        ),
+        name = TextfieldFormModel.initKey(
+          key: CustomerModel.empty().tName,
+          tag: tagSimple,
+        ),
+        phoneNumber = TextfieldFormModel.initKey(
+          key: CustomerModel.empty().tPhoneNumber,
+          tag: tagSimple,
+        ),
+        rfc = TextfieldFormModel.initKey(
+          key: CustomerModel.empty().tRfc,
+          tag: tagSimple,
+        ),
+        postalCode = TextfieldFormModel.initKey(
+          key: CustomerModel.empty().tPostalCode,
+          tag: tagSimple,
+        ),
+        intNumber = TextfieldFormModel.initKey(
+          key: CustomerModel.empty().tIntNumber,
+          tag: tagSimple,
+        ),
+        outNumber = TextfieldFormModel.initKey(
+          key: CustomerModel.empty().tOutNumbre,
+          tag: tagSimple,
+        ),
+        street = TextfieldFormModel.initKey(
+          key: CustomerModel.empty().tStreet,
+          tag: tagSimple,
+        ),
+        hood = TextfieldFormModel.initKey(
+          key: CustomerModel.empty().tHood,
+          tag: tagSimple,
+        ),
+        town = TextfieldFormModel.initKey(
+          key: CustomerModel.empty().tTown,
+          tag: tagSimple,
+        ),
+        country = TextfieldFormModel.initKey(
+          key: CustomerModel.empty().tCountry,
+          tag: tagSimple,
+        );
 
   CustomerAddFormModel.listToForm(List<TextfieldFormModel> list)
       : id = list.singleWhere((x) => x.key == CustomerModel.empty().tId),
