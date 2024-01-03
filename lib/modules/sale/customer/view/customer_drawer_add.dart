@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../utilities/widgets/alert_dialog_axol.dart';
+import '../../../../utilities/widgets/button.dart';
 import '../../../../utilities/widgets/progress_indicator.dart';
 import '../../../../utilities/widgets/textfield_input_form.dart';
 import '../../../../models/textfield_form_model.dart';
@@ -101,32 +102,11 @@ class CustomerDrawerAdd extends StatelessWidget {
         ],
       ),
       actions: [
-        OutlinedButton(
-            onPressed: () {},
-            style: OutlinedButton.styleFrom(
-              backgroundColor: ColorPalette.lightBackground,
-              side: const BorderSide(
-                color: ColorPalette.primary,
-                width: 2,
-              ),
-            ),
-            child: const Text(
-              'Regresar',
-              style: Typo.bodyDark,
-            )),
-        const SizedBox(
+        ButtonDrawerReturn(),
+        SizedBox(
           width: 16,
         ),
-        OutlinedButton(
-            onPressed: () {},
-            style: OutlinedButton.styleFrom(
-              backgroundColor: ColorPalette.primary,
-              side: BorderSide.none,
-            ),
-            child: const Text(
-              'Guardar',
-              style: Typo.bodyLight,
-            )),
+        ButtonDrawerSave(),
       ],
       children: listWidget,
     );
