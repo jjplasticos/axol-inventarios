@@ -9,6 +9,7 @@ class TextfieldFormModel {
   int position;
   ValidationFormModel validation;
   bool isLoading;
+  FocusNode focusNode;
 
   TextfieldFormModel({
     required this.position,
@@ -18,6 +19,7 @@ class TextfieldFormModel {
     required this.controller,
     required this.isLoading,
     required this.tag,
+    required this.focusNode,
   });
 
   TextfieldFormModel.empty()
@@ -27,7 +29,8 @@ class TextfieldFormModel {
         key = '',
         controller = TextEditingController(),
         isLoading = false,
-        tag = '';
+        tag = '',
+        focusNode = FocusNode();
 
   TextfieldFormModel.initKey({
     required this.key,
@@ -36,7 +39,8 @@ class TextfieldFormModel {
         validation = ValidationFormModel.trueValid(),
         value = '',
         controller = TextEditingController(),
-        isLoading = false;
+        isLoading = false,
+        focusNode = FocusNode();
 
   static const String pValue = 'value';
   static const String pPosition = 'position';

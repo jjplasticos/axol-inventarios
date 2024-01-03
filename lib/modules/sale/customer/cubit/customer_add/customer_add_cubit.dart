@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../../models/textfield_form_model.dart';
@@ -19,6 +20,16 @@ class CustomerAddCubit extends Cubit<CustomerAddState> {
       availableId = await CustomerRepo().fetchAvailableId();
       upForm.id.value = availableId.toString();
       emit(LoadedCustomerAddState(form: upForm));
+    } catch (e) {
+      emit(InitialCustomerAddState());
+      emit(ErrorCustomerAddState(error: e.toString()));
+    }
+  }
+
+  Future<void> load(CustomerAddFormModel form) async {
+    try {
+      emit(InitialCustomerAddState());
+      emit(LoadedCustomerAddState(form: form));
     } catch (e) {
       emit(InitialCustomerAddState());
       emit(ErrorCustomerAddState(error: e.toString()));
@@ -65,7 +76,7 @@ class CustomerAddCubit extends Cubit<CustomerAddState> {
   }
 
   Future<void> loadSingleValidation(
-      CustomerAddFormModel form, String key) async {
+      CustomerAddFormModel form, String key, String nextFocusKey) async {
     CustomerAddFormModel upForm = form;
     bool idExist = true;
     List<TextfieldFormModel> listForm = CustomerAddFormModel.formToList(form);
@@ -73,7 +84,17 @@ class CustomerAddCubit extends Cubit<CustomerAddState> {
     try {
       emit(InitialCustomerAddState());
       emit(LoadingCustomerAddState());
-      for (var element in listForm) {
+      for (int i = 0; i < listForm.length; i++) {
+      var element = listForm[i];
+      if (element.key == nextFocusKey) {
+        listForm[i].focusNode.requestFocus();
+      } else {
+      }
+    }
+    upForm = CustomerAddFormModel.listToForm(listForm, nextFocusKey);
+    listForm = CustomerAddFormModel.formToList(upForm);
+      for (int i = 0; i < listForm.length; i++) {
+        var element = listForm[i];
         if (element.key == key && key == CustomerModel.empty().tId) {
           id = int.tryParse(form.id.value) ?? -1;
           idExist = await CustomerRepo().existId(id);
@@ -102,7 +123,7 @@ class CustomerAddCubit extends Cubit<CustomerAddState> {
           }
         }
       }
-      upForm = CustomerAddFormModel.allFalseLoading(upForm);
+      //upForm = CustomerAddFormModel.allFalseLoading(upForm);
       emit(LoadedCustomerAddState(form: upForm));
     } catch (e) {
       emit(InitialCustomerAddState());

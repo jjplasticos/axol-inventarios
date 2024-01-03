@@ -59,29 +59,46 @@ class CustomerDrawerAdd extends StatelessWidget {
           text: element.value,
           selection: TextSelection.collapsed(offset: element.position));
       widget = Material(
-        child: TextFieldInputForm(
-          controller: element.controller,
-          label: form.mapLbl[element.key],
-          enabled: !isLoading,
-          errorText: element.validation.isValid == false
-              ? element.validation.errorMessage
-              : null,
-          onChanged: (value) {
-            element.value = value;
-            element.position = element.controller.selection.base.offset;
-            listForm[i] = element;
-            upForm = CustomerAddFormModel.listToForm(listForm);
-            context.read<CustomerAddForm>().setForm(upForm);
-          },
-          onSubmitted: (value) {
-            element.isLoading = true;
-            listForm[i] = element;
-            upForm = CustomerAddFormModel.listToForm(listForm);
-            context
-                .read<CustomerAddCubit>()
-                .loadSingleValidation(upForm, element.key);
-          },
-        ),
+        child: Focus(
+            onFocusChange: (value) {
+              if (value == false && upForm.currentFocusKey != element.key) {
+                //element.isLoading = true;
+                //listForm[i] = element;
+                //upForm = CustomerAddFormModel.listToForm(listForm, upForm.currentFocusKey);
+                context
+                    .read<CustomerAddCubit>()
+                    .loadSingleValidation(upForm, element.key, upForm.currentFocusKey);
+              } else if (value && upForm.currentFocusKey != element.key) {
+                context.read<CustomerAddForm>().setCurrentFocus(element.key);
+                context.read<CustomerAddCubit>().load(upForm);
+              }
+              print('${element.key}: $value');
+              print(upForm.currentFocusKey);
+            },
+            child: TextFieldInputForm(
+              controller: element.controller,
+              label: form.mapLbl[element.key],
+              enabled: !isLoading,
+              focusNode: element.focusNode,
+              errorText: element.validation.isValid == false
+                  ? element.validation.errorMessage
+                  : null,
+              onChanged: (value) {
+                element.value = value;
+                element.position = element.controller.selection.base.offset;
+                listForm[i] = element;
+                upForm = CustomerAddFormModel.listToForm(listForm, upForm.currentFocusKey);
+                context.read<CustomerAddForm>().setForm(upForm);
+              },
+              onSubmitted: (value) {
+                element.isLoading = true;
+                listForm[i] = element;
+                upForm = CustomerAddFormModel.listToForm(listForm, upForm.currentFocusKey);
+                context
+                    .read<CustomerAddCubit>()
+                    .loadSingleValidation(upForm, element.key, upForm.currentFocusKey);
+              },
+            )),
       );
       listWidget.add(widget);
     }
@@ -101,7 +118,7 @@ class CustomerDrawerAdd extends StatelessWidget {
               child: const LinearProgressIndicatorAxol())
         ],
       ),
-      actions: [
+      actions: const [
         ButtonDrawerReturn(),
         SizedBox(
           width: 16,

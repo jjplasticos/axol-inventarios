@@ -14,6 +14,7 @@ class TextFieldInputForm extends StatelessWidget {
   final Function(String)? onSubmitted;
   final Function(String)? onChanged;
   final bool? enabled;
+  final FocusNode? focusNode;
 
   const TextFieldInputForm({
     super.key,
@@ -27,6 +28,7 @@ class TextFieldInputForm extends StatelessWidget {
     this.onChanged,
     this.onSubmitted,
     this.enabled,
+    this.focusNode,
   });
 
   @override
@@ -54,6 +56,7 @@ class TextFieldInputForm extends StatelessWidget {
             onSubmitted: onSubmitted,
             onChanged: onChanged,
             cursorColor: ColorPalette.primary,
+            focusNode: focusNode,
           ),
         ),
       ],

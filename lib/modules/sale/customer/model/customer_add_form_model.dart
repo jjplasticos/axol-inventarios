@@ -14,6 +14,7 @@ class CustomerAddFormModel {
   TextfieldFormModel hood;
   TextfieldFormModel town;
   TextfieldFormModel country;
+  String currentFocusKey;
 
   static const String _lblId = 'Id: ';
   static const String _lblName = 'Nombre: ';
@@ -76,6 +77,7 @@ class CustomerAddFormModel {
     required this.rfc,
     required this.street,
     required this.town,
+    required this.currentFocusKey,
   });
 
   CustomerAddFormModel.empty()
@@ -122,9 +124,10 @@ class CustomerAddFormModel {
         country = TextfieldFormModel.initKey(
           key: CustomerModel.empty().tCountry,
           tag: tagSimple,
-        );
+        ),
+        currentFocusKey = '';
 
-  CustomerAddFormModel.listToForm(List<TextfieldFormModel> list)
+  CustomerAddFormModel.listToForm(List<TextfieldFormModel> list, this.currentFocusKey)
       : id = list.singleWhere((x) => x.key == CustomerModel.empty().tId),
         name = list.singleWhere((x) => x.key == CustomerModel.empty().tName),
         phoneNumber = list
@@ -192,7 +195,7 @@ class CustomerAddFormModel {
     for (var element in listForm) {
       element.isLoading = true;
     }
-    upForm = CustomerAddFormModel.listToForm(listForm);
+    upForm = CustomerAddFormModel.listToForm(listForm, form.currentFocusKey);
     return upForm;
   }
 
@@ -202,7 +205,7 @@ class CustomerAddFormModel {
     for (var element in listForm) {
       element.isLoading = false;
     }
-    upForm = CustomerAddFormModel.listToForm(listForm);
+    upForm = CustomerAddFormModel.listToForm(listForm, form.currentFocusKey);
     return upForm;
   }
 }
