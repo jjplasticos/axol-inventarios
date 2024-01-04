@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../utilities/widgets/finder_bar.dart';
+import '../../../../utilities/widgets/progress_indicator.dart';
 import '../../../../utilities/widgets/providers.dart';
 import '../../../../models/textfield_model.dart';
 import '../../../../utilities/theme.dart';
@@ -89,47 +90,62 @@ class CustomerTab extends StatelessWidget {
             ],
           ),
         ),
-        const Padding(
-          padding: EdgeInsets.fromLTRB(8, 8, 8, 0),
-          child: Row(
-            children: [
-              Expanded(
-                flex: 1,
-                child: Center(
-                  child: Text(
-                    'Id',
-                    style: Typo.subtitleLight,
+        Container(
+          decoration: const BoxDecoration(
+            color: ColorPalette.darkItems,
+              border: Border(
+                  bottom: BorderSide(
+            width: 1,
+            color: ColorPalette.darkItems,
+          ))),
+          child: const Padding(
+            padding: EdgeInsets.fromLTRB(8, 8, 8, 8),
+            child: Row(
+              children: [
+                Expanded(
+                  flex: 1,
+                  child: Center(
+                    child: Text(
+                      'Id',
+                      style: Typo.subtitleLight,
+                    ),
                   ),
                 ),
-              ),
-              Expanded(
-                flex: 3,
-                child: Center(
+                Expanded(
+                  flex: 5,
                   child: Text(
                     'Nombre',
                     style: Typo.subtitleLight,
                   ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
         Expanded(
           child: isLoading
-              ? const Center(
-                  child: Text(
-                    'Cargando...',
-                    style: Typo.bodyLight,
-                  ),
+              ? const Column(
+                  children: [
+                    LinearProgressIndicatorAxol(),
+                    Expanded(child: SizedBox())
+                  ],
                 )
               : ListView.builder(
                   shrinkWrap: true,
                   itemCount: customerList.length,
                   itemBuilder: (context, index) {
                     final customer = customerList[index];
-                    return Padding(
-                      padding: const EdgeInsets.fromLTRB(8, 8, 8, 0),
+                    return Container(
+                      decoration: const BoxDecoration(
+                          border: Border(
+                              bottom: BorderSide(
+                        width: 1,
+                        color: ColorPalette.darkItems,
+                      ))),
                       child: OutlinedButton(
+                        style: OutlinedButton.styleFrom(
+                          side: BorderSide.none,
+                        ),
                         child: Row(
                           children: [
                             Expanded(
@@ -142,12 +158,10 @@ class CustomerTab extends StatelessWidget {
                               ),
                             ),
                             Expanded(
-                              flex: 3,
-                              child: Center(
-                                child: Text(
-                                  customer.name.toString(),
-                                  style: Typo.bodyLight,
-                                ),
+                              flex: 5,
+                              child: Text(
+                                customer.name.toString(),
+                                style: Typo.bodyLight,
                               ),
                             ),
                           ],

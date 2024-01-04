@@ -5,7 +5,7 @@ class ColorPalette {
   static const secondary = Color(0xFF4649a8);
   static const tertiary = Color(0xFFffa532);
   static const alternate = Color(0xFFed7098);
-  static const Color darkBackground = Color.fromARGB(255, 54, 57, 72);
+  static const darkBackground = Color.fromARGB(255, 52, 52, 53);
   static const lightBackground = Color(0xFFfefefe);
   static const lightText = Color(0xFFf7fefe);
   static const darkText = Color(0xFF282828);
