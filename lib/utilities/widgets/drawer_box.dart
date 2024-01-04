@@ -25,7 +25,7 @@ class DrawerBox extends StatelessWidget {
     final double screenWidth = MediaQuery.of(context).size.width;
     final double drawerWidth;
     final List<Widget> drawerContent = children ?? [];
-    final List<Widget> drawerActions = actions ?? [];
+    final List<Widget> drawerActions = [];
     final Widget drawerHead = header ?? const Text('');
     final EdgeInsetsGeometry paddingDrawer = padding ?? const EdgeInsets.all(0);
     if (width == null) {
@@ -34,6 +34,14 @@ class DrawerBox extends StatelessWidget {
       drawerWidth = screenWidth * width!;
     } else {
       drawerWidth = screenWidth * 0.5;
+    }
+    if (actions != null && actions!.isNotEmpty) {
+      for (var element in actions!) {
+        drawerActions.add(Padding(
+          padding: const EdgeInsets.all(4),
+          child: element,
+        ));
+      }
     }
     if (child == null) {
       return Row(

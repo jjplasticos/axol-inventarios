@@ -17,7 +17,7 @@ class TextFieldDecoration {
       borderSide: BorderSide(color: ColorPalette.lightItems),
     ),
     errorBorder: const UnderlineInputBorder(
-      borderSide: BorderSide(color: ColorPalette.error),
+      borderSide: BorderSide(color: ColorPalette.caution),
     ),
     errorText: errorText,
   );

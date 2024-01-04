@@ -113,14 +113,11 @@ class CustomerDrawerAdd extends StatelessWidget {
         ],
       ),
       actions: [
-        ButtonDrawerReturn(
+        ButtonReturn(
           isLoading: isLoading,
           onPressed: () {
             Navigator.pop(context);
           },
-        ),
-        const SizedBox(
-          width: 16,
         ),
         ButtonDrawerSave(
           isLoading: isLoading,

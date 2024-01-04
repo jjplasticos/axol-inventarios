@@ -1,5 +1,9 @@
+import 'package:axol_inventarios/modules/sale/customer/cubit/customer_tab/customer_tab_cubit.dart';
+import 'package:axol_inventarios/utilities/widgets/alert_dialog_axol.dart';
+import 'package:axol_inventarios/utilities/widgets/button.dart';
 import 'package:axol_inventarios/utilities/widgets/drawer_box.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../utilities/theme.dart';
 import '../model/customer_model.dart';
@@ -13,10 +17,42 @@ class CustomerDrawer extends StatelessWidget {
   Widget build(BuildContext context) {
     return DrawerBox(
       padding: const EdgeInsets.symmetric(horizontal: 16),
-      header: const Text( 
+      header: const Text(
         'Cliente',
         style: Typo.subtitleDark,
       ),
+      actions: [
+        ButtonReturn(
+          onPressed: () {
+            Navigator.pop(context);
+          },
+        ),
+        ButtonDelete(
+          onPressed: () {
+            showDialog(
+              context: context,
+              builder: (context) =>  AlertDialogAxol(
+                text:
+                    '¿Estás seguro de eliminar este cliente?\n Esta acción no se podrá desasear',
+                    actions: [
+                      ButtonReturn(
+                        onPressed: () {
+                          Navigator.pop(context);
+                        },
+                      ),
+                      ButtonDelete(
+                        onPressed: () {
+                          context.read<CustomerTabCubit>().deleteCustomer(customer);
+                          Navigator.pop(context);
+                          Navigator.pop(context);
+                        }
+                      ),
+                    ],
+              ),
+            );
+          },
+        ),
+      ],
       children: [
         Row(
           children: [

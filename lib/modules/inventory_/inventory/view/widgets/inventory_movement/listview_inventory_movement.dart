@@ -281,7 +281,7 @@ class ListviewInventoryMovement extends StatelessWidget {
                                                                 moveRow.tCode]!
                                                             .state ==
                                                         DataState.error
-                                                    ? ColorPalette.error
+                                                    ? ColorPalette.caution
                                                     : ColorPalette.primary)),
                                         enabledBorder: UnderlineInputBorder(
                                             borderSide: BorderSide(
@@ -290,7 +290,7 @@ class ListviewInventoryMovement extends StatelessWidget {
                                                                 moveRow.tCode]!
                                                             .state ==
                                                         DataState.error
-                                                    ? ColorPalette.error
+                                                    ? ColorPalette.caution
                                                     : ColorPalette.secondary)),
                                         isDense: true,
                                       ),
@@ -481,7 +481,7 @@ class ListviewInventoryMovement extends StatelessWidget {
                                               moveRow.states[moveRow.tQuantity]!
                                                           .state ==
                                                       DataState.error
-                                                  ? ColorPalette.error
+                                                  ? ColorPalette.caution
                                                   : ColorPalette.primary)),
                                   enabledBorder: UnderlineInputBorder(
                                       borderSide: BorderSide(
@@ -489,7 +489,7 @@ class ListviewInventoryMovement extends StatelessWidget {
                                               moveRow.states[moveRow.tQuantity]!
                                                           .state ==
                                                       DataState.error
-                                                  ? ColorPalette.error
+                                                  ? ColorPalette.caution
                                                   : ColorPalette.secondary)),
                                   isDense: true,
                                 ),

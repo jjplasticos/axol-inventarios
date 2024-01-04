@@ -149,4 +149,8 @@ class CustomerRepo {
       _town: customer.town,
     });
   }
+
+  Future<void> delete(CustomerModel customer) async {
+    await _supabase.from(_table).delete().eq(_id, customer.id);
+  }
 }
