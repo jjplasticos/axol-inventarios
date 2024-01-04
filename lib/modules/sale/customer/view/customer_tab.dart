@@ -76,7 +76,9 @@ class CustomerTab extends StatelessWidget {
                   showDialog(
                     context: context,
                     builder: (context) => const ProviderCustomerAdd(),
-                  );
+                  ).then((value) {
+                    context.read<CustomerTabCubit>().load(form.text);
+                  });
                 },
                 icon: const Icon(
                   Icons.add_outlined,

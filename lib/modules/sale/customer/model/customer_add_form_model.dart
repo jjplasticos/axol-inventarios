@@ -34,7 +34,7 @@ class CustomerAddFormModel {
     CustomerModel.empty().tIntNumber: _lblIntNumber,
     CustomerModel.empty().tName: _lblName,
     CustomerModel.empty().tOutNumbre: _lblOutNumber,
-    CustomerModel.empty().tPhoneNumber: _lblOutNumber,
+    CustomerModel.empty().tPhoneNumber: _lblPhoneNumber,
     CustomerModel.empty().tPostalCode: _lblPostalCode,
     CustomerModel.empty().tRfc: _lblRfc,
     CustomerModel.empty().tStreet: _lblStreet,
@@ -44,7 +44,8 @@ class CustomerAddFormModel {
   final String _emIdInvalid = 'Id invalido';
   final String _emNameInvalid = 'Nombre invalido';
 
-  static const tagQuery = '#query';
+  static const tagInteger = '#integer';
+  static const tagDouble = '#double';
   static const tagSimple = '#simple';
 
   String get lblId => _lblId;
@@ -81,47 +82,47 @@ class CustomerAddFormModel {
   CustomerAddFormModel.empty()
       : id = TextfieldFormModel.initKey(
           key: CustomerModel.empty().tId,
-          tag: tagQuery,
+          tags: [tagInteger],
         ),
         name = TextfieldFormModel.initKey(
           key: CustomerModel.empty().tName,
-          tag: tagSimple,
+          tags: [tagSimple],
         ),
         phoneNumber = TextfieldFormModel.initKey(
           key: CustomerModel.empty().tPhoneNumber,
-          tag: tagSimple,
+          tags: [tagInteger],
         ),
         rfc = TextfieldFormModel.initKey(
           key: CustomerModel.empty().tRfc,
-          tag: tagSimple,
+          tags: [tagSimple],
         ),
         postalCode = TextfieldFormModel.initKey(
           key: CustomerModel.empty().tPostalCode,
-          tag: tagSimple,
+          tags: [tagSimple],
         ),
         intNumber = TextfieldFormModel.initKey(
           key: CustomerModel.empty().tIntNumber,
-          tag: tagSimple,
+          tags: [tagInteger],
         ),
         outNumber = TextfieldFormModel.initKey(
           key: CustomerModel.empty().tOutNumbre,
-          tag: tagSimple,
+          tags: [tagInteger],
         ),
         street = TextfieldFormModel.initKey(
           key: CustomerModel.empty().tStreet,
-          tag: tagSimple,
+          tags: [tagSimple],
         ),
         hood = TextfieldFormModel.initKey(
           key: CustomerModel.empty().tHood,
-          tag: tagSimple,
+          tags: [tagSimple],
         ),
         town = TextfieldFormModel.initKey(
           key: CustomerModel.empty().tTown,
-          tag: tagSimple,
+          tags: [tagSimple],
         ),
         country = TextfieldFormModel.initKey(
           key: CustomerModel.empty().tCountry,
-          tag: tagSimple,
+          tags: [tagSimple],
         );
 
   CustomerAddFormModel.listToForm(List<TextfieldFormModel> list)
@@ -173,7 +174,7 @@ class CustomerAddFormModel {
 
   static CustomerModel formToCustomer(CustomerAddFormModel form) =>
       CustomerModel.all(
-        id: int.parse(form.id.value),
+        id: int.tryParse(form.id.value) ?? -1,
         name: form.name.value,
         country: form.country.value,
         hood: form.hood.value,

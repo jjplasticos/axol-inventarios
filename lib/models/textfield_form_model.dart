@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 class TextfieldFormModel {
   TextEditingController controller;
   String key;
-  String tag;
+  List<String> tags;
   String value;
   int position;
   ValidationFormModel validation;
@@ -17,7 +17,7 @@ class TextfieldFormModel {
     required this.key,
     required this.controller,
     required this.isLoading,
-    required this.tag,
+    required this.tags,
   });
 
   TextfieldFormModel.empty()
@@ -27,11 +27,11 @@ class TextfieldFormModel {
         key = '',
         controller = TextEditingController(),
         isLoading = false,
-        tag = '';
+        tags = [];
 
   TextfieldFormModel.initKey({
     required this.key,
-    required this.tag,
+    required this.tags,
   })  : position = 0,
         validation = ValidationFormModel.trueValid(),
         value = '',

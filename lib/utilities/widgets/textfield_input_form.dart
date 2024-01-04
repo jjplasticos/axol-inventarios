@@ -1,5 +1,6 @@
 import 'package:axol_inventarios/utilities/textfield_decoration.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 import '../theme.dart';
 
@@ -15,6 +16,7 @@ class TextFieldInputForm extends StatelessWidget {
   final Function(String)? onChanged;
   final bool? enabled;
   final bool? isFocus;
+  final List<TextInputFormatter>? inputFormatters;
 
   const TextFieldInputForm({
     super.key,
@@ -29,6 +31,7 @@ class TextFieldInputForm extends StatelessWidget {
     this.onSubmitted,
     this.enabled,
     this.isFocus,
+    this.inputFormatters,
   });
 
   @override
@@ -53,6 +56,7 @@ class TextFieldInputForm extends StatelessWidget {
         ),
         Expanded(
           child: TextField(
+            inputFormatters: inputFormatters,
             controller: controller,
             decoration: decorationTf,
             enabled: enabledTf,

@@ -1,5 +1,6 @@
 import 'package:axol_inventarios/utilities/widgets/drawer_box.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../utilities/widgets/alert_dialog_axol.dart';
@@ -46,44 +47,53 @@ class CustomerDrawerAdd extends StatelessWidget {
     );
   }
 
-  DrawerBox loadDrawerBox(
-      CustomerAddFormModel form, BuildContext context, bool isLoading, int focusIndex) {
+  DrawerBox loadDrawerBox(CustomerAddFormModel form, BuildContext context,
+      bool isLoading, int focusIndex) {
     CustomerAddFormModel upForm = form;
     List<TextfieldFormModel> listForm = CustomerAddFormModel.formToList(form);
     List<Widget> listWidget = [];
     Material widget;
     DrawerBox drawerBox;
+    List<TextInputFormatter> inputFormatters = [];
     for (int i = 0; i < listForm.length; i++) {
       var element = listForm[i];
+      if (element.tags.contains(CustomerAddFormModel.tagInteger)) {
+        inputFormatters = [
+          FilteringTextInputFormatter.allow(RegExp(r'^\d*$')),
+        ];
+      } else {
+        inputFormatters = [];
+      }
       element.controller.value = TextEditingValue(
           text: element.value,
           selection: TextSelection.collapsed(offset: element.position));
       widget = Material(
-        child: TextFieldInputForm(
-              controller: element.controller,
-              label: form.mapLbl[element.key],
-              enabled: !isLoading,
-              isFocus: focusIndex == i,
-              errorText: element.validation.isValid == false
-                  ? element.validation.errorMessage
-                  : null,
-              onChanged: (value) {
-                element.value = value;
-                element.position = element.controller.selection.base.offset;
-                listForm[i] = element;
-                upForm = CustomerAddFormModel.listToForm(listForm);
-                context.read<CustomerAddForm>().setForm(upForm);
-              },
-              onSubmitted: (value) {
-                element.isLoading = true;
-                listForm[i] = element;
-                upForm = CustomerAddFormModel.listToForm(listForm);
-                final nextFocus = i + 1;
-                context
-                    .read<CustomerAddCubit>()
-                    .loadSingleValidationEnter(upForm, element.key, nextFocus);
-              },
-            ));
+          child: TextFieldInputForm(
+        controller: element.controller,
+        inputFormatters: inputFormatters,
+        label: form.mapLbl[element.key],
+        enabled: !isLoading,
+        isFocus: focusIndex == i,
+        errorText: element.validation.isValid == false
+            ? element.validation.errorMessage
+            : null,
+        onChanged: (value) {
+          element.value = value;
+          element.position = element.controller.selection.base.offset;
+          listForm[i] = element;
+          upForm = CustomerAddFormModel.listToForm(listForm);
+          context.read<CustomerAddForm>().setForm(upForm);
+        },
+        onSubmitted: (value) {
+          element.isLoading = true;
+          listForm[i] = element;
+          upForm = CustomerAddFormModel.listToForm(listForm);
+          final nextFocus = i + 1;
+          context
+              .read<CustomerAddCubit>()
+              .loadSingleValidationEnter(upForm, element.key, nextFocus);
+        },
+      ));
       listWidget.add(widget);
     }
     drawerBox = DrawerBox(
@@ -102,12 +112,22 @@ class CustomerDrawerAdd extends StatelessWidget {
               child: const LinearProgressIndicatorAxol())
         ],
       ),
-      actions: const [
-        ButtonDrawerReturn(),
-        SizedBox(
+      actions: [
+        ButtonDrawerReturn(
+          isLoading: isLoading,
+          onPressed: () {
+            Navigator.pop(context);
+          },
+        ),
+        const SizedBox(
           width: 16,
         ),
-        ButtonDrawerSave(),
+        ButtonDrawerSave(
+          isLoading: isLoading,
+          onPressed: () {
+            context.read<CustomerAddCubit>().save(form);
+          },
+        ),
       ],
       children: listWidget,
     );

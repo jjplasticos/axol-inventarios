@@ -126,7 +126,7 @@ class CustomerRepo {
         .from(_table)
         .select<List<Map<String, dynamic>>>()
         .eq(_id, id);
-    if (customersDB.isEmpty) {
+    if (customersDB.isEmpty && id >= 0) {
       exist = false;
     } else {
       exist = true;

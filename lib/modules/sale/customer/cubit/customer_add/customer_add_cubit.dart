@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../../models/textfield_form_model.dart';
@@ -67,7 +66,7 @@ class CustomerAddCubit extends Cubit<CustomerAddState> {
           errorMessage: '',
         );
       }
-      upForm = CustomerAddFormModel.allFalseLoading(upForm);
+      //upForm = CustomerAddFormModel.allFalseLoading(upForm);
       emit(LoadedCustomerAddState(form: upForm, focusIndex: -1));
     } catch (e) {
       emit(InitialCustomerAddState());
@@ -170,13 +169,40 @@ class CustomerAddCubit extends Cubit<CustomerAddState> {
   }
 
   Future<void> save(form) async {
+    CustomerAddFormModel upForm = form;
+    bool idExist = true;
     bool isValid = true;
+    int id;
     final List<TextfieldFormModel> listForm =
         CustomerAddFormModel.formToList(form);
     final CustomerModel customer = CustomerAddFormModel.formToCustomer(form);
     try {
       emit(InitialCustomerAddState());
-      emit(SavingCustomerAddState());
+      emit(LoadingCustomerAddState());
+      id = int.tryParse(form.id.value) ?? -1;
+      idExist = await CustomerRepo().existId(id);
+      if (idExist) {
+        upForm.id.validation = ValidationFormModel(
+          isValid: false,
+          errorMessage: form.emIdInvalid,
+        );
+      } else {
+        upForm.id.validation = ValidationFormModel(
+          isValid: true,
+          errorMessage: '',
+        );
+      }
+      if (form.name.value == '') {
+        upForm.name.validation = ValidationFormModel(
+          isValid: false,
+          errorMessage: form.emNameInvalid,
+        );
+      } else {
+        upForm.name.validation = ValidationFormModel(
+          isValid: true,
+          errorMessage: '',
+        );
+      }
       for (var element in listForm) {
         if (element.validation.isValid == false) {
           isValid = false;
@@ -186,7 +212,7 @@ class CustomerAddCubit extends Cubit<CustomerAddState> {
         await CustomerRepo().insertCustomer(customer);
         emit(SavedCustomerAddState());
       } else {
-        emit(FailedSaveCustomerAddState());
+        emit(LoadedCustomerAddState(form: upForm, focusIndex: -1));
       }
     } catch (e) {
       emit(InitialCustomerAddState());

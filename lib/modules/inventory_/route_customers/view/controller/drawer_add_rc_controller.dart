@@ -43,7 +43,7 @@ class DrawerAddRcController extends StatelessWidget {
                     key: '',
                     controller: TextEditingController(),
                     isLoading: false,
-                    tag: '',
+                    tags: [],
                   );
                 }
               } else if (list.first == 'user') {
