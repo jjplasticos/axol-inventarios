@@ -14,7 +14,7 @@ class TextFieldInputForm extends StatelessWidget {
   final Function(String)? onSubmitted;
   final Function(String)? onChanged;
   final bool? enabled;
-  final FocusNode? focusNode;
+  final bool? isFocus;
 
   const TextFieldInputForm({
     super.key,
@@ -28,7 +28,7 @@ class TextFieldInputForm extends StatelessWidget {
     this.onChanged,
     this.onSubmitted,
     this.enabled,
-    this.focusNode,
+    this.isFocus,
   });
 
   @override
@@ -38,6 +38,10 @@ class TextFieldInputForm extends StatelessWidget {
     final spaceTf = space ?? 8;
     final decorationTf = decoration ?? TextFieldDecoration.inputForm(errorText);
     final bool enabledTf = enabled ?? true;
+    final FocusNode focusNode = FocusNode();
+    if (isFocus == true) {
+      focusNode.requestFocus();
+    }
     return Row(
       children: [
         Text(

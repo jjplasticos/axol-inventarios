@@ -18,9 +18,10 @@ class LoadingCustomerAddState extends CustomerAddState {
 
 class LoadedCustomerAddState extends CustomerAddState {
   final CustomerAddFormModel form;
-  const LoadedCustomerAddState({required this.form});
+  final int focusIndex;
+  const LoadedCustomerAddState({required this.form, required this.focusIndex});
   @override
-  List<Object?> get props => [form];
+  List<Object?> get props => [form, focusIndex];
 }
 
 class SavingCustomerAddState extends CustomerAddState {

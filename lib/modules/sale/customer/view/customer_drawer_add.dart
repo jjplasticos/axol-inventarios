@@ -36,18 +36,18 @@ class CustomerDrawerAdd extends StatelessWidget {
       builder: (context, state) {
         form = context.read<CustomerAddForm>().state;
         if (state is LoadedCustomerAddState) {
-          return loadDrawerBox(state.form, context, false);
+          return loadDrawerBox(state.form, context, false, state.focusIndex);
         } else if (state is LoadingCustomerAddState) {
-          return loadDrawerBox(form, context, true);
+          return loadDrawerBox(form, context, true, -1);
         } else {
-          return loadDrawerBox(form, context, false);
+          return loadDrawerBox(form, context, false, -1);
         }
       },
     );
   }
 
   DrawerBox loadDrawerBox(
-      CustomerAddFormModel form, BuildContext context, bool isLoading) {
+      CustomerAddFormModel form, BuildContext context, bool isLoading, int focusIndex) {
     CustomerAddFormModel upForm = form;
     List<TextfieldFormModel> listForm = CustomerAddFormModel.formToList(form);
     List<Widget> listWidget = [];
@@ -59,27 +59,11 @@ class CustomerDrawerAdd extends StatelessWidget {
           text: element.value,
           selection: TextSelection.collapsed(offset: element.position));
       widget = Material(
-        child: Focus(
-            onFocusChange: (value) {
-              if (value == false && upForm.currentFocusKey != element.key) {
-                //element.isLoading = true;
-                //listForm[i] = element;
-                //upForm = CustomerAddFormModel.listToForm(listForm, upForm.currentFocusKey);
-                context
-                    .read<CustomerAddCubit>()
-                    .loadSingleValidation(upForm, element.key, upForm.currentFocusKey);
-              } else if (value && upForm.currentFocusKey != element.key) {
-                context.read<CustomerAddForm>().setCurrentFocus(element.key);
-                context.read<CustomerAddCubit>().load(upForm);
-              }
-              print('${element.key}: $value');
-              print(upForm.currentFocusKey);
-            },
-            child: TextFieldInputForm(
+        child: TextFieldInputForm(
               controller: element.controller,
               label: form.mapLbl[element.key],
               enabled: !isLoading,
-              focusNode: element.focusNode,
+              isFocus: focusIndex == i,
               errorText: element.validation.isValid == false
                   ? element.validation.errorMessage
                   : null,
@@ -87,19 +71,19 @@ class CustomerDrawerAdd extends StatelessWidget {
                 element.value = value;
                 element.position = element.controller.selection.base.offset;
                 listForm[i] = element;
-                upForm = CustomerAddFormModel.listToForm(listForm, upForm.currentFocusKey);
+                upForm = CustomerAddFormModel.listToForm(listForm);
                 context.read<CustomerAddForm>().setForm(upForm);
               },
               onSubmitted: (value) {
                 element.isLoading = true;
                 listForm[i] = element;
-                upForm = CustomerAddFormModel.listToForm(listForm, upForm.currentFocusKey);
+                upForm = CustomerAddFormModel.listToForm(listForm);
+                final nextFocus = i + 1;
                 context
                     .read<CustomerAddCubit>()
-                    .loadSingleValidation(upForm, element.key, upForm.currentFocusKey);
+                    .loadSingleValidationEnter(upForm, element.key, nextFocus);
               },
-            )),
-      );
+            ));
       listWidget.add(widget);
     }
     drawerBox = DrawerBox(

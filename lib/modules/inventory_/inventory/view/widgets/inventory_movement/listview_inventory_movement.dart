@@ -255,51 +255,59 @@ class ListviewInventoryMovement extends StatelessWidget {
                               children: [
                                 Expanded(
                                   flex: 1,
-                                  child: TextField(
-                                    controller: txtCode
-                                      ..text = moveRow.code.toString()
-                                      ..selection = TextSelection.collapsed(
-                                          offset:
-                                              moveRow.code.toString().length),
-                                    textAlign: TextAlign.center,
-                                    textAlignVertical: TextAlignVertical.center,
-                                    decoration: InputDecoration(
-                                      focusedBorder: UnderlineInputBorder(
-                                          borderSide: BorderSide(
-                                              color:
-                                                  moveRow.states[moveRow.tCode]!
-                                                              .state ==
-                                                          DataState.error
-                                                      ? ColorPalette.error
-                                                      : ColorPalette.primary)),
-                                      enabledBorder: UnderlineInputBorder(
-                                          borderSide: BorderSide(
-                                              color:
-                                                  moveRow.states[moveRow.tCode]!
-                                                              .state ==
-                                                          DataState.error
-                                                      ? ColorPalette.error
-                                                      : ColorPalette
-                                                          .secondary)),
-                                      isDense: true,
+                                  child: Focus(
+                                    onFocusChange: (value) {
+                                      if (value == false) {
+                                        context
+                                            .read<InventoryMovesCubit>()
+                                            .enterCode(index, form,
+                                                txtCode.text, warehouse);
+                                      }
+                                    },
+                                    child: TextField(
+                                      controller: txtCode
+                                        ..text = moveRow.code.toString()
+                                        ..selection = TextSelection.collapsed(
+                                            offset:
+                                                moveRow.code.toString().length),
+                                      textAlign: TextAlign.center,
+                                      textAlignVertical:
+                                          TextAlignVertical.center,
+                                      decoration: InputDecoration(
+                                        focusedBorder: UnderlineInputBorder(
+                                            borderSide: BorderSide(
+                                                color: moveRow
+                                                            .states[
+                                                                moveRow.tCode]!
+                                                            .state ==
+                                                        DataState.error
+                                                    ? ColorPalette.error
+                                                    : ColorPalette.primary)),
+                                        enabledBorder: UnderlineInputBorder(
+                                            borderSide: BorderSide(
+                                                color: moveRow
+                                                            .states[
+                                                                moveRow.tCode]!
+                                                            .state ==
+                                                        DataState.error
+                                                    ? ColorPalette.error
+                                                    : ColorPalette.secondary)),
+                                        isDense: true,
+                                      ),
+                                      onSubmitted: (value) {
+                                        context
+                                            .read<InventoryMovesCubit>()
+                                            .enterCode(
+                                                index, form, value, warehouse);
+                                      },
+                                      onChanged: (value) {
+                                        form.moveList[index].code = value;
+                                        context
+                                            .read<MovesFormCubit>()
+                                            .setForm(form);
+                                      },
+                                      style: Typo.labelText1,
                                     ),
-                                    onSubmitted: (value) {
-                                      context
-                                          .read<InventoryMovesCubit>()
-                                          .enterCode(
-                                              index, form, value, warehouse);
-                                    },
-                                    onChanged: (value) {
-                                      form.moveList[index].code = value;
-                                      context
-                                          .read<MovesFormCubit>()
-                                          .setForm(form);
-                                      context
-                                          .read<InventoryMovesCubit>()
-                                          .enterCode(
-                                              index, form, value, warehouse);
-                                    },
-                                    style: Typo.labelText1,
                                   ),
                                 ),
                                 SizedBox(
@@ -419,108 +427,122 @@ class ListviewInventoryMovement extends StatelessWidget {
                         //3) Cantidad
                         Expanded(
                           flex: 1,
-                          child: TextField(
-                            inputFormatters: [
-                              FilteringTextInputFormatter.allow(
-                                  RegExp(r'^\d*\.?\d*$'))
-                            ],
-                            textAlign: TextAlign.center,
-                            textAlignVertical: TextAlignVertical.center,
-                            decoration: InputDecoration(
-                              focusedBorder: UnderlineInputBorder(
-                                  borderSide: BorderSide(
-                                      color: moveRow.states[moveRow.tQuantity]!
-                                                  .state ==
-                                              DataState.error
-                                          ? ColorPalette.error
-                                          : ColorPalette.primary)),
-                              enabledBorder: UnderlineInputBorder(
-                                  borderSide: BorderSide(
-                                      color: moveRow.states[moveRow.tQuantity]!
-                                                  .state ==
-                                              DataState.error
-                                          ? ColorPalette.error
-                                          : ColorPalette.secondary)),
-                              isDense: true,
-                            ),
-                            controller: TextEditingController()
-                              ..text = moveRow.quantity.toString()
-                              ..selection = TextSelection.collapsed(
-                                  offset: moveRow.quantity.toString().length),
-                            style: Typo.labelText1,
-                            onSubmitted: (value) {
-                              if (form.concept.text != '') {
-                                form = context.read<MovesFormCubit>().state;
-                                context
-                                    .read<InventoryMovesCubit>()
-                                    .enterQuantity(index, warehouse, form);
-                              } else {
-                                showDialog(
-                                  context: context,
-                                  builder: (context) => AlertDialog(
-                                    title: const Text('Alerta!'),
-                                    content:
-                                        const Text('Seleccione un concepto.'),
-                                    actions: [
-                                      TextButton(
-                                        onPressed: () {
-                                          Navigator.pop(context);
-                                        },
-                                        child: const Text('Aceptar'),
-                                      )
-                                    ],
-                                  ),
-                                ).then(
-                                  (value) {
-                                    context
-                                        .read<MovesFormCubit>()
-                                        .setQuantityMovRow(0, index);
+                          child: Focus(
+                              onFocusChange: (value) {
+                                if (value == false) {
+                                  if (form.concept.text != '') {
                                     form = context.read<MovesFormCubit>().state;
                                     context
                                         .read<InventoryMovesCubit>()
-                                        .load(form);
-                                  },
-                                );
-                              }
-                            },
-                            onChanged: (value) {
-                              context.read<MovesFormCubit>().setQuantityMovRow(
-                                  double.tryParse(value) ?? 0, index);
-                              if (form.concept.text != '') {
-                                form = context.read<MovesFormCubit>().state;
-                                context
-                                    .read<InventoryMovesCubit>()
-                                    .enterQuantity(index, warehouse, form);
-                              } else {
-                                showDialog(
-                                  context: context,
-                                  builder: (context) => AlertDialog(
-                                    title: const Text('Alerta!'),
-                                    content:
-                                        const Text('Seleccione un concepto.'),
-                                    actions: [
-                                      TextButton(
-                                        onPressed: () {
-                                          Navigator.pop(context);
-                                        },
-                                        child: const Text('Aceptar'),
-                                      )
-                                    ],
-                                  ),
-                                ).then(
-                                  (value) {
-                                    context
-                                        .read<MovesFormCubit>()
-                                        .setQuantityMovRow(0, index);
+                                        .enterQuantity(index, warehouse, form);
+                                  } else {
+                                    showDialog(
+                                      context: context,
+                                      builder: (context) => AlertDialog(
+                                        title: const Text('Alerta!'),
+                                        content: const Text(
+                                            'Seleccione un concepto.'),
+                                        actions: [
+                                          TextButton(
+                                            onPressed: () {
+                                              Navigator.pop(context);
+                                            },
+                                            child: const Text('Aceptar'),
+                                          )
+                                        ],
+                                      ),
+                                    ).then(
+                                      (value) {
+                                        context
+                                            .read<MovesFormCubit>()
+                                            .setQuantityMovRow(0, index);
+                                        form = context
+                                            .read<MovesFormCubit>()
+                                            .state;
+                                        context
+                                            .read<InventoryMovesCubit>()
+                                            .load(form);
+                                      },
+                                    );
+                                  }
+                                }
+                              },
+                              child: TextField(
+                                inputFormatters: [
+                                  FilteringTextInputFormatter.allow(
+                                      RegExp(r'^\d*\.?\d*$'))
+                                ],
+                                textAlign: TextAlign.center,
+                                textAlignVertical: TextAlignVertical.center,
+                                decoration: InputDecoration(
+                                  focusedBorder: UnderlineInputBorder(
+                                      borderSide: BorderSide(
+                                          color:
+                                              moveRow.states[moveRow.tQuantity]!
+                                                          .state ==
+                                                      DataState.error
+                                                  ? ColorPalette.error
+                                                  : ColorPalette.primary)),
+                                  enabledBorder: UnderlineInputBorder(
+                                      borderSide: BorderSide(
+                                          color:
+                                              moveRow.states[moveRow.tQuantity]!
+                                                          .state ==
+                                                      DataState.error
+                                                  ? ColorPalette.error
+                                                  : ColorPalette.secondary)),
+                                  isDense: true,
+                                ),
+                                controller: TextEditingController()
+                                  ..text = moveRow.quantity.toString()
+                                  ..selection = TextSelection.collapsed(
+                                      offset:
+                                          moveRow.quantity.toString().length),
+                                style: Typo.labelText1,
+                                onSubmitted: (value) {
+                                  if (form.concept.text != '') {
                                     form = context.read<MovesFormCubit>().state;
                                     context
                                         .read<InventoryMovesCubit>()
-                                        .load(form);
-                                  },
-                                );
-                              }
-                            },
-                          ),
+                                        .enterQuantity(index, warehouse, form);
+                                  } else {
+                                    showDialog(
+                                      context: context,
+                                      builder: (context) => AlertDialog(
+                                        title: const Text('Alerta!'),
+                                        content: const Text(
+                                            'Seleccione un concepto.'),
+                                        actions: [
+                                          TextButton(
+                                            onPressed: () {
+                                              Navigator.pop(context);
+                                            },
+                                            child: const Text('Aceptar'),
+                                          )
+                                        ],
+                                      ),
+                                    ).then(
+                                      (value) {
+                                        context
+                                            .read<MovesFormCubit>()
+                                            .setQuantityMovRow(0, index);
+                                        form = context
+                                            .read<MovesFormCubit>()
+                                            .state;
+                                        context
+                                            .read<InventoryMovesCubit>()
+                                            .load(form);
+                                      },
+                                    );
+                                  }
+                                },
+                                onChanged: (value) {
+                                  context
+                                      .read<MovesFormCubit>()
+                                      .setQuantityMovRow(
+                                          double.tryParse(value) ?? 0, index);
+                                },
+                              )),
                         ),
                         //4) Peso unitario
                         Expanded(

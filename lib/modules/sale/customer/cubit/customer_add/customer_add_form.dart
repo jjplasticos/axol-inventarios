@@ -11,20 +11,23 @@ class CustomerAddForm extends Cubit<CustomerAddFormModel>{
     emit(form);
   }
 
-  void setCurrentFocus(String currentFocusKey){
+  /*void setCurrentFocus(String currentFocusKey){
     CustomerAddFormModel form = state;
     List<TextfieldFormModel> list = CustomerAddFormModel.formToList(form);
-    for (int i = 0; i < list.length; i++) {
+    /*for (int i = 0; i < list.length; i++) {
       var element = list[i];
       if (element.key == currentFocusKey) {
-        list[i].focusNode.requestFocus();
+        //list[i].isFocus = true;
+      } else {
+        //list[i].isFocus = false;
       }
     }
-    form = CustomerAddFormModel.listToForm(list, currentFocusKey);
+    form = CustomerAddFormModel.listToForm(list, currentFocusKey);*/
+    form = CustomerAddFormModel.requestFocus(form, currentFocusKey);
     form.currentFocusKey = currentFocusKey;
     emit(CustomerAddFormModel.empty());
     emit(form);
-  }
+  }*/
   
   void setName(TextfieldFormModel name) {
     CustomerAddFormModel form = state;
