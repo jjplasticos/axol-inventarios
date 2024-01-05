@@ -6,6 +6,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../utilities/theme.dart';
+import '../../../../utilities/widgets/providers.dart';
+import '../cubit/customer_delete/customer_delete_cubit.dart';
 import '../model/customer_model.dart';
 
 class CustomerDrawer extends StatelessWidget {
@@ -31,24 +33,7 @@ class CustomerDrawer extends StatelessWidget {
           onPressed: () {
             showDialog(
               context: context,
-              builder: (context) =>  AlertDialogAxol(
-                text:
-                    '¿Estás seguro de eliminar este cliente?\n Esta acción no se podrá desasear',
-                    actions: [
-                      ButtonReturn(
-                        onPressed: () {
-                          Navigator.pop(context);
-                        },
-                      ),
-                      ButtonDelete(
-                        onPressed: () {
-                          context.read<CustomerTabCubit>().deleteCustomer(customer);
-                          Navigator.pop(context);
-                          Navigator.pop(context);
-                        }
-                      ),
-                    ],
-              ),
+              builder: (context) => ProviderCustomerDelete(customer: customer),
             );
           },
         ),

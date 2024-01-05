@@ -19,6 +19,11 @@ class LoadedCustomerDeleteState extends CustomerDeleteState {
   List<Object?> get props => [];
 }
 
+class CloseCustomerDeleteState extends CustomerDeleteState {
+  @override
+  List<Object?> get props => [];
+}
+
 class ErrorCustomerDeleteState extends CustomerDeleteState {
   final String error;
   const ErrorCustomerDeleteState({required this.error});

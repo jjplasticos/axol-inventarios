@@ -108,7 +108,7 @@ class CustomerRepo {
       listId.add(int.parse(element[_id].toString()));
     }
     listId.sort((a, b) => a.compareTo(b));
-    for (int i = 1; i <= listId.length; i++) {
+    for (int i = 0; i <= listId.length; i++) {
       if (listId.contains(i) == false) {
         listId.add(i);
         newId = i;

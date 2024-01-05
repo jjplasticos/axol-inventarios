@@ -92,12 +92,12 @@ class CustomerTab extends StatelessWidget {
         ),
         Container(
           decoration: const BoxDecoration(
-            color: ColorPalette.darkItems,
+              color: ColorPalette.darkItems,
               border: Border(
                   bottom: BorderSide(
-            width: 1,
-            color: ColorPalette.darkItems,
-          ))),
+                width: 1,
+                color: ColorPalette.darkItems,
+              ))),
           child: const Padding(
             padding: EdgeInsets.fromLTRB(8, 8, 8, 8),
             child: Row(
@@ -171,7 +171,9 @@ class CustomerTab extends StatelessWidget {
                             context: context,
                             builder: (context) =>
                                 CustomerDrawer(customer: customer),
-                          );
+                          ).then((value) {
+                            context.read<CustomerTabCubit>().load(form.text);
+                          });
                         },
                       ),
                     );

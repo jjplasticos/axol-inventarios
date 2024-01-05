@@ -3,8 +3,11 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../modules/sale/customer/cubit/customer_add/customer_add_cubit.dart';
 import '../../modules/sale/customer/cubit/customer_add/customer_add_form.dart';
+import '../../modules/sale/customer/cubit/customer_delete/customer_delete_cubit.dart';
 import '../../modules/sale/customer/cubit/customer_tab/customer_tab_cubit.dart';
 import '../../modules/sale/customer/cubit/customer_tab/customer_tab_form.dart';
+import '../../modules/sale/customer/model/customer_model.dart';
+import '../../modules/sale/customer/view/customer_dialog_delete.dart';
 import '../../modules/sale/customer/view/customer_drawer_add.dart';
 import '../../modules/sale/sale_note/cubit/finder_notes_cubit.dart';
 import '../../modules/sale/sale_note/cubit/sale_note_cubit/salenote_cubit.dart';
@@ -38,4 +41,14 @@ class ProviderCustomerAdd extends Providers {
       BlocProvider(create: (_) => CustomerAddCubit()),
     ], child: const CustomerDrawerAdd());
   }
+}
+
+class ProviderCustomerDelete extends Providers {
+  final CustomerModel customer;
+  const ProviderCustomerDelete({super.key, required this.customer});
+
+  @override
+  Widget build(BuildContext context) => MultiBlocProvider(providers: [
+        BlocProvider(create: (_) => CustomerDeleteCubit()),
+      ], child: CustomerDialogDelete(customer: customer));
 }

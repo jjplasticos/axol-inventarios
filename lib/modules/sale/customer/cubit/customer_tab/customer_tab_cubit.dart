@@ -19,8 +19,4 @@ class CustomerTabCubit extends Cubit<CustomerTabState> {
       emit(ErrorCustomerTabState(error: e.toString()));
     }
   }
-
-  Future<void> deleteCustomer(CustomerModel customer) async {
-    CustomerRepo().delete(customer);
-  }
 }
