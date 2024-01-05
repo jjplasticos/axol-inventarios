@@ -5,7 +5,7 @@ import 'package:axol_inventarios/modules/inventory_/inventory/model/warehouse_st
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../../../../models/user_mdoel.dart';
+import '../../../../../user/model/user_mdoel.dart';
 import '../../../../../../utilities/theme.dart';
 import '../../../cubit/warehouse_setting/warehouse_setting_cubit.dart';
 import '../../../cubit/warehouses_load/warehouses_load_cubit.dart';

@@ -8,9 +8,9 @@ import '../../../../inventory_/inventory/model/warehouse_model.dart';
 import '../../../../inventory_/inventory/repository/warehouses_repo.dart';
 import '../../../customer/model/customer_model.dart';
 import '../../model/saelnote_form_model.dart';
-import '../../model/vendor_model.dart';
+import '../../../vendor/model/vendor_model.dart';
 import '../../../customer/repository/customer_repo.dart';
-import '../../repository/vendor_repo.dart';
+import '../../../vendor/repository/vendor_repo.dart';
 
 class SalenoteDrawerCubit extends Cubit<SalenoteDrawerState> {
   SalenoteDrawerCubit() : super(InitialState());

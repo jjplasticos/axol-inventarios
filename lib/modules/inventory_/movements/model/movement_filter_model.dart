@@ -1,6 +1,6 @@
 import '../../inventory/model/inventory_move/concept_move_model.dart';
 import '../../../../models/textfield_model.dart';
-import '../../../../models/user_mdoel.dart';
+import '../../../user/model/user_mdoel.dart';
 import '../../inventory/model/warehouse_model.dart';
 
 class MovementFilterModel {

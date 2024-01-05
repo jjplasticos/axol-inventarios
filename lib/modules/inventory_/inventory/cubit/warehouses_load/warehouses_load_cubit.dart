@@ -1,7 +1,7 @@
 import 'package:axol_inventarios/modules/inventory_/inventory/model/warehouse_model.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../../../models/user_mdoel.dart';
+import '../../../../user/model/user_mdoel.dart';
 import '../../../../user/repository/user_repo.dart';
 import '../../repository/warehouses_repo.dart';
 import 'wareshouses_load_state.dart';

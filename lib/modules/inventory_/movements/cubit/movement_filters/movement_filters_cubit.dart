@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../inventory/model/inventory_move/concept_move_model.dart';
 import '../../../../../models/textfield_model.dart';
-import '../../../../../models/user_mdoel.dart';
+import '../../../../user/model/user_mdoel.dart';
 import '../../../inventory/model/warehouse_model.dart';
 import '../../../inventory/repository/inventory_concepts_repo.dart';
 import '../../../../user/repository/user_repo.dart';

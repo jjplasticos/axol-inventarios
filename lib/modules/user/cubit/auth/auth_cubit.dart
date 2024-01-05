@@ -1,7 +1,7 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import '../../../../models/user_mdoel.dart';
+import '../../model/user_mdoel.dart';
 import '../../repository/user_repo.dart';
 import 'auth_state.dart';
 

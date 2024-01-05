@@ -1,4 +1,4 @@
-import 'package:axol_inventarios/models/user_mdoel.dart';
+import 'package:axol_inventarios/modules/user/model/user_mdoel.dart';
 import 'package:axol_inventarios/modules/inventory_/inventory/model/warehouse_model.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:uuid/uuid.dart';

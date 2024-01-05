@@ -1,6 +1,6 @@
 import 'package:axol_inventarios/modules/sale/customer/model/customer_model.dart';
 import 'package:axol_inventarios/modules/sale/sale_note/model/sale_product_model.dart';
-import 'package:axol_inventarios/modules/sale/sale_note/model/vendor_model.dart';
+import 'package:axol_inventarios/modules/sale/vendor/model/vendor_model.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 import '../../../inventory_/inventory/model/warehouse_model.dart';
@@ -39,7 +39,7 @@ class SaleNoteRepo {
           filter.customer;
     }
     if (filter.vendor > -1) {
-      filters['${SaleNoteModel.propVendor}->>${VendorModel.propId}'] =
+      filters['${SaleNoteModel.propVendor}->>${VendorModel.empty().tId}'] =
           filter.vendor;
     }
     if (filter.warehouse > -1) {
@@ -57,7 +57,7 @@ class SaleNoteRepo {
       textOr =
           '${SaleNoteModel.propCustomer}->>${customer.tName}.ilike.%$finder%,';
       textOr =
-          '$textOr${SaleNoteModel.propVendor}->>${VendorModel.propName}.ilike.%$finder%';
+          '$textOr${SaleNoteModel.propVendor}->>${VendorModel.empty().tName}.ilike.%$finder%';
       if (double.tryParse(finder) != null) {
         textOr = '$textOr,$_id.eq.$finder';
       }
