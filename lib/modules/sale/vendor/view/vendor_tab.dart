@@ -10,17 +10,19 @@ import '../cubit/vendor_tab_form.dart';
 import '../model/vendor_model.dart';
 
 class VendorTab extends StatelessWidget {
-  final List<VendorModel> vendorList;
-  final bool isLoading;
+
 
   const VendorTab({
-    super.key,
-    required this.vendorList,
-    required this.isLoading,
+    super.key
   });
 
   @override
   Widget build(BuildContext context) {
+    
+    return 
+  }
+
+  Widget vendorTab(BuildContext context, List<VendorModel> vendorList, bool isLoading) {
     TextfieldModel form = context.read<VendorTabForm>().state;
     TextfieldModel upForm;
     TextEditingController textController = TextEditingController();

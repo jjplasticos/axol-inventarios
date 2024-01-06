@@ -13,26 +13,11 @@ import '../../modules/sale/customer/view/customer_drawer_add.dart';
 import '../../modules/sale/customer/view/customer_tab.dart';
 import '../../modules/sale/sale_note/cubit/salenote_tab/salenote_tab_form.dart';
 import '../../modules/sale/sale_note/cubit/salenote_tab/salenote_tab_cubit.dart';
-import '../../modules/sale/view/sale_view.dart';
+import '../../modules/sale/vendor/view/vendor_tab.dart';
 
 abstract class Providers extends StatelessWidget {
   const Providers({super.key});
 }
-
-//--Sale
-/*class ProviderSaleView extends Providers {
-  const ProviderSaleView({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return MultiBlocProvider(providers: [
-      BlocProvider(create: (_) => SalenoteCubit()),
-      BlocProvider(create: (_) => FinderNotesCubit()),
-      BlocProvider(create: (_) => CustomerTabForm()),
-      BlocProvider(create: (_) => CustomerTabCubit()),
-    ], child: const SaleView());
-  }
-}*/
 
 //----Customer
 class ProviderCustomerAdd extends Providers {
@@ -76,4 +61,15 @@ class ProviderSaleNoteTab extends Providers {
         BlocProvider(create: (_) => SaleNoteTabCubit()),
         BlocProvider(create: (_) => SaleNoteTabForm()),
       ], child: const SaleNoteTab());
+}
+
+//----Vendor
+class ProviderVendorTab extends Providers {
+  const ProviderVendorTab({super.key});
+
+  @override
+  Widget build(BuildContext context) => MultiBlocProvider(providers: [
+        BlocProvider(create: (_) => SaleNoteTabCubit()),
+        BlocProvider(create: (_) => SaleNoteTabForm()),
+      ], child: VendorTab());
 }

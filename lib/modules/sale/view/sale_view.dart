@@ -88,7 +88,8 @@ class SaleView extends StatelessWidget {
                         ProviderSaleNoteTab(),
                         Text('Remisiones', style: Typo.bodyLight),
                         ProviderCustomerTab(),
-                        Text('Vendedores', style: Typo.bodyLight),
+                        ProviderVendorTab
+                        //Text('Vendedores', style: Typo.bodyLight),
                       ])),
                     ],
                   )),

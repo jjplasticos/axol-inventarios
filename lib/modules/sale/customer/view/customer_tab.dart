@@ -111,13 +111,6 @@ class CustomerTab extends StatelessWidget {
         ),
         Container(
           decoration: BoxDecorationTheme.headerTable(),
-          /*const BoxDecoration(
-              color: ColorPalette.darkItems,
-              border: Border(
-                  bottom: BorderSide(
-                width: 1,
-                color: ColorPalette.darkItems,
-              ))),*/
           child: const Padding(
             padding: EdgeInsets.fromLTRB(8, 8, 8, 8),
             child: Row(
