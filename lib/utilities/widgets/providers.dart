@@ -1,3 +1,4 @@
+import 'package:axol_inventarios/modules/sale/sale_note/view/views/salenote_tab.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -9,6 +10,7 @@ import '../../modules/sale/customer/cubit/customer_tab/customer_tab_form.dart';
 import '../../modules/sale/customer/model/customer_model.dart';
 import '../../modules/sale/customer/view/customer_dialog_delete.dart';
 import '../../modules/sale/customer/view/customer_drawer_add.dart';
+import '../../modules/sale/customer/view/customer_tab.dart';
 import '../../modules/sale/sale_note/cubit/finder_notes_cubit.dart';
 import '../../modules/sale/sale_note/cubit/sale_note_cubit/salenote_cubit.dart';
 import '../../modules/sale/sale_note/view/views/sale_view.dart';
@@ -17,7 +19,8 @@ abstract class Providers extends StatelessWidget {
   const Providers({super.key});
 }
 
-class ProviderSaleView extends Providers {
+//--Sale
+/*class ProviderSaleView extends Providers {
   const ProviderSaleView({super.key});
 
   @override
@@ -29,8 +32,9 @@ class ProviderSaleView extends Providers {
       BlocProvider(create: (_) => CustomerTabCubit()),
     ], child: const SaleView());
   }
-}
+}*/
 
+//----Customer
 class ProviderCustomerAdd extends Providers {
   const ProviderCustomerAdd({super.key});
 
@@ -51,4 +55,25 @@ class ProviderCustomerDelete extends Providers {
   Widget build(BuildContext context) => MultiBlocProvider(providers: [
         BlocProvider(create: (_) => CustomerDeleteCubit()),
       ], child: CustomerDialogDelete(customer: customer));
+}
+
+class ProviderCustomerTab extends Providers {
+  const ProviderCustomerTab({super.key});
+
+  @override
+  Widget build(BuildContext context) => MultiBlocProvider(providers: [
+        BlocProvider(create: (_) => CustomerTabCubit()),
+        BlocProvider(create: (_) => CustomerTabForm()),
+      ], child: const CustomerTab());
+}
+
+//----SaleNote
+class ProviderSaleNoteTab extends Providers {
+  const ProviderSaleNoteTab({super.key});
+
+  @override
+  Widget build(BuildContext context) => MultiBlocProvider(providers: [
+        BlocProvider(create: (_) => SalenoteCubit()),
+        BlocProvider(create: (_) => FinderNotesCubit()),
+      ], child: const SaleNoteTab());
 }

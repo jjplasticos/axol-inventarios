@@ -1,19 +1,15 @@
-import 'package:axol_inventarios/modules/sale/customer/cubit/customer_tab/customer_tab_cubit.dart';
-import 'package:axol_inventarios/utilities/widgets/alert_dialog_axol.dart';
 import 'package:axol_inventarios/utilities/widgets/button.dart';
 import 'package:axol_inventarios/utilities/widgets/drawer_box.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../utilities/theme.dart';
 import '../../../../utilities/widgets/providers.dart';
-import '../cubit/customer_delete/customer_delete_cubit.dart';
 import '../model/customer_model.dart';
 
-class CustomerDrawer extends StatelessWidget {
+class CustomerDrawerDetails extends StatelessWidget {
   final CustomerModel customer;
 
-  const CustomerDrawer({super.key, required this.customer});
+  const CustomerDrawerDetails({super.key, required this.customer});
 
   @override
   Widget build(BuildContext context) {

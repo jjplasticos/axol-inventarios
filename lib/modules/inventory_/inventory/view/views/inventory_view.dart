@@ -3,12 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../../global_widgets/appbar/appbar_global.dart';
 import '../../../../../utilities/navigation_utilities.dart';
-import '../../../../../utilities/widgets/providers.dart';
 import '../../../../../utilities/theme.dart';
-import '../../../../sale/customer/cubit/customer_tab/customer_tab_cubit.dart';
-import '../../../../sale/customer/cubit/customer_tab/customer_tab_form.dart';
-import '../../../../sale/sale_note/cubit/finder_notes_cubit.dart';
-import '../../../../sale/sale_note/cubit/sale_note_cubit/salenote_cubit.dart';
 import '../../../movements/cubit/movements_view/movements_cubit.dart';
 import '../../../movements/view/controllers/listview_movements_controller.dart';
 import '../../../product/cubit/products/products_cubit.dart';
@@ -68,7 +63,7 @@ class InventoryView extends StatelessWidget {
                               context,
                               MaterialPageRoute(
                                   builder: (context) =>
-                                      const ProviderSaleView()));
+                                      const SaleView()));
                         }
                       },
                     ),

@@ -1,5 +1,6 @@
 import 'package:axol_inventarios/utilities/widgets/alert_dialog_axol.dart';
 import 'package:axol_inventarios/modules/sale/customer/view/customer_tab.dart';
+import 'package:axol_inventarios/utilities/widgets/providers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -70,10 +71,10 @@ class SaleView extends StatelessWidget {
                   ),
                   const VerticalDivider(
                       thickness: 1, width: 1, color: ColorPalette.darkItems),
-                  Expanded(
+                  const Expanded(
                       child: Column(
                     children: [
-                      const TabBar(
+                      TabBar(
                         indicatorColor: ColorPalette.primary,
                         tabs: [
                           Tab(
@@ -92,72 +93,10 @@ class SaleView extends StatelessWidget {
                       ),
                       Expanded(
                           child: TabBarView(children: [
-                        BlocBuilder<SalenoteCubit, SalenoteState>(
-                          bloc: context.read<SalenoteCubit>()..loadList(),
-                          builder: (context, state) {
-                            if (state is LoadingSaleNoteState) {
-                              return const Row(
-                                children: [
-                                  Expanded(
-                                      child: Column(
-                                    children: [
-                                      FinderSalenote(
-                                        isLoading: true,
-                                      ),
-                                      LinearProgressIndicator(),
-                                      Expanded(child: SizedBox())
-                                    ],
-                                  )),
-                                  ToolbarSaleNote(
-                                    isLoading: true,
-                                  ),
-                                ],
-                              );
-                            } else if (state is LoadedSaleNoteState) {
-                              return SaleNoteTab(
-                                listData: state.salenoteList,
-                              );
-                            } else if (state is ErrorSalenoteState) {
-                              return Text(
-                                state.error,
-                                style: Typo.labelText1,
-                              );
-                            }
-                            return Container();
-                          },
-                        ),
-                        const Text('Remisiones', style: Typo.bodyLight),
-                        //const Text('Clientes', style: Typo.bodyLight),
-                        BlocConsumer<CustomerTabCubit, CustomerTabState>(
-                          bloc: context.read<CustomerTabCubit>()..load(''),
-                          listener: (context, state) {
-                            if (state is ErrorCustomerTabState) {
-                              showDialog(
-                                  context: context,
-                                  builder: (context) =>
-                                      AlertDialogAxol(text: state.error));
-                            }
-                          },
-                          builder: (context, state) {
-                            if (state is LoadingCustomerTabState) {
-                              return const CustomerTab(
-                                customerList: [],
-                                isLoading: true,
-                              );
-                            } else if (state is LoadedCustomerTabState) {
-                              return CustomerTab(
-                                customerList: state.customerList,
-                                isLoading: false,
-                              );
-                            } else {
-                              return const CustomerTab(
-                                customerList: [],
-                                isLoading: false,
-                              );
-                            }
-                          },
-                        ),
-                        const Text('Vendedores', style: Typo.bodyLight),
+                        ProviderSaleNoteTab(),
+                        Text('Remisiones', style: Typo.bodyLight),
+                        ProviderCustomerTab(),
+                        Text('Vendedores', style: Typo.bodyLight),
                       ])),
                     ],
                   )),

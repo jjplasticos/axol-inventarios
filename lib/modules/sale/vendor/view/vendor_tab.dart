@@ -74,7 +74,7 @@ class VendorTab extends StatelessWidget {
                 onPressed: () {
                   showDialog(
                     context: context,
-                    builder: (context) => SizedBox(), //Sustituir por 
+                    builder: (context) => SizedBox(), //Sustituir por ProviderVendorAdd
                   ).then((value) {
                     context.read<VendorTabCubit>().load(form.text);
                   });
@@ -167,7 +167,7 @@ class VendorTab extends StatelessWidget {
                         onPressed: () {
                           showDialog(
                             context: context,
-                            builder: (context) => SizedBox()
+                            builder: (context) => SizedBox() //Sustituir por VendorDrawerDetails
                                 //CustomerDrawer(customer: customer),
                           ).then((value) {
                             //context.read<CustomerTabCubit>().load(form.text);

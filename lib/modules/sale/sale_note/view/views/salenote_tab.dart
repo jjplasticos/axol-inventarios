@@ -1,17 +1,53 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../../utilities/theme.dart';
+import '../../cubit/sale_note_cubit/salenote_cubit.dart';
+import '../../cubit/sale_note_cubit/salenote_state.dart';
 import '../../model/sale_note_model.dart';
 import '../widgets/finder_salenote.dart';
 import '../widgets/toolbar_salenote.dart';
 
 class SaleNoteTab extends StatelessWidget {
-  final List<SaleNoteModel> listData;
-
-  const SaleNoteTab({super.key, required this.listData});
+  const SaleNoteTab({super.key});
 
   @override
   Widget build(BuildContext context) {
+    return BlocBuilder<SalenoteCubit, SalenoteState>(
+      bloc: context.read<SalenoteCubit>()..loadList(),
+      builder: (context, state) {
+        if (state is LoadingSaleNoteState) {
+          return const Row(
+            children: [
+              Expanded(
+                  child: Column(
+                children: [
+                  FinderSalenote(
+                    isLoading: true,
+                  ),
+                  LinearProgressIndicator(),
+                  Expanded(child: SizedBox())
+                ],
+              )),
+              ToolbarSaleNote(
+                isLoading: true,
+              ),
+            ],
+          );
+        } else if (state is LoadedSaleNoteState) {
+          return saleNoteTab(context, state.salenoteList);
+        } else if (state is ErrorSalenoteState) {
+          return Text(
+            state.error,
+            style: Typo.labelText1,
+          );
+        }
+        return Container();
+      },
+    );
+  }
+
+  Widget saleNoteTab(BuildContext context, List<SaleNoteModel> listData) {
     return Row(
       children: [
         Expanded(

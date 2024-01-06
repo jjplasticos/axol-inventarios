@@ -1,28 +1,61 @@
 import 'package:axol_inventarios/modules/sale/customer/cubit/customer_tab/customer_tab_form.dart';
-import 'package:axol_inventarios/modules/sale/customer/view/customer_drawer.dart';
+import 'package:axol_inventarios/modules/sale/customer/view/customer_drawer_details.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../../utilities/widgets/alert_dialog_axol.dart';
 import '../../../../utilities/widgets/finder_bar.dart';
 import '../../../../utilities/widgets/progress_indicator.dart';
 import '../../../../utilities/widgets/providers.dart';
 import '../../../../models/textfield_model.dart';
 import '../../../../utilities/theme.dart';
 import '../cubit/customer_tab/customer_tab_cubit.dart';
+import '../cubit/customer_tab/customer_tab_state.dart';
 import '../model/customer_model.dart';
 
 class CustomerTab extends StatelessWidget {
-  final List<CustomerModel> customerList;
-  final bool isLoading;
+  //final List<CustomerModel> customerList;
+  //final bool isLoading;
 
-  const CustomerTab({
-    super.key,
-    required this.customerList,
-    required this.isLoading,
-  });
+  const CustomerTab({super.key});
 
   @override
   Widget build(BuildContext context) {
+    return BlocConsumer<CustomerTabCubit, CustomerTabState>(
+      bloc: context.read<CustomerTabCubit>()..load(''),
+      listener: (context, state) {
+        if (state is ErrorCustomerTabState) {
+          showDialog(
+              context: context,
+              builder: (context) => AlertDialogAxol(text: state.error));
+        }
+      },
+      builder: (context, state) {
+        if (state is LoadingCustomerTabState) {
+          return customerTab(context, [], true);
+          /*CustomerTab(
+                                customerList: [],
+                                isLoading: true,
+                              );*/
+        } else if (state is LoadedCustomerTabState) {
+          return customerTab(context, state.customerList, false);
+          /*CustomerTab(
+                                customerList: state.customerList,
+                                isLoading: false,
+                              );*/
+        } else {
+          return customerTab(context, [], false);
+          /*const CustomerTab(
+                                customerList: [],
+                                isLoading: false,
+                              );*/
+        }
+      },
+    );
+  }
+
+  Column customerTab(
+      BuildContext context, List<CustomerModel> customerList, bool isLoading) {
     TextfieldModel form = context.read<CustomerTabForm>().state;
     TextfieldModel upForm;
     TextEditingController textController = TextEditingController();
@@ -170,7 +203,7 @@ class CustomerTab extends StatelessWidget {
                           showDialog(
                             context: context,
                             builder: (context) =>
-                                CustomerDrawer(customer: customer),
+                                CustomerDrawerDetails(customer: customer),
                           ).then((value) {
                             context.read<CustomerTabCubit>().load(form.text);
                           });

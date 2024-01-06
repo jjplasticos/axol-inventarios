@@ -51,7 +51,7 @@ class HomeView extends StatelessWidget {
                   Navigator.pushReplacement(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => const ProviderSaleView()));
+                          builder: (context) => const SaleView()));
                 }
               },
             ),

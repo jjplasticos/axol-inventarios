@@ -3,12 +3,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../../global_widgets/appbar/appbar_global.dart';
 import '../../../../../utilities/navigation_utilities.dart';
-import '../../../../../utilities/widgets/providers.dart';
 import '../../../../../global_widgets/toolbar.dart';
 import '../../../../../models/elemnets_bar_model.dart';
 import '../../../../../utilities/theme.dart';
-import '../../../../sale/sale_note/cubit/finder_notes_cubit.dart';
-import '../../../../sale/sale_note/cubit/sale_note_cubit/salenote_cubit.dart';
 import '../../../../sale/sale_note/view/views/sale_view.dart';
 import '../../../../user/view/views/home_view.dart';
 import '../../../product/cubit/products/products_cubit.dart';
@@ -90,7 +87,7 @@ class WarehouseView extends StatelessWidget {
                       Navigator.pushReplacement(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => const ProviderSaleView()));
+                              builder: (context) => const SaleView()));
                     }
                   },
                 ),
