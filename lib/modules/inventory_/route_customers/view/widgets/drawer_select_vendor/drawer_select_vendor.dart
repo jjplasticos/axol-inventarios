@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../../../../../models/textfield_model.dart';
-import '../../../../../../utilities/theme.dart';
+import '../../../../../../utilities/theme/theme.dart';
 import '../../../../../sale/vendor/model/vendor_model.dart';
 import 'finder_vendor.dart';
 

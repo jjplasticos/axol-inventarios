@@ -8,7 +8,7 @@ import '../../../../utilities/widgets/button.dart';
 import '../../../../utilities/widgets/progress_indicator.dart';
 import '../../../../utilities/widgets/textfield_input_form.dart';
 import '../../../../models/textfield_form_model.dart';
-import '../../../../utilities/theme.dart';
+import '../../../../utilities/theme/theme.dart';
 import '../cubit/customer_add/customer_add_cubit.dart';
 import '../cubit/customer_add/customer_add_form.dart';
 import '../cubit/customer_add/customer_add_state.dart';

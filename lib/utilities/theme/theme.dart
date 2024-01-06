@@ -114,3 +114,13 @@ class Typo {
       fontSize: 16,
       color: ColorPalette.lightText);
 }
+
+class BoxDecorationTheme {
+  static BoxDecoration headerTable() => const BoxDecoration(
+      color: ColorPalette.darkItems,
+      border: Border(
+          bottom: BorderSide(
+        width: 1,
+        color: ColorPalette.darkItems,
+      )));
+}

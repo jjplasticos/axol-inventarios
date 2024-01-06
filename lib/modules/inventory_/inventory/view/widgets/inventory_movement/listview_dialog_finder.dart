@@ -2,7 +2,7 @@ import 'package:axol_inventarios/modules/inventory_/product/model/product_model.
 import 'package:flutter/material.dart';
 
 import '../../../../../../models/inventory_row_model.dart';
-import '../../../../../../utilities/theme.dart';
+import '../../../../../../utilities/theme/theme.dart';
 
 class ListviewFindProdcut extends StatelessWidget {
   final List<InventoryRowModel>? inventoryList;

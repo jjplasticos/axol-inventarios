@@ -8,7 +8,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../../../utilities/data_state.dart';
 import '../../../model/inventory_move/inventory_move_model.dart';
 import '../../../../../../models/movement_transfer_model.dart';
-import '../../../../../../utilities/theme.dart';
+import '../../../../../../utilities/theme/theme.dart';
 import '../../../cubit/inventory_load/inventory_load_cubit.dart';
 import '../../../cubit/inventory_movements/inventory_moves_cubit.dart';
 import '../../../cubit/show_details_product_stock/showdetails_productstock_cubit.dart';

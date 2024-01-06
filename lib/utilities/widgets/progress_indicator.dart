@@ -1,4 +1,4 @@
-import 'package:axol_inventarios/utilities/theme.dart';
+import 'package:axol_inventarios/utilities/theme/theme.dart';
 import 'package:flutter/material.dart';
 
 class LinearProgressIndicatorAxol extends StatelessWidget {

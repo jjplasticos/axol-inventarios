@@ -2,7 +2,7 @@ import 'package:axol_inventarios/utilities/widgets/button.dart';
 import 'package:axol_inventarios/utilities/widgets/drawer_box.dart';
 import 'package:flutter/material.dart';
 
-import '../../../../utilities/theme.dart';
+import '../../../../utilities/theme/theme.dart';
 import '../../../../utilities/widgets/providers.dart';
 import '../model/customer_model.dart';
 

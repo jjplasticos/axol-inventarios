@@ -4,17 +4,17 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../utilities/widgets/alert_dialog_axol.dart';
+import '../../../../utilities/widgets/button.dart';
 import '../../../../utilities/widgets/finder_bar.dart';
 import '../../../../utilities/widgets/progress_indicator.dart';
 import '../../../../utilities/widgets/providers.dart';
 import '../../../../models/textfield_model.dart';
-import '../../../../utilities/theme.dart';
+import '../../../../utilities/theme/theme.dart';
 import '../cubit/customer_tab/customer_tab_cubit.dart';
 import '../cubit/customer_tab/customer_tab_state.dart';
 import '../model/customer_model.dart';
 
 class CustomerTab extends StatelessWidget {
-
   const CustomerTab({super.key});
 
   @override
@@ -110,13 +110,14 @@ class CustomerTab extends StatelessWidget {
           ),
         ),
         Container(
-          decoration: const BoxDecoration(
+          decoration: BoxDecorationTheme.headerTable(),
+          /*const BoxDecoration(
               color: ColorPalette.darkItems,
               border: Border(
                   bottom: BorderSide(
                 width: 1,
                 color: ColorPalette.darkItems,
-              ))),
+              ))),*/
           child: const Padding(
             padding: EdgeInsets.fromLTRB(8, 8, 8, 8),
             child: Row(
@@ -161,10 +162,7 @@ class CustomerTab extends StatelessWidget {
                         width: 1,
                         color: ColorPalette.darkItems,
                       ))),
-                      child: OutlinedButton(
-                        style: OutlinedButton.styleFrom(
-                          side: BorderSide.none,
-                        ),
+                      child: ButtonRowTable(
                         child: Row(
                           children: [
                             Expanded(

@@ -2,7 +2,7 @@ import 'package:axol_inventarios/modules/inventory_/inventory/cubit/inventory_mo
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../../../utilities/theme.dart';
+import '../../../../../utilities/theme/theme.dart';
 import '../../cubit/inventory_movements/inventory_moves_cubit.dart';
 import '../../cubit/inventory_movements/inventory_moves_state.dart';
 import '../../model/inventory_move/inventory_move_model.dart';

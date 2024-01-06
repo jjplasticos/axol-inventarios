@@ -2,7 +2,7 @@ import 'package:axol_inventarios/utilities/textfield_decoration.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-import '../theme.dart';
+import '../theme/theme.dart';
 
 class TextFieldInputForm extends StatelessWidget {
   final String? label;

@@ -6,7 +6,7 @@ import '../../cubit/drawer_product/listen_drawer_cubit.dart';
 import '../../cubit/products/products_cubit.dart';
 import '../../model/product_model.dart';
 import '../../../../../models/textfield_model.dart';
-import '../../../../../utilities/theme.dart';
+import '../../../../../utilities/theme/theme.dart';
 import '../../repository/product_repo.dart';
 import '../controllers/drawer_product_controller.dart';
 import 'drawer_details_product.dart';

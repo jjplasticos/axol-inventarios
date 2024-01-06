@@ -1,11 +1,9 @@
 import 'package:axol_inventarios/modules/sale/sale_note/model/saelnote_form_model.dart';
-import 'package:axol_inventarios/modules/sale/sale_note/view/controllers/drawer_search_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../../../models/textfield_form_model.dart';
-import '../../../cubit/drawer_search_cubit/drawer_search_cubit.dart';
 import '../../../cubit/salenote_drawer_cubit/salenote_drawer_cubit.dart';
 import '../../../cubit/salenote_form_cubit.dart';
 
@@ -81,14 +79,14 @@ class TextfieldSalenote extends StatelessWidget {
               )),
               IconButton(
                 onPressed: () {
-                  if (true) {
+                  /*if (true) {
                     showDialog(
                       context: context,
                       builder: (context) => MultiBlocProvider(providers: [
                         BlocProvider(create: (_) => DrawerSearchCubit()),
                       ], child: DrawerSearchController()),
                     ).then((value) {});
-                  }
+                  }*/
                 },
                 icon: const Icon(Icons.search),
               ),

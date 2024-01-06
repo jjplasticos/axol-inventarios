@@ -2,14 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../../models/textfield_model.dart';
-import '../../../../../utilities/theme.dart';
+import '../../../../../utilities/theme/theme.dart';
+import '../../../../../utilities/widgets/button.dart';
 import '../../../../../utilities/widgets/finder_bar.dart';
 import '../../cubit/salenote_tab/salenote_tab_cubit.dart';
 import '../../cubit/salenote_tab/salenote_tab_state.dart';
 import '../../cubit/salenote_tab/salenote_tab_form.dart';
 import '../../model/sale_note_model.dart';
-import '../widgets/finder_salenote.dart';
-import '../widgets/toolbar_salenote.dart';
 
 class SaleNoteTab extends StatelessWidget {
   const SaleNoteTab({super.key});
@@ -21,23 +20,6 @@ class SaleNoteTab extends StatelessWidget {
       builder: (context, state) {
         if (state is LoadingSaleNoteState) {
           return saleNoteTab(context, [], true);
-          /*const Row(
-            children: [
-              Expanded(
-                  child: Column(
-                children: [
-                  FinderSalenote(
-                    isLoading: true,
-                  ),
-                  LinearProgressIndicator(),
-                  Expanded(child: SizedBox())
-                ],
-              )),
-              ToolbarSaleNote(
-                isLoading: true,
-              ),
-            ],
-          );*/
         } else if (state is LoadedSaleNoteState) {
           return saleNoteTab(context, state.salenoteList, false);
         } else {
@@ -47,7 +29,8 @@ class SaleNoteTab extends StatelessWidget {
     );
   }
 
-  Widget saleNoteTab(BuildContext context, List<SaleNoteModel> listData, bool isLoading) {
+  Widget saleNoteTab(
+      BuildContext context, List<SaleNoteModel> listData, bool isLoading) {
     TextfieldModel form = context.read<SaleNoteTabForm>().state;
     TextEditingController textController = TextEditingController();
     textController.value = TextEditingValue(
@@ -59,98 +42,104 @@ class SaleNoteTab extends StatelessWidget {
           child: Column(
             children: [
               FinderBar(
-                  padding: const EdgeInsets.only(left: 12),
-                  textController: textController,
-                  txtForm: form,
-                  enabled: !isLoading,
-                  autoFocus: true,
-                  isTxtExpand: true,
-                  onSubmitted: (value) {
-                    context.read<SaleNoteTabCubit>().load(value);
-                  },
-                  onChanged: (value) {
-                    form = TextfieldModel(
-                        text: value,
-                        position: textController.selection.base.offset);
-                    context.read<SaleNoteTabForm>().setForm(form);
-                  },
-                  onPressed: () {
-                    if (isLoading == false) {
-                      context
-                          .read<SaleNoteTabForm>()
-                          .setForm(TextfieldModel.empty());
-                      context.read<SaleNoteTabCubit>().load('');
-                    }
-                  },
+                padding: const EdgeInsets.only(left: 12),
+                textController: textController,
+                txtForm: form,
+                enabled: !isLoading,
+                autoFocus: true,
+                isTxtExpand: true,
+                onSubmitted: (value) {
+                  context.read<SaleNoteTabCubit>().load(value);
+                },
+                onChanged: (value) {
+                  form = TextfieldModel(
+                      text: value,
+                      position: textController.selection.base.offset);
+                  context.read<SaleNoteTabForm>().setForm(form);
+                },
+                onPressed: () {
+                  if (isLoading == false) {
+                    context
+                        .read<SaleNoteTabForm>()
+                        .setForm(TextfieldModel.empty());
+                    context.read<SaleNoteTabCubit>().load('');
+                  }
+                },
+              ),
+              Container(
+                decoration: BoxDecorationTheme.headerTable(),
+                child: const Padding(
+                  padding: EdgeInsets.all(8),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      Expanded(
+                        flex: 1,
+                        child: Center(
+                            child: Text(
+                          'Clave',
+                          style: Typo.subtitleLight,
+                        )),
+                      ),
+                      Expanded(
+                        flex: 1,
+                        child: Center(
+                            child: Text(
+                          'Cliente',
+                          style: Typo.subtitleLight,
+                        )),
+                      ),
+                      Expanded(
+                        flex: 1,
+                        child: Center(
+                            child: Text(
+                          'Nombre de cliente',
+                          style: Typo.subtitleLight,
+                        )),
+                      ),
+                      Expanded(
+                        flex: 1,
+                        child: Center(
+                            child: Text(
+                          'Estado',
+                          style: Typo.subtitleLight,
+                        )),
+                      ),
+                      Expanded(
+                        flex: 1,
+                        child: Center(
+                            child: Text(
+                          'Fecha de elaboración',
+                          style: Typo.subtitleLight,
+                        )),
+                      ),
+                      Expanded(
+                        flex: 1,
+                        child: Center(
+                            child: Text(
+                          'Importe total',
+                          style: Typo.subtitleLight,
+                        )),
+                      ),
+                      Expanded(
+                        flex: 1,
+                        child: Center(
+                            child: Text(
+                          'Almacén',
+                          style: Typo.subtitleLight,
+                        )),
+                      ),
+                      Expanded(
+                        flex: 1,
+                        child: Center(
+                            child: Text(
+                          'Vendedor',
+                          style: Typo.subtitleLight,
+                        )),
+                      ),
+                    ],
+                  ),
                 ),
-              const Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  Expanded(
-                    flex: 1,
-                    child: Center(
-                        child: Text(
-                      'Clave',
-                      style: Typo.bodyText5,
-                    )),
-                  ),
-                  Expanded(
-                    flex: 1,
-                    child: Center(
-                        child: Text(
-                      'Cliente',
-                      style: Typo.bodyText5,
-                    )),
-                  ),
-                  Expanded(
-                    flex: 1,
-                    child: Center(
-                        child: Text(
-                      'Nombre de cliente',
-                      style: Typo.bodyText5,
-                    )),
-                  ),
-                  Expanded(
-                    flex: 1,
-                    child: Center(
-                        child: Text(
-                      'Estado',
-                      style: Typo.bodyText5,
-                    )),
-                  ),
-                  Expanded(
-                    flex: 1,
-                    child: Center(
-                        child: Text(
-                      'Fecha de elaboración',
-                      style: Typo.bodyText5,
-                    )),
-                  ),
-                  Expanded(
-                    flex: 1,
-                    child: Center(
-                        child: Text(
-                      'Importe total',
-                      style: Typo.bodyText5,
-                    )),
-                  ),
-                  Expanded(
-                    flex: 1,
-                    child: Center(
-                        child: Text(
-                      'Almacén',
-                      style: Typo.bodyText5,
-                    )),
-                  ),
-                  Expanded(
-                    flex: 1,
-                    child: Center(
-                        child: Text(
-                      'Vendedor',
-                      style: Typo.bodyText5,
-                    )),
-                  ),
-                ],
               ),
               Expanded(
                 child: ListView.builder(
@@ -166,7 +155,7 @@ class SaleNoteTab extends StatelessWidget {
                           bottom: BorderSide(color: Colors.white12),
                         ),
                       ),
-                      child: OutlinedButton(
+                      child: ButtonRowTable(
                         onPressed: () {
                           /*showDialog(
                             context: context,

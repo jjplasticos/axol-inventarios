@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../theme.dart';
+import '../theme/theme.dart';
 
 class ButtonDrawerSave extends StatefulWidget {
   final Function()? onPressed;
@@ -103,6 +103,35 @@ class _ButtonDrawerDelete extends State<ButtonDelete> {
         side: BorderSide.none,
       ),
       child: Text(fText, style: Typo.bodyLight),
+    );
+  }
+}
+
+class ButtonRowTable extends StatefulWidget {
+  final Function()? onPressed;
+  final Widget child;
+
+  const ButtonRowTable({
+    Key? key,
+    this.onPressed, required this.child,
+  }) : super(key: key);
+
+  @override
+  State createState() => _ButtonRowTable();
+}
+
+class _ButtonRowTable extends State<ButtonRowTable> {
+  @override
+  Widget build(BuildContext context) {
+    final Widget child = widget.child;
+    final Function() onPressed_ = widget.onPressed ?? () {};
+    return OutlinedButton(
+      style: OutlinedButton.styleFrom(
+        foregroundColor: ColorPalette.primary,
+        side: BorderSide.none,
+      ),
+      onPressed: onPressed_,
+      child: child,
     );
   }
 }

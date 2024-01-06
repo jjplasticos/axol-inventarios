@@ -4,7 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../global_widgets/appbar/appbar_global.dart';
 import '../../../../utilities/navigation_utilities.dart';
 import '../../../../utilities/widgets/providers.dart';
-import '../../../../utilities/theme.dart';
+import '../../../../utilities/theme/theme.dart';
 import '../../../inventory_/inventory/view/views/inventory_view.dart';
 import '../../../sale/sale_note/cubit/salenote_tab/salenote_tab_form.dart';
 import '../../../sale/sale_note/cubit/salenote_tab/salenote_tab_cubit.dart';

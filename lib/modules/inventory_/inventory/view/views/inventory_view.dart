@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../../global_widgets/appbar/appbar_global.dart';
 import '../../../../../utilities/navigation_utilities.dart';
-import '../../../../../utilities/theme.dart';
+import '../../../../../utilities/theme/theme.dart';
 import '../../../movements/cubit/movements_view/movements_cubit.dart';
 import '../../../movements/view/controllers/listview_movements_controller.dart';
 import '../../../product/cubit/products/products_cubit.dart';

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../models/textfield_model.dart';
-import '../../../../utilities/theme.dart';
+import '../../../../utilities/theme/theme.dart';
 import '../../../../utilities/widgets/finder_bar.dart';
 import '../../../../utilities/widgets/progress_indicator.dart';
 import '../cubit/vendor_tab_cubit.dart';

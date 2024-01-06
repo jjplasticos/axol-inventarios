@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../utilities/theme.dart';
+import '../../utilities/theme/theme.dart';
 
 class NavigationBarGlobal extends StatelessWidget {
   final int currentIndex;
