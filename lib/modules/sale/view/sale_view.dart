@@ -4,19 +4,19 @@ import 'package:axol_inventarios/utilities/widgets/providers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../../../global_widgets/appbar/appbar_global.dart';
-import '../../../../../utilities/navigation_utilities.dart';
-import '../../../../../utilities/theme.dart';
-import '../../../../inventory_/inventory/view/views/inventory_view.dart';
-import '../../../../user/view/views/home_view.dart';
-import '../../../customer/cubit/customer_tab/customer_tab_cubit.dart';
-import '../../../customer/cubit/customer_tab/customer_tab_state.dart';
-import '../../cubit/finder_notes_cubit.dart';
-import '../../cubit/sale_note_cubit/salenote_cubit.dart';
-import '../../cubit/sale_note_cubit/salenote_state.dart';
-import '../widgets/finder_salenote.dart';
-import '../widgets/toolbar_salenote.dart';
-import 'salenote_tab.dart';
+import '../../../global_widgets/appbar/appbar_global.dart';
+import '../../../utilities/navigation_utilities.dart';
+import '../../../utilities/theme.dart';
+import '../../inventory_/inventory/view/views/inventory_view.dart';
+import '../../user/view/views/home_view.dart';
+import '../customer/cubit/customer_tab/customer_tab_cubit.dart';
+import '../customer/cubit/customer_tab/customer_tab_state.dart';
+import '../sale_note/cubit/salenote_tab/salenote_tab_form.dart';
+import '../sale_note/cubit/salenote_tab/salenote_tab_cubit.dart';
+import '../sale_note/cubit/salenote_tab/salenote_tab_state.dart';
+import '../sale_note/view/widgets/finder_salenote.dart';
+import '../sale_note/view/widgets/toolbar_salenote.dart';
+import '../sale_note/view/views/salenote_tab.dart';
 
 class SaleView extends StatelessWidget {
   const SaleView({super.key});
@@ -25,8 +25,8 @@ class SaleView extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
-        BlocProvider(create: (_) => SalenoteCubit()),
-        BlocProvider(create: (_) => FinderNotesCubit()),
+        BlocProvider(create: (_) => SaleNoteTabCubit()),
+        BlocProvider(create: (_) => SaleNoteTabForm()),
       ],
       child: DefaultTabController(
           length: 4,

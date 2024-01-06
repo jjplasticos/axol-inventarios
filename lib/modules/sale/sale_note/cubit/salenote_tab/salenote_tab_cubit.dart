@@ -4,10 +4,24 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../../models/textfield_model.dart';
 import '../../model/sale_note_model.dart';
 import '../../repository/sale_note_repo.dart';
-import 'salenote_state.dart';
+import 'salenote_tab_state.dart';
 
-class SalenoteCubit extends Cubit<SalenoteState> {
-  SalenoteCubit() : super(InitialSaleNoteState());
+class SaleNoteTabCubit extends Cubit<SaleNoteTabState> {
+  SaleNoteTabCubit() : super(InitialSaleNoteState());
+
+  Future<void> load(String find) async {
+    List<SaleNoteModel> salenoteListDB;
+    try {
+      emit(InitialSaleNoteState());
+      emit(LoadingSaleNoteState());
+      salenoteListDB =
+          await SaleNoteRepo().fetchNotes(SaleNoteFilterModel.empty(), find);
+      emit(LoadedSaleNoteState(salenoteList: salenoteListDB));
+    } catch (e) {
+      emit(InitialSaleNoteState());
+      emit(ErrorSalenoteState(error: e.toString()));
+    }
+  }
 
   Future<void> loadList() async {
     try {

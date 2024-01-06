@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../../../models/textfield_model.dart';
 import '../../../../../utilities/theme.dart';
-import '../../cubit/sale_note_cubit/salenote_cubit.dart';
-import '../../cubit/sale_note_cubit/salenote_state.dart';
+import '../../../../../utilities/widgets/finder_bar.dart';
+import '../../cubit/salenote_tab/salenote_tab_cubit.dart';
+import '../../cubit/salenote_tab/salenote_tab_state.dart';
+import '../../cubit/salenote_tab/salenote_tab_form.dart';
 import '../../model/sale_note_model.dart';
 import '../widgets/finder_salenote.dart';
 import '../widgets/toolbar_salenote.dart';
@@ -13,11 +16,12 @@ class SaleNoteTab extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<SalenoteCubit, SalenoteState>(
-      bloc: context.read<SalenoteCubit>()..loadList(),
+    return BlocBuilder<SaleNoteTabCubit, SaleNoteTabState>(
+      bloc: context.read<SaleNoteTabCubit>()..loadList(),
       builder: (context, state) {
         if (state is LoadingSaleNoteState) {
-          return const Row(
+          return saleNoteTab(context, [], true);
+          /*const Row(
             children: [
               Expanded(
                   child: Column(
@@ -33,29 +37,52 @@ class SaleNoteTab extends StatelessWidget {
                 isLoading: true,
               ),
             ],
-          );
+          );*/
         } else if (state is LoadedSaleNoteState) {
-          return saleNoteTab(context, state.salenoteList);
-        } else if (state is ErrorSalenoteState) {
-          return Text(
-            state.error,
-            style: Typo.labelText1,
-          );
+          return saleNoteTab(context, state.salenoteList, false);
+        } else {
+          return saleNoteTab(context, [], false);
         }
-        return Container();
       },
     );
   }
 
-  Widget saleNoteTab(BuildContext context, List<SaleNoteModel> listData) {
+  Widget saleNoteTab(BuildContext context, List<SaleNoteModel> listData, bool isLoading) {
+    TextfieldModel form = context.read<SaleNoteTabForm>().state;
+    TextEditingController textController = TextEditingController();
+    textController.value = TextEditingValue(
+        text: form.text,
+        selection: TextSelection.collapsed(offset: form.position));
     return Row(
       children: [
         Expanded(
           child: Column(
             children: [
-              const FinderSalenote(
-                isLoading: false,
-              ),
+              FinderBar(
+                  padding: const EdgeInsets.only(left: 12),
+                  textController: textController,
+                  txtForm: form,
+                  enabled: !isLoading,
+                  autoFocus: true,
+                  isTxtExpand: true,
+                  onSubmitted: (value) {
+                    context.read<SaleNoteTabCubit>().load(value);
+                  },
+                  onChanged: (value) {
+                    form = TextfieldModel(
+                        text: value,
+                        position: textController.selection.base.offset);
+                    context.read<SaleNoteTabForm>().setForm(form);
+                  },
+                  onPressed: () {
+                    if (isLoading == false) {
+                      context
+                          .read<SaleNoteTabForm>()
+                          .setForm(TextfieldModel.empty());
+                      context.read<SaleNoteTabCubit>().load('');
+                    }
+                  },
+                ),
               const Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
@@ -239,9 +266,9 @@ class SaleNoteTab extends StatelessWidget {
             ],
           ),
         ),
-        const ToolbarSaleNote(
+        /*const ToolbarSaleNote(
           isLoading: false,
-        ),
+        ),*/
       ],
     );
   }

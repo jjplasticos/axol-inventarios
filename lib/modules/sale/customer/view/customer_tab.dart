@@ -14,8 +14,6 @@ import '../cubit/customer_tab/customer_tab_state.dart';
 import '../model/customer_model.dart';
 
 class CustomerTab extends StatelessWidget {
-  //final List<CustomerModel> customerList;
-  //final bool isLoading;
 
   const CustomerTab({super.key});
 
@@ -33,22 +31,10 @@ class CustomerTab extends StatelessWidget {
       builder: (context, state) {
         if (state is LoadingCustomerTabState) {
           return customerTab(context, [], true);
-          /*CustomerTab(
-                                customerList: [],
-                                isLoading: true,
-                              );*/
         } else if (state is LoadedCustomerTabState) {
           return customerTab(context, state.customerList, false);
-          /*CustomerTab(
-                                customerList: state.customerList,
-                                isLoading: false,
-                              );*/
         } else {
           return customerTab(context, [], false);
-          /*const CustomerTab(
-                                customerList: [],
-                                isLoading: false,
-                              );*/
         }
       },
     );

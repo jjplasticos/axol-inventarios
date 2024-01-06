@@ -8,7 +8,7 @@ import '../../../movements/cubit/movements_view/movements_cubit.dart';
 import '../../../movements/view/controllers/listview_movements_controller.dart';
 import '../../../product/cubit/products/products_cubit.dart';
 import '../../../product/view/controllers/listview_products_controller.dart';
-import '../../../../sale/sale_note/view/views/sale_view.dart';
+import '../../../../sale/view/sale_view.dart';
 import '../../../../user/view/views/home_view.dart';
 import '../../cubit/warehouses_load/warehouses_load_cubit.dart';
 import '../controllers/listview_whmenu_controller.dart';

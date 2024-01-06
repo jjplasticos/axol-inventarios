@@ -4,14 +4,14 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../../global_widgets/toolbar.dart';
 import '../../../../../models/elemnets_bar_model.dart';
 import '../../../../../models/textfield_model.dart';
-import '../../cubit/finder_notes_cubit.dart';
-import '../../cubit/sale_note_cubit/salenote_cubit.dart';
+import '../../cubit/salenote_tab/salenote_tab_form.dart';
+import '../../cubit/salenote_tab/salenote_tab_cubit.dart';
 import '../../cubit/salenote_drawer_cubit/salenote_drawer_cubit.dart';
 import '../../cubit/salenote_form_cubit.dart';
 import '../controllers/drawer_notes_controller.dart';
 import 'drawer_sale_note/drawer_sale_note.dart';
 
-class ToolbarSaleNote extends StatelessWidget {
+/*class ToolbarSaleNote extends StatelessWidget {
   final bool isLoading;
 
   const ToolbarSaleNote({super.key, required this.isLoading});
@@ -61,7 +61,7 @@ class ToolbarSaleNote extends StatelessWidget {
             if (isLoading == false) {
               context.read<SalenoteCubit>().loadList();
               context
-                  .read<FinderNotesCubit>()
+                  .read<SaleNoteTabForm>()
                   .setState(TextfieldModel.empty());
             }
           },
@@ -69,4 +69,4 @@ class ToolbarSaleNote extends StatelessWidget {
       ],
     );
   }
-}
+}*/

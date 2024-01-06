@@ -7,9 +7,9 @@ import '../../../../../global_widgets/plugins_bar.dart';
 import '../../../../../global_widgets/views_bar.dart';
 import '../../../../../models/elemnets_bar_model.dart';
 import '../../../../../utilities/theme.dart';
-import '../../../../sale/sale_note/cubit/finder_notes_cubit.dart';
-import '../../../../sale/sale_note/cubit/sale_note_cubit/salenote_cubit.dart';
-import '../../../../sale/sale_note/view/views/sale_view.dart';
+import '../../../../sale/sale_note/cubit/salenote_tab/salenote_tab_form.dart';
+import '../../../../sale/sale_note/cubit/salenote_tab/salenote_tab_cubit.dart';
+import '../../../../sale/view/sale_view.dart';
 import '../../../../user/view/views/home_view.dart';
 import '../../../inventory/view/views/inventory_view.dart';
 import '../../cubit/routcustomer cubit/routcustomer_cubit.dart';
@@ -62,9 +62,9 @@ class RoutCustomers extends StatelessWidget {
                         context,
                         MaterialPageRoute(
                             builder: (context) => MultiBlocProvider(providers: [
-                                  BlocProvider(create: (_) => SalenoteCubit()),
+                                  BlocProvider(create: (_) => SaleNoteTabCubit()),
                                   BlocProvider(
-                                      create: (_) => FinderNotesCubit()),
+                                      create: (_) => SaleNoteTabForm()),
                                 ], child: const SaleView())));
                   }
                 },

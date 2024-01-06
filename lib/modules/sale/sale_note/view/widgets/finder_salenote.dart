@@ -3,11 +3,11 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../../models/textfield_model.dart';
 import '../../../../../utilities/theme.dart';
-import '../../cubit/finder_notes_cubit.dart';
-import '../../cubit/sale_note_cubit/salenote_cubit.dart';
+import '../../cubit/salenote_tab/salenote_tab_form.dart';
+import '../../cubit/salenote_tab/salenote_tab_cubit.dart';
 import '../../model/salenote_filter_model.dart';
 
-class FinderSalenote extends StatelessWidget {
+/*class FinderSalenote extends StatelessWidget {
   final bool isLoading;
 
   const FinderSalenote({
@@ -17,7 +17,7 @@ class FinderSalenote extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    TextfieldModel tfFinder = context.read<FinderNotesCubit>().state;
+    TextfieldModel tfFinder = context.read<SaleNoteTabForm>().state;
     String text = tfFinder.text;
     TextEditingController textController = TextEditingController();
     textController.value = TextEditingValue(
@@ -46,7 +46,7 @@ class FinderSalenote extends StatelessWidget {
                   TextfieldModel textfield = TextfieldModel(
                       text: value,
                       position: textController.selection.base.offset);
-                  context.read<FinderNotesCubit>().setState(textfield);
+                  context.read<SaleNoteTabForm>().setState(textfield);
                 },
                 decoration: InputDecoration(
                     hintText: 'Buscar',
@@ -80,7 +80,7 @@ class FinderSalenote extends StatelessWidget {
               if (text != '') {
                 context.read<SalenoteCubit>().loadList();
                 context
-                    .read<FinderNotesCubit>()
+                    .read<SaleNoteTabForm>()
                     .setState(TextfieldModel.empty());
               }
             },
@@ -89,4 +89,4 @@ class FinderSalenote extends StatelessWidget {
       ),
     );
   }
-}
+}*/
