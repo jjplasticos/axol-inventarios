@@ -1,28 +1,48 @@
+import 'package:axol_inventarios/utilities/widgets/providers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../models/textfield_model.dart';
 import '../../../../utilities/theme/theme.dart';
+import '../../../../utilities/widgets/alert_dialog_axol.dart';
+import '../../../../utilities/widgets/button.dart';
 import '../../../../utilities/widgets/finder_bar.dart';
 import '../../../../utilities/widgets/progress_indicator.dart';
-import '../cubit/vendor_tab_cubit.dart';
-import '../cubit/vendor_tab_form.dart';
+import '../cubit/vendor_tab/vendor_tab_cubit.dart';
+import '../cubit/vendor_tab/vendor_tab_form.dart';
+import '../cubit/vendor_tab/vendor_tab_state.dart';
 import '../model/vendor_model.dart';
+import 'customer_drawer_details.dart';
+import 'vendor_drawer_add.dart';
 
 class VendorTab extends StatelessWidget {
-
-
-  const VendorTab({
-    super.key
-  });
+  const VendorTab({super.key});
 
   @override
   Widget build(BuildContext context) {
-    
-    return 
+    return BlocConsumer<VendorTabCubit, VendorTabState>(
+      bloc: context.read<VendorTabCubit>()..load(''),
+      listener: (context, state) {
+        if (state is ErrorVendorTabState) {
+          showDialog(
+              context: context,
+              builder: (context) => AlertDialogAxol(text: state.error));
+        }
+      },
+      builder: (context, state) {
+        if (state is LoadingVendorTabState) {
+          return vendorTab(context, [], true);
+        } else if (state is LoadedVendorTabState) {
+          return vendorTab(context, state.vendorList, false);
+        } else {
+          return vendorTab(context, [], false);
+        }
+      },
+    );
   }
 
-  Widget vendorTab(BuildContext context, List<VendorModel> vendorList, bool isLoading) {
+  Widget vendorTab(
+      BuildContext context, List<VendorModel> vendorList, bool isLoading) {
     TextfieldModel form = context.read<VendorTabForm>().state;
     TextfieldModel upForm;
     TextEditingController textController = TextEditingController();
@@ -76,7 +96,8 @@ class VendorTab extends StatelessWidget {
                 onPressed: () {
                   showDialog(
                     context: context,
-                    builder: (context) => SizedBox(), //Sustituir por ProviderVendorAdd
+                    builder: (context) =>
+                        const ProviderVendorAdd(), //Sustituir por ProviderVendorAdd
                   ).then((value) {
                     context.read<VendorTabCubit>().load(form.text);
                   });
@@ -91,13 +112,7 @@ class VendorTab extends StatelessWidget {
           ),
         ),
         Container(
-          decoration: const BoxDecoration(
-              color: ColorPalette.darkItems,
-              border: Border(
-                  bottom: BorderSide(
-                width: 1,
-                color: ColorPalette.darkItems,
-              ))),
+          decoration: BoxDecorationTheme.headerTable(),
           child: const Padding(
             padding: EdgeInsets.fromLTRB(8, 8, 8, 8),
             child: Row(
@@ -134,25 +149,17 @@ class VendorTab extends StatelessWidget {
                   shrinkWrap: true,
                   itemCount: vendorList.length,
                   itemBuilder: (context, index) {
-                    final customer = vendorList[index];
+                    final vendor = vendorList[index];
                     return Container(
-                      decoration: const BoxDecoration(
-                          border: Border(
-                              bottom: BorderSide(
-                        width: 1,
-                        color: ColorPalette.darkItems,
-                      ))),
-                      child: OutlinedButton(
-                        style: OutlinedButton.styleFrom(
-                          side: BorderSide.none,
-                        ),
+                      decoration: BoxDecorationTheme.rowTable(),
+                      child: ButtonRowTable(
                         child: Row(
                           children: [
                             Expanded(
                               flex: 1,
                               child: Center(
                                 child: Text(
-                                  customer.id.toString(),
+                                  vendor.id.toString(),
                                   style: Typo.bodyLight,
                                 ),
                               ),
@@ -160,7 +167,7 @@ class VendorTab extends StatelessWidget {
                             Expanded(
                               flex: 5,
                               child: Text(
-                                customer.name.toString(),
+                                vendor.name.toString(),
                                 style: Typo.bodyLight,
                               ),
                             ),
@@ -168,11 +175,11 @@ class VendorTab extends StatelessWidget {
                         ),
                         onPressed: () {
                           showDialog(
-                            context: context,
-                            builder: (context) => SizedBox() //Sustituir por VendorDrawerDetails
-                                //CustomerDrawer(customer: customer),
-                          ).then((value) {
-                            //context.read<CustomerTabCubit>().load(form.text);
+                              context: context,
+                              builder: (context) => VendorDrawerDetails(
+                                    vendor: vendor,
+                                  )).then((value) {
+                            context.read<VendorTabCubit>().load(form.text);
                           });
                         },
                       ),

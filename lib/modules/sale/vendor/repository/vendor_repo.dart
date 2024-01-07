@@ -4,8 +4,8 @@ import '../model/vendor_model.dart';
 
 class VendorRepo {
   static const String _table = 'vendors';
-  static const String _id = 'id';
-  static const String _name = 'name';
+  final String _id = VendorModel.empty().tId;
+  final String _name = VendorModel.empty().tName;
   final _supabase = Supabase.instance.client;
 
   Future<List<VendorModel>> fetchVendorEq(String inText) async {
@@ -64,5 +64,52 @@ class VendorRepo {
       }
     }
     return vendors;
+  }
+
+  Future<int> fetchAvailableId() async {
+    List<Map<String, dynamic>> vendorIdDB = [];
+    List<int> listId = [];
+    int newId = -1;
+    vendorIdDB =
+        await _supabase.from(_table).select<List<Map<String, dynamic>>>(_id);
+    for (var element in vendorIdDB) {
+      listId.add(int.parse(element[_id].toString()));
+    }
+    listId.sort((a, b) => a.compareTo(b));
+    for (int i = 0; i <= listId.length; i++) {
+      if (listId.contains(i) == false) {
+        listId.add(i);
+        newId = i;
+        i = listId.length + 1;
+      }
+    }
+    return newId;
+  }
+
+
+  Future<bool> existId(int id) async {
+    List<Map<String, dynamic>> vendorsDB = [];
+    bool exist;
+    vendorsDB = await _supabase
+        .from(_table)
+        .select<List<Map<String, dynamic>>>()
+        .eq(_id, id);
+    if (vendorsDB.isEmpty && id >= 0) {
+      exist = false;
+    } else {
+      exist = true;
+    }
+    return exist;
+  }
+
+  Future<void> insert(VendorModel vendor) async {
+    await _supabase.from(_table).insert({
+      _id: vendor.id,
+      _name: vendor.name,
+    });
+  }
+
+  Future<void> delete(VendorModel vendor) async {
+    await _supabase.from(_table).delete().eq(_id, vendor.id);
   }
 }

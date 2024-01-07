@@ -1,7 +1,7 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../model/vendor_model.dart';
-import '../repository/vendor_repo.dart';
+import '../../model/vendor_model.dart';
+import '../../repository/vendor_repo.dart';
 import 'vendor_tab_state.dart';
 
 class VendorTabCubit extends Cubit<VendorTabState> {

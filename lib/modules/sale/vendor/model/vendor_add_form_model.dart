@@ -2,7 +2,7 @@ import 'package:axol_inventarios/modules/sale/vendor/model/vendor_model.dart';
 
 import '../../../../models/textfield_form_model.dart';
 
-class VendorFormModel {
+class VendorAddFormModel {
   TextfieldFormModel id;
   TextfieldFormModel name;
 
@@ -26,12 +26,12 @@ class VendorFormModel {
   String get emIdInvalid => _emIdInvalid;
   String get emNameInvalid => _emNameInvalid;
 
-  VendorFormModel({
+  VendorAddFormModel({
     required this.id,
     required this.name,
   });
 
-  VendorFormModel.empty()
+  VendorAddFormModel.empty()
       : id = TextfieldFormModel.initKey(
           key: VendorModel.empty().tId,
           tags: [],
@@ -42,11 +42,11 @@ class VendorFormModel {
         )
         ;
 
-  VendorFormModel.listToForm(List<TextfieldFormModel> list)
+  VendorAddFormModel.listToForm(List<TextfieldFormModel> list)
       : id = list.singleWhere((x) => x.key == VendorModel.empty().tId),
         name = list.singleWhere((x) => x.key == VendorModel.empty().tName);
 
-  static List<TextfieldFormModel> formToList(VendorFormModel form) {
+  static List<TextfieldFormModel> formToList(VendorAddFormModel form) {
     final TextfieldFormModel id = form.id;
     final TextfieldFormModel name = form.name;
     final List<TextfieldFormModel> list = [
@@ -56,7 +56,7 @@ class VendorFormModel {
     return list;
   }
 
-  static VendorModel formToVendor(VendorFormModel form) =>
+  static VendorModel formToVendor(VendorAddFormModel form) =>
       VendorModel(
         id: int.tryParse(form.id.value) ?? -1,
         name: form.name.value,

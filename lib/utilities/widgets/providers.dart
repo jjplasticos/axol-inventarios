@@ -13,6 +13,14 @@ import '../../modules/sale/customer/view/customer_drawer_add.dart';
 import '../../modules/sale/customer/view/customer_tab.dart';
 import '../../modules/sale/sale_note/cubit/salenote_tab/salenote_tab_form.dart';
 import '../../modules/sale/sale_note/cubit/salenote_tab/salenote_tab_cubit.dart';
+import '../../modules/sale/vendor/cubit/vendor_add/vendor_add_cubit.dart';
+import '../../modules/sale/vendor/cubit/vendor_add/vendor_add_form.dart';
+import '../../modules/sale/vendor/cubit/vendor_delete/customer_delete_cubit.dart';
+import '../../modules/sale/vendor/cubit/vendor_tab/vendor_tab_cubit.dart';
+import '../../modules/sale/vendor/cubit/vendor_tab/vendor_tab_form.dart';
+import '../../modules/sale/vendor/model/vendor_model.dart';
+import '../../modules/sale/vendor/view/customer_dialog_delete.dart';
+import '../../modules/sale/vendor/view/vendor_drawer_add.dart';
 import '../../modules/sale/vendor/view/vendor_tab.dart';
 
 abstract class Providers extends StatelessWidget {
@@ -69,7 +77,29 @@ class ProviderVendorTab extends Providers {
 
   @override
   Widget build(BuildContext context) => MultiBlocProvider(providers: [
-        BlocProvider(create: (_) => SaleNoteTabCubit()),
-        BlocProvider(create: (_) => SaleNoteTabForm()),
-      ], child: VendorTab());
+        BlocProvider(create: (_) => VendorTabCubit()),
+        BlocProvider(create: (_) => VendorTabForm()),
+      ], child: const VendorTab());
+}
+
+class ProviderVendorAdd extends Providers {
+  const ProviderVendorAdd({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return MultiBlocProvider(providers: [
+      BlocProvider(create: (_) => VendorAddForm()),
+      BlocProvider(create: (_) => VendorAddCubit()),
+    ], child: const VendorDrawerAdd());
+  }
+}
+
+class ProviderVendorDelete extends Providers {
+  final VendorModel vendor;
+  const ProviderVendorDelete({super.key, required this.vendor});
+
+  @override
+  Widget build(BuildContext context) => MultiBlocProvider(providers: [
+        BlocProvider(create: (_) => VendorDeleteCubit()),
+      ], child: VendorDialogDelete(vendor: vendor));
 }

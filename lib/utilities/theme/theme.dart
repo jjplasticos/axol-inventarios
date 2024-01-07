@@ -123,4 +123,11 @@ class BoxDecorationTheme {
         width: 1,
         color: ColorPalette.darkItems,
       )));
+
+  static BoxDecoration rowTable() => const BoxDecoration(
+          border: Border(
+              bottom: BorderSide(
+        width: 1,
+        color: ColorPalette.darkItems,
+      )));
 }
