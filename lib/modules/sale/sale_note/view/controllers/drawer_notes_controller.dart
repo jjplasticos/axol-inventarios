@@ -7,7 +7,7 @@ import '../../../../../models/validation_form_model.dart';
 import '../../../../../utilities/theme/theme.dart';
 import '../../cubit/salenote_drawer_cubit/salenote_drawer_cubit.dart';
 import '../../cubit/salenote_drawer_cubit/salenote_drawer_state.dart';
-import '../../model/saelnote_form_model.dart';
+import '../../model/saelnote_add_form_model.dart';
 import '../widgets/drawer_sale_note/drawer_sale_note.dart';
 
 class DrawerNotesController extends StatelessWidget {
@@ -19,7 +19,7 @@ class DrawerNotesController extends StatelessWidget {
       bloc: context.read<SalenoteDrawerCubit>()..initial(),
       builder: (context, state) {
         List<String> listResponse;
-        SalenoteFormModel? salenoteForm;
+        SalenoteAddFormModel? salenoteForm;
         if (state is LoadingState) {
           return const DrawerSalenote(
             isLoading: true,
@@ -52,30 +52,30 @@ class DrawerNotesController extends StatelessWidget {
   }
 }
 
-SalenoteFormModel _changeSalenoteForm(List<String> response,
-    Map<int, dynamic> modelMap, SalenoteFormModel currentForm) {
-  SalenoteFormModel salenoteForm = currentForm;
+SalenoteAddFormModel _changeSalenoteForm(List<String> response,
+    Map<int, dynamic> modelMap, SalenoteAddFormModel currentForm) {
+  SalenoteAddFormModel salenoteForm = currentForm;
   List elementsList;
   for (var element in response) {
     elementsList = element.split(':');
-    if (elementsList.first == SalenoteFormModel.pCustomer) {
+    if (elementsList.first == SalenoteAddFormModel.pCustomer) {
       salenoteForm.customer = _changeSalenoteTextfield(
           elementsList.elementAt(1),
           currentForm.customer,
           elementsList.elementAt(2));
-    } else if (elementsList.first == SalenoteFormModel.pVendor) {
+    } else if (elementsList.first == SalenoteAddFormModel.pVendor) {
       salenoteForm.vendor = _changeSalenoteTextfield(elementsList.elementAt(1),
           currentForm.vendor, elementsList.elementAt(2));
-    } else if (elementsList.first == SalenoteFormModel.pWarehouse) {
+    } else if (elementsList.first == SalenoteAddFormModel.pWarehouse) {
       salenoteForm.warehouse = _changeSalenoteTextfield(
           elementsList.elementAt(1),
           currentForm.warehouse,
           elementsList.elementAt(2));
-    } else if (elementsList.first == SalenoteFormModel.pCustomerModel) {
+    } else if (elementsList.first == SalenoteAddFormModel.pCustomerModel) {
       salenoteForm.customerModel = modelMap[0];
-    } else if (elementsList.first == SalenoteFormModel.pVendorModel) {
+    } else if (elementsList.first == SalenoteAddFormModel.pVendorModel) {
       salenoteForm.vendorModel = modelMap[1];
-    } else if (elementsList.first == SalenoteFormModel.pWarehouseModel) {
+    } else if (elementsList.first == SalenoteAddFormModel.pWarehouseModel) {
       salenoteForm.warehouseModel = modelMap[2];
     }
   }

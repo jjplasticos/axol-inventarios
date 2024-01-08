@@ -17,18 +17,18 @@ class SaleNoteModel {
   final String note;
   final SaleProductModel saleProduct;
 
-  static const String propId = 'id';
-  static const String propCustomer = 'customer';
-  static const String propStatus = 'status';
-  static const String propDate = 'date';
-  static const String propSubtotal = 'subtotal';
-  static const String propIva = 'iva';
-  static const String propTotal = 'total';
-  static const String propWarehouse = 'warehouse';
-  static const String propVendor = 'vendor';
-  static const String propType = 'type';
-  static const String propNote = 'note';
-  static const String propSaleProduct = 'products';
+  static const String tId = 'id';
+  static const String tCustomer = 'customer';
+  static const String tStatus = 'status';
+  static const String tDate = 'date';
+  static const String tSubtotal = 'subtotal';
+  static const String tIva = 'iva';
+  static const String tTotal = 'total';
+  static const String tWarehouse = 'warehouse';
+  static const String tVendor = 'vendor';
+  static const String tType = 'type';
+  static const String tNote = 'note';
+  static const String tSaleProduct = 'products';
 
   SaleNoteModel({
     required this.id,

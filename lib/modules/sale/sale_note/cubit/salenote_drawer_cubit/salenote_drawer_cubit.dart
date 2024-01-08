@@ -7,7 +7,7 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 import '../../../../inventory_/inventory/model/warehouse_model.dart';
 import '../../../../inventory_/inventory/repository/warehouses_repo.dart';
 import '../../../customer/model/customer_model.dart';
-import '../../model/saelnote_form_model.dart';
+import '../../model/saelnote_add_form_model.dart';
 import '../../../vendor/model/vendor_model.dart';
 import '../../../customer/repository/customer_repo.dart';
 import '../../../vendor/repository/vendor_repo.dart';
@@ -15,13 +15,13 @@ import '../../../vendor/repository/vendor_repo.dart';
 class SalenoteDrawerCubit extends Cubit<SalenoteDrawerState> {
   SalenoteDrawerCubit() : super(InitialState());
 
-  static const String _pCustomer = SalenoteFormModel.pCustomer;
-  static const String _pVendor = SalenoteFormModel.pVendor;
-  static const String _pWarehouse = SalenoteFormModel.pWarehouse;
+  static const String _pCustomer = SalenoteAddFormModel.pCustomer;
+  static const String _pVendor = SalenoteAddFormModel.pVendor;
+  static const String _pWarehouse = SalenoteAddFormModel.pWarehouse;
   static const String _pValidation = TextfieldFormModel.pValidation;
-  static const String _pCustomerModel = SalenoteFormModel.pCustomerModel;
-  static const String _pVendorModel = SalenoteFormModel.pVendorModel;
-  static const String _pWarehouseModel = SalenoteFormModel.pWarehouseModel;
+  static const String _pCustomerModel = SalenoteAddFormModel.pCustomerModel;
+  static const String _pVendorModel = SalenoteAddFormModel.pVendorModel;
+  static const String _pWarehouseModel = SalenoteAddFormModel.pWarehouseModel;
 
   Future<void> initial() async {
     try {
@@ -33,7 +33,7 @@ class SalenoteDrawerCubit extends Cubit<SalenoteDrawerState> {
     }
   }
 
-  Future<void> change(SalenoteFormModel salenoteForm, int keyElement) async {
+  Future<void> change(SalenoteAddFormModel salenoteForm, int keyElement) async {
     try {
       List<CustomerModel> customersDB;
       List<VendorModel> vendorsDB;

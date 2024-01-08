@@ -1,13 +1,13 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../models/validation_form_model.dart';
-import '../model/saelnote_form_model.dart';
+import '../model/saelnote_add_form_model.dart';
 
-class SalenoteFormCubit extends Cubit<SalenoteFormModel> {
-  SalenoteFormCubit() : super(SalenoteFormModel.initial());
+class SalenoteFormCubit extends Cubit<SalenoteAddFormModel> {
+  SalenoteFormCubit() : super(SalenoteAddFormModel.initial());
 
-  SalenoteFormModel _validCustomer(SalenoteFormModel salenoteForm) {
-    SalenoteFormModel newSalenoteForm = salenoteForm;
+  SalenoteAddFormModel _validCustomer(SalenoteAddFormModel salenoteForm) {
+    SalenoteAddFormModel newSalenoteForm = salenoteForm;
     if (salenoteForm.customer.value == '') {
       newSalenoteForm.customer.validation =
           ValidationFormModel(isValid: false, errorMessage: 'Dato no valido');
@@ -17,8 +17,8 @@ class SalenoteFormCubit extends Cubit<SalenoteFormModel> {
     return newSalenoteForm;
   }
 
-  SalenoteFormModel _validVendor(SalenoteFormModel salenoteForm) {
-    SalenoteFormModel newSalenoteForm = salenoteForm;
+  SalenoteAddFormModel _validVendor(SalenoteAddFormModel salenoteForm) {
+    SalenoteAddFormModel newSalenoteForm = salenoteForm;
     if (salenoteForm.vendor.value == '') {
       newSalenoteForm.vendor.validation =
           ValidationFormModel(isValid: false, errorMessage: 'Dato no valido');
@@ -28,8 +28,8 @@ class SalenoteFormCubit extends Cubit<SalenoteFormModel> {
     return newSalenoteForm;
   }
 
-  SalenoteFormModel _validWarehouse(SalenoteFormModel salenoteForm) {
-    SalenoteFormModel newSalenoteForm = salenoteForm;
+  SalenoteAddFormModel _validWarehouse(SalenoteAddFormModel salenoteForm) {
+    SalenoteAddFormModel newSalenoteForm = salenoteForm;
     if (salenoteForm.warehouse.value == '') {
       newSalenoteForm.warehouse.validation =
           ValidationFormModel(isValid: false, errorMessage: 'Dato no valido');
@@ -40,7 +40,7 @@ class SalenoteFormCubit extends Cubit<SalenoteFormModel> {
   }
 
   Future<void> change(String text, int position, int elementForm) async {
-    SalenoteFormModel salenoteForm = state;
+    SalenoteAddFormModel salenoteForm = state;
     if (elementForm == 0) {
       salenoteForm.customer.value = text;
       salenoteForm.customer.position = position;
@@ -56,21 +56,21 @@ class SalenoteFormCubit extends Cubit<SalenoteFormModel> {
       salenoteForm.warehouse.position = position;
       salenoteForm = _validWarehouse(salenoteForm);
     }
-    emit(SalenoteFormModel.initial());
+    emit(SalenoteAddFormModel.initial());
     emit(salenoteForm);
   }
 
   Future<void> allValidate() async {
-    SalenoteFormModel salenoteForm = state;
+    SalenoteAddFormModel salenoteForm = state;
     salenoteForm = _validCustomer(salenoteForm);
     salenoteForm = _validVendor(salenoteForm);
     salenoteForm = _validWarehouse(salenoteForm);
-    emit(SalenoteFormModel.initial());
+    emit(SalenoteAddFormModel.initial());
     emit(salenoteForm);
   }
 
-  void setForm(SalenoteFormModel salenoteForm) {
-    emit(SalenoteFormModel.initial());
+  void setForm(SalenoteAddFormModel salenoteForm) {
+    emit(SalenoteAddFormModel.initial());
     emit(salenoteForm);
   }
 }

@@ -1,4 +1,4 @@
-import 'package:axol_inventarios/modules/sale/sale_note/model/saelnote_form_model.dart';
+import 'package:axol_inventarios/modules/sale/sale_note/model/saelnote_add_form_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -22,10 +22,10 @@ class TextfieldSalenote extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    SalenoteFormModel currentForm;
+    SalenoteAddFormModel currentForm;
     TextEditingController textController = TextEditingController();
     FocusNode focusNode = FocusNode();
-    SalenoteFormModel form = context.read<SalenoteFormCubit>().state;
+    SalenoteAddFormModel form = context.read<SalenoteFormCubit>().state;
     TextfieldFormModel formElement = TextfieldFormModel.empty();
     if (keyFormElement == 0) {
       formElement = form.customer;

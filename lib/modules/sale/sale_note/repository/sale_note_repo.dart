@@ -35,15 +35,15 @@ class SaleNoteRepo {
     int filterEndDate = 32503708800000;
 
     if (filter.customer > -1) {
-      filters['${SaleNoteModel.propCustomer}->>${customer.tId}'] =
+      filters['${SaleNoteModel.tCustomer}->>${customer.tId}'] =
           filter.customer;
     }
     if (filter.vendor > -1) {
-      filters['${SaleNoteModel.propVendor}->>${VendorModel.empty().tId}'] =
+      filters['${SaleNoteModel.tVendor}->>${VendorModel.empty().tId}'] =
           filter.vendor;
     }
     if (filter.warehouse > -1) {
-      filters['${SaleNoteModel.propWarehouse}->>${WarehouseModel.propId}'] =
+      filters['${SaleNoteModel.tWarehouse}->>${WarehouseModel.propId}'] =
           filter.warehouse;
     }
 
@@ -55,9 +55,9 @@ class SaleNoteRepo {
           .gte(_time, filterStartDate);*/
     } else {
       textOr =
-          '${SaleNoteModel.propCustomer}->>${customer.tName}.ilike.%$finder%,';
+          '${SaleNoteModel.tCustomer}->>${customer.tName}.ilike.%$finder%,';
       textOr =
-          '$textOr${SaleNoteModel.propVendor}->>${VendorModel.empty().tName}.ilike.%$finder%';
+          '$textOr${SaleNoteModel.tVendor}->>${VendorModel.empty().tName}.ilike.%$finder%';
       if (double.tryParse(finder) != null) {
         textOr = '$textOr,$_id.eq.$finder';
       }

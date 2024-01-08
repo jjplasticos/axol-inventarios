@@ -3,32 +3,26 @@ import 'package:axol_inventarios/modules/sale/vendor/model/vendor_model.dart';
 import '../../../../models/textfield_form_model.dart';
 import '../../../inventory_/inventory/model/warehouse_model.dart';
 import '../../customer/model/customer_model.dart';
+import 'salenote_row_form_model.dart';
 
-class SalenoteFormModel {
+class SalenoteAddFormModel {
   TextfieldFormModel customer;
   TextfieldFormModel vendor;
   TextfieldFormModel warehouse;
-  CustomerModel customerModel;
-  VendorModel vendorModel;
-  WarehouseModel warehouseModel;
+  List<SaleNoteRowFormModel> content;
 
-  SalenoteFormModel({
+  SalenoteAddFormModel({
     required this.customer,
     required this.vendor,
     required this.warehouse,
-    required this.customerModel,
-    required this.vendorModel,
-    required this.warehouseModel,
+    required this.content,
   });
 
-  static SalenoteFormModel initial() => SalenoteFormModel(
-        customer: TextfieldFormModel.empty(),
-        vendor: TextfieldFormModel.empty(),
-        warehouse: TextfieldFormModel.empty(),
-        customerModel: CustomerModel.empty(),
-        vendorModel: VendorModel.empty(),
-        warehouseModel: WarehouseModel.empty(),
-      );
+  SalenoteAddFormModel.empty()
+      : customer = TextfieldFormModel.empty(),
+        vendor = TextfieldFormModel.empty(),
+        warehouse = TextfieldFormModel.empty(),
+        content = [];
 
   static const String pCustomer = 'customer';
   static const String pVendor = 'vendor';
