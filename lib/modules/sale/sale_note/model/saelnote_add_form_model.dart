@@ -5,20 +5,20 @@ import '../../../inventory_/inventory/model/warehouse_model.dart';
 import '../../customer/model/customer_model.dart';
 import 'salenote_row_form_model.dart';
 
-class SalenoteAddFormModel {
+class SaleNoteAddFormModel {
   TextfieldFormModel customer;
   TextfieldFormModel vendor;
   TextfieldFormModel warehouse;
   List<SaleNoteRowFormModel> content;
 
-  SalenoteAddFormModel({
+  SaleNoteAddFormModel({
     required this.customer,
     required this.vendor,
     required this.warehouse,
     required this.content,
   });
 
-  SalenoteAddFormModel.empty()
+  SaleNoteAddFormModel.empty()
       : customer = TextfieldFormModel.empty(),
         vendor = TextfieldFormModel.empty(),
         warehouse = TextfieldFormModel.empty(),

@@ -22,10 +22,10 @@ class TextfieldSalenote extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    SalenoteAddFormModel currentForm;
+    SaleNoteAddFormModel currentForm;
     TextEditingController textController = TextEditingController();
     FocusNode focusNode = FocusNode();
-    SalenoteAddFormModel form = context.read<SalenoteFormCubit>().state;
+    SaleNoteAddFormModel form = context.read<SalenoteFormCubit>().state;
     TextfieldFormModel formElement = TextfieldFormModel.empty();
     if (keyFormElement == 0) {
       formElement = form.customer;

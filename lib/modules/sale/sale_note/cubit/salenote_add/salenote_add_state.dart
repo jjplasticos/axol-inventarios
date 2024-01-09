@@ -1,4 +1,3 @@
-import 'package:axol_inventarios/modules/sale/sale_note/model/sale_note_model.dart';
 import 'package:equatable/equatable.dart';
 
 abstract class SaleNoteAddState extends Equatable {
@@ -16,10 +15,8 @@ class LoadingSaleNoteAddState extends SaleNoteAddState {
 }
 
 class LoadedSaleNoteAddState extends SaleNoteAddState {
-  final List<SaleNoteModel> salenoteList;
-  const LoadedSaleNoteAddState({required this.salenoteList});
   @override
-  List<Object?> get props => [salenoteList];
+  List<Object?> get props => [];
 }
 
 class ErrorSaleNoteAddState extends SaleNoteAddState {

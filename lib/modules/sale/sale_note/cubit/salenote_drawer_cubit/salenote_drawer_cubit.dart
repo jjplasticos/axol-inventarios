@@ -15,13 +15,13 @@ import '../../../vendor/repository/vendor_repo.dart';
 class SalenoteDrawerCubit extends Cubit<SalenoteDrawerState> {
   SalenoteDrawerCubit() : super(InitialState());
 
-  static const String _pCustomer = SalenoteAddFormModel.pCustomer;
-  static const String _pVendor = SalenoteAddFormModel.pVendor;
-  static const String _pWarehouse = SalenoteAddFormModel.pWarehouse;
+  static const String _pCustomer = SaleNoteAddFormModel.pCustomer;
+  static const String _pVendor = SaleNoteAddFormModel.pVendor;
+  static const String _pWarehouse = SaleNoteAddFormModel.pWarehouse;
   static const String _pValidation = TextfieldFormModel.pValidation;
-  static const String _pCustomerModel = SalenoteAddFormModel.pCustomerModel;
-  static const String _pVendorModel = SalenoteAddFormModel.pVendorModel;
-  static const String _pWarehouseModel = SalenoteAddFormModel.pWarehouseModel;
+  static const String _pCustomerModel = SaleNoteAddFormModel.pCustomerModel;
+  static const String _pVendorModel = SaleNoteAddFormModel.pVendorModel;
+  static const String _pWarehouseModel = SaleNoteAddFormModel.pWarehouseModel;
 
   Future<void> initial() async {
     try {
@@ -33,7 +33,7 @@ class SalenoteDrawerCubit extends Cubit<SalenoteDrawerState> {
     }
   }
 
-  Future<void> change(SalenoteAddFormModel salenoteForm, int keyElement) async {
+  Future<void> change(SaleNoteAddFormModel salenoteForm, int keyElement) async {
     try {
       List<CustomerModel> customersDB;
       List<VendorModel> vendorsDB;

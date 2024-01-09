@@ -19,7 +19,7 @@ class DrawerNotesController extends StatelessWidget {
       bloc: context.read<SalenoteDrawerCubit>()..initial(),
       builder: (context, state) {
         List<String> listResponse;
-        SalenoteAddFormModel? salenoteForm;
+        SaleNoteAddFormModel? salenoteForm;
         if (state is LoadingState) {
           return const DrawerSalenote(
             isLoading: true,
@@ -52,30 +52,30 @@ class DrawerNotesController extends StatelessWidget {
   }
 }
 
-SalenoteAddFormModel _changeSalenoteForm(List<String> response,
-    Map<int, dynamic> modelMap, SalenoteAddFormModel currentForm) {
-  SalenoteAddFormModel salenoteForm = currentForm;
+SaleNoteAddFormModel _changeSalenoteForm(List<String> response,
+    Map<int, dynamic> modelMap, SaleNoteAddFormModel currentForm) {
+  SaleNoteAddFormModel salenoteForm = currentForm;
   List elementsList;
   for (var element in response) {
     elementsList = element.split(':');
-    if (elementsList.first == SalenoteAddFormModel.pCustomer) {
+    if (elementsList.first == SaleNoteAddFormModel.pCustomer) {
       salenoteForm.customer = _changeSalenoteTextfield(
           elementsList.elementAt(1),
           currentForm.customer,
           elementsList.elementAt(2));
-    } else if (elementsList.first == SalenoteAddFormModel.pVendor) {
+    } else if (elementsList.first == SaleNoteAddFormModel.pVendor) {
       salenoteForm.vendor = _changeSalenoteTextfield(elementsList.elementAt(1),
           currentForm.vendor, elementsList.elementAt(2));
-    } else if (elementsList.first == SalenoteAddFormModel.pWarehouse) {
+    } else if (elementsList.first == SaleNoteAddFormModel.pWarehouse) {
       salenoteForm.warehouse = _changeSalenoteTextfield(
           elementsList.elementAt(1),
           currentForm.warehouse,
           elementsList.elementAt(2));
-    } else if (elementsList.first == SalenoteAddFormModel.pCustomerModel) {
+    } else if (elementsList.first == SaleNoteAddFormModel.pCustomerModel) {
       salenoteForm.customerModel = modelMap[0];
-    } else if (elementsList.first == SalenoteAddFormModel.pVendorModel) {
+    } else if (elementsList.first == SaleNoteAddFormModel.pVendorModel) {
       salenoteForm.vendorModel = modelMap[1];
-    } else if (elementsList.first == SalenoteAddFormModel.pWarehouseModel) {
+    } else if (elementsList.first == SaleNoteAddFormModel.pWarehouseModel) {
       salenoteForm.warehouseModel = modelMap[2];
     }
   }

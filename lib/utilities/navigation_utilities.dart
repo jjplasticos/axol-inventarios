@@ -4,36 +4,26 @@ import 'package:flutter/material.dart';
 class NavigationUtilities {
   static const List<NavigationRailDestination> navRail = [
     NavigationRailDestination(
-      icon: Icon(Icons.home, color: ColorPalette.lightBackground,),
-      label: Text('Inicio'),
-      indicatorColor: ColorPalette.primary 
-    ),
+        icon: Icon(
+          Icons.home,
+          color: ColorPalette.lightBackground,
+        ),
+        label: Text('Inicio'),
+        indicatorColor: ColorPalette.primary),
     NavigationRailDestination(
-      icon: Icon(Icons.inventory, color: ColorPalette.lightBackground,),
-      label: Text('Inventario'),
-      indicatorColor: ColorPalette.primary 
-    ),
+        icon: Icon(
+          Icons.inventory,
+          color: ColorPalette.lightBackground,
+        ),
+        label: Text('Inventario'),
+        indicatorColor: ColorPalette.primary),
     NavigationRailDestination(
-      icon: Icon(Icons.note, color: ColorPalette.lightBackground,),
-      label: Text('Notas'),
-      indicatorColor: ColorPalette.primary 
-    ),
+        icon: Icon(
+          Icons.note,
+          color: ColorPalette.lightBackground,
+        ),
+        label: Text('Notas'),
+        indicatorColor: ColorPalette.primary),
   ];
-  static const List<NavigationRailDestination> navRailReturn = [
-    NavigationRailDestination(
-      icon: Icon(Icons.home, color: ColorPalette.lightBackground,),
-      label: Text('Inicio'),
-      indicatorColor: ColorPalette.primary 
-    ),
-    NavigationRailDestination(
-      icon: Icon(Icons.inventory, color: ColorPalette.lightBackground,),
-      label: Text('Inventario'),
-      indicatorColor: ColorPalette.primary 
-    ),
-    NavigationRailDestination(
-      icon: Icon(Icons.note, color: ColorPalette.lightBackground,),
-      label: Text('Notas'),
-      indicatorColor: ColorPalette.primary 
-    ),
-  ];
+  static const List<NavigationRailDestination> navRailReturn = [];
 }
